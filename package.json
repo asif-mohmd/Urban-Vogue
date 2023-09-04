@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/asif-mohmd/Urban-Vogue/issues"
   },
-  "homepage": "https://github.com/asif-mohmd/Urban-Vogue#readme"
+  "homepage": "https://github.com/asif-mohmd/Urban-Vogue#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
