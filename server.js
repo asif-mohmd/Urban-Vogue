@@ -4,7 +4,7 @@ const path = require('path');
 const userRouter = require("./routes/user")
 const hbs = require("hbs")
 
-// const adminRouter = require("./routes/admin")
+const adminRouter = require("./routes/admin")
 
 
 const connectDB = require("./config/connection")
@@ -14,6 +14,9 @@ const passport = require("passport");
 loginCheck(passport)
 connectDB()
 
+
+app.use(express.json())
+app.use(express.urlencoded({extended: false}));
 app.use(session({
   secret:'oneboy',
   saveUninitialized: true,
@@ -21,7 +24,7 @@ app.use(session({
 }));
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.urlencoded({extended: false}));
+
 
 
 app.set('view engine', 'hbs');
@@ -29,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 
 app.use("/", userRouter)
-// app.use("/admin", adminRouter)
+app.use("/admin", adminRouter)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

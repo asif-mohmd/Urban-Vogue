@@ -1,7 +1,7 @@
-const User = require("../models/User");
+const userModel = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const session = require('express-session');
+
 
 
 const registerView = (req, res) => {
@@ -21,7 +21,7 @@ const registerUser = (req, res) => {
     console.log("Password must match");
   } else {
     //Validation
-    User.findOne({ email: email }).then((user) => {
+    userModel.findOne({ email: email }).then((user) => {
       if (user) {
         console.log("email exists");
         res.render("register", {
@@ -32,7 +32,7 @@ const registerUser = (req, res) => {
         });
       } else {
         //Validation
-        const newUser = new User({
+        const newUser = new userModel({
           name,
           email,
           mobile,
@@ -77,6 +77,7 @@ const loginUser = (req, res) => {
     });
   } else {
     passport.authenticate("local", {
+       
       successRedirect: "/",
       failureRedirect: "/login",
       failureFlash: true,
