@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const session = require('express-session');
 
 
 const registerView = (req, res) => {
@@ -66,6 +67,7 @@ const loginView = (req, res) => {
 
 const loginUser = (req, res) => {
   const { email, password } = req.body;
+  console.log(email+" " +password)
   //Required
   if (!email || !password) {
     console.log("Please fill in all the fields");
@@ -75,7 +77,7 @@ const loginUser = (req, res) => {
     });
   } else {
     passport.authenticate("local", {
-      successRedirect: "user/index",
+      successRedirect: "/",
       failureRedirect: "/login",
       failureFlash: true,
     })(req, res);

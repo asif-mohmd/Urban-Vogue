@@ -15,6 +15,7 @@ const loginCheck = passport => {
           }
           //Match Password
           bcrypt.compare(password, user.password, (error, isMatch) => {
+            console.log("stage 1")
             if (error) throw error;
             if (isMatch) {
               return done(null, user);
@@ -30,11 +31,15 @@ const loginCheck = passport => {
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });
-  passport.deserializeUser((id, done) => {
-    User.findById(id, (error, user) => {
-      done(error, user);
-    });
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (error) {
+      done(error, null);
+    }
   });
+  
 };
 module.exports = {
   loginCheck,
