@@ -1,15 +1,15 @@
 const express = require('express');
-const {registerView, loginView } = require('../controllers/loginController');
+const loginControllers = require('../controllers/loginController');
 const router = express.Router();
 
 
 
+// {registerView, loginView }
 
 
 
-
-router.get('/', registerView);
-router.get('/login', loginView);
+router.get('/', loginControllers.registerView);
+router.get('/login', loginControllers.loginView);
 
 
 
