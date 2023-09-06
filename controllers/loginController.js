@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 
 
 const registerView = (req, res) => {
-  res.render("user/index", {
+  res.render("admin/index", {
   });
 }
 //Post Request that handles Register
