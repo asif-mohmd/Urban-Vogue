@@ -1,19 +1,22 @@
-const User = require("../models/user");
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 
 const registerView = (req, res) => {
-  res.render("admin/index", {
+  res.render("user/register", {
   });
 }
+
 //Post Request that handles Register
 const registerUser = (req, res) => {
-  const { name, email, mobile, password, gender, DOB } = req.body;
-  if (!name || !email || !password || !confirm) {
+  const { name, email, mobile, gender, password, confirmPassword } = req.body;
+  console.log(req.body.confirmPassword)
+  if (!name || !email || !mobile || !gender || !password || !confirmPassword) {
     console.log("Fill empty fields");
   }
   //Confirm Passwords
-  if (password !== confirm) {
+  if (password !== confirmPassword) {
     console.log("Password must match");
   } else {
     //Validation
@@ -24,7 +27,7 @@ const registerUser = (req, res) => {
           name,
           email,
           password,
-          confirm,
+          confirmPassword,
         });
       } else {
         //Validation
@@ -34,7 +37,7 @@ const registerUser = (req, res) => {
           mobile,
           password,
           gender,
-          DOB
+          
         });
         //Password Hashing
         bcrypt.genSalt(10, (err, salt) =>
@@ -57,10 +60,30 @@ const registerUser = (req, res) => {
 // For View 
 const loginView = (req, res) => {
 
-  res.render("login", {
+  res.render("user/login", {
   });
 }
+
+const loginUser = (req, res) => {
+  const { email, password } = req.body;
+  //Required
+  if (!email || !password) {
+    console.log("Please fill in all the fields");
+    res.render("login", {
+      email,
+      password,
+    });
+  } else {
+    passport.authenticate("local", {
+      successRedirect: "user/index",
+      failureRedirect: "/login",
+      failureFlash: true,
+    })(req, res);
+  }
+};
 module.exports = {
   registerView,
-  loginView
+  loginView,
+  registerUser,
+  loginUser
 };
