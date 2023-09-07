@@ -39,7 +39,7 @@ const loginCheck = passport => {
       done(error, null);
     }
   });
-  
+
 };
 module.exports = {
   loginCheck,

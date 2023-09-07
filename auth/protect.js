@@ -1,21 +1,21 @@
 //js
-const protectRoute = (req, res, next) =>{
+const protectRoute = (req, res, next) => {
 
-    if (req.isAuthenticated()) {
-    
+  if (req.isAuthenticated()) {
 
-      return next();
-    }
-    console.log('Please log in to continue');
-    res.redirect('/login');
+
+    return next();
   }
-  const allowIf = (req, res, next) =>{
-    if (!req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect('/');      
+  console.log('Please log in to continue');
+  res.redirect('/login');
+}
+const allowIf = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return next();
   }
-  module.exports = {
-      protectRoute,
-      allowIf,
-    };
+  res.redirect('/');
+}
+module.exports = {
+  protectRoute,
+  allowIf,
+};

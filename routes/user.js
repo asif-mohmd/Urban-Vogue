@@ -13,9 +13,9 @@ const { dashboardView } = require("../controllers/indexController");
 // router.get('/', loginControllers.registerView);
 router.get("/", protectRoute, dashboardView);
 router.get('/login', loginControllers.loginView);
-router.get("/signup",loginControllers.registerView)
-router.post('/registerUser',loginControllers.registerUser)
-router.post('/loginUser',loginControllers.loginUser)
+router.get("/signup", loginControllers.registerView)
+router.post('/registerUser', loginControllers.registerUser)
+router.post('/loginUser', loginControllers.loginUser)
 
 
 

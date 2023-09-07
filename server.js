@@ -8,7 +8,7 @@ const adminRouter = require("./routes/admin")
 
 
 const connectDB = require("./config/connection")
-const {loginCheck} = require("./auth/passport");
+const { loginCheck } = require("./auth/passport");
 const session = require('express-session');
 const passport = require("passport");
 loginCheck(passport)
@@ -16,9 +16,9 @@ connectDB()
 
 
 app.use(express.json())
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(session({
-  secret:'oneboy',
+  secret: 'oneboy',
   saveUninitialized: true,
   resave: true
 }));
@@ -36,5 +36,5 @@ app.use("/admin", adminRouter)
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-  })
+  console.log(`Example app listening on port ${port}`)
+})
