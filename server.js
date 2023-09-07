@@ -3,20 +3,26 @@ const app = express()
 const path = require('path');
 const userRouter = require("./routes/user")
 const hbs = require("hbs")
-
+const session = require('express-session');
 const adminRouter = require("./routes/admin")
 
 
 const connectDB = require("./config/connection")
-const { loginCheck } = require("./auth/passport");
-const session = require('express-session');
 const passport = require("passport");
+const { loginCheck } = require("./auth/passport");
+
+
+
 loginCheck(passport)
 connectDB()
 
-
+app.set('view engine', 'hbs');
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
+app.use(function(req, res, next) {
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+});
 app.use(session({
   secret: 'oneboy',
   saveUninitialized: true,
@@ -27,7 +33,7 @@ app.use(passport.session())
 
 
 
-app.set('view engine', 'hbs');
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 
