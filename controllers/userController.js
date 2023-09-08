@@ -2,17 +2,32 @@ const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 const passport = require("passport");
 const userModel = require("../models/User");
+var session = require('express-session')
 
 
+const verifyLogin = (req,res,next) =>{
+  console.log(req.session.user)
+  if(req.session.user){
+  next()
+  }else{
+    console.log(req.session.user)
+    return res.redirect("/login")
+  }
+}
+
+const loginChecker = (req,res,next) =>{
+  console.log(req.session.user)
+  if(req.session.user){
+  return res.redirect("/")
+  }else{
+    next()
+  }
+}
 
 const indexView = (req, res) => {
-  
-  res.render("user/index", {
-
-  });
-};
-
-
+  console.log("lllllllllllll")
+    res.render("user/index");
+   }
 
 const registerView = (req, res) => {
   res.render("user/register", {});
@@ -64,14 +79,13 @@ const loginUser = async (req, res) => {
   const user = await userModel.findOne({ email: email })
   console.log(user)
   if (user) {
-    
-
+  console.log('2')
     const data = await bcrypt.compare(password, user.password)
    
     if (data) {
-  
-      req.session.user = data
-      console.log( req.session.user)
+  console.log('3')
+
+      req.session.user = user
       console.log("logged")
       res.redirect("/")
     } else {
@@ -80,9 +94,9 @@ const loginUser = async (req, res) => {
     }
   }
 
-
-
 }
+
+
 
 module.exports = {
   registerView,
@@ -90,6 +104,7 @@ module.exports = {
   registerUser,
   loginUser,
   indexView,
-  
+  verifyLogin,
+  loginChecker
 };
 
