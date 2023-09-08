@@ -6,11 +6,9 @@ LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/User");
 
 const loginCheck = passport => {
-  passport.use(
-    new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+  passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
       //Check customer
-      User.findOne({ email: email })
-        .then((user) => {
+      User.findOne({ email: email }).then((user) => {
           if (!user) {
             console.log("wrong email");
             return done();

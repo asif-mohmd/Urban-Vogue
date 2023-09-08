@@ -1,8 +1,8 @@
 const express = require('express');
-const loginControllers = require('../controllers/loginController');
+const userControllers = require('../controllers/userController');
 const router = express.Router();
 const { protectRoute } = require("../auth/protect");
-const { dashboardView } = require("../controllers/indexController");
+const { indexView } = require("../controllers/userController");
 
 
 
@@ -11,11 +11,11 @@ const { dashboardView } = require("../controllers/indexController");
 
 
 // router.get('/', loginControllers.registerView);
-router.get("/", protectRoute, dashboardView);
-router.get('/login', loginControllers.loginView);
-router.get("/signup", loginControllers.registerView)
-router.post('/registerUser', loginControllers.registerUser)
-router.post('/loginUser', loginControllers.loginUser)
+router.get("/", indexView);
+router.get('/login', userControllers.loginView);
+router.get("/signup", userControllers.registerView)
+router.post('/registerUser', userControllers.registerUser)
+router.post('/loginUser', userControllers.loginUser)
 
 
 

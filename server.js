@@ -8,12 +8,7 @@ const adminRouter = require("./routes/admin")
 
 
 const connectDB = require("./config/connection")
-const passport = require("passport");
-const { loginCheck } = require("./auth/passport");
 
-
-
-loginCheck(passport)
 connectDB()
 
 app.set('view engine', 'hbs');
@@ -24,15 +19,11 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(session({
-  secret: 'oneboy',
+  secret: 'keyboard cat',
+  resave: false,
   saveUninitialized: true,
-  resave: true
-}));
-app.use(passport.initialize())
-app.use(passport.session())
-
-
-
+  cookie: { secure: true }
+}))
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
