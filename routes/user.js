@@ -1,8 +1,10 @@
 const express = require('express');
 const userControllers = require('../controllers/userController');
+const {loginCheck} = require('../controllers/userController');
 const router = express.Router();
 const { protectRoute } = require("../auth/protect");
 const { indexView } = require("../controllers/userController");
+
 
 
 

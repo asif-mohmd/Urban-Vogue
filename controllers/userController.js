@@ -6,18 +6,19 @@ const userModel = require("../models/User");
 
 
 const indexView = (req, res) => {
+  
   res.render("user/index", {
-   
+
   });
 };
 
-  
 
-const registerView =  (req, res) => {
+
+const registerView = (req, res) => {
   res.render("user/register", {});
 }
 
-const registerUser =  (req, res) => {
+const registerUser = (req, res) => {
   const { name, email, mobile, gender, password, confirmPassword } = req.body;
   console.log(req.body.confirmPassword);
 
@@ -26,24 +27,24 @@ const registerUser =  (req, res) => {
   } else {
     userModel.findOne({ email: email }).then(async (user) => {
       if (user) {
-        console.log("email exists"); 
-     
+        console.log("email exists");
+
       } else {
 
         data = {
-          "name":name,
-          "email":email, 
-          "mobile":mobile, 
-          "gender":gender, 
-          "password":password,
+          "name": name,
+          "email": email,
+          "mobile": mobile,
+          "gender": gender,
+          "password": password,
         }
 
-        data.password = await bcrypt.hash(data.password,saltRounds)
+        data.password = await bcrypt.hash(data.password, saltRounds)
 
         const user = await userModel.create(data)
-        if(user){
+        if (user) {
           console.log("Successfuly registered")
-        }else{
+        } else {
           console.log("Registration failed")
         }
 
@@ -56,28 +57,32 @@ const loginView = (req, res) => {
   res.render("user/login", {});
 }
 
-const loginUser = (req, res) => {
+const loginUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(email + " " + password);
 
-  if (!email || !password) {
-    console.log("Please fill in all the fields");
-    res.render("login", {
-      email,
-      password,
-    });
-  } else {
-
-    const data = userModel.findOne({email:email})
-
-    if(data){
-       const user = bcrypt.compare({password:password})
-
-    }
-
+  const user = await userModel.findOne({ email: email })
+  console.log(user)
+  if (user) {
     
+
+    const data = await bcrypt.compare(password, user.password)
+   
+    if (data) {
+  
+      req.session.user = data
+      console.log( req.session.user)
+      console.log("logged")
+      res.redirect("/")
+    } else {
+      console.log("not logged")
+      res.render("user/login")
+    }
   }
-};
+
+
+
+}
 
 module.exports = {
   registerView,
@@ -85,5 +90,6 @@ module.exports = {
   registerUser,
   loginUser,
   indexView,
+  
 };
 
