@@ -1,27 +1,30 @@
 const productModel = require("../models/Product")
-
+const userModel = require("../models/User")
 
 
 let adminEmail = "admin@gmail.com"
 let adminPassword = "123"
 
+
 const adminLoginCheck = (req, res, next) => {
-    if (req.session.admin) {
-        console.log("Successssss")
-        next()
-    } else {
-       return res.redirect("/admin/login")
-    }
+    // if (req.session.admin) {
+    //     console.log("Successssss")
+    //     next()
+    // } else {
+    //    return res.redirect("/admin/login")
+    // }
+    next()
 
 }
-const adminLoginVerify = (req, res, next) => {
-    if (req.session.admin) {
-       return res.redirect("/admin")
-    } else {
-        console.log("kkkkkkkkkkk")
-        next()
-    }
 
+const adminLoginVerify = (req, res, next) => {
+    // if (req.session.admin) {
+    //    return res.redirect("/admin")
+    // } else {
+    //     console.log("kkkkkkkkkkk")
+    //     next()
+    // }
+    next()
 }
 
 const adminLoginView = (req, res) => {
@@ -41,16 +44,16 @@ const adminLogin = (req, res) => {
 }
 
 
-
-
 const adminDashboard = (req, res) => {
     res.render("admin/index")
 
 }
 
+
 const addProductView = async (req, res) => {
     res.render("admin/add-product")
 }
+
 
 const addProduct = async (req, res) => {
     const { name, price, description, category, size } = req.body
@@ -63,18 +66,22 @@ const addProduct = async (req, res) => {
         "size": size
     }
 
-
     // console.log(name, price , description , category , size )
     const product = await productModel.create(data)
-
     if (product) {
         console.log("Product added succesfully")
         res.redirect("/admin")
     } else {
         console.log("Product not added")
         res.render("admin/add-product")
-
     }
+}
+
+
+const userList = async(req,res) =>{
+
+    const users = await userModel.find()
+    res.render("admin/user-list",{users})
 
 }
 
@@ -85,5 +92,6 @@ module.exports = {
     adminLoginCheck,
     adminLoginView,
     addProductView,
-    adminLoginVerify
+    adminLoginVerify,
+    userList
 }

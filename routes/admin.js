@@ -13,6 +13,8 @@ router.post("/adminLogin", adminControllers.adminLogin)
 router.get("/addProduct", adminControllers.addProductView)
 router.post("/addProduct", adminControllers.addProduct)
 
+router.get("/userList",adminControllers.userList)
+
 
 
 module.exports = router
