@@ -10,8 +10,16 @@ const adminLoginCheck = (req, res, next) => {
         console.log("Successssss")
         next()
     } else {
+       return res.redirect("/admin/login")
+    }
+
+}
+const adminLoginVerify = (req, res, next) => {
+    if (req.session.admin) {
+       return res.redirect("/admin")
+    } else {
         console.log("kkkkkkkkkkk")
-        res.redirect("/admin/adminLoginView")
+        next()
     }
 
 }
@@ -28,7 +36,7 @@ const adminLogin = (req, res) => {
         console.log(req.session);
         res.redirect("/admin")
     } else {
-        res.redirect("/admin/adminLoginView")
+        res.redirect("/admin/login")
     }
 }
 
@@ -68,7 +76,6 @@ const addProduct = async (req, res) => {
 
     }
 
-
 }
 
 module.exports = {
@@ -77,5 +84,6 @@ module.exports = {
     adminLogin,
     adminLoginCheck,
     adminLoginView,
-    addProductView
+    addProductView,
+    adminLoginVerify
 }
