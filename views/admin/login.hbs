@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Register - NiceAdmin Bootstrap Template</title>
+  <title>Pages / Login - NiceAdmin Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -15,9 +15,7 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -53,7 +51,7 @@
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                   <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">Urban Vogue</span>
+                  <span class="d-none d-lg-block">Admin</span>
                 </a>
               </div><!-- End Logo -->
 
@@ -62,16 +60,11 @@
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
-                    <p class="text-center small">Enter your personal details to create account</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
+                    <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form action="/registerUser" method="post" class="row g-3 needs-validation" novalidate>
-                    <div class="col-12">
-                      <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
-                      <div class="invalid-feedback">Please, enter your name!</div>
-                    </div>
+                  <form action="/admin/adminLogin" method="post" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Your Email</label>
@@ -79,63 +72,28 @@
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                     </div>
 
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Mobile Number</label>
-                      <div class="input-group has-validation">
-
-                        <input type="number" name="mobile" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter mobile number.</div>
-                      </div>
-                    </div>
-
-
-
-                    <label for="yourUsername" class="form-label">Gender</label>
-
-
-
-                    <div class="form-check form-check-inline">
-
-                      <input class="form-check-input" name="gender" type="checkbox" id="inlineCheckbox1" value="male">
-                      <label class="form-check-label" for="inlineCheckbox1">Male</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" name="gender" type="checkbox" id="inlineCheckbox2" value="female">
-                      <label class="form-check-label" for="inlineCheckbox2">Female</label>
-                    </div>
-
-                    <div class="col-12">
+                 <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Confirm Password</label>
-                      <input type="password" name="confirmPassword" class="form-control" id="" required>
-                      <div class="invalid-feedback">Please confirm your password!</div>
-                    </div>
-{{!-- 
-                    <div class="col-12">
+                    {{!-- <div class="col-12">
                       <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and
-                            conditions</a></label>
-                        <div class="invalid-feedback">You must agree before submitting.</div>
+                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
                     </div> --}}
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                      <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="/login">Log in</a></p>
+                      <p class="small mb-0">Don't have account? <a href="/signup">Create an account</a></p>
                     </div>
                   </form>
 
                 </div>
               </div>
-
-             
 
             </div>
           </div>
@@ -146,8 +104,7 @@
     </div>
   </main><!-- End #main -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -163,11 +120,5 @@
   <script src="assets/js/main.js"></script>
 
 </body>
-<style>
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-</style>
 
 </html>

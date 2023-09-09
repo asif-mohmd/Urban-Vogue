@@ -410,51 +410,56 @@
                   <legend class="col-form-label col-sm-2 pt-0">Category</legend>
                   <div class="col-sm-10">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="mens" id="gridRadios1" value="mens" >
+                      <input class="form-check-input" type="radio" name="category" id="gridRadios1" value="mens" >
                       <label class="form-check-label" for="gridRadios1">
                        Mens
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="womens" id="gridRadios2" value="womens">
+                      <input class="form-check-input" type="radio" name="category" id="gridRadios2" value="womens">
                       <label class="form-check-label" for="gridRadios2">
                         Womens
                       </label>
                     </div>
                     <div class="form-check disabled">
-                      <input class="form-check-input" type="radio" name="kids" id="gridRadios" value="kids" >
+                      <input class="form-check-input" type="radio" name="category" id="gridRadios" value="kids" >
                       <label class="form-check-label" for="gridRadios3">
                         Kids
                       </label>
                     </div>
                   </div>
                 </fieldset>
-                <div class="row mb-3">
+
+
+                <fieldset class="row mb-3">
                   <legend class="col-form-label col-sm-2 pt-0">Size</legend>
                   <div class="col-sm-10">
-
                     <div class="form-check">
-                      <input class="form-check-input" name="large" value="l" type="checkbox" id="gridCheck1">
-                      <label class="form-check-label" for="gridCheck1">
-                        Large
+                      <input class="form-check-input" type="radio" name="size" id="gridRadios1" value="Large" >
+                      <label class="form-check-label" for="gridRadios1">
+                       Large
                       </label>
                     </div>
-
                     <div class="form-check">
-                      <input class="form-check-input" name="medium" value="m" type="checkbox" id="gridCheck2" >
-                      <label class="form-check-label" for="gridCheck2">
+                      <input class="form-check-input" type="radio" name="size" id="gridRadios2" value="Medium">
+                      <label class="form-check-label" for="gridRadios2">
                         Medium
                       </label>
                     </div>
-                    <div class="form-check">
-                      <input class="form-check-input" name="small" value="s" type="checkbox" id="gridCheck2" >
-                      <label class="form-check-label" for="gridCheck2">
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="size" id="gridRadios3" value="Small" >
+                      <label class="form-check-label" for="gridRadios3">
                         Small
                       </label>
                     </div>
-
+                     {{!-- <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="size" id="gridRadios3" value="All" >
+                      <label class="form-check-label" for="gridRadios3">
+                       All the bove
+                      </label>
+                    </div> --}}
                   </div>
-                </div>
+                </fieldset>
 
 
         

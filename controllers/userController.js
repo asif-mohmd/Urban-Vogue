@@ -43,9 +43,8 @@ const registerUser = (req, res) => {
     userModel.findOne({ email: email }).then(async (user) => {
       if (user) {
         console.log("email exists");
-
-      } else {
-
+       } else {
+          
         data = {
           "name": name,
           "email": email,
@@ -59,12 +58,14 @@ const registerUser = (req, res) => {
         const user = await userModel.create(data)
         if (user) {
           console.log("Successfuly registered")
+          res.redirect("/login")
         } else {
           console.log("Registration failed")
+          res.render("user/signup")
         }
 
       }
-    });
+    }); 
   }
 };
 
