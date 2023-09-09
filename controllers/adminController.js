@@ -5,8 +5,9 @@ const productModel = require("../models/Product")
 let adminEmail = "admin@gmail.com"
 let adminPassword = "123"
 
-const adminLoginCheck = (req,res) =>{
+const adminLoginCheck = (req,res,next) =>{
     if(req.session.admin){
+        console.log("Successssss")
        next()
     }else{
         console.log("kkkkkkkkkkk")
@@ -21,11 +22,13 @@ const adminLoginView = (req,res) =>{
 
 const adminLogin = (req,res) => {
     const {email , password} = req.body
+    // console.log(email,password)
     if(email===adminEmail&&password==adminPassword){
         req.session.admin = true
-        res.redirect("/")
+        console.log(req.session);
+        res.redirect("/admin")
     }else{
-        res.redirect("/adminLoginView")
+        res.redirect("/admin/adminLoginView")
     }
 }
 
@@ -35,6 +38,10 @@ const adminLogin = (req,res) => {
 const adminDashboard = (req, res) => {
     res.render("admin/index")
 
+}
+
+const addProductView = async (req, res) => {
+    res.render("admin/add-product")
 }
 
 const addProduct = async (req, res) => {
@@ -49,7 +56,7 @@ const addProduct = async (req, res) => {
     }
     
 
-    console.log(name, price , description , category , size )
+    // console.log(name, price , description , category , size )
     const product = await productModel.create(data)
 
     if(product){
@@ -69,5 +76,6 @@ module.exports = {
     addProduct,
     adminLogin,
     adminLoginCheck,
-    adminLoginView
+    adminLoginView,
+    addProductView
 }
