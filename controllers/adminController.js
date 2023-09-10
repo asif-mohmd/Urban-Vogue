@@ -78,10 +78,10 @@ const addProduct = async (req, res) => {
 }
 
 
-const userList = async(req,res) =>{
+const userList = async (req, res) => {
 
     const users = await userModel.find()
-    res.render("admin/user-list",{users})
+    res.render("admin/user-list", { users })
 
 }
 

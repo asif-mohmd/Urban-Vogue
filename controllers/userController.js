@@ -5,29 +5,29 @@ const userModel = require("../models/User");
 var session = require('express-session')
 
 
-const verifyLogin = (req,res,next) =>{
+const verifyLogin = (req, res, next) => {
   console.log(req.session.user)
-  if(req.session.user){
-  next()
-  }else{
+  if (req.session.user) {
+    next()
+  } else {
     console.log(req.session.user)
     return res.redirect("/login")
   }
 }
 
-const loginChecker = (req,res,next) =>{
+const loginChecker = (req, res, next) => {
   console.log(req.session.user)
-  if(req.session.user){
-  return res.redirect("/")
-  }else{
+  if (req.session.user) {
+    return res.redirect("/")
+  } else {
     next()
   }
 }
 
 const indexView = (req, res) => {
   console.log("lllllllllllll")
-    res.render("user/index");
-   }
+  res.render("user/index");
+}
 
 const registerView = (req, res) => {
   res.render("user/register", {});
@@ -43,8 +43,8 @@ const registerUser = (req, res) => {
     userModel.findOne({ email: email }).then(async (user) => {
       if (user) {
         console.log("email exists");
-       } else {
-          
+      } else {
+
         data = {
           "name": name,
           "email": email,
@@ -65,7 +65,7 @@ const registerUser = (req, res) => {
         }
 
       }
-    }); 
+    });
   }
 };
 
@@ -80,11 +80,11 @@ const loginUser = async (req, res) => {
   const user = await userModel.findOne({ email: email })
   console.log(user)
   if (user) {
-  console.log('2')
+    console.log('2')
     const data = await bcrypt.compare(password, user.password)
-   
+
     if (data) {
-  console.log('3')
+      console.log('3')
 
       req.session.user = user
       console.log("logged")
