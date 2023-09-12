@@ -10,13 +10,18 @@ const addProductView = async (req, res) => {
 
 const addProduct = async (req, res) => {
     const { name, price, description, category, size } = req.body
+    const image = req.file
+    console.log(req.file)
+    console.log(image)
+    console.log("imageeeeeeeeeeeeeeeeeeee")
 
     data = {
         "name": name,
         "price": price,
         "description": description,
         "category": category,
-        "size": size
+        "size": size,
+        "imageUrl" : image.path
     }
 
     // console.log(name, price , description , category , size )

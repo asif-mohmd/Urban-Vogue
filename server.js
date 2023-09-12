@@ -1,5 +1,5 @@
 const express = require("express")
-const app = express()
+
 const path = require('path');
 const userRouter = require("./routes/user")
 const hbs = require("hbs")
@@ -9,7 +9,7 @@ const nocache = require('nocache')
 const {verifyLogin} = require("./controllers/userController")
 const multer = require("multer")
 const connectDB = require("./config/connection")
-
+const app = express()
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({  
@@ -28,7 +28,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/images',express.static(path.join(__dirname, 'images')));
-app.use(multer({dest: 'images'}).single("image"))
+
+const fileStorage = multer.diskStorage({
+  destination: (req, file, callback)=>{
+    callback(null,'images')
+},
+filename: (req, file, callback) => {
+  callback(null, new Date().toISOString() + "_" + file.originalname);
+}
+
+  })
+
+  
+app.use(multer({dest: 'images', storage: fileStorage}).single("image"))
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
