@@ -2,7 +2,8 @@ const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 const passport = require("passport");
 const userModel = require("../models/User");
-var session = require('express-session')
+var session = require('express-session');
+const ProductModel = require("../models/Product");
 
 
 const verifyLogin = (req, res, next) => {
@@ -24,9 +25,10 @@ const loginChecker = (req, res, next) => {
   }
 }
 
-const indexView = (req, res) => {
+const indexView = async(req, res) => {
+  const products = await ProductModel.find()
   console.log("lllllllllllll")
-  res.render("user/index");
+  res.render("user/index",{products});
 }
 
 const registerView = (req, res) => {
