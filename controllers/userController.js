@@ -7,26 +7,27 @@ const ProductModel = require("../models/Product");
 
 
 const verifyLogin = (req, res, next) => {
-  console.log(req.session.user)
-  if (req.session.user) {
+  // console.log(req.session.user)
+  // if (req.session.user) {
     next()
-  } else {
-    console.log(req.session.user)
-    return res.redirect("/login")
-  }
+  // } else {
+  //   console.log(req.session.user)
+  //   return res.redirect("/login")
+  // }
 }
 
 const loginChecker = (req, res, next) => {
-  console.log(req.session.user)
-  if (req.session.user) {
-    return res.redirect("/")
-  } else {
+  // console.log(req.session.user)
+  // if (req.session.user) {
+  //   return res.redirect("/")
+  // } else {
     next()
-  }
+  // }
 }
 
 const indexView = async(req, res) => {
   const products = await ProductModel.find()
+  
   console.log("lllllllllllll")
   res.render("user/index",{products});
 }
@@ -73,6 +74,7 @@ const registerUser = (req, res) => {
 
 const loginView = (req, res) => {
   res.render("user/login", {});
+  
 }
 
 const loginUser = async (req, res) => {
@@ -99,6 +101,15 @@ const loginUser = async (req, res) => {
 
 }
 
+const productDetails =async (req,res) =>{
+  console.log(req.query.id)
+ console.log("qwertyuuio")
+
+  // const singleProduct = await ProductModel.findOne({_id:req.params.id})
+  // console.log(singleProduct,"1111111111111111")
+  res.render("user/product-details")
+}
+
 
 
 module.exports = {
@@ -108,6 +119,7 @@ module.exports = {
   loginUser,
   indexView,
   verifyLogin,
-  loginChecker
+  loginChecker,
+  productDetails
 };
 

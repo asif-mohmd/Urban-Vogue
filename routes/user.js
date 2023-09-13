@@ -18,6 +18,7 @@ router.get('/login', loginChecker,userControllers.loginView);
 router.get("/signup",loginChecker, userControllers.registerView)
 router.post('/registerUser', userControllers.registerUser)
 router.post('/loginUser', userControllers.loginUser)
+router.get("/product-details",userControllers.productDetails)
 
 
 
