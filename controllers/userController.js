@@ -102,12 +102,13 @@ const loginUser = async (req, res) => {
 }
 
 const productDetails =async (req,res) =>{
+  
   console.log(req.query.id)
  console.log("qwertyuuio")
 
-  // const singleProduct = await ProductModel.findOne({_id:req.params.id})
-  // console.log(singleProduct,"1111111111111111")
-  res.render("user/product-details")
+  const singleProduct = await ProductModel.findOne({_id:req.query.id})
+  console.log(singleProduct,"1111111111111111")
+  res.render("user/product-details",{singleProduct})
 }
 
 
