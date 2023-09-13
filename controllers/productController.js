@@ -1,4 +1,5 @@
 const ProductModel = require("../models/Product")
+const fileHandler = require("../utils/file")
 
 const addProductView = async (req, res) => {
     res.render("admin/add-product")
@@ -43,10 +44,21 @@ const editProductView = async (req, res) => {
     res.render("admin/edit-product",{products})
 }
 
+const deleteProduct = async (req,res)=>{
+
+    const productId = req.query.id
+
+    
+    
+    const product = await ProductModel.deleteOne({_id:req.query.id})
+
+}
+
 
 module.exports = { 
     addProduct,
     addProductView,
-    editProductView
+    editProductView,
+    deleteProduct
   
 }

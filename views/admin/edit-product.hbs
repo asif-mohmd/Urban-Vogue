@@ -413,7 +413,11 @@
                     <td>{{price}}</td>
                     <td>{{size}}</td>
                     <td>{{category}}</td>
-                    
+                   <td>
+                    <a href=""><button class="btn btn-primary">Edit</button></a> &nbsp;
+                   <a href="/admin/delete-product?id={{this._id}}"><button class="btn btn-danger">Delete</button></a>
+                   </td> 
+                   
                   </tr>
                   {{/each}}
                 </tbody>

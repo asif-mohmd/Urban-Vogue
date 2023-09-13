@@ -1,5 +1,6 @@
-const productModel = require("../models/Product")
+const ProductModel = require("../models/Product")
 const userModel = require("../models/User")
+
 
 
 let adminEmail = "admin@gmail.com"
