@@ -1,7 +1,4 @@
-const productModel = require("../models/Product")
-
-
-
+const ProductModel = require("../models/Product")
 
 const addProductView = async (req, res) => {
     res.render("admin/add-product")
@@ -39,9 +36,17 @@ const addProduct = async (req, res) => {
     }
 }
 
+const editProductView = async (req, res) => {
+ 
+        const products = await ProductModel.find()
+
+    res.render("admin/edit-product",{products})
+}
+
 
 module.exports = { 
     addProduct,
     addProductView,
+    editProductView
   
 }

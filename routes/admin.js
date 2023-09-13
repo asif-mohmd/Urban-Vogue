@@ -14,6 +14,8 @@ router.get("/",adminLoginCheck, adminControllers.adminDashboard)
 router.get("/login",adminLoginVerify, adminControllers.adminLoginView)
 router.post("/adminLogin", adminControllers.adminLogin)
 router.get("/addProduct", productControllers.addProductView)
+router.get("/editProduct", productControllers.editProductView)
+
 router.get("/userList",adminControllers.userList)
 
 

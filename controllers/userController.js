@@ -102,7 +102,7 @@ const loginUser = async (req, res) => {
 }
 
 const productDetails =async (req,res) =>{
-  
+
   console.log(req.query.id)
  console.log("qwertyuuio")
 
@@ -110,6 +110,8 @@ const productDetails =async (req,res) =>{
   console.log(singleProduct,"1111111111111111")
   res.render("user/product-details",{singleProduct})
 }
+
+
 
 
 
