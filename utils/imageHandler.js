@@ -1,32 +1,16 @@
-// const multer = require("multer")
+const multer = require('multer')
+const path = require('path')
 
-// const imageStorage = multer.diskStorage({
-    
-//     destination: function (req , file, cb){
-//         console.log("in storage")
-//       return cb(null, "./uploads");
-//     },
-//     filename: function(req,file, cb){
-//       return cb(null, `${Date.now()}-${file.originalname}`)
-//     }
-//   })
-
-
-//   const imageUpload = multer({
-   
-//     storage: imageStorage,
-//     limits: {
-//       fileSize: 1000000 // 1000000 Bytes = 1 MB
-//     },
-//     fileFilter(req, file, cb) {
-//         console.log("file filter")
-//       if (!file.originalname.match(/\.(png|jpg)$/)) { 
-//          // upload only png and jpg format
-//          return cb(new Error('Please upload a Image'))
-//        }
-//      cb(undefined, true)
-//   }
-//   }) 
+const storage = multer.diskStorage({
+    destination:function(req,file,callback){
+        callback(null, path.join(__dirname,'../Public/uploaded-images'));  
+    },
+    filename:function(req,file,callback){ 
+        const name = Date.now()+'-'+file.originalname;
+        callback(null,name);
+    }
+  })
+  const upload = multer({storage:storage});
 
 
-//   module.exports = imageUpload
+module.exports = {upload} 

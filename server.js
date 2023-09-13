@@ -27,35 +27,6 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// const upload = multer({dest:"uploads/"})
-
-
-app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
-
-const storage = multer.diskStorage({
-  destination: function (req , file, cb){
-    console.log("oooooooooooooooooooooooooooooo")
-    return cb(null, "./uploads");
-  },
-  filename: function(req,file, cb){
-    console.log("tttttttttttttttttttttttttttttt")
-
-    return cb(null, `${file.originalname}`)
-  }
-})
-app.use(multer({dest: 'images', storage}).single("image"))
-
-// const upload = multer({storage : storage})
-
-
-// const fileStorage = multer.diskStorage({
-//   destination: (req, file, callback)=>{
-//     callback(null,'images')
-// },
-// filename: (req, file, callback) => {
-//   callback(null, new Date().toISOString + "_" + file.originalname);
-// }
-//   })  
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));

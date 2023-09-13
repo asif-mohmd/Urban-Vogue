@@ -15,13 +15,17 @@ const addProduct = async (req, res) => {
     console.log(image)
     console.log("imageeeeeeeeeeeeeeeeeeee")
 
+    let images = req.files.map((file)=>{
+        return file.filename
+     })
+
     data = {
         "name": name,
         "price": price,
         "description": description,
         "category": category,
         "size": size,
-        "imageUrl" : image.path
+        "imageUrl" : images[0]
     }
 
     // console.log(name, price , description , category , size )
