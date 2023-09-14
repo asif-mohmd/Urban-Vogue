@@ -22,7 +22,7 @@ router.get("/userList",adminControllers.userList)
 // Post method listing
 router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',1), productControllers.addProduct)
-router.post("/admin/delete-product",productControllers.deleteProduct)
+router.get("/delete-product",productControllers.deleteProduct)
 
 
 module.exports = router

@@ -391,6 +391,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Mobile</th>
                     <th scope="col">Gender</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -401,6 +402,8 @@
                     <td>{{email}}</td>
                     <td>{{mobile}}</td>
                     <td>{{gender}}</td>
+
+                    <td><a href="/admin/block-unblock?id={{this._id}}"><Button class="btn btn-danger">Block/Unblock</Button></a></td>
                   </tr>
                   {{/each}}
                 </tbody>

@@ -47,7 +47,8 @@ const editProductView = async (req, res) => {
 const deleteProduct = async (req,res)=>{
 
     const productId = req.query.id
-
+    
+    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk")
     const product = await ProductModel.findById(productId)
     .then(product =>{
         fileHandler.deleteFile(product.imageUrl)
@@ -56,13 +57,13 @@ const deleteProduct = async (req,res)=>{
     .then(result =>{
         console.log("Product Deleted")
         res.status(200).json({
-            message:"Album deleted successfully"
+            message:"Product deleted successfully"
         })
     })
     .catch(err =>{
         console.log(err)
         res.status(500).json({
-            message:"Deleting album failed"
+            message:"Deleting Product failed"
         })
     })
 }
