@@ -16,6 +16,9 @@
           <div class="card-body p-5 text-center">
             <h4>Verify</h4>
             <p>Your code was sent to you via email</p>
+            {{#if msg}}
+             <p class="text-center text-danger small">Wrong OTP.Try again</p>
+            {{/if}}
 
        <form action="/otpVerification" method="post">
   <div class="otp-field mb-4">
@@ -23,6 +26,8 @@
     <input name="otpNum2" type="number" disabled />
     <input name="otpNum3" type="number" disabled />
     <input name="otpNum4" type="number" disabled />
+    <input name="otpNum5" type="number" disabled />
+    <input name="otpNum6" type="number" disabled />
   </div>
 
   <button type="submit" class="btn btn-primary mb-3">

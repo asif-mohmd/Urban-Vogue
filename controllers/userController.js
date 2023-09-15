@@ -41,10 +41,20 @@ const otpView = (req,res)=>{
 }
 
 const otpVerification = (req,res)=>{
-  console.log(req.body.user)
+
   console.log("otttttttttttttt");
-  const {otpNum1,otpNum2,otpNum3,otpNum4} = req.body
-  const combinedOTP = otpNum1 + otpNum2 + otpNum3 + otpNum4;
+  const {otpNum1,otpNum2,otpNum3,otpNum4 ,otpNum5,otpNum6} = req.body
+  const combinedOTP = otpNum1 + otpNum2 + otpNum3 + otpNum4 + otpNum5+ otpNum6;
+  if(combinedOTP==session.otp){
+    
+    data = session.userData
+    console.log(data,"seession data succeeeeded")
+      // const user = await userModel.create(data)
+     res.redirect("/")
+  }else{
+    msg = true
+    res.render("user/otp",{msg})
+  }
 console.log(combinedOTP);
   console.log("oppppppppppppp");
 
@@ -76,16 +86,17 @@ console.log(session.otp,'oooooooooooo')
           "password": password,
           "status" : true
         }
-
+        console.log(data,"dataatatataaa")
         data.password = await bcrypt.hash(data.password, saltRounds)
-
+         session.userData = data
         // const user = await userModel.create(data)
-        if (user) {
+        if (session.userData) {
           console.log("Successfuly registered")
-          res.render("user/otp",)
+          res.render("user/otp")
         } else {
+          msg = true
           console.log("Registration failed")
-          res.render("user/signup")
+          res.render("user/register",{msg})
         }
 
       }
