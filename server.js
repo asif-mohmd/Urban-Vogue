@@ -8,6 +8,7 @@ const adminRouter = require("./routes/admin")
 const nocache = require('nocache')
 const {verifyLogin} = require("./controllers/userController")
 const multer = require("multer")
+const bodyParser = require('body-parser');
 const connectDB = require("./config/connection")
 const app = express()
 
@@ -25,6 +26,7 @@ app.use(session({
 
 
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 
 

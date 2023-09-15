@@ -1,5 +1,6 @@
 const ProductModel = require("../models/Product")
 const userModel = require("../models/User")
+const CategoryModel = require("../models/Category")
 
 
 
@@ -59,11 +60,28 @@ const userList = async (req, res) => {
 
 }
 
+const addNewCategory = async (req,res) =>{
+    const {categoryName}  = req.body
+    console.log(categoryName)
+    const data = {
+        "categoryName" : categoryName
+    }
+    const success = await CategoryModel.create(data)
+
+    if(success){
+        console.log("Category created")
+    }else{
+        console.log("category not")
+    }
+
+}
+
 module.exports = {
     adminDashboard,
     adminLogin,
     adminLoginCheck,
     adminLoginView,
     adminLoginVerify,
-    userList
+    userList,
+    addNewCategory
 }

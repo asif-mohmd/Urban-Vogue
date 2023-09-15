@@ -46,6 +46,25 @@ const editProductDetails = async (req,res) =>{
     res.render("admin/edit-product-details",{editProduct})
 }
 
+const productDetailsEdit = async  (req,res) =>{
+    console.log(req.body.id,"iduuuuuuuu")
+    const {name,price,size,category} = req.body
+
+    const update = await ProductModel.updateOne(
+        { _id: req.body.id },
+        { $set: { name: name, price: price, size: size, category: category } }
+      );
+      
+    if(update){
+       res.redirect("/admin/editProductView")
+    }else{
+        msg = true
+        res.render("user/edit-product-details",{msg})
+    }
+    console.log(price)
+    console.log("ooyyyoooooooooooo")
+}
+
 const editProductView = async (req, res) => {
  
         const products = await ProductModel.find()
@@ -77,12 +96,18 @@ const deleteProduct = async (req,res)=>{
     })
 }
 
+const addCategory = (req,res) =>{
+    res.render("admin/add-category")
+}
+
 
 module.exports = { 
     addProduct,
     addProductView,
     editProductDetails,
+    productDetailsEdit,
     editProductView,
-    deleteProduct
+    deleteProduct,
+    addCategory
   
 }

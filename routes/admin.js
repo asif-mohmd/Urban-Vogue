@@ -19,11 +19,14 @@ router.get("/editProductView", productControllers.editProductView)
 router.get("/editProductDetails",productControllers.editProductDetails)
 router.get("/userList",adminControllers.userList)
 router.get("/delete-product",productControllers.deleteProduct)
+router.get("/addCategory",productControllers.addCategory)
 
 
 // Post method listing
 router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',1), productControllers.addProduct)
+router.post("/edited-ProductDetails",upload.array('image',1),productControllers.productDetailsEdit)
+router.post("/addNewCategory",adminControllers.addNewCategory)
 
 
 
