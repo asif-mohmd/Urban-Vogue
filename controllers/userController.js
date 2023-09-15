@@ -1,28 +1,28 @@
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
-const passport = require("passport");
 const userModel = require("../models/User");
 var session = require('express-session');
 const ProductModel = require("../models/Product");
+const sendMail = require("../utils/nodeMailer")
 
 
 const verifyLogin = (req, res, next) => {
-  // console.log(req.session.user)
-  // if (req.session.user) {
+  console.log(req.session.user)
+  if (req.session.user) {
     next()
-  // } else {
-  //   console.log(req.session.user)
-  //   return res.redirect("/login")
-  // }
+  } else {
+    console.log(req.session.user)
+    return res.redirect("/login")
+  }
 }
 
 const loginChecker = (req, res, next) => {
-  // console.log(req.session.user)
-  // if (req.session.user) {
-  //   return res.redirect("/")
-  // } else {
+  console.log(req.session.user)
+  if (req.session.user) {
+    return res.redirect("/")
+  } else {
     next()
-  // }
+  }
 }
 
 const indexView = async(req, res) => {
@@ -36,7 +36,26 @@ const registerView = (req, res) => {
   res.render("user/register", {});
 }
 
+const otpView = (req,res)=>{
+   res.render("user/otp")
+}
+
+const otpVerification = (req,res)=>{
+  console.log(req.body.user)
+  console.log("otttttttttttttt");
+  const {otpNum1,otpNum2,otpNum3,otpNum4} = req.body
+  const combinedOTP = otpNum1 + otpNum2 + otpNum3 + otpNum4;
+console.log(combinedOTP);
+  console.log("oppppppppppppp");
+
+  // res.render("user/otp")
+}
+
+
 const registerUser = (req, res) => {
+
+      
+
   const { name, email, mobile, gender, password, confirmPassword } = req.body;
   console.log(req.body.confirmPassword);
 
@@ -54,6 +73,7 @@ const registerUser = (req, res) => {
           "mobile": mobile,
           "gender": gender,
           "password": password,
+          "status" : true
         }
 
         data.password = await bcrypt.hash(data.password, saltRounds)
@@ -61,7 +81,7 @@ const registerUser = (req, res) => {
         const user = await userModel.create(data)
         if (user) {
           console.log("Successfuly registered")
-          res.redirect("/login")
+          res.render("user/otp",)
         } else {
           console.log("Registration failed")
           res.render("user/signup")
@@ -118,11 +138,14 @@ const productDetails =async (req,res) =>{
 module.exports = {
   registerView,
   loginView,
+  otpView,
   registerUser,
   loginUser,
   indexView,
   verifyLogin,
   loginChecker,
-  productDetails
+  productDetails,
+  otpVerification
+
 };
 

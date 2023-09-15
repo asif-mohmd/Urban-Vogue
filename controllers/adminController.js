@@ -60,11 +60,9 @@ const userList = async (req, res) => {
 
 module.exports = {
     adminDashboard,
-
     adminLogin,
     adminLoginCheck,
     adminLoginView,
-
     adminLoginVerify,
     userList
 }
