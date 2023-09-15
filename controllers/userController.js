@@ -40,7 +40,7 @@ const otpView = (req,res)=>{
    res.render("user/otp")
 }
 
-const otpVerification = (req,res)=>{
+const otpVerification = async (req,res)=>{
 
   console.log("otttttttttttttt");
   const {otpNum1,otpNum2,otpNum3,otpNum4 ,otpNum5,otpNum6} = req.body
@@ -49,7 +49,7 @@ const otpVerification = (req,res)=>{
     
     data = session.userData
     console.log(data,"seession data succeeeeded")
-      // const user = await userModel.create(data)
+    const user = await userModel.create(data)
      res.redirect("/")
   }else{
     msg = true
@@ -127,8 +127,12 @@ const loginUser = async (req, res) => {
       res.redirect("/")
     } else {
       console.log("not logged")
-      res.render("user/login")
+      msgPass = true
+      res.render("user/login",{msgPass})
     }
+  }else{
+    msgEmail = true
+    res.render("user/login",{msgEmail})
   }
 
 }
