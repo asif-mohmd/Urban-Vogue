@@ -16,8 +16,8 @@ const { indexView } = require("../controllers/userController");
 router.get("/",verifyLogin,userControllers.indexView);
 router.get('/login', loginChecker,userControllers.loginView);
 router.get("/signup",loginChecker, userControllers.registerView)
-router.post('/otpView', userControllers.otpView)
-router.post('/otpVerification', userControllers.otpVerification)
+// router.post('/otpView', userControllers.otpView)
+// router.post('/otpVerification', userControllers.otpVerification)
 router.post('/registerUser', userControllers.registerUser)
 router.post('/loginUser', userControllers.loginUser)
 router.get("/product-details",userControllers.productDetails)

@@ -52,11 +52,12 @@ console.log(combinedOTP);
 }
 
 
-const registerUser = (req, res) => {
-
-      
-
+const registerUser =async (req, res) => {
   const { name, email, mobile, gender, password, confirmPassword } = req.body;
+    await sendMail(email)
+
+console.log(session.otp,'oooooooooooo')
+
   console.log(req.body.confirmPassword);
 
   if (password !== confirmPassword) {
@@ -78,7 +79,7 @@ const registerUser = (req, res) => {
 
         data.password = await bcrypt.hash(data.password, saltRounds)
 
-        const user = await userModel.create(data)
+        // const user = await userModel.create(data)
         if (user) {
           console.log("Successfuly registered")
           res.render("user/otp",)

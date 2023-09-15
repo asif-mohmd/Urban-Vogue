@@ -1,11 +1,15 @@
 const nodemailer = require("nodemailer");
 
-const otp = require("../utils/otp")
+const oneTimePass = require("../utils/otp")
+const session = require('express-session');
 
 
-    const sendMail= async ()=>{
-      
-      var   otp()
+    const sendMail= async (email)=>{
+      const userEmail = email
+      console.log(userEmail)
+      var userOtp = await oneTimePass()
+      session.otp = userOtp
+      console.log(userOtp,"jjjjjjjjjjjjjjjjjjjjj")
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -22,11 +26,11 @@ const otp = require("../utils/otp")
 
     const info = await transporter.sendMail({
         from: '"Asif Muhammed Test 👻"liam.stark46@ethereal.email', // sender address
-        to: "asifasifpsps@gmail.com", // list of receivers
+        to: userEmail, // list of receivers
         subject: "Hello ✔ ASifff", // Subject line
         text: "Hello Asiff", // plain text body
         //html: "<b>ASifffff</b>", // html body
-        html: otp,
+        html: userOtp.toString(),
 
     })
 

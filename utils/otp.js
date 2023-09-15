@@ -1,6 +1,6 @@
 
  
-   const otp = function otp() {
+   const oneTimePass =  function  otp() {
         let otp = Math.random()
         otp = Math.trunc(otp = otp * 100000000)
         otp = otp.toString()
@@ -9,4 +9,4 @@
         return otp
     }
 
-module.exports = otp
+module.exports = oneTimePass
