@@ -37,6 +37,14 @@ const addProduct = async (req, res) => {
     }
 }
 
+const editProductDetails = async (req,res) =>{
+    console.log(req.query.id,"oneeeeeeeeeee");
+  
+    const product = await ProductModel.find({_id:req.query.id})
+    console.log(product,"proooooooooooooooooo")
+    res.render("admin/edit-product-details")
+}
+
 const editProductView = async (req, res) => {
  
         const products = await ProductModel.find()
@@ -72,6 +80,7 @@ const deleteProduct = async (req,res)=>{
 module.exports = { 
     addProduct,
     addProductView,
+    editProductDetails,
     editProductView,
     deleteProduct
   

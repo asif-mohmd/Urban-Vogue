@@ -149,6 +149,15 @@ const productDetails =async (req,res) =>{
 
 
 
+const userBlockUnlock = async(req,res) =>{
+    console.log(req.query.id,"iddddddd")
+  const userData = await userModel.findOne({_id:req.query.id})
+  await userModel.updateOne({_id:req.query.id},{$set:{status:!userData.status}})
+  const users = await userModel.find({})
+  res.render("admin/user-list", { users })
+}
+
+
 
 
 module.exports = {
@@ -161,7 +170,8 @@ module.exports = {
   verifyLogin,
   loginChecker,
   productDetails,
-  otpVerification
+  otpVerification,
+  userBlockUnlock
 
 };
 

@@ -296,7 +296,7 @@
             </a>
           </li>
           <li>
-            <a href="/admin/editProduct">
+            <a href="/admin/editProductView">
               <i class="bi bi-circle"></i><span>Edit Product</span>
             </a>
           </li>
@@ -402,8 +402,14 @@
                     <td>{{email}}</td>
                     <td>{{mobile}}</td>
                     <td>{{gender}}</td>
+                    {{#if this.status}}
+                    <td><a href="/admin/block-unblock?id={{this._id}}" onclick="window.location.reload()"><button
+                          class="btn btn-danger">Block</button></a></td>
+                    {{else}}
+                    <td><a href="/admin/block-unblock?id={{this._id}}" onclick="window.location.reload()"><button
+                          class="btn btn-success">Unblock</button></a></td>
+                    {{/if}}
 
-                    <td><a href="/admin/block-unblock?id={{this._id}}"><Button class="btn btn-danger">Block/Unblock</Button></a></td>
                   </tr>
                   {{/each}}
                 </tbody>
@@ -448,6 +454,14 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
+
+  <script>
+    function userBlockUnblockHandler() {
+      console.log('clicked <<<<')
+      window.location.reload()
+      // window.onload
+    }
+  </script>
 
 </body>
 

@@ -54,6 +54,7 @@ const adminDashboard = (req, res) => {
 const userList = async (req, res) => {
 
     const users = await userModel.find()
+    console.log('+++',users,'<<<users')
     res.render("admin/user-list", { users })
 
 }

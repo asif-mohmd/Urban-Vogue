@@ -15,14 +15,16 @@ const imageUpload = upload.array('photos', 3)
 router.get("/",adminLoginCheck, adminControllers.adminDashboard)
 router.get("/login",adminLoginVerify, adminControllers.adminLoginView)
 router.get("/addProduct", productControllers.addProductView)
-router.get("/editProduct", productControllers.editProductView)
+router.get("/editProductView", productControllers.editProductView)
+router.get("/editProductDetails",productControllers.editProductDetails)
 router.get("/userList",adminControllers.userList)
+router.get("/delete-product",productControllers.deleteProduct)
 
 
 // Post method listing
 router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',1), productControllers.addProduct)
-router.get("/delete-product",productControllers.deleteProduct)
+
 
 
 module.exports = router
