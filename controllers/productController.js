@@ -1,3 +1,4 @@
+const CategoryModel = require("../models/Category")
 const ProductModel = require("../models/Product")
 const fileHandler = require("../utils/file")
 
@@ -100,6 +101,13 @@ const addCategory = (req,res) =>{
     res.render("admin/add-category")
 }
 
+const showCategory =async (req,res)=>{
+    console.log("hertee")
+    const showCategory = await CategoryModel.find({})
+    console.log(showCategory)
+    res.render("admin/show-category",{showCategory})
+}
+
 
 module.exports = { 
     addProduct,
@@ -108,6 +116,8 @@ module.exports = {
     productDetailsEdit,
     editProductView,
     deleteProduct,
-    addCategory
+    addCategory,
+    showCategory,
+    
   
 }

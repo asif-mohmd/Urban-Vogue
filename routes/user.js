@@ -18,7 +18,7 @@ router.get('/login', loginChecker,userControllers.loginView);
 router.get("/signup",loginChecker, userControllers.registerView)
 router.get('/otpView', userControllers.otpView)
 router.get("/product-details",userControllers.productDetails)
-router.get("/admin/block-unblock",userControllers.userBlockUnlock)
+router.get("/block-unblock",userControllers.userBlockUnlock)
 
 
 

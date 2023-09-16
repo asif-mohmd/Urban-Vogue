@@ -9,24 +9,21 @@ let adminPassword = "123"
 
 
 const adminLoginCheck = (req, res, next) => {
-    // if (req.session.admin) {
-    //     console.log("Successssss")
-    //     next()
-    // } else {
-    //    return res.redirect("/admin/login")
-    // }
-    next()
-
+    if (req.session.admin) {
+        console.log("Successssss")
+        next()
+    } else {
+        return res.redirect("/admin/login")
+    }
 }
 
 const adminLoginVerify = (req, res, next) => {
-    // if (req.session.admin) {
-    //    return res.redirect("/admin")
-    // } else {
-    //     console.log("kkkkkkkkkkk")
-    //     next()
-    // }
-    next()
+    if (req.session.admin) {
+        return res.redirect("/admin")
+    } else {
+        console.log("kkkkkkkkkkk")
+        next()
+    }
 }
 
 const adminLoginView = (req, res) => {
@@ -35,10 +32,9 @@ const adminLoginView = (req, res) => {
 
 const adminLogin = (req, res) => {
     const { email, password } = req.body
-    // console.log(email,password)
+
     if (email === adminEmail && password == adminPassword) {
         req.session.admin = true
-        console.log(req.session);
         res.redirect("/admin")
     } else {
         res.redirect("/admin/login")
@@ -55,26 +51,42 @@ const adminDashboard = (req, res) => {
 const userList = async (req, res) => {
 
     const users = await userModel.find()
-    console.log('+++',users,'<<<users')
+    console.log('+++', users, '<<<users')
     res.render("admin/user-list", { users })
 
 }
 
-const addNewCategory = async (req,res) =>{
-    const {categoryName}  = req.body
+const addNewCategory = async (req, res) => {
+    const { categoryName } = req.body
     console.log(categoryName)
     const data = {
-        "categoryName" : categoryName
+        "categoryName": categoryName
     }
     const success = await CategoryModel.create(data)
 
-    if(success){
+    if (success) {
         console.log("Category created")
-    }else{
-        console.log("category not")
+        res.redirect("/admin/addCategory")
+    } else {
+        msg = true
+        res.render("admin/add-category", { msg })
     }
 
 }
+
+const categoryDelete = async (req, res) => {
+    console.log(req.query.id)
+    const deleted = await CategoryModel.deleteOne({ _id: req.query.id })
+    if (deleted) {
+        console.log("deleted")
+        res.redirect("/admin/showCategory")
+    } else {
+        console.log("Not deleted")
+        msg = true
+        res.render("admin/show-category", { msg })
+    }
+}
+
 
 module.exports = {
     adminDashboard,
@@ -83,5 +95,6 @@ module.exports = {
     adminLoginView,
     adminLoginVerify,
     userList,
-    addNewCategory
+    addNewCategory,
+    categoryDelete
 }

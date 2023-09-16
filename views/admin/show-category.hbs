@@ -305,7 +305,8 @@
         </ul>
       </li><!-- End Forms Nav -->
 
-      <li class="nav-item">
+
+        <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
           <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
         </a>
@@ -318,16 +319,12 @@
         </a>
       </li><!-- End Forms Nav -->
 
-
-
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" href="/admin/userList">
           <i class="bi bi-layout-text-window-reverse"></i><span>User List</span></i>
         </a>
 
       </li><!-- End Forms Nav -->
-
-
 
 
 
@@ -379,63 +376,70 @@
 
 
 
-
-
-
-
-
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Form Elements</h1>
+      <h1>Category List</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Forms</li>
-          <li class="breadcrumb-item active">Elements</li>
+          <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
+          <li class="breadcrumb-item">Category List</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-lg-12">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Add new Category</h5>
-
-               {{#if msg}}
-                     <p class="text-center text-danger small">Category Not Added . Try agian</p>
+              <h5 class="card-title">Category List</h5>
+          {{#if msg}}
+                     <p class="text-center text-danger small">Category Not deleted . Try agian</p>
                       {{/if}}
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    {{!-- <th scope="col">Email</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Gender</th>--}}
+                    <th scope="col">Action</th> 
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each showCategory}}
+                  <tr>
+                    <th scope="row"> {{@key}}</th>
+                    <td>{{categoryName}}</td>
 
-              <!-- General Form Elements -->
-              <form action="/admin/addNewCategory" method="post" >
-                <div class="row mb-3">
-                  <label for="inputText" class="col-sm-2 col-form-label">Category Name</label>
-                  <div class="col-sm-10">
-                    <input type="text" name="categoryName" class="form-control">
-                  </div>
-                </div>
+{{!-- 
+                    <td>{{email}}</td>
+                    <td>{{mobile}}</td>
+                    <td>{{gender}}</td>
+                    {{#if this.status}}
+                    <td><a href="/admin/block-unblock?id={{this._id}}" ><button
+                          class="btn btn-danger">Block</button></a></td>
+                    {{else}}
+                    <td><a href="/admin/block-unblock?id={{this._id}}" ><button
+                          class="btn btn-success">Unblock</button></a></td>
+                    {{/if}}
 
-                
-
-
-                <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label">Submit Button</label>
-                  <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Submit Form</button>
-                  </div>
-                </div>
-
-              </form><!-- End General Form Elements -->
+                  </tr> --}}
+                  <td><a href="/admin/category-delete?id={{this._id}}" ><button
+                          class="btn btn-danger">Delete</button></a></td>
+                  {{/each}} 
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
 
             </div>
           </div>
 
         </div>
-
-
       </div>
     </section>
 
@@ -458,10 +462,6 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
-
-
-
-
   <!-- Vendor JS Files -->
   <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -474,6 +474,14 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
+
+  <script>
+    function userBlockUnblockHandler() {
+      console.log('clicked <<<<')
+      window.location.reload()
+      // window.onload
+    }
+  </script>
 
 </body>
 
