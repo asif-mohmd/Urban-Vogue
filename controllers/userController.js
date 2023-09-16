@@ -14,6 +14,7 @@ const verifyLogin = (req, res, next) => {
   }
 }
 
+
 const loginChecker = (req, res, next) => {
   if (req.session.user) {
     return res.redirect("/")
@@ -22,25 +23,28 @@ const loginChecker = (req, res, next) => {
   }
 }
 
+
 const indexView = async (req, res) => {
   const products = await ProductModel.find()
   res.render("user/index", { products });
 }
 
+
 const registerView = (req, res) => {
   res.render("user/register", {});
 }
 
+
 const otpView = (req, res) => {
   res.render("user/otp")
 }
+
 
 const otpVerification = async (req, res) => {
 
   const { otpNum1, otpNum2, otpNum3, otpNum4, otpNum5, otpNum6 } = req.body
   const combinedOTP = otpNum1 + otpNum2 + otpNum3 + otpNum4 + otpNum5 + otpNum6;
   if (combinedOTP == session.otp) {
-
     data = session.userData
     const user = await userModel.create(data)
     res.redirect("/")
@@ -54,9 +58,7 @@ const otpVerification = async (req, res) => {
 const registerUser = async (req, res) => {
   const { name, email, mobile, gender, password, confirmPassword } = req.body;
   await sendMail(email)
-
   console.log(req.body.confirmPassword);
-
   if (password !== confirmPassword) {
     console.log("Password must match");
   } else {
@@ -64,7 +66,6 @@ const registerUser = async (req, res) => {
       if (user) {
         console.log("email exists");
       } else {
-
         data = {
           "name": name,
           "email": email,
@@ -89,20 +90,17 @@ const registerUser = async (req, res) => {
   }
 };
 
+
 const loginView = (req, res) => {
   res.render("user/login", {});
-
 }
+
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-
   const user = await userModel.findOne({ email: email })
-
   if (user) {
-
     const data = await bcrypt.compare(password, user.password)
-
     if (data) {
       req.session.user = user
       res.redirect("/")
@@ -114,25 +112,8 @@ const loginUser = async (req, res) => {
     msgEmail = true
     res.render("user/login", { msgEmail })
   }
-
 }
 
-const productDetails = async (req, res) => {
-
-  const singleProduct = await ProductModel.findOne({ _id: req.query.id })
-
-  res.render("user/product-details", { singleProduct })
-}
-
-
-
-const userBlockUnlock = async (req, res) => {
-
-  const userData = await userModel.findOne({ _id: req.query.id })
-  await userModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
-  const users = await userModel.find({})
-  res.render("admin/user-list", { users })
-}
 
 module.exports = {
   registerView,
@@ -143,9 +124,8 @@ module.exports = {
   indexView,
   verifyLogin,
   loginChecker,
-  productDetails,
   otpVerification,
-  userBlockUnlock
+
 
 };
 

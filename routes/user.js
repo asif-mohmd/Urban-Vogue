@@ -1,5 +1,7 @@
 const express = require('express');
 const userControllers = require('../controllers/userController');
+const productControllers = require('../controllers/productController');
+
 const {verifyLogin,loginChecker} = require('../controllers/userController');
 const router = express.Router();
 const { protectRoute } = require("../auth/protect");
@@ -17,8 +19,8 @@ router.get("/",verifyLogin,userControllers.indexView);
 router.get('/login', loginChecker,userControllers.loginView);
 router.get("/signup",loginChecker, userControllers.registerView)
 router.get('/otpView', userControllers.otpView)
-router.get("/product-details",userControllers.productDetails)
-router.get("/block-unblock",userControllers.userBlockUnlock)
+router.get("/product-details",productControllers.productDetails)
+
 
 
 
