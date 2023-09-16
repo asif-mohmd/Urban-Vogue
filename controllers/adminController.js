@@ -9,7 +9,6 @@ let adminPassword = "123"
 
 const adminLoginCheck = (req, res, next) => {
     if (req.session.admin) {
-        console.log("Successssss")
         next()
     } else {
         return res.redirect("/admin/login")
@@ -21,7 +20,6 @@ const adminLoginVerify = (req, res, next) => {
     if (req.session.admin) {
         return res.redirect("/admin")
     } else {
-        console.log("kkkkkkkkkkk")
         next()
     }
 }

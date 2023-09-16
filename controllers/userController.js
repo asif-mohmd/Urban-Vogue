@@ -102,8 +102,15 @@ const loginUser = async (req, res) => {
   if (user) {
     const data = await bcrypt.compare(password, user.password)
     if (data) {
-      req.session.user = user
-      res.redirect("/")
+       console.log(user,"datattatatat")
+       if(user.status==true){
+        req.session.user = user
+        res.redirect("/")
+       }else{
+        msgBlock = true
+        res.render("user/login", { msgBlock })
+       }
+      
     } else {
       msgPass = true
       res.render("user/login", { msgPass })

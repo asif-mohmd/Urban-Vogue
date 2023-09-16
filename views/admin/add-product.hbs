@@ -405,7 +405,9 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">General Form Elements</h5>
-
+                {{#if msg}}
+                    <p class="text-center text-danger small">Product adding failed.Try again</p>
+                    {{/if}}
               <!-- General Form Elements -->
               <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
                 <div class="row mb-3">

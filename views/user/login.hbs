@@ -70,6 +70,9 @@
                     {{#if msgPass}}
                     <p class="text-center text-danger small">Password Incorrect</p>
                     {{/if}}
+                     {{#if msgBlock}}
+                    <p class="text-center text-danger small">You are Blocked</p>
+                    {{/if}}
                   </div>
 
                   <form action="/loginUser" method="post" class="row g-3 needs-validation" novalidate>

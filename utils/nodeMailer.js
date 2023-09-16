@@ -9,7 +9,7 @@ const session = require('express-session');
       console.log(userEmail)
       var userOtp = await oneTimePass()
       session.otp = userOtp
-      console.log(userOtp,"jjjjjjjjjjjjjjjjjjjjj")
+      console.log(userOtp)
 
     const transporter = nodemailer.createTransport({
         service: "gmail",

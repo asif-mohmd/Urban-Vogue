@@ -22,11 +22,12 @@ const addProduct = async (req, res) => {
         "size": size,
         "imageUrl": images[0]
     }
-    const product = await productModel.create(data)
+    const product = await ProductModel.create(data)
     if (product) {
-        res.redirect("/admin")
+        res.redirect("/admin/addProduct")
     } else {
-        res.render("admin/add-product")
+        msg = true
+        res.render("admin/addProduct",{msg})
     }
 }
 
@@ -72,7 +73,7 @@ const deleteProduct = async (req, res) => {
             return res.status(404).json({ message: "Product not found" });
         }
         await fileHandler.deleteFile(product.imageUrl);
-        // await ProductModel.deleteOne({ _id: productId });
+        await ProductModel.deleteOne({ _id: productId });
         res.status(200).json({ message: "Product deleted successfully" });
     } catch (err) {
         console.error("Error deleting product:", err);
