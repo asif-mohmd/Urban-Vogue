@@ -61,26 +61,25 @@ const editProductView = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
+    const productId = req.query.id;
 
-    const productId = req.query.id
+    try {
+        const product = await ProductModel.findById(productId);
 
-    const product = await ProductModel.findById(productId)
-        .then(product => {
-            fileHandler.deleteFile(product.imageUrl)
-            return ProductModel.deleteOne({ _id: productId })
-        })
-        .then(result => {
-            res.status(200).json({
-                message: "Product deleted successfully"
-            })
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                message: "Deleting Product failed"
-            })
-        })
-}
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        await fileHandler.deleteFile(product.imageUrl);
+        await ProductModel.deleteOne({ _id: productId });
+
+        res.status(200).json({ message: "Product deleted successfully" });
+    } catch (err) {
+        console.error("Error deleting product:", err);
+        res.status(500).json({ message: "Deleting Product failed" });
+    }
+};
+
 
 const addCategory = (req, res) => {
     res.render("admin/add-category")
