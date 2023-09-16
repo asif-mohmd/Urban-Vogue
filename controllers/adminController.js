@@ -78,10 +78,8 @@ const categoryDelete = async (req, res) => {
     console.log(req.query.id)
     const deleted = await CategoryModel.deleteOne({ _id: req.query.id })
     if (deleted) {
-        console.log("deleted")
         res.redirect("/admin/showCategory")
     } else {
-        console.log("Not deleted")
         msg = true
         res.render("admin/show-category", { msg })
     }
