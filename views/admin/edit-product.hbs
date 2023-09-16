@@ -306,14 +306,14 @@
       </li><!-- End Forms Nav -->
 
 
-  <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
           <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
         </a>
 
       </li><!-- End Forms Nav -->
 
-       <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
           <i class="bi bi-layout-text-window-reverse"></i><span>Show Category</span></i>
         </a>
@@ -386,7 +386,7 @@
 
   <main id="main" class="main">
 
-   <div class="pagetitle">
+    <div class="pagetitle">
       <h1>Edit Product</h1>
       <nav>
         <ol class="breadcrumb">
@@ -424,11 +424,12 @@
                     <td>{{price}}</td>
                     <td>{{size}}</td>
                     <td>{{category}}</td>
-                   <td>
-                    <a href="/admin/editProductDetails?id={{this._id}}"><button class="btn btn-primary">Edit</button></a> &nbsp;
-                   <a href="/admin/delete-product?id={{this._id}}"><button class="btn btn-danger">Delete</button></a>
-                   </td> 
-                   
+                    <td>
+                      <a href="/admin/editProductDetails?id={{this._id}}"><button
+                          class="btn btn-primary">Edit</button></a> &nbsp;
+                      <a href="/admin/delete-product?id={{this._id}}"><button class="btn btn-danger">Delete</button></a>
+                    </td>
+
                   </tr>
                   {{/each}}
                 </tbody>

@@ -5,7 +5,7 @@ const CategorySchema = new mongoose.Schema({
         type: String,
         required: true,
     }
-    
+
 
 })
 const CategoryModel = mongoose.model("Category", CategorySchema);

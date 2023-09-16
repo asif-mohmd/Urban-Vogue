@@ -21,6 +21,7 @@ router.get("/userList",adminControllers.userList)
 router.get("/delete-product",productControllers.deleteProduct)
 router.get("/addCategory",productControllers.addCategory)
 router.get("/showCategory",productControllers.showCategory)
+router.get("/category-delete",adminControllers.categoryDelete)
 
 
 // Post method listing
@@ -28,7 +29,7 @@ router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',1), productControllers.addProduct)
 router.post("/edited-ProductDetails",upload.array('image',1),productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
-router.get("/category-delete",adminControllers.categoryDelete)
+
 
 
 
