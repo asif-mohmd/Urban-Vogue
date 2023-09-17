@@ -7,11 +7,7 @@ const router = express.Router();
 const { protectRoute } = require("../auth/protect");
 const { indexView } = require("../controllers/userController");
 
-
-
-
 // {registerView, loginView }
-
 
 // Get methods
 // router.get('/', loginControllers.registerView);
@@ -20,8 +16,6 @@ router.get('/login', loginChecker,userControllers.loginView);
 router.get("/signup",loginChecker, userControllers.registerView)
 router.get('/otpView', userControllers.otpView)
 router.get("/product-details",productControllers.productDetails)
-
-
 
 
 // POST Methods

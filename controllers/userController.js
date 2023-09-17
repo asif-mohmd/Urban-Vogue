@@ -7,20 +7,20 @@ const sendMail = require("../utils/nodeMailer")
 
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.user) {
+  // if (req.session.user) {
     next()
-  } else {
-    return res.redirect("/login")
-  }
+  // } else {
+  //   return res.redirect("/login")
+  // }
 }
 
 
 const loginChecker = (req, res, next) => {
-  if (req.session.user) {
-    return res.redirect("/")
-  } else {
+  // if (req.session.user) {
+  //   return res.redirect("/")
+  // } else {
     next()
-  }
+  // }
 }
 
 

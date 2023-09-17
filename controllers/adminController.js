@@ -8,20 +8,20 @@ let adminPassword = "123"
 
 
 const adminLoginCheck = (req, res, next) => {
-    if (req.session.admin) {
+    // if (req.session.admin) {
         next()
-    } else {
-        return res.redirect("/admin/login")
-    }
+    // } else {
+    //     return res.redirect("/admin/login")
+    // }
 }
 
 
 const adminLoginVerify = (req, res, next) => {
-    if (req.session.admin) {
-        return res.redirect("/admin")
-    } else {
+    // if (req.session.admin) {
+    //     return res.redirect("/admin")
+    // } else {
         next()
-    }
+    // }
 }
 
 
@@ -58,6 +58,7 @@ const userBlockUnlock = async (req, res) => {
     const userData = await userModel.findOne({ _id: req.query.id })
     await userModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
     const users = await userModel.find({})
+    console.log("yeyeyeyeye")
     res.render("admin/user-list", { users })
   }
   const addCategory = (req, res) => {
