@@ -306,18 +306,43 @@
       </li><!-- End Forms Nav -->
 
 
-        <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
-        </a>
 
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Category Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+            </a>
+          </li>
+
+
+        </ul>
       </li><!-- End Forms Nav -->
 
-       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Category</span></i>
-        </a>
-      </li><!-- End Forms Nav -->
+
+
+
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" href="/admin/userList">
@@ -325,6 +350,9 @@
         </a>
 
       </li><!-- End Forms Nav -->
+
+
+
 
 
 
@@ -395,9 +423,9 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Category List</h5>
-          {{#if msg}}
-                     <p class="text-center text-danger small">Category Not deleted . Try agian</p>
-                      {{/if}}
+              {{#if msg}}
+              <p class="text-center text-danger small">Category Not deleted . Try agian</p>
+              {{/if}}
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
@@ -407,7 +435,9 @@
                     {{!-- <th scope="col">Email</th>
                     <th scope="col">Mobile</th>
                     <th scope="col">Gender</th>--}}
-                    <th scope="col">Action</th> 
+                    <th scope="col">List/Unlist</th>
+                    <th scope="col">Action</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -416,22 +446,18 @@
                     <th scope="row"> {{@key}}</th>
                     <td>{{categoryName}}</td>
 
-{{!-- 
-                    <td>{{email}}</td>
-                    <td>{{mobile}}</td>
-                    <td>{{gender}}</td>
+
                     {{#if this.status}}
-                    <td><a href="/admin/block-unblock?id={{this._id}}" ><button
-                          class="btn btn-danger">Block</button></a></td>
-                    {{else}}
-                    <td><a href="/admin/block-unblock?id={{this._id}}" ><button
+                    <td><button type="button" class="btn btn-danger" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal">Block</button>
+                      {{else}}
+                    <td><a href="/admin/block-unblock?id={{this._id}}" onclick="window.location.reload()"><button
                           class="btn btn-success">Unblock</button></a></td>
                     {{/if}}
-
-                  </tr> --}}
-                  <td><a href="/admin/category-delete?id={{this._id}}" ><button
+                    <td><a href="/admin/category-delete?id={{this._id}}"><button
                           class="btn btn-danger">Delete</button></a></td>
-                  {{/each}} 
+                    {{/each}}
+
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

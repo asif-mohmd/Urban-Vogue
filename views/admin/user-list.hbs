@@ -282,7 +282,7 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+       <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
         <a class="nav-link " href="/admin">
@@ -314,18 +314,44 @@
       </li><!-- End Forms Nav -->
 
 
+
+
+
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Category Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
           <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
         </a>
+          </li>
 
-      </li><!-- End Forms Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Category</span></i>
+                <li>
+             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
         </a>
+          </li>
+          <li>
+             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+        </a>
+          </li>
+           <li>
+             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+        </a>
+          </li>
+
+
+        </ul>
       </li><!-- End Forms Nav -->
+
+
+
+
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" href="/admin/userList">
@@ -333,6 +359,9 @@
         </a>
 
       </li><!-- End Forms Nav -->
+
+
+
 
 
 
@@ -525,7 +554,7 @@
 
 
   </script>
-  
+
 </body>
 
 </html>
