@@ -58,7 +58,6 @@ const userBlockUnlock = async (req, res) => {
     const userData = await userModel.findOne({ _id: req.query.id })
     await userModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
     const users = await userModel.find({})
-    console.log("yeyeyeyeye")
     res.render("admin/user-list", { users })
   }
   const addCategory = (req, res) => {
@@ -78,16 +77,26 @@ const addNewCategory = async (req, res) => {
     const data = {
         "categoryName": categoryName
     }
-    const success = await CategoryModel.create(data)
 
-    if (success) {
-        console.log("Category created")
-        res.redirect("/admin/addCategory")
-    } else {
-        msg = true
-        res.render("admin/add-category", { msg })
-    }
-}
+    if(data){
+       const exists = await CategoryModel.findOne({categoryName:categoryName})
+       
+       if (exists) {
+           console.log("Categorya already exist")
+           msgExists = true
+           res.render("admin/add-category", { msgExists })
+       } else {
+        const success = await CategoryModel.create(data)
+        if (success) {
+            console.log("Category created")
+            res.redirect("/admin/addCategory")
+        } else {
+            msg = true
+            res.render("admin/add-category", { msg })
+        }
+       }
+
+    }}
 
 
 const categoryDelete = async (req, res) => {

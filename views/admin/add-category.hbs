@@ -400,6 +400,9 @@
               {{#if msg}}
               <p class="text-center text-danger small">Category Not Added . Try agian</p>
               {{/if}}
+              {{#if msgExists}}
+              <p class="text-center text-danger small">Category already exist . Try another name</p>
+              {{/if}}
 
               <!-- General Form Elements -->
               <form action="/admin/addNewCategory" method="post">
