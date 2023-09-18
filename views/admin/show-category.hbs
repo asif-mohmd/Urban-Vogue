@@ -451,48 +451,54 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each showCategory}}
-                  <tr>
-                    <th scope="row"> {{@key}}</th>
-                    <td>{{categoryName}}</td>
+                 {{#each showCategory}}
+  <tr>
+    <th scope="row">{{@key}}</th>
+    <td>{{categoryName}}</td>
 
+    {{#if this.status}}
+    <td>
+      <button type="button" class="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#exampleModal{{@key}}">
+        Unlist
+      </button>
+    </td>
+    {{else}}
+    <td>
+      <a href="/admin/list-unlist-category/{{this._id}}">
+        <button class="btn btn-success">List</button>
+      </a>
+    </td>
+    {{/if}}
 
-                    {{#if this.status}}
-                    <td><button type="button" class="btn btn-danger" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal">UnList</button>
-                      {{else}}
-                    <td><a href="/admin/list-unlist-category/{{this._id}}"><button
-                          class="btn btn-success">List</button></a></td>
-                    {{/if}}
+    <td>
+      <a href="/admin/category-delete?id={{this._id}}">
+        <button class="btn btn-danger">Delete</button>
+      </a>
+    </td>
 
+    <!-- Modal for unlisting -->
+    <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- Modal content -->
+      <!-- Adjust the modal content as needed -->
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">Are you sure you want to unlist this category?</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            <a href="/admin/list-unlist-category/{{this._id}}">
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tr>
+{{/each}}
 
-                    <td><a href="/admin/category-delete?id={{this._id}}"><button
-                          class="btn btn-danger">Delete</button></a></td>
-
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                      aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
-                              aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">Are you sure.Do you need to unlist?</div>
-                          <div class="modal-footer">
-
-                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-
-                            <a href="/admin/list-unlist-category/{{this._id}}"><button type="button"
-                                class="btn btn-primary">Save changes</button></a>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {{/each}}
 
                 </tbody>
               </table>
