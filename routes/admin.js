@@ -23,6 +23,8 @@ router.get("/block-unblock",adminControllers.userBlockUnblock)
 router.get("/addCategory",adminControllers.addCategory)
 router.get("/showCategory",adminControllers.showCategory)
 router.get("/category-delete",adminControllers.categoryDelete)
+router.get("/list-unlist-category/:id",adminControllers.listUnlistCategory)
+router.get("/listedCategory",adminControllers.listedCategory)
 
 
 
@@ -32,7 +34,7 @@ router.post("/addProduct", upload.array('image',1), productControllers.addProduc
 router.post("/edited-ProductDetails",upload.array('image',1),productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
 
-router.get("/list-unlist-category/:id",adminControllers.listUnlistCategory)
+
 
 
 

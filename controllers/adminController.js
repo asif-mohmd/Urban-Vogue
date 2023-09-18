@@ -127,6 +127,10 @@ const listUnlistCategory = async (req,res) =>{
     }
 }
 
+const listedCategory = (req,res) => {
+    res.render("admin/listed-category")
+}
+
 
 
 
@@ -142,6 +146,7 @@ module.exports = {
     addNewCategory,
     categoryDelete,
     showCategory,
-    listUnlistCategory
+    listUnlistCategory,
+    listedCategory
 
 }
