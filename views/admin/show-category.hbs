@@ -31,6 +31,16 @@
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Aug 30 2023 with Bootstrap v5.3.1
@@ -449,13 +459,39 @@
 
                     {{#if this.status}}
                     <td><button type="button" class="btn btn-danger" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal">Block</button>
+                        data-mdb-target="#exampleModal">UnList</button>
                       {{else}}
-                    <td><a href="/admin/block-unblock?id={{this._id}}" onclick="window.location.reload()"><button
-                          class="btn btn-success">Unblock</button></a></td>
+                    <td><a href="/admin/list-unlist-category/{{this._id}}"><button
+                          class="btn btn-success">List</button></a></td>
                     {{/if}}
+
+
                     <td><a href="/admin/category-delete?id={{this._id}}"><button
                           class="btn btn-danger">Delete</button></a></td>
+
+
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                              aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">Are you sure.Do you need to unlist?</div>
+                          <div class="modal-footer">
+
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+
+                            <a href="/admin/list-unlist-category/{{this._id}}"><button type="button"
+                                class="btn btn-primary">Save changes</button></a>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     {{/each}}
 
                 </tbody>
@@ -500,6 +536,13 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
+
+
+  <!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
+></script>
 
   <script>
     function userBlockUnblockHandler() {

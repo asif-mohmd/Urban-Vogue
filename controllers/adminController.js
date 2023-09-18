@@ -54,7 +54,7 @@ const userList = async (req, res) => {
 }
 
 
-const userBlockUnlock = async (req, res) => {
+const userBlockUnblock = async (req, res) => {
     const userData = await userModel.findOne({ _id: req.query.id })
     await userModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
     const users = await userModel.find({})
@@ -75,7 +75,8 @@ const addNewCategory = async (req, res) => {
     const { categoryName } = req.body
     console.log(categoryName)
     const data = {
-        "categoryName": categoryName
+        "categoryName": categoryName,
+        "status": true
     }
 
     if(data){
@@ -99,6 +100,8 @@ const addNewCategory = async (req, res) => {
     }}
 
 
+
+
 const categoryDelete = async (req, res) => {
     console.log(req.query.id)
     const deleted = await CategoryModel.deleteOne({ _id: req.query.id })
@@ -110,6 +113,22 @@ const categoryDelete = async (req, res) => {
     }
 }
 
+const listUnlistCategory = async (req,res) =>{
+    console.log(req.params.id,"unlist>>>>>>>>>>>>>>>>")
+    const categoryData = await CategoryModel.findById({_id:req.params.id})
+    console.log(categoryData,"unlist22222222>>>>>>>>>>>>>>>>")
+    const updated = await CategoryModel.updateOne({_id:req.params.id},{ $set :{status:!categoryData.status}})
+    if(updated){
+        res.redirect("/admin/showCategory")
+        console.log("updated")
+    }else{
+        msgUnlist = true
+        res.render("admin/show-category", { msgUnlist })
+    }
+}
+
+
+
 
 module.exports = {
     adminDashboard,
@@ -118,10 +137,11 @@ module.exports = {
     adminLoginView,
     adminLoginVerify,
     userList,
-    userBlockUnlock,
+    userBlockUnblock,
     addCategory,
     addNewCategory,
     categoryDelete,
     showCategory,
+    listUnlistCategory
 
 }
