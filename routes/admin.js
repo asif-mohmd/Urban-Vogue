@@ -33,7 +33,7 @@ router.get("/list-unlist-product/:id",productControllers.listUnlistProduct)
 // Post method listing
 router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',3), productControllers.addProduct)
-router.post("/edited-ProductDetails",upload.array('image',1),productControllers.productDetailsEdit)
+router.post("/edited-ProductDetails",productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
 
 

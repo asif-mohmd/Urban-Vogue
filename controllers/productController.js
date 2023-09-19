@@ -9,12 +9,14 @@ const addProductView = async (req, res) => {
 
 const addProduct = async (req, res) => {
     const { name, price, description, category, size } = req.body;
+    console.log(req.files,"cjheckkkkk")
     const images = req.files
-        .filter(file => file.mimetype === 'image/png' || file.mimetype === 'image/jpeg')
+        .filter(file => file.mimetype === 'image/png' || file.mimetype === 'image/webp' || file.mimetype === 'image/jpeg' )
         .map(file => file.filename);
 
     console.log('Filtered images:', images);
-    if (images === null) {
+    if (images.length === 3) {
+        console.log("keriiid=11")
         data = {
             "name": name,
             "price": price,
@@ -26,6 +28,7 @@ const addProduct = async (req, res) => {
         }
         const product = await ProductModel.create(data)
         if (product) {
+            console.log("product addeddddd")
             res.redirect("/admin/addProduct")
         } else {
             msg = true
@@ -46,15 +49,16 @@ const productDetails = async (req, res) => {
 
 const editProductDetails = async (req, res) => {
     const editProduct = await ProductModel.findOne({ _id: req.query.id })
+    console.log(editProduct)
     res.render("admin/edit-product-details", { editProduct })
 }
 
 
 const productDetailsEdit = async (req, res) => {
-    const { name, price, size, category } = req.body
+    const { name, price, description , size, category } = req.body
     const update = await ProductModel.updateOne(
         { _id: req.body.id },
-        { $set: { name: name, price: price, size: size, category: category } }
+        { $set: { name: name, price: price, description: description, size: size, category: category } }
     );
     if (update) {
         res.redirect("/admin/editProductView")

@@ -1,6 +1,9 @@
 const multer = require('multer')
 const path = require('path')
 
+
+let validImageCount = 0;
+
 const storage = multer.diskStorage({
     destination:function(req,file,callback){
         callback(null, path.join(__dirname,'../Public/uploaded-images'));  
@@ -11,17 +14,19 @@ const storage = multer.diskStorage({
     }
   })
   
-  const fileFilter = (req,file,callback) =>{
-    console.log(file.mimetype)
-    if(file.mimetype === "image/png" || file.mimetype === "image/jpeg"){
-        callback(null,true)
-        console.log("paasseedddd>>>>>>>>>")
-    }else{
-        callback(null, false)
-        console.log("Not passed")
-    }
-  }
-  const upload = multer({storage:storage,fileFilter:fileFilter});
+  const validMimeTypes = ['image/png', 'image/jpeg', 'image/webp'];
 
-
-module.exports = {upload} 
+  const fileFilter = (req, file, callback) => {
+      if (validMimeTypes.includes(file.mimetype)) {
+          console.log('Accepted file:', file.originalname);
+          callback(null, true);
+      } else {
+          console.log('Rejected file:', file.originalname);
+          callback(null, false);
+      }
+  };
+  
+  const upload = multer({ storage: storage, fileFilter: fileFilter });
+  
+  module.exports = { upload };
+  
