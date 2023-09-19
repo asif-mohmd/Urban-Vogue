@@ -20,7 +20,8 @@ const addProduct = async (req, res) => {
         "description": description,
         "category": category,
         "size": size,
-        "imageUrl": images[0]
+        "imageUrl": images[0],
+        "status" : true
     }
     const product = await ProductModel.create(data)
     if (product) {
@@ -81,6 +82,27 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const listUnlistProduct = async (req, res) => {
+    console.log(req.params)
+    try {
+        const product = await ProductModel.findById({ _id: req.params.id })
+        if (product) {
+            const update = await ProductModel.updateOne({ _id: product.id }, { $set: { status: !product.status } })
+            if (update) {
+                res.redirect("/admin/editProductView")
+            }else{
+                msg = true
+                res.render("admin/edit-product",{msg})
+        }
+        }
+    }
+    catch (err) {
+        console.error("Error updating product list/unlist:", err);
+        res.status(500).json({ message: "update Product listing failed" });
+
+    }
+}
+
 
 module.exports = {
     addProduct,
@@ -90,6 +112,7 @@ module.exports = {
     productDetailsEdit,
     editProductView,
     deleteProduct,
+    listUnlistProduct
     
 
 }
