@@ -20,7 +20,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: { 
     secure: false, // This will only work if you have https enabled!
-    maxAge: 60000 // 1 min
+    maxAge: 60000000 // 1000 min
   } 
 }))
 

@@ -1,4 +1,3 @@
-const CategoryModel = require("../models/Category")
 const ProductModel = require("../models/Product")
 const fileHandler = require("../utils/file")
 
@@ -21,7 +20,7 @@ const addProduct = async (req, res) => {
         "description": description,
         "category": category,
         "size": size,
-        "imageUrl": images[0],
+        "imageUrl": images,
         "status" : true
     }
     const product = await ProductModel.create(data)

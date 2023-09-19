@@ -1,4 +1,3 @@
-const ProductModel = require("../models/Product")
 const userModel = require("../models/User")
 const CategoryModel = require("../models/Category")
 
