@@ -520,10 +520,26 @@
                   </div>
                 </fieldset>
 
+<input type="file" name="image" id="image1" style="display: none;" onchange="displayFileName('image1', this)">
+<label for="image1" style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">
+    Image 1
+    <span id="image1Label"></span>
+</label>
 
-                <input type="file" name="image" id="" placeholder="Choose an image">
-                 <input type="file" name="image" id="" placeholder="Choose an image">
-                  <input type="file" name="image" id="" placeholder="Choose an image">
+<input type="file" name="image" id="image2" style="display: none;" onchange="displayFileName('image2', this)">
+<label for="image2" style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">
+    Image 2
+    <span id="image2Label"></span>
+</label>
+
+<input type="file" name="image" id="image3" style="display: none;" onchange="displayFileName('image3', this)">
+<label for="image3" style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">
+    Image 3
+    <span id="image3Label"></span>
+</label>
+
+
+
                   
 
 
@@ -581,6 +597,17 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
+
+<script>
+    function displayFileName(labelId, input) {
+        const span = document.getElementById(labelId + 'Label');
+        if (input.files.length > 0) {
+            span.innerText = ' - ' + input.files[0].name;
+        } else {
+            span.innerText = '';
+        }
+    }
+</script>
 
 </body>
 

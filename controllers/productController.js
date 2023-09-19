@@ -12,35 +12,36 @@ const addProduct = async (req, res) => {
     const images = req.files
         .filter(file => file.mimetype === 'image/png' || file.mimetype === 'image/jpeg')
         .map(file => file.filename);
-    
+
     console.log('Filtered images:', images);
-if(images===null)    {
-    data = {
-        "name": name,
-        "price": price,
-        "description": description,
-        "category": category,
-        "size": size,
-        "imageUrl": images,
-        "status" : true
-    }
-    const product = await ProductModel.create(data)
-    if (product) {
-        res.redirect("/admin/addProduct")
+    if (images === null) {
+        data = {
+            "name": name,
+            "price": price,
+            "description": description,
+            "category": category,
+            "size": size,
+            "imageUrl": images,
+            "status": true
+        }
+        const product = await ProductModel.create(data)
+        if (product) {
+            res.redirect("/admin/addProduct")
+        } else {
+            msg = true
+            res.render("admin/addProduct", { msg })
+        }
     } else {
-        msg = true
-        res.render("admin/addProduct",{msg})
+        msgFilterErr = true
+        res.render("admin/add-product",{msgFilterErr})
     }
-}else{
-    console.log("Image format misteken . so no data on db")
-}
 }
 
 
 const productDetails = async (req, res) => {
     const singleProduct = await ProductModel.findOne({ _id: req.query.id })
     res.render("user/product-details", { singleProduct })
-  }
+}
 
 
 const editProductDetails = async (req, res) => {
@@ -102,10 +103,10 @@ const listUnlistProduct = async (req, res) => {
             const update = await ProductModel.updateOne({ _id: product.id }, { $set: { status: !product.status } })
             if (update) {
                 res.redirect("/admin/editProductView")
-            }else{
+            } else {
                 msg = true
-                res.render("admin/edit-product",{msg})
-        }
+                res.render("admin/edit-product", { msg })
+            }
         }
     }
     catch (err) {
@@ -125,6 +126,6 @@ module.exports = {
     editProductView,
     deleteProduct,
     listUnlistProduct
-    
+
 
 }

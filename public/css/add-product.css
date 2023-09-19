@@ -1,0 +1,20 @@
+/* Style for the file input */
+.inputfile {
+    display: none;
+}
+
+/* Style for the label (button) */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3498db;
+    cursor: pointer;
+}
+
+/* Change button color on hover */
+.btn:hover {
+    background-color: #2980b9;
+}
