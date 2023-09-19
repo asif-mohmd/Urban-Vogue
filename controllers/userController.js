@@ -44,9 +44,7 @@ const otpVerification = async (req, res) => {
 const registerUser = async (req, res) => {
   const { name, email, mobile, gender, password, confirmPassword } = req.body;
   await sendMail(email)
-  console.log(req.body.confirmPassword);
   if (password !== confirmPassword) {
-    console.log("Password must match");
   } else {
     userModel.findOne({ email: email }).then(async (user) => {
       if (user) {
@@ -60,15 +58,12 @@ const registerUser = async (req, res) => {
           "password": password,
           "status": true
         }
-        console.log(data, "dataatatataaa")
         data.password = await bcrypt.hash(data.password, saltRounds)
         session.userData = data
         if (session.userData) {
-          console.log("Successfuly registered")
           res.render("user/otp")
         } else {
           msg = true
-          console.log("Registration failed")
           res.render("user/register", { msg })
         }
       }
@@ -88,7 +83,6 @@ const loginUser = async (req, res) => {
   if (user) {
     const data = await bcrypt.compare(password, user.password)
     if (data) {
-       console.log(user,"datattatatat")
        if(user.status==true){
         req.session.user = user
         res.redirect("/")

@@ -96,7 +96,6 @@ const deleteProduct = async (req, res) => {
 
 
 const listUnlistProduct = async (req, res) => {
-    console.log(req.params)
     try {
         const product = await ProductModel.findById({ _id: req.params.id })
         if (product) {

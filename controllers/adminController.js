@@ -95,7 +95,6 @@ const listUnlistCategory = async (req,res) =>{
     const updated = await CategoryModel.updateOne({_id:req.params.id},{ $set :{status:!categoryData.status}})
     if(updated){
         res.redirect("/admin/showCategory")
-        console.log("updated")
     }else{
         msgUnlist = true
         res.render("admin/show-category", { msgUnlist })
