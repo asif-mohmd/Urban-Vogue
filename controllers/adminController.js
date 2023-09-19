@@ -127,8 +127,11 @@ const listUnlistCategory = async (req,res) =>{
     }
 }
 
-const listedCategory = (req,res) => {
-    res.render("admin/listed-category")
+const listedCategory =async (req,res) => {
+    const listedCategory = await CategoryModel.find({status:true})
+    console.log(listedCategory,">>>>>>>>>>>>>>>>>>")
+
+    res.render("admin/listed-category",{listedCategory})
 }
 
 
