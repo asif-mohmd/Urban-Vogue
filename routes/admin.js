@@ -8,7 +8,7 @@ const {adminLoginCheck}  = require("../controllers/middlewares")
 const {adminLoginVerify}  = require("../controllers/middlewares")
 const {upload} = require('../utils/imageHandler')
 
-const imageUpload = upload.array('photos', 3)
+const imageUpload = upload.array('photos', 4)
 
 
 //Get method listing 
@@ -32,7 +32,7 @@ router.get("/list-unlist-product/:id",productControllers.listUnlistProduct)
 
 // Post method listing
 router.post("/adminLogin", adminControllers.adminLogin)
-router.post("/addProduct", upload.array('image',1), productControllers.addProduct)
+router.post("/addProduct", upload.array('image',4), productControllers.addProduct)
 router.post("/edited-ProductDetails",upload.array('image',1),productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
 

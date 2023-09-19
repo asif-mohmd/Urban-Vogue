@@ -126,9 +126,7 @@ const unListedCategory =async (req,res) => {
 module.exports = {
     adminDashboard,
     adminLogin,
- 
     adminLoginView,
-   
     userList,
     userBlockUnblock,
     addCategory,
@@ -138,5 +136,4 @@ module.exports = {
     listUnlistCategory,
     listedCategory,
     unListedCategory
-
 }

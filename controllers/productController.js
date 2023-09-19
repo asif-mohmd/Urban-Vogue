@@ -10,7 +10,8 @@ const addProductView = async (req, res) => {
 
 const addProduct = async (req, res) => {
     const { name, price, description, category, size } = req.body
-    const image = req.file
+    const image = req.files
+    console.log(req.files)
     let images = req.files.map((file) => {
         return file.filename
     })
@@ -76,9 +77,11 @@ const deleteProduct = async (req, res) => {
         await fileHandler.deleteFile(product.imageUrl);
         await ProductModel.deleteOne({ _id: productId });
         res.status(200).json({ message: "Product deleted successfully" });
+        res.redirect("/admin/editProductView")
     } catch (err) {
         console.error("Error deleting product:", err);
         res.status(500).json({ message: "Deleting Product failed" });
+
     }
 };
 
