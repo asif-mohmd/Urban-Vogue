@@ -30,7 +30,6 @@ const adminDashboard = (req, res) => {
 
 const userList = async (req, res) => {
     const users = await userModel.find()
-    console.log('+++', users, '<<<users')
     res.render("admin/user-list", { users })
 
 }
@@ -55,7 +54,6 @@ const showCategory = async (req, res) => {
 
 const addNewCategory = async (req, res) => {
     const { categoryName } = req.body
-    console.log(categoryName)
     const data = {
         "categoryName": categoryName,
         "status": true
@@ -65,13 +63,11 @@ const addNewCategory = async (req, res) => {
        const exists = await CategoryModel.findOne({categoryName:categoryName})
        
        if (exists) {
-           console.log("Categorya already exist")
            msgExists = true
            res.render("admin/add-category", { msgExists })
        } else {
         const success = await CategoryModel.create(data)
         if (success) {
-            console.log("Category created")
             res.redirect("/admin/addCategory")
         } else {
             msg = true
@@ -85,7 +81,6 @@ const addNewCategory = async (req, res) => {
 
 
 const categoryDelete = async (req, res) => {
-    console.log(req.query.id)
     const deleted = await CategoryModel.deleteOne({ _id: req.query.id })
     if (deleted) {
         res.redirect("/admin/showCategory")
@@ -96,9 +91,7 @@ const categoryDelete = async (req, res) => {
 }
 
 const listUnlistCategory = async (req,res) =>{
-    console.log(req.params.id,"unlist>>>>>>>>>>>>>>>>")
     const categoryData = await CategoryModel.findById({_id:req.params.id})
-    console.log(categoryData,"unlist22222222>>>>>>>>>>>>>>>>")
     const updated = await CategoryModel.updateOne({_id:req.params.id},{ $set :{status:!categoryData.status}})
     if(updated){
         res.redirect("/admin/showCategory")

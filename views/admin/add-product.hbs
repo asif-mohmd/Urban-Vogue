@@ -431,6 +431,9 @@
                 {{#if msg}}
                     <p class="text-center text-danger small">Product adding failed.Try again</p>
                     {{/if}}
+                    {{#if msgFilterErr}}
+                    <p class="text-center text-danger small">Please add JPEG or PNG format images</p>
+                    {{/if}}
               <!-- General Form Elements -->
               <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
                 <div class="row mb-3">

@@ -8,12 +8,13 @@ const addProductView = async (req, res) => {
 
 
 const addProduct = async (req, res) => {
-    const { name, price, description, category, size } = req.body
-    const image = req.files
-    console.log(req.files)
-    let images = req.files.map((file) => {
-        return file.filename
-    })
+    const { name, price, description, category, size } = req.body;
+    const images = req.files
+        .filter(file => file.mimetype === 'image/png' || file.mimetype === 'image/jpeg')
+        .map(file => file.filename);
+    
+    console.log('Filtered images:', images);
+if(images===null)    {
     data = {
         "name": name,
         "price": price,
@@ -30,6 +31,9 @@ const addProduct = async (req, res) => {
         msg = true
         res.render("admin/addProduct",{msg})
     }
+}else{
+    console.log("Image format misteken . so no data on db")
+}
 }
 
 
