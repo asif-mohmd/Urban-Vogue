@@ -12,7 +12,6 @@ const sendMail = require("../utils/nodeMailer")
 const indexView = async (req, res) => {
   
   const products = await ProductModel.find({status:true})
- console.log(products,">>>>>>>>>>>>>>>>")
   res.render("user/index", { products });
 }
 

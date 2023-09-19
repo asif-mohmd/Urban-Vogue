@@ -73,16 +73,23 @@ const deleteProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
-        await fileHandler.deleteFile(product.imageUrl);
+
+        // Delete each image associated with the product
+        for (const imageUrl of product.imageUrl) {
+            await fileHandler.deleteFile(imageUrl);
+        }
+
+        // Delete the product
         await ProductModel.deleteOne({ _id: productId });
-        res.status(200).json({ message: "Product deleted successfully" });
-        res.redirect("/admin/editProductView")
+
+        // Redirect to the desired route
+        res.redirect("/admin/editProductView");
     } catch (err) {
         console.error("Error deleting product:", err);
         res.status(500).json({ message: "Deleting Product failed" });
-
     }
 };
+
 
 const listUnlistProduct = async (req, res) => {
     console.log(req.params)
