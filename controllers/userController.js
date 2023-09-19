@@ -6,22 +6,7 @@ const ProductModel = require("../models/Product");
 const sendMail = require("../utils/nodeMailer")
 
 
-const verifyLogin = (req, res, next) => {
-  // if (req.session.user) {
-    next()
-  // } else {
-  //   return res.redirect("/login")
-  // }
-}
 
-
-const loginChecker = (req, res, next) => {
-  // if (req.session.user) {
-  //   return res.redirect("/")
-  // } else {
-    next()
-  // }
-}
 
 
 const indexView = async (req, res) => {
@@ -129,8 +114,6 @@ module.exports = {
   registerUser,
   loginUser,
   indexView,
-  verifyLogin,
-  loginChecker,
   otpVerification,
 
 

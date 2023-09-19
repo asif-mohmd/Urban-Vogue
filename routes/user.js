@@ -2,7 +2,7 @@ const express = require('express');
 const userControllers = require('../controllers/userController');
 const productControllers = require('../controllers/productController');
 
-const {verifyLogin,loginChecker} = require('../controllers/userController');
+const {verifyLogin,loginChecker} = require('../controllers/middlewares');
 const router = express.Router();
 const { protectRoute } = require("../auth/protect");
 const { indexView } = require("../controllers/userController");

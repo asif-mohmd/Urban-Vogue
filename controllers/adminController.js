@@ -7,23 +7,6 @@ let adminEmail = "admin@gmail.com"
 let adminPassword = "123"
 
 
-const adminLoginCheck = (req, res, next) => {
-    // if (req.session.admin) {
-        next()
-    // } else {
-    //     return res.redirect("/admin/login")
-    // }
-}
-
-
-const adminLoginVerify = (req, res, next) => {
-    // if (req.session.admin) {
-    //     return res.redirect("/admin")
-    // } else {
-        next()
-    // }
-}
-
 
 const adminLoginView = (req, res) => {
     res.render("admin/login")
@@ -143,9 +126,9 @@ const unListedCategory =async (req,res) => {
 module.exports = {
     adminDashboard,
     adminLogin,
-    adminLoginCheck,
+ 
     adminLoginView,
-    adminLoginVerify,
+   
     userList,
     userBlockUnblock,
     addCategory,
