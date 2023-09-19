@@ -31,7 +31,7 @@
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <!-- Font Awesome -->
@@ -335,15 +335,15 @@
               <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
             </a>
           </li>
- <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+            </a>
           </li>
 
 
@@ -451,53 +451,57 @@
                   </tr>
                 </thead>
                 <tbody>
-                 {{#each showCategory}}
-  <tr>
-    <th scope="row">{{@key}}</th>
-    <td>{{categoryName}}</td>
+                  {{#each showCategory}}
+                  <tr>
+                    <th scope="row">{{@key}}</th>
+                    <td>{{categoryName}}</td>
 
-    {{#if this.status}}
-    <td>
-      <button type="button" class="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#exampleModal{{@key}}">
-        Unlist
-      </button>
-    </td>
-    {{else}}
-    <td>
-      <a href="/admin/list-unlist-category/{{this._id}}">
-        <button class="btn btn-success">List</button>
-      </a>
-    </td>
-    {{/if}}
+                    {{#if this.status}}
+                    <td>
+                      <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal{{@key}}">
+                        Unlist
+                      </button>
+                    </td>
+                    {{else}}
+                    <td>
+                      <a href="/admin/list-unlist-category/{{this._id}}">
+                        <button class="btn btn-success">List</button>
+                      </a>
+                    </td>
+                    {{/if}}
 
-    <td>
-      <a href="/admin/category-delete?id={{this._id}}">
-        <button class="btn btn-danger">Delete</button>
-      </a>
-    </td>
 
-    <!-- Modal for unlisting -->
-    <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <!-- Modal content -->
-      <!-- Adjust the modal content as needed -->
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">Are you sure you want to unlist this category?</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-            <a href="/admin/list-unlist-category/{{this._id}}">
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </tr>
-{{/each}}
+                    <td>
+                      <a href="/admin/category-delete?id={{this._id}}">
+                        <button class="btn btn-danger">Delete</button>
+                      </a>
+                    </td>
+
+                    <!-- Modal for unlisting -->
+                    <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <!-- Modal content -->
+                      <!-- Adjust the modal content as needed -->
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                              aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">Are you sure you want to unlist this category?</div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                            <a href="/admin/list-unlist-category/{{this._id}}">
+                              <button type="button" class="btn btn-primary">Save changes</button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </tr>
+                  {{/each}}
 
 
                 </tbody>
@@ -545,10 +549,7 @@
 
 
   <!-- MDB -->
-<script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"
-></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
   <script>
     function userBlockUnblockHandler() {

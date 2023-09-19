@@ -452,11 +452,54 @@
                     <td>{{size}}</td>
                     <td>{{category}}</td>
                     <td>
+
+                      {{#if this.status}}
+             
+                      <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal{{@key}}">
+                        Unlist
+                      </button>
+               
+                    {{else}}
+                  
+                      <a href="/admin/list-unlist-category/{{this._id}}">
+                        <button class="btn btn-success">List</button>
+                      </a>
+                   
+                    {{/if}}
+
+
+
                       <a href="/admin/editProductDetails?id={{this._id}}"><button
                           class="btn btn-primary">Edit</button></a> &nbsp;
                       <a href="/admin/delete-product?id={{this._id}}"><button class="btn btn-danger">Delete</button></a>
                     </td>
 
+                  </tr>
+
+
+                  <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                      aria-hidden="true">
+                      <!-- Modal content -->
+                      <!-- Adjust the modal content as needed -->
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                              aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">Are you sure you want to unlist this category?</div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                            <a href="/admin/list-unlist-category/{{this._id}}">
+                              <button type="button" class="btn btn-primary">Save changes</button>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
                   </tr>
                   {{/each}}
                 </tbody>

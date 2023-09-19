@@ -24,7 +24,12 @@ const ProductSchema = new mongoose.Schema({
     description: {
         type: String,
         required : true
-    }
+    },
+    status: 
+    { 
+        type: Boolean, 
+        default: true
+     }
 
 })
 const ProductModel = mongoose.model("Product", ProductSchema);

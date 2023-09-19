@@ -10,7 +10,8 @@ const sendMail = require("../utils/nodeMailer")
 
 
 const indexView = async (req, res) => {
-  const products = await ProductModel.find()
+  
+  const products = await ProductModel.find({status:true})
   res.render("user/index", { products });
 }
 
