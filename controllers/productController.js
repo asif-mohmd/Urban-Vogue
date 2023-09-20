@@ -7,56 +7,52 @@ const fs = require("fs")
 const { upload } = require('../utils/imageHandler')
 
 
-
-
 const addProductView = async (req, res) => {
     res.render("admin/add-product")
 }
 
-
 const addProduct = async (req, res) => {
     try {
-      const { name, price, description, category, size } = req.body;
-      const images = req.files
+        const { name, price, description, category, size } = req.body;
+        const images = req.files
             .filter((file) =>
-            file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg" )
+                file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg")
             .map((file) => file.filename);
-  
-      if (images.length === 3) {
-        const data = {
-          name,
-          price,
-          description,
-          category,
-          size,
-          imageUrl: images,
-          status: true,
-        };
-  
-        const product = await ProductModel.create(data);
-  
-        if (product) {
-          res.redirect("/admin/addProduct");
+
+        if (images.length === 3) {
+            const data = {
+                name,
+                price,
+                description,
+                category,
+                size,
+                imageUrl: images,
+                status: true,
+            };
+
+            const product = await ProductModel.create(data);
+
+            if (product) {
+                res.redirect("/admin/addProduct");
+            } else {
+                throw new Error("Failed to create product");
+            }
         } else {
-          throw new Error("Failed to create product");
+            throw new Error("Incorrect number of images");
         }
-      } else {
-        throw new Error("Incorrect number of images");
-      }
     } catch (error) {
-      console.error("An error occurred:", error.message);
-  
-      let msg;
-      if (error.message === "Failed to create product") {
-        msg = true;
-      } else {
-        msgFilterErr = true;
-      }
-  
-      res.render("admin/add-product", { msg, msgFilterErr });
+        console.error("An error occurred:", error.message);
+
+        let msg;
+        if (error.message === "Failed to create product") {
+            msg = true;
+        } else {
+            msgFilterErr = true;
+        }
+
+        res.render("admin/add-product", { msg, msgFilterErr });
     }
-  };
-  
+};
 
 
 const productDetails = async (req, res) => {
@@ -74,9 +70,8 @@ const editProductDetails = async (req, res) => {
 
 
 const productDetailsEdit = async (req, res) => {
-    console.log("<<<<<<<<<<", req.body.id, "id Only >>>>>>>>>>>>>>>>>>>>>>")
     const { id, name, price, description, size, category } = req.body;
-    console.log("check2222", id)
+
     try {
         // Fetch the existing product to get its image URLs
         const existingProduct = await ProductModel.findById(id);
@@ -115,7 +110,6 @@ const productDetailsEdit = async (req, res) => {
         res.status(500).send('Error updating product details.');
     }
 }
-
 
 
 const editProductView = async (req, res) => {
@@ -179,6 +173,5 @@ module.exports = {
     editProductView,
     deleteProduct,
     listUnlistProduct
-
 
 }

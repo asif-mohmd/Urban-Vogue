@@ -131,7 +131,6 @@ const loginUser = async (req, res) => {
 };
 
 
-
 module.exports = {
   registerView,
   loginView,
