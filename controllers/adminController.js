@@ -6,7 +6,6 @@ let adminEmail = "admin@gmail.com"
 let adminPassword = "123"
 
 
-
 const adminLoginView = (req, res) => {
     res.render("admin/login")
 }
@@ -40,8 +39,8 @@ const userBlockUnblock = async (req, res) => {
     await userModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
     const users = await userModel.find({})
     res.render("admin/user-list", { users })
-  }
-  const addCategory = (req, res) => {
+}
+const addCategory = (req, res) => {
     res.render("admin/add-category")
 }
 
@@ -53,31 +52,40 @@ const showCategory = async (req, res) => {
 
 
 const addNewCategory = async (req, res) => {
-    const { categoryName } = req.body
-    const data = {
-        "categoryName": categoryName,
-        "status": true
-    }
+    try {
+        const { categoryName } = req.body;
+        const data = {
+            categoryName,
+            status: true
+        };
 
-    if(data){
-       const exists = await CategoryModel.findOne({categoryName:categoryName})
-       
-       if (exists) {
-           msgExists = true
-           res.render("admin/add-category", { msgExists })
-       } else {
-        const success = await CategoryModel.create(data)
-        if (success) {
-            res.redirect("/admin/addCategory")
-        } else {
-            msg = true
-            res.render("admin/add-category", { msg })
+        if (data) {
+            const exists = await CategoryModel.findOne({ categoryName });
+
+            if (exists) {
+                throw new Error('Category already exists');
+            } else {
+                const success = await CategoryModel.create(data);
+
+                if (success) {
+                    res.redirect('/admin/addCategory');
+                } else {
+                    throw new Error('Failed to create category');
+                }
+            }
         }
-       }
-
-    }}
-
-
+    } catch (error) {
+        // Handle the error
+        console.error('An error occurred:', error.message);
+        let msg;
+        if (error.message === 'Category already exists') {
+            msgExists = true;
+        } else {
+            msg = true;
+        }
+        res.render('admin/add-category', { msg, msgExists });
+    }
+};
 
 
 const categoryDelete = async (req, res) => {
@@ -90,25 +98,25 @@ const categoryDelete = async (req, res) => {
     }
 }
 
-const listUnlistCategory = async (req,res) =>{
-    const categoryData = await CategoryModel.findById({_id:req.params.id})
-    const updated = await CategoryModel.updateOne({_id:req.params.id},{ $set :{status:!categoryData.status}})
-    if(updated){
+const listUnlistCategory = async (req, res) => {
+    const categoryData = await CategoryModel.findById({ _id: req.params.id })
+    const updated = await CategoryModel.updateOne({ _id: req.params.id }, { $set: { status: !categoryData.status } })
+    if (updated) {
         res.redirect("/admin/showCategory")
-    }else{
+    } else {
         msgUnlist = true
         res.render("admin/show-category", { msgUnlist })
     }
 }
 
-const listedCategory =async (req,res) => {
-    const listedCategory = await CategoryModel.find({status:true})
-    res.render("admin/listed-category",{listedCategory})
+const listedCategory = async (req, res) => {
+    const listedCategory = await CategoryModel.find({ status: true })
+    res.render("admin/listed-category", { listedCategory })
 }
 
-const unListedCategory =async (req,res) => {
-    const unListedCategory = await CategoryModel.find({status:!true})
-    res.render("admin/unlisted-category",{unListedCategory})
+const unListedCategory = async (req, res) => {
+    const unListedCategory = await CategoryModel.find({ status: !true })
+    res.render("admin/unlisted-category", { unListedCategory })
 }
 
 

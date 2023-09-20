@@ -1,10 +1,10 @@
 const ProductModel = require("../models/Product")
 const fileHandler = require("../utils/file")
 const path = require("path")
-const fs  = require("fs")
+const fs = require("fs")
 
 
-const {upload} = require('../utils/imageHandler')
+const { upload } = require('../utils/imageHandler')
 
 
 
@@ -15,37 +15,48 @@ const addProductView = async (req, res) => {
 
 
 const addProduct = async (req, res) => {
-    const { name, price, description, category, size } = req.body;
-    console.log(req.files,"cjheckkkkk")
-    const images = req.files
-        .filter(file => file.mimetype === 'image/png' || file.mimetype === 'image/webp' || file.mimetype === 'image/jpeg' )
-        .map(file => file.filename);
-
-    console.log('Filtered images:', images);
-    if (images.length === 3) {
-        console.log("keriiid=11")
-        data = {
-            "name": name,
-            "price": price,
-            "description": description,
-            "category": category,
-            "size": size,
-            "imageUrl": images,
-            "status": true
-        }
-        const product = await ProductModel.create(data)
+    try {
+      const { name, price, description, category, size } = req.body;
+      const images = req.files
+            .filter((file) =>
+            file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg" )
+            .map((file) => file.filename);
+  
+      if (images.length === 3) {
+        const data = {
+          name,
+          price,
+          description,
+          category,
+          size,
+          imageUrl: images,
+          status: true,
+        };
+  
+        const product = await ProductModel.create(data);
+  
         if (product) {
-            console.log("product addeddddd")
-            res.redirect("/admin/addProduct")
+          res.redirect("/admin/addProduct");
         } else {
-            msg = true
-            res.render("admin/addProduct", { msg })
+          throw new Error("Failed to create product");
         }
-    } else {
-        msgFilterErr = true
-        res.render("admin/add-product",{msgFilterErr})
+      } else {
+        throw new Error("Incorrect number of images");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error.message);
+  
+      let msg;
+      if (error.message === "Failed to create product") {
+        msg = true;
+      } else {
+        msgFilterErr = true;
+      }
+  
+      res.render("admin/add-product", { msg, msgFilterErr });
     }
-}
+  };
+  
 
 
 const productDetails = async (req, res) => {
@@ -57,15 +68,15 @@ const productDetails = async (req, res) => {
 const editProductDetails = async (req, res) => {
     const editProduct = await ProductModel.findOne({ _id: req.query.id })
     console.log(editProduct)
-    
+
     res.render("admin/edit-product-details", { editProduct })
 }
 
 
 const productDetailsEdit = async (req, res) => {
-    console.log("<<<<<<<<<<",req.body.id,"id Only >>>>>>>>>>>>>>>>>>>>>>")
+    console.log("<<<<<<<<<<", req.body.id, "id Only >>>>>>>>>>>>>>>>>>>>>>")
     const { id, name, price, description, size, category } = req.body;
-     console.log("check2222",id)
+    console.log("check2222", id)
     try {
         // Fetch the existing product to get its image URLs
         const existingProduct = await ProductModel.findById(id);
@@ -79,29 +90,26 @@ const productDetailsEdit = async (req, res) => {
             fs.unlinkSync(imagePath);
             console.log('Deleted image:', imageUrl);
         }
+        // req.files now contains the uploaded images
 
-        // Handle image upload using multer
+        const updateData = {
+            name: name,
+            price: price,
+            description: description,
+            size: size,
+            category: category,
+            imageUrl: req.files.map(file => file.filename)
+        };
 
-            // req.files now contains the uploaded images
+        const update = await ProductModel.updateOne({ _id: id }, { $set: updateData });
 
-            const updateData = {
-                name: name,
-                price: price,
-                description: description,
-                size: size,
-                category: category,
-                imageUrl: req.files.map(file => file.filename)
-            };
+        if (update) {
+            res.redirect("/admin/editProductView");
+        } else {
+            msg = true;
+            res.render("user/edit-product-details", { msg });
+        }
 
-            const update = await ProductModel.updateOne({ _id: id }, { $set: updateData });
-
-            if (update) {
-                res.redirect("/admin/editProductView");
-            } else {
-                msg = true;
-                res.render("user/edit-product-details", { msg });
-            }
-        
     } catch (error) {
         console.error('Error updating product details:', error);
         res.status(500).send('Error updating product details.');
