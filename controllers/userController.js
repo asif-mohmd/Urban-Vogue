@@ -109,10 +109,13 @@ const loginUser = async (req, res) => {
         req.session.user = user;
         res.redirect("/");
       } else {
+        msgBlock = true
+        res.render("user/login",{msgBlock})
         throw new Error("User is blocked");
       }
     } else {
-      throw new Error("Invalid password");
+      msgPass =true
+      throw new Error("Invalid password",{msgPass});
     }
   } catch (error) {
     // Handle the error
@@ -134,18 +137,53 @@ const loginUser = async (req, res) => {
 
 
 const userLogout = (req,res) =>{
-  console.log("sessionnnnn1111111")
   req.session.destroy((err) => {
     res.redirect('/') // will always fire after session is destroyed
-    console.log("sessi22222222")
   })
-  console.log("sessionnnnn33333333")
 }
 
 const userProfile =async (req,res) =>{
   const userId = req.session.user._id
   const userDetails = await userModel.findById({_id:userId})
   res.render("user/user-profile",{userDetails})
+}
+
+
+const changePassword = async(req,res) =>{
+  
+  const currentPassword = req.body.password
+  const newPassword = req.body.newpassword
+  const userId = req.session.user._id
+  console.log("step 000000000000000",req.session.user)
+console.log("step 1",userId)
+  try{
+    const user = await userModel.findById({_id:userId})
+    console.log("2",user)
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if(isPasswordValid){
+      console.log("3")
+        const updated = await userModel.updateOne({_id:userId},{$set:{password:newPassword}})
+         if(updated){
+          msgNewPass =true
+          res.render("user/user-profile",{msgNewPass})
+         }else{
+          console.log("ero1")
+          errNewPass =true
+          res.render("user/user-profile",{errNewPass})
+         }
+    }else{
+      errMatchPass =true
+      res.render("user/user-profile",{errMatchPass})
+    }
+
+  }catch(error){
+    errOccurred =true
+    res.render("user/user-profile",{errOccurred})
+    console.log("errrrrrrrrrrrrrr")
+  }
+
+
+
 }
 
 module.exports = {
@@ -157,7 +195,8 @@ module.exports = {
   indexView,
   otpVerification,
   userLogout,
-  userProfile
+  userProfile,
+  changePassword
 
 };
 

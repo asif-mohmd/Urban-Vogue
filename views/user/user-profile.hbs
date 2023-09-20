@@ -15,8 +15,13 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -56,7 +61,7 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
-     
+
 
         <li class="nav-item dropdown pe-3">
 
@@ -66,7 +71,7 @@
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-   
+
             <li>
               <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
                 <i class="bi bi-question-circle"></i>
@@ -97,7 +102,7 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-  
+
 
       <li class="nav-heading">Pages</li>
 
@@ -108,14 +113,14 @@
         </a>
       </li><!-- End Profile Page Nav -->
 
-        <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" href="index.html">
           <i class="bi bi-grid"></i>
           <span>Orders</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
-    
+
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -132,14 +137,14 @@
               <i class="bi bi-circle"></i><span>Form Layouts</span>
             </a>
           </li>
-   
-       
+
+
         </ul>
       </li><!-- End Forms Nav -->
 
 
 
- 
+
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -184,12 +189,25 @@
         <div class="col-xl-8">
 
           <div class="card">
+               {{#if msgNewPass}}
+              <p class="text-center text-success small">Password Changed</p>
+              {{/if}}
+              {{#if errNewPass}}
+              <p class="text-center text-success small">Password not changed .Try again</p>
+              {{/if}}
+               {{#if errMatchPass}}
+              <p class="text-center text-success small">Entered password not match with previous password</p>
+              {{/if}}
+                {{#if errOccurred}}
+              <p class="text-center text-success small">Something Went Wrong. Try again</p>
+              {{/if}}
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                  <button class="nav-link active" data-bs-toggle="tab"
+                    data-bs-target="#profile-overview">Overview</button>
                 </li>
 
                 <li class="nav-item">
@@ -201,14 +219,15 @@
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change
+                    Password</button>
                 </li>
 
               </ul>
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                 
+
 
                   <h5 class="card-title">Profile Details</h5>
 
@@ -244,8 +263,10 @@
                       <div class="col-md-8 col-lg-9">
                         <img src="assets/img/profile-img.jpg" alt="Profile">
                         <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
+                              class="bi bi-upload"></i></a>
+                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i
+                              class="bi bi-trash"></i></a>
                         </div>
                       </div>
                     </div>
@@ -260,14 +281,16 @@
                     <div class="row mb-3">
                       <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                       <div class="col-md-8 col-lg-9">
-                        <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                        <textarea name="about" class="form-control" id="about"
+                          style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
+                        <input name="company" type="text" class="form-control" id="company"
+                          value="Lueilwitz, Wisoky and Leuschke">
                       </div>
                     </div>
 
@@ -288,7 +311,8 @@
                     <div class="row mb-3">
                       <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
+                        <input name="address" type="text" class="form-control" id="Address"
+                          value="A108 Adam Street, New York, NY 535022">
                       </div>
                     </div>
 
@@ -309,28 +333,32 @@
                     <div class="row mb-3">
                       <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
+                        <input name="twitter" type="text" class="form-control" id="Twitter"
+                          value="https://twitter.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
+                        <input name="facebook" type="text" class="form-control" id="Facebook"
+                          value="https://facebook.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
+                        <input name="instagram" type="text" class="form-control" id="Instagram"
+                          value="https://instagram.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                        <input name="linkedin" type="text" class="form-control" id="Linkedin"
+                          value="https://linkedin.com/#">
                       </div>
                     </div>
 
@@ -345,6 +373,8 @@
 
                   <!-- Settings Form -->
                   <form>
+
+                    
 
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
@@ -385,7 +415,28 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
+                  <form action="/changePassword" method="post" onsubmit="return validatePassword()">
+
+                  {{!-- Modal Popup for incorrect password starts --}}
+                    <div class="modal fade" id="passwordMismatchModal" tabindex="-1"
+                      aria-labelledby="passwordMismatchModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="passwordMismatchModalLabel">Password Mismatch</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            New Password and Re-enter New Password do not match. Please try again.
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {{!-- Modal Popup for incorrect password ends --}}
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
@@ -424,6 +475,8 @@
       </div>
     </section>
 
+
+
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -440,7 +493,8 @@
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -454,6 +508,27 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <script>
+  function validatePassword() {
+    var newPassword = document.getElementById("newPassword").value;
+    var renewPassword = document.getElementById("renewPassword").value;
+
+    if (newPassword !== renewPassword) {
+      $('#passwordMismatchModal').modal('show');
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
+
+
 
 </body>
 
