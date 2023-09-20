@@ -1,5 +1,12 @@
 const ProductModel = require("../models/Product")
 const fileHandler = require("../utils/file")
+const path = require("path")
+const fs  = require("fs")
+
+
+const {upload} = require('../utils/imageHandler')
+
+
 
 
 const addProductView = async (req, res) => {
@@ -50,23 +57,57 @@ const productDetails = async (req, res) => {
 const editProductDetails = async (req, res) => {
     const editProduct = await ProductModel.findOne({ _id: req.query.id })
     console.log(editProduct)
+    
     res.render("admin/edit-product-details", { editProduct })
 }
 
 
 const productDetailsEdit = async (req, res) => {
-    const { name, price, description , size, category } = req.body
-    const update = await ProductModel.updateOne(
-        { _id: req.body.id },
-        { $set: { name: name, price: price, description: description, size: size, category: category } }
-    );
-    if (update) {
-        res.redirect("/admin/editProductView")
-    } else {
-        msg = true
-        res.render("user/edit-product-details", { msg })
+    console.log("<<<<<<<<<<",req.body.id,"id Only >>>>>>>>>>>>>>>>>>>>>>")
+    const { id, name, price, description, size, category } = req.body;
+     console.log("check2222",id)
+    try {
+        // Fetch the existing product to get its image URLs
+        const existingProduct = await ProductModel.findById(id);
+        if (!existingProduct) {
+            console.error('Product not found with id:', id);
+            return res.status(404).send('Product not found.');
+        }
+        // Delete the existing images
+        for (const imageUrl of existingProduct.imageUrl) {
+            const imagePath = path.join(__dirname, "..", "public", "uploaded-images", imageUrl);
+            fs.unlinkSync(imagePath);
+            console.log('Deleted image:', imageUrl);
+        }
+
+        // Handle image upload using multer
+
+            // req.files now contains the uploaded images
+
+            const updateData = {
+                name: name,
+                price: price,
+                description: description,
+                size: size,
+                category: category,
+                imageUrl: req.files.map(file => file.filename)
+            };
+
+            const update = await ProductModel.updateOne({ _id: id }, { $set: updateData });
+
+            if (update) {
+                res.redirect("/admin/editProductView");
+            } else {
+                msg = true;
+                res.render("user/edit-product-details", { msg });
+            }
+        
+    } catch (error) {
+        console.error('Error updating product details:', error);
+        res.status(500).send('Error updating product details.');
     }
 }
+
 
 
 const editProductView = async (req, res) => {
