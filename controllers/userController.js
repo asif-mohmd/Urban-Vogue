@@ -10,8 +10,8 @@ const sendMail = require("../utils/nodeMailer")
 
 
 const indexView = async (req, res) => {
-  
-  const products = await ProductModel.find({status:true})
+
+  const products = await ProductModel.find({ status: true })
   res.render("user/index", { products });
 }
 
@@ -43,47 +43,31 @@ const otpVerification = async (req, res) => {
 
 const registerUser = async (req, res) => {
   const { name, email, mobile, gender, password, confirmPassword } = req.body;
-
-  try {
-    // Simulate sending an email (replace with actual sendMail function)
-    
-
-    if (password !== confirmPassword) {
-      // Handle password mismatch error
-      
-      throw new Error("Password and confirm password do not match");
-    }
-    await sendMail(email);
-    const existingUser = await userModel.findOne({ email });
-
-    if (existingUser) {
-      // Handle existing email error
-      throw new Error("Email already exists");
-    }
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    const data = {
-      name,
-      email,
-      mobile,
-      gender,
-      password: hashedPassword,
-      status: true,
-    };
-    session.userData = data;
-
-    res.render("user/otp");
-  } catch (error) {
-    // Handle the error
-    console.error("An error occurred:", error.message);
-
-    let msg;
-    if (error.message === "Password and confirm password do not match" || 
-        error.message === "Email already exists") {
-      msg = true;
-    }
-
-    res.render("user/register", { msg });
+  await sendMail(email)
+  if (password !== confirmPassword) {
+  } else {
+    userModel.findOne({ email: email }).then(async (user) => {
+      if (user) {
+        console.log("email exists");
+      } else {
+        data = {
+          "name": name,
+          "email": email,
+          "mobile": mobile,
+          "gender": gender,
+          "password": password,
+          "status": true
+        }
+        data.password = await bcrypt.hash(data.password, saltRounds)
+        session.userData = data
+        if (session.userData) {
+          res.render("user/otp")
+        } else {
+          msg = true
+          res.render("user/register", { msg })
+        }
+      }
+    });
   }
 };
 
@@ -93,93 +77,78 @@ const loginView = (req, res) => {
 }
 
 
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  try {
-    const user = await userModel.findOne({ email });
-
-    if (!user) {
-      throw new Error("Invalid email");
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (isPasswordValid) {
-      if (user.status) {
-        req.session.user = user;
-        res.redirect("/");
+  const user = await userModel.findOne({ email: email })
+  if (user) {
+    const data = await bcrypt.compare(password, user.password)
+    if (data) {
+      if (user.status == true) {
+        req.session.user = user
+        res.redirect("/")
       } else {
         msgBlock = true
-        res.render("user/login",{msgBlock})
-        throw new Error("User is blocked");
+        res.render("user/login", { msgBlock })
       }
+
     } else {
-      msgPass =true
-      throw new Error("Invalid password",{msgPass});
+      msgPass = true
+      res.render("user/login", { msgPass })
     }
-  } catch (error) {
-    // Handle the error
-    console.error("An error occurred:", error.message);
-
-    let msg;
-    if (
-      error.message === "Invalid email" ||
-      error.message === "Invalid password"
-    ) {
-      msg = true;
-    } else if (error.message === "User is blocked") {
-      msgBlock = true;
-    }
-
-    res.render("user/login", { msg, msgBlock });
+  } else {
+    msgEmail = true
+    res.render("user/login", { msgEmail })
   }
-};
+}
 
-
-const userLogout = (req,res) =>{
+const userLogout = (req, res) => {
   req.session.destroy((err) => {
     res.redirect('/') // will always fire after session is destroyed
   })
 }
 
-const userProfile =async (req,res) =>{
+const userProfile = async (req, res) => {
   const userId = req.session.user._id
-  const userDetails = await userModel.findById({_id:userId})
-  res.render("user/user-profile",{userDetails})
+  const userDetails = await userModel.findById({ _id: userId })
+  res.render("user/user-profile", { userDetails })
 }
 
 
-const changePassword = async(req,res) =>{
-  
+const changePassword = async (req, res) => {
+
   const currentPassword = req.body.password
-  const newPassword = req.body.newpassword
+  let newPassword = req.body.newpassword
   const userId = req.session.user._id
-  console.log("step 000000000000000",req.session.user)
-console.log("step 1",userId)
-  try{
-    const user = await userModel.findById({_id:userId})
-    console.log("2",user)
-    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
-    if(isPasswordValid){
-      console.log("3")
-        const updated = await userModel.updateOne({_id:userId},{$set:{password:newPassword}})
-         if(updated){
-          msgNewPass =true
-          res.render("user/user-profile",{msgNewPass})
-         }else{
-          console.log("ero1")
-          errNewPass =true
-          res.render("user/user-profile",{errNewPass})
-         }
-    }else{
-      errMatchPass =true
-      res.render("user/user-profile",{errMatchPass})
+
+
+  try {
+    const userDetails = await userModel.findById({ _id: userId })
+
+    const isPasswordValid = await bcrypt.compare(currentPassword, userDetails.password);
+    if (isPasswordValid) {
+
+      newPassword = await bcrypt.hash(newPassword, saltRounds)
+
+      const updated = await userModel.updateOne({ _id: userId }, { $set: { password: newPassword } })
+      if (updated) {
+        msgNewPass = true
+
+        res.render("user/user-profile", { msgNewPass, userDetails })
+      } else {
+
+        errNewPass = true
+        res.render("user/user-profile", { errNewPass, userDetails })
+      }
+    } else {
+      errMatchPass = true
+      res.render("user/user-profile", { errMatchPass, userDetails })
     }
 
-  }catch(error){
-    errOccurred =true
-    res.render("user/user-profile",{errOccurred})
-    console.log("errrrrrrrrrrrrrr")
+  } catch (error) {
+    errOccurred = true
+    res.render("user/user-profile", { errOccurred, userDetails })
+
   }
 
 

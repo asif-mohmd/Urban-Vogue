@@ -189,19 +189,20 @@
         <div class="col-xl-8">
 
           <div class="card">
+              
+            <div class="card-body pt-3">
                {{#if msgNewPass}}
               <p class="text-center text-success small">Password Changed</p>
               {{/if}}
               {{#if errNewPass}}
-              <p class="text-center text-success small">Password not changed .Try again</p>
+              <p class="text-center text-danger small">Password not changed .Try again</p>
               {{/if}}
                {{#if errMatchPass}}
-              <p class="text-center text-success small">Entered password not match with previous password</p>
+              <p class="text-center text-danger small">Entered password not match with previous password</p>
               {{/if}}
                 {{#if errOccurred}}
-              <p class="text-center text-success small">Something Went Wrong. Try again</p>
+              <p class="text-center text-danger small">Something Went Wrong. Try again</p>
               {{/if}}
-            <div class="card-body pt-3">
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
 
