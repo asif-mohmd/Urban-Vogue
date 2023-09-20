@@ -46,12 +46,14 @@ const registerUser = async (req, res) => {
 
   try {
     // Simulate sending an email (replace with actual sendMail function)
-    await sendMail(email);
+    
 
     if (password !== confirmPassword) {
       // Handle password mismatch error
+      
       throw new Error("Password and confirm password do not match");
     }
+    await sendMail(email);
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
@@ -131,6 +133,21 @@ const loginUser = async (req, res) => {
 };
 
 
+const userLogout = (req,res) =>{
+  console.log("sessionnnnn1111111")
+  req.session.destroy((err) => {
+    res.redirect('/') // will always fire after session is destroyed
+    console.log("sessi22222222")
+  })
+  console.log("sessionnnnn33333333")
+}
+
+const userProfile =async (req,res) =>{
+  const userId = req.session.user._id
+  const userDetails = await userModel.findById({_id:userId})
+  res.render("user/user-profile",{userDetails})
+}
+
 module.exports = {
   registerView,
   loginView,
@@ -139,6 +156,8 @@ module.exports = {
   loginUser,
   indexView,
   otpVerification,
+  userLogout,
+  userProfile
 
 };
 

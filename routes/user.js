@@ -16,6 +16,8 @@ router.get('/login', loginChecker,userControllers.loginView);
 router.get("/signup",loginChecker, userControllers.registerView)
 router.get('/otpView', userControllers.otpView)
 router.get("/product-details",productControllers.productDetails)
+router.get("/logout",userControllers.userLogout)
+router.get("/userProfile",userControllers.userProfile)
 
 
 // POST Methods
