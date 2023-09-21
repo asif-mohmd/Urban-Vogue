@@ -150,10 +150,41 @@ const changePassword = async (req, res) => {
     res.render("user/user-profile", { errOccurred, userDetails })
 
   }
-
-
-
 }
+
+
+const editProfile = async(req,res)=>{
+  const userId = req.session.user._id
+  const { name, country, mobile, email, address, shippingAddress } = req.body
+  const userDetails = await userModel.findById({ _id: userId })
+  try {
+    const user = await userModel.updateOne({_id:userId},
+      {$set:{
+        name:name,
+        email:email,
+        mobile:mobile,
+        country:country,
+        address:address,
+        shippingAddress:shippingAddress
+      }})
+      if(user){
+        msgProfile = true
+
+        res.render("user/user-profile",{msgProfile})
+      }else{
+        errOccurred =true
+        res.render("user/user-profile",{errOccurred})
+      }
+
+  }catch(err){
+    errOccurred =true
+    res.render("user/user-profile",{errOccurred})
+  }
+
+ 
+}
+
+
 
 module.exports = {
   registerView,
@@ -165,7 +196,8 @@ module.exports = {
   otpVerification,
   userLogout,
   userProfile,
-  changePassword
+  changePassword,
+  editProfile
 
 };
 

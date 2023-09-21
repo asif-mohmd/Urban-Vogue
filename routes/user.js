@@ -25,6 +25,7 @@ router.post('/otpVerification', userControllers.otpVerification)
 router.post('/registerUser', userControllers.registerUser)
 router.post('/loginUser', userControllers.loginUser)
 router.post("/changePassword",userControllers.changePassword)
+router.post("/editProfile",userControllers.editProfile)
 
 
 module.exports = router;

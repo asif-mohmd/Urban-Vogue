@@ -20,10 +20,23 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  country: {
+    type: String,
+    required: true,
+  },
+  address:{
+    type: String,
+    required: true
+  },
+  shippingAddress:{
+    type : String,
+    required: true
+  },
   status: {
     type : Boolean,
     required: true
-  }
+  },
+
 
 });
 const userModel = mongoose.model("User", UserSchema);
