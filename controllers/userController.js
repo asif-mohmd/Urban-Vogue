@@ -170,20 +170,22 @@ const editProfile = async(req,res)=>{
       if(user){
         msgProfile = true
 
-        res.render("user/user-profile",{msgProfile})
+        res.render("user/user-profile",{msgProfile,userDetails})
       }else{
         errOccurred =true
-        res.render("user/user-profile",{errOccurred})
+        res.render("user/user-profile",{errOccurred,userDetails})
       }
 
   }catch(err){
     errOccurred =true
     res.render("user/user-profile",{errOccurred})
   }
-
- 
 }
 
+
+const cartView = async(req,res)=>{
+  res.render("user/cart")
+}
 
 
 module.exports = {
@@ -197,7 +199,8 @@ module.exports = {
   userLogout,
   userProfile,
   changePassword,
-  editProfile
+  editProfile,
+  cartView
 
 };
 

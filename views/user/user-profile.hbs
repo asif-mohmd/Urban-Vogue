@@ -19,7 +19,7 @@
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet">
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   
   <!-- Vendor CSS Files -->
@@ -103,11 +103,17 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/">
+          <i class="fa fa-home" aria-hidden="true"></i>
+          <span>Home</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
 
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
+        <a class="nav-link " href="/userProfile">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
@@ -241,7 +247,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
-                    <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                    <div class="col-lg-9 col-md-8">{{userDetails.address}}</div>
                   </div>
 
                   <div class="row">
@@ -286,7 +292,7 @@
                     <div class="row mb-3">
                       <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text" class="form-control" id="Country" value="USA">
+                        <input name="country" type="text" class="form-control" id="Country" value="{{userDetails.country}}">
                       </div>
                     </div>
 
@@ -312,7 +318,7 @@
                       <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="address" type="text" class="form-control" id="Address"
-                          value="A108 Adam Street, New York, NY 535022">
+                          value="{{userDetails.address}}">
                       </div>
                     </div>
 
@@ -320,7 +326,7 @@
                       <label for="Address" class="col-md-4 col-lg-3 col-form-label">Shipping Address</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="shippingAddress" type="text" class="form-control" id="Address"
-                          value="A108 Adam Street, New York, NY 535022">
+                          value="{{userDetails.shippingAddress}}">
                       </div>
                     </div>
 
