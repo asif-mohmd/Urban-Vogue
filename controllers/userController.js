@@ -219,8 +219,6 @@ const addToCart = async (req, res) => {
         }
       ]);
       
-      
-      // const matched = await ProductModel.aggregate([{}])
 
       console.log(userCartProducts,"qqqqqwwwwwwweeeeeeeerrrrrrrr")
 
