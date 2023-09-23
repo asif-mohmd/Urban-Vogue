@@ -32,6 +32,18 @@ const UserSchema = new mongoose.Schema({
     type : String,
     required: true
   },
+  cart : [
+    {
+      productId : {
+            type : String,
+            required : true
+        },
+        count : {
+            type : Number,
+            required : 0
+        }
+    }
+],
   status: {
     type : Boolean,
     required: true

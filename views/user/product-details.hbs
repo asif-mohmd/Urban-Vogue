@@ -174,13 +174,14 @@
                         <div class="product__details__price">{{singleProduct.price}} <span></span></div>
                         <p>{{singleProduct.description}}</p>
                         <div class="product__details__button">
-                            <div class="quantity">
+                            {{!-- <div class="quantity">
                                 <span>Quantity:</span>
                                 <div class="pro-qty">
                                     <input type="text" value="1">
                                 </div>
-                            </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            </div> --}}
+
+                            <a href="/addToCart?id={{singleProduct._id}}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>

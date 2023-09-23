@@ -57,6 +57,7 @@ const addProduct = async (req, res) => {
 
 const productDetails = async (req, res) => {
     const singleProduct = await ProductModel.findOne({ _id: req.query.id })
+    
     res.render("user/product-details", { singleProduct })
 }
 

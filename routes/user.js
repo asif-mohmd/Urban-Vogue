@@ -18,7 +18,8 @@ router.get('/otpView', userControllers.otpView)
 router.get("/product-details",productControllers.productDetails)
 router.get("/logout",userControllers.userLogout)
 router.get("/userProfile",userControllers.userProfile)
-router.get("/cart",userControllers.cartView)
+// router.get("/cart",userControllers.cartView)
+router.get("/addToCart",userControllers.addToCart)
 
 
 // POST Methods
