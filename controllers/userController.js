@@ -5,6 +5,8 @@ var session = require('express-session');
 const ProductModel = require("../models/Product");
 const sendMail = require("../utils/nodeMailer");
 const userModel = require("../models/User");
+const cartModel = require("../models/Cart")
+const mongoose = require('mongoose');
 
 
 
@@ -186,49 +188,83 @@ const editProfile = async (req, res) => {
 }
 
 
-// const cartView = async(req,res)=>{
-//   const products= await UserModel.find({})
-//   res.render("user/cart")
-// }
+const cartView = async (req, res) => {
+  // const stringId = req.session.user._id // Replace with your string ID
+  const userId = req.session.user._id 
+  console.log("1111111111111>>>>>>>>>>>>>>>>>>>>>>>>")
+  const cartItems = await cartModel.aggregate([
+    {
+      $match: { userId: userId }
+    },
+    {
+      $unwind: '$cart'
+    },
+    {
+      $project:
+      {
+        product: { $toObjectId: "$cart.productId" },
+        count: "$cart.count"
+      }
+    },
+    {
+      $lookup:
+      {
+        from: "products",
+        localField: "product",
+        foreignField: "_id",
+        as: "product"
+      }
+    },
+    {
+      $unwind: '$product'
+    }
+ 
+  ])
+
+  console.log(cartItems, "{{{{{{{{{{{{sucessss}}}}}}}}}}}}}}")
+  console.log(typeof(cartItems[0].product),'this is the tyupe of prode=')
+  res.render("user/cart")
+}
 
 const addToCart = async (req, res) => {
   const productId = req.query.id;
   const userId = req.session.user._id;
-  console.log(productId, "prductId >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   try {
     const data = {
       productId: productId,
       count: 1
     };
+    const cart = await cartModel.findOne({ userId: userId });
 
-    const updated = await userModel.updateOne({ _id: userId }, { $push: { cart: data } });
-    console.log(updated);
+    if (cart) {
+      const productExists = cart.cart.some(item => item.productId === productId);
+      console.log(productExists, ">>>>>>11111111111111111<<<<<<<<<<<<<<")
+      if (productExists) {
 
-    if (updated) {
-      const user = await userModel.findById(userId).lean();
-      const userCartProducts = await userModel.aggregate([
-        { $unwind: "$cart" },
-        { $project: { product: "$cart.productId" } },
-        {
-          $lookup: {
-            from: "products",  // Use the actual name of the collection, which is "products"
-            localField: "product",
-            foreignField: "_id",
-            as: "productDetails"
-          }
-        }
-      ]);
-      
+        await cartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
 
-      console.log(userCartProducts,"qqqqqwwwwwwweeeeeeeerrrrrrrr")
+      } else {
 
-      res.render("user/cart", { cart: cartDetails });
+        await cartModel.updateOne({ _id: userId }, { $push: { cart: { productId, count: 1 } } });
+      }
+      res.status(200).json({ message: 'Product added to cart successfully' });
 
     } else {
-      res.redirect("/product-details");
+      cartData = {
+        userId: userId,
+        cart: [data]
+      }
+      const newCart = await cartModel.create(cartData)
+      if (newCart) {
+        console.log("new Cart success")
+      } else {
+        console.log("not successs")
+      }
+
     }
-  } catch (err) {
-    res.redirect("/product-details");
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -245,8 +281,8 @@ module.exports = {
   userProfile,
   changePassword,
   editProfile,
-  addToCart
-  // cartView
+  addToCart,
+  cartView
 
 };
 
