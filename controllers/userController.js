@@ -221,10 +221,10 @@ const cartView = async (req, res) => {
   ])
 
  
-
   console.log(cartItems, "{{{{{{{{{{{{success}}}}}}}}}}}}}}}}");
   res.render("user/cart", { cartItems }); // Pass the cartObject to the render function
 };
+
 const addToCart = async (req, res) => {
   const productId = req.query.id;
   const userId = req.session.user._id;
@@ -288,70 +288,3 @@ module.exports = {
 
 };
 
-
-// const addToCart = async (req, res) => {
-
-//   const productId = req.query.id
-//   const userId = req.session.user._id
-
-//   console.log(productId, "0000000000000000000")
-
-//   try {
-//     const data = {
-//       "productId": productId,
-//       "count": 1
-//     }
-
-//     const updated = await userModel.updateOne({ _id: userId }, { $push: { cart: data } })
-//     console.log(updated)
-//     if (updated) {
-//       const cartItems = await userModel.find({ _id: userId }).lean()
-
-//       const cartData = await userModel.aggregate([
-//         { $match: { _id: userId } }, { $unwind: "$cart" },
-//         { $lookup: { from: "ProductModel", localField: "cart._id", foreignField: "_id", as: 'cart.details' } },
-//         { $group: { _id: "$_id", cart: { $push: "$cart" } } }])
-//       console.log("updated", cartItems[0], '------', cartData)
-//       res.render("user/cart", { cartItems })
-//     } else {
-//       res.redirect("/product-details")
-//     }
-//   } catch (err) {
-//     res.redirect("/product-details")
-//   }
-// }
-
-
-
-
-
-
-// if (updated) {
-//   const user = await userModel.findById(userId).lean();
-//   const userCartProducts = user.cart;
-//   const userCartProductIds = userCartProducts.map(item => item.productId);
-//   console.log(userCartProductIds)
-//   const cartDetails = await ProductModel.aggregate([
-//     {
-//       $unwind: "$cart"  // Unwind the cart array to access its elements
-//     },
-//     {
-//       $match: {
-//         "cart.productId": { $in: userCartProductIds }  // Match against nested productId
-//       }
-//     },
-//     {
-//       $project: {
-//         name: 1,
-//         price: 1,
-//         cart: "$cart"  // Include the cart item for reference if needed
-//         // Add other fields you want to include in the cart
-//       }
-//     }
-//   ]);
-// console.log(cartDetails,">>>><<<<<<<<<<<>>>>>>>><<<<<<<<<<<<")
-//   res.render("user/cart", { cart: cartDetails });
-
-// } else {
-//   res.redirect("/product-details");
-// }

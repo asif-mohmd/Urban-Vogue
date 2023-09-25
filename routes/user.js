@@ -20,6 +20,7 @@ router.get("/logout",userControllers.userLogout)
 router.get("/userProfile",userControllers.userProfile)
 router.get("/cart",userControllers.cartView)
 router.get("/addToCart",userControllers.addToCart)
+router.get("/delete-cart-item",userControllers.deleteCartItem)
 
 
 // POST Methods
