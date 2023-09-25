@@ -6,7 +6,6 @@ const ProductModel = require("../models/Product");
 const sendMail = require("../utils/nodeMailer");
 const userModel = require("../models/User");
 const cartModel = require("../models/Cart")
-const mongoose = require('mongoose');
 
 
 
@@ -189,8 +188,7 @@ const editProfile = async (req, res) => {
 
 
 const cartView = async (req, res) => {
-  // const stringId = req.session.user._id // Replace with your string ID
-  const userId = req.session.user._id 
+  const userId = req.session.user._id;
   console.log("1111111111111>>>>>>>>>>>>>>>>>>>>>>>>")
   const cartItems = await cartModel.aggregate([
     {
@@ -218,14 +216,15 @@ const cartView = async (req, res) => {
     {
       $unwind: '$product'
     }
- 
+
+
   ])
 
-  console.log(cartItems, "{{{{{{{{{{{{sucessss}}}}}}}}}}}}}}")
-  console.log(typeof(cartItems[0].product),'this is the tyupe of prode=')
-  res.render("user/cart")
-}
+ 
 
+  console.log(cartItems, "{{{{{{{{{{{{success}}}}}}}}}}}}}}}}");
+  res.render("user/cart", { cartItems }); // Pass the cartObject to the render function
+};
 const addToCart = async (req, res) => {
   const productId = req.query.id;
   const userId = req.session.user._id;
@@ -234,15 +233,15 @@ const addToCart = async (req, res) => {
       productId: productId,
       count: 1
     };
-    const cart = await cartModel.findOne({ userId: userId });
+    const cart = await cartModel.findOne({userId:userId});
 
     if (cart) {
       const productExists = cart.cart.some(item => item.productId === productId);
-      console.log(productExists, ">>>>>>11111111111111111<<<<<<<<<<<<<<")
+      console.log(productExists,">>>>>>11111111111111111<<<<<<<<<<<<<<")
       if (productExists) {
 
         await cartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
-
+        
       } else {
 
         await cartModel.updateOne({ _id: userId }, { $push: { cart: { productId, count: 1 } } });
@@ -251,16 +250,16 @@ const addToCart = async (req, res) => {
 
     } else {
       cartData = {
-        userId: userId,
-        cart: [data]
+        userId : userId,
+        cart : [data]
       }
       const newCart = await cartModel.create(cartData)
-      if (newCart) {
+      if(newCart){
         console.log("new Cart success")
-      } else {
+      }else{
         console.log("not successs")
       }
-
+      
     }
   } catch (error) {
     console.error('Error adding to cart:', error);
