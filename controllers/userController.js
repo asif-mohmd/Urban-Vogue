@@ -220,8 +220,6 @@ const cartView = async (req, res) => {
 
   ])
 
- 
-  console.log(cartItems, "{{{{{{{{{{{{success}}}}}}}}}}}}}}}}");
   res.render("user/cart", { cartItems }); // Pass the cartObject to the render function
 };
 
@@ -270,6 +268,27 @@ const addToCart = async (req, res) => {
   }
 };
 
+const deleteCartItem = async (req,res) =>{
+  console.log("11111111111111111")
+  const productId = req.query.id
+  const userId = req.session.user._id;
+  console.log(userId,">>>>>>>>>>>>>>>>>>>>>",productId)
+
+  try{
+    const cart = await cartModel.updateOne({userId:userId},{$pull:{"cart":{productId:productId}}})
+console.log("22222222222222222222")
+    if(cart){
+      console.log("deleted")
+      res.redirect("/cart")
+    }
+
+  }catch(error){
+    console.log("Not deleted ")
+  }
+  
+
+}
+
 
 module.exports = {
   registerView,
@@ -284,7 +303,8 @@ module.exports = {
   changePassword,
   editProfile,
   addToCart,
-  cartView
+  cartView,
+  deleteCartItem
 
 };
 
