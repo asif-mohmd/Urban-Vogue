@@ -241,10 +241,12 @@ const addToCart = async (req, res) => {
       if (productExists) {
 
         await cartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
+        res.redirect("/cart")
         
       } else {
 
-        await cartModel.updateOne({ _id: userId }, { $push: { cart: { productId, count: 1 } } });
+        await cartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 } } });
+        res.redirect("/cart")
       }
       res.status(200).json({ message: 'Product added to cart successfully' });
 
@@ -256,6 +258,7 @@ const addToCart = async (req, res) => {
       const newCart = await cartModel.create(cartData)
       if(newCart){
         console.log("new Cart success")
+        res.redirect("/cart")
       }else{
         console.log("not successs")
       }
