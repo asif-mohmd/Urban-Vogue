@@ -1760,6 +1760,32 @@ ol {
 	display: inline-block;
 }
 
+.pro-qty-container {
+	display: flex;
+	align-items: center;
+	margin-top: 14%;
+  }
+  
+  .pro-qty-button {
+	line-height: 36px;
+	border: 1px solid #ebebeb;
+	padding: 0 10px;
+  }
+  
+  .pro-qty-count {
+	line-height: 36px;
+	margin: 0 10px;
+  }
+
+  .pro-qty-button:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.pro-qty-button:active {
+  background-color: #d4d4d4;
+}
+
 .pro-qty .qtybtn {
 	font-size: 14px;
 	color: #666666;
@@ -2136,25 +2162,6 @@ ol {
 	width: 190px;
 }
 
-.shop__cart__table tbody tr .cart__quantity {
-	width: 190px;
-}
-
-.shop__cart__table tbody tr .cart__quantity .pro-qty {
-	border: none;
-	padding: 0;
-	width: 110px;
-	border-radius: 0;
-}
-
-.shop__cart__table tbody tr .cart__quantity .pro-qty input {
-	color: #444444;
-}
-
-.shop__cart__table tbody tr .cart__quantity .pro-qty .qtybtn {
-	font-size: 16px;
-	color: #444444;
-}
 
 .shop__cart__table tbody tr .cart__total {
 	font-size: 16px;

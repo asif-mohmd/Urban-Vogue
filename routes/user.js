@@ -29,6 +29,7 @@ router.post('/registerUser', userControllers.registerUser)
 router.post('/loginUser', userControllers.loginUser)
 router.post("/changePassword",userControllers.changePassword)
 router.post("/editProfile",userControllers.editProfile)
+router.post("/change-product-quantity",userControllers.changeProductQuantity)
 
 
 module.exports = router;

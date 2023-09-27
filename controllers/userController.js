@@ -219,7 +219,7 @@ const cartView = async (req, res) => {
 
 
   ])
-
+console.log(cartItems)
   res.render("user/cart", { cartItems }); // Pass the cartObject to the render function
 };
 
@@ -276,7 +276,7 @@ const deleteCartItem = async (req,res) =>{
 
   try{
     const cart = await cartModel.updateOne({userId:userId},{$pull:{"cart":{productId:productId}}})
-console.log("22222222222222222222")
+  console.log("22222222222222222222")
     if(cart){
       console.log("deleted")
       res.redirect("/cart")
@@ -286,6 +286,17 @@ console.log("22222222222222222222")
     console.log("Not deleted ")
   }
   
+
+}
+
+const changeProductQuantity = async (req,res)=>{
+  console.log("[[[[[Qtyyyyy]]]]]]]]]]]")
+  console.log(req.body)
+  const { cart, product , count} = req.body
+  console.log(cart,"1111111",product,"2222222",count,"33333333")
+
+
+  await cartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
 
 }
 
@@ -304,7 +315,8 @@ module.exports = {
   editProfile,
   addToCart,
   cartView,
-  deleteCartItem
+  deleteCartItem,
+  changeProductQuantity
 
 };
 
