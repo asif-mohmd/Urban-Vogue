@@ -166,12 +166,15 @@
                                         <p class="pro-qty-count" id="{{this.product._id}}"  >{{count}}</p>
                                         <button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
                                     </td>
+   {{/each}}
+                                    <td class="cart__total" id="totalValue">{{total}}</td>
 
-                                    <td class="cart__total">1999</td>
+                                      {{#each cartItems}}
                                     <td class="cart__close"><a href="/delete-cart-item?id={{this.product._id}}"><span
                                                 class="icon_close"></a></span></td>
                                 </tr>
                                 {{/each}}
+                                
                             </tbody>
                         </table>
                     </div>
@@ -378,34 +381,35 @@
         crossorigin="anonymous"></script>
 
 
-   <script>
-    function changeQuantity(cartId,productId,count){
-        let count = parseInt(document.getElementById(productId).innerHTML)
-        quantity = parseInt(count)
+<script>
+    function changeQuantity(cartId, productId, count) {
+        let quantity = parseInt(document.getElementById(productId).innerHTML);
+        let parsedCount = parseInt(count);
+
         $.ajax({
-            url:"/change-product-quantity",
-            data:{
-                cart:cartId,
-                product:productId,
-                count:count
-                quantity:quantity
+            url: "/change-product-quantity",
+            data: {
+                cart: cartId,
+                product: productId,
+                count: parsedCount,
+                quantity: quantity
             },
-            method:'post',
-            success:(response)=>{
-                if(response.removeProduct){
-                    alert("Product removed successfully")
-                     location.reload()
-                }
-                else{
-          document.getElementById(proId).innerHTML=quantity+count
-          document.getElementById('prodtotal').innerHTML=response.total
+            method: 'post',
+            success: (response) => {
+                console.log('Server response:', response);
+                if (response.removeProduct) {
+                    alert("Product removed successfully");
+                    location.reload();
+                } else {
+                    document.getElementById(productId).innerHTML = quantity + parsedCount;
+                    document.getElementById('totalValue').innerText = response.total[0].total;
 
                 }
             }
-            })
-    
+        });
     }
-   </script>
+
+</script>
 
 </body>
 

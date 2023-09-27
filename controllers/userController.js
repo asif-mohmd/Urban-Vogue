@@ -219,8 +219,11 @@ const cartView = async (req, res) => {
 
 
   ])
-  console.log(cartItems)
-  res.render("user/cart", { cartItems }); // Pass the cartObject to the render function
+  let total = await getTotalAmout(userId)
+
+      total = total[0].total 
+    //  console.log(cartItems)
+  res.render("user/cart", { cartItems, total }); // Pass the cartObject to the render function
 };
 
 const addToCart = async (req, res) => {
@@ -290,29 +293,99 @@ const deleteCartItem = async (req, res) => {
 }
 
 const changeProductQuantity = async (req, res) => {
+  try {
+    console.log(req.body);
+    let { cart, product, count, quantity } = req.body;
+    count = parseInt(count);
+    quantity = parseInt(quantity);
+    console.log(cart, "1111111", product, "2222222", count, "33333333");
 
-  console.log(req.body)
-  const { cart, product, count, quantity } = req.body
-  count = parseInt(count)
-  quantity = parseInt(quantity)
-  console.log(cart, "1111111", product, "2222222", count, "33333333")
-  if (count == -1 && quantity == 1) {
+    let response;
 
-    const removeProduct = await cartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
-    if (removeProduct) {
-      return { removeProduct: true };
-    }else{
-      return { removeProduct: false };
+    if (count === -1 && quantity === 1) {
+      const removeProduct = await cartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
+      if (removeProduct) {
+        console.log("stage 1");
+        response = { removeProduct: true };
+      } else {
+        response = { removeProduct: false };
+      }
+    } else {
+      const updated = await cartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
+      if (updated) {
+        console.log("stage 2");
+        const userId = req.session.user._id
+
+        let total = await getTotalAmout(userId)
+        console.log(total,"sueeeeee")
+        response = { status: true ,total };
+      } else {
+        response = { status: false };
+      }
     }
-  }else{
-   const updated = await cartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
-     if(updated){
-      return {countUpdate :true}
-     }else{
-      return { countUpdate: false };
-    }
+
+    res.json(response);  // Send the response back to the client
+  } catch (error) {
+    console.error('Error in changeProductQuantity:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
+    
+};
+
+const getTotalAmout = async (req,res)=>{
+
+   console.log(req,"lllllllllllllllllllll")
+   userId = req
+   console.log(userId,"idddddddd1111")
+   const total = await cartModel.aggregate([
+    {
+      $match:{userId:userId}
+    },
+    {
+      $unwind:'$cart'
+    },{
+      $project:{
+        product: { $toObjectId: "$cart.productId" },
+        count:'$cart.count',
+        
+      }
+    },
+    {
+      $lookup:{
+        from:'products',
+        localField:"product",
+        foreignField:"_id",
+        as:"product"
+      }
+    },
+    {
+      $unwind:'$product'
+    },
+    {
+      $project:{
+        price: '$product.price',
+          name: '$product.name',
+          quantity:'$count'
+      }
+    },
+      {
+                    
+        $group:{
+            _id:null,
+            
+            total:{$sum:{$multiply: ['$quantity', {$toInt: '$price'}]}}
+        }
+      },
+        {
+          $unwind:'$total'
+        }
+  
+
+   ])
+ return total
+console.log(total,'totallllllllllll')
 }
+
 
   module.exports = {
     registerView,
