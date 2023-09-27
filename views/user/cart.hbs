@@ -166,7 +166,8 @@
                                         <p class="pro-qty-count" id="{{this.product._id}}"  >{{count}}</p>
                                         <button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
                                     </td>
-   {{/each}}
+                                  {{/each}}
+                                  
                                     <td class="cart__total" id="totalValue">{{total}}</td>
 
                                       {{#each cartItems}}

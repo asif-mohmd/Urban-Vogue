@@ -219,9 +219,10 @@ const cartView = async (req, res) => {
 
 
   ])
+  
   let total = await getTotalAmout(userId)
 
-      total = total[0].total 
+  total = total[0] ? total[0].total : 0;
     //  console.log(cartItems)
   res.render("user/cart", { cartItems, total }); // Pass the cartObject to the render function
 };
@@ -337,6 +338,8 @@ const getTotalAmout = async (req,res)=>{
    console.log(req,"lllllllllllllllllllll")
    userId = req
    console.log(userId,"idddddddd1111")
+
+   
    const total = await cartModel.aggregate([
     {
       $match:{userId:userId}
@@ -382,8 +385,9 @@ const getTotalAmout = async (req,res)=>{
   
 
    ])
+
+   
  return total
-console.log(total,'totallllllllllll')
 }
 
 
