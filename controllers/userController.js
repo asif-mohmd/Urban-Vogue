@@ -219,7 +219,7 @@ const cartView = async (req, res) => {
 
 
   ])
-console.log(cartItems)
+  console.log(cartItems)
   res.render("user/cart", { cartItems }); // Pass the cartObject to the render function
 };
 
@@ -231,16 +231,16 @@ const addToCart = async (req, res) => {
       productId: productId,
       count: 1
     };
-    const cart = await cartModel.findOne({userId:userId});
+    const cart = await cartModel.findOne({ userId: userId });
 
     if (cart) {
       const productExists = cart.cart.some(item => item.productId === productId);
-      console.log(productExists,">>>>>>11111111111111111<<<<<<<<<<<<<<")
+      console.log(productExists, ">>>>>>11111111111111111<<<<<<<<<<<<<<")
       if (productExists) {
 
         await cartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
         res.redirect("/cart")
-        
+
       } else {
 
         await cartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 } } });
@@ -250,17 +250,17 @@ const addToCart = async (req, res) => {
 
     } else {
       cartData = {
-        userId : userId,
-        cart : [data]
+        userId: userId,
+        cart: [data]
       }
       const newCart = await cartModel.create(cartData)
-      if(newCart){
+      if (newCart) {
         console.log("new Cart success")
         res.redirect("/cart")
-      }else{
+      } else {
         console.log("not successs")
       }
-      
+
     }
   } catch (error) {
     console.error('Error adding to cart:', error);
@@ -268,55 +268,68 @@ const addToCart = async (req, res) => {
   }
 };
 
-const deleteCartItem = async (req,res) =>{
+const deleteCartItem = async (req, res) => {
   console.log("11111111111111111")
   const productId = req.query.id
   const userId = req.session.user._id;
-  console.log(userId,">>>>>>>>>>>>>>>>>>>>>",productId)
+  console.log(userId, ">>>>>>>>>>>>>>>>>>>>>", productId)
 
-  try{
-    const cart = await cartModel.updateOne({userId:userId},{$pull:{"cart":{productId:productId}}})
-  console.log("22222222222222222222")
-    if(cart){
+  try {
+    const cart = await cartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId } } })
+    console.log("22222222222222222222")
+    if (cart) {
       console.log("deleted")
       res.redirect("/cart")
     }
 
-  }catch(error){
+  } catch (error) {
     console.log("Not deleted ")
   }
-  
+
 
 }
 
-const changeProductQuantity = async (req,res)=>{
-  console.log("[[[[[Qtyyyyy]]]]]]]]]]]")
+const changeProductQuantity = async (req, res) => {
+
   console.log(req.body)
-  const { cart, product , count} = req.body
-  console.log(cart,"1111111",product,"2222222",count,"33333333")
+  const { cart, product, count, quantity } = req.body
+  count = parseInt(count)
+  quantity = parseInt(quantity)
+  console.log(cart, "1111111", product, "2222222", count, "33333333")
+  if (count == -1 && quantity == 1) {
 
-
-  await cartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
-
+    const removeProduct = await cartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
+    if (removeProduct) {
+      return { removeProduct: true };
+    }else{
+      return { removeProduct: false };
+    }
+  }else{
+   const updated = await cartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
+     if(updated){
+      return {countUpdate :true}
+     }else{
+      return { countUpdate: false };
+    }
+  }
 }
 
+  module.exports = {
+    registerView,
+    loginView,
+    otpView,
+    registerUser,
+    loginUser,
+    indexView,
+    otpVerification,
+    userLogout,
+    userProfile,
+    changePassword,
+    editProfile,
+    addToCart,
+    cartView,
+    deleteCartItem,
+    changeProductQuantity
 
-module.exports = {
-  registerView,
-  loginView,
-  otpView,
-  registerUser,
-  loginUser,
-  indexView,
-  otpVerification,
-  userLogout,
-  userProfile,
-  changePassword,
-  editProfile,
-  addToCart,
-  cartView,
-  deleteCartItem,
-  changeProductQuantity
-
-};
+  };
 

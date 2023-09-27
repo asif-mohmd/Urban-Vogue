@@ -392,11 +392,18 @@
             },
             method:'post',
             success:(response)=>{
-                alert(response)
-                location.reload()
-            }else
-            alert("Not working ajax")
-        })
+                if(response.removeProduct){
+                    alert("Product removed successfully")
+                     location.reload()
+                }
+                else{
+          document.getElementById(proId).innerHTML=quantity+count
+          document.getElementById('prodtotal').innerHTML=response.total
+
+                }
+            }
+            })
+    
     }
    </script>
 
