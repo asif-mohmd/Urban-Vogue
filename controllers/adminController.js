@@ -1,5 +1,6 @@
 const UserModel = require("../models/User")
 const CategoryModel = require("../models/Category")
+const OrderModel = require("../models/Order")
 
 
 let adminEmail = "admin@gmail.com"
@@ -119,9 +120,10 @@ const unListedCategory = async (req, res) => {
     res.render("admin/unlisted-category", { unListedCategory })
 }
 
-const pendingOrders = (req,res) =>{
-   
-    res.render("admin/pending-orders")
+const pendingOrders = async(req,res) =>{
+   const pendingOrders = await OrderModel.find({status:"pending"})
+   console.log(pendingOrders,"qqqqqqqqqqqqqqqq")
+    res.render("admin/pending-orders",{pendingOrders})
 }
 
 

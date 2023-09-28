@@ -464,20 +464,20 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{!-- {{#each users}}
+                  {{#each pendingOrders}}
                   <tr>
                     <th scope="row"> {{@key}}</th>
-                    <td>{{name}}</td>
-                    <td>{{email}}</td>
-                    <td>{{mobile}}</td>
-                    <td>{{gender}}</td>
-                    {{#if this.status}}
-                    <td><button type="button" class="btn btn-danger" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal">Block</button>
-                      {{else}}
-                    <td><a href="/admin/block-unblock?id={{this._id}}" onclick="window.location.reload()"><button
-                          class="btn btn-success">Unblock</button></a></td>
-                    {{/if}}
+                    <td>{{orderId}}</td>
+                    <td>{{zip}}</td>
+                    <td>{{date}}</td>
+                    <td>{{amount}}</td>
+                    
+                    <td><button type="button" class="btn btn-success" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal">Delivered</button>
+                   
+                    <a href="/admin/block-unblock?id={{this._id}}" onclick="window.location.reload()"><button
+                          class="btn btn-danger">Cancelled</button></a></td>
+              
 
                   </tr>
                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -500,7 +500,7 @@
                       </div>
                     </div>
                   </div>
-                  {{/each}} --}}
+                  {{/each}}
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->

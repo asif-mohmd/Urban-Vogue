@@ -409,7 +409,8 @@ const placeOrder = async (req, res) => {
     "orderId": randomOrderId,
     "zip": req.body.zip,
     "date": formattedDate,
-    "amount": total[0].total
+    "amount": total[0].total,
+    "status" : "pending"
 
   }
 
