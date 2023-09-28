@@ -31,6 +31,7 @@ router.post('/loginUser', userControllers.loginUser)
 router.post("/changePassword",userControllers.changePassword)
 router.post("/editProfile",userControllers.editProfile)
 router.post("/change-product-quantity",userControllers.changeProductQuantity)
+router.post("/place-order",userControllers.placeOrder)
 
 
 module.exports = router;

@@ -113,53 +113,48 @@
     <section class="checkout spad">
         <div class="container">
 
-            <form action="/checkout" method="post" class="checkout__form">
+            <form action="/place-order" method="post" class="checkout__form">
                 <div class="row">
                     <div class="col-lg-8">
                         <h5>Billing detail</h5>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="col-lg-12 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
-                                    <p>First Name <span>*</span></p>
-                                    <input type="text">
+                                    <p>Full Name <span>*</span></p>
+                                    <input type="text" name="name">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Last Name <span>*</span></p>
-                                    <input type="text">
-                                </div>
-                            </div>
+                         
                             <div class="col-lg-12">
 
                                 <div class="checkout__form__input">
                                     <p>Address <span>*</span></p>
-                                    <input type="text" placeholder="Street Address">
+                                    <input type="text" name="address" placeholder="Street Address">
 
                                 </div>
                                 <div class="checkout__form__input">
                                     <p>Town/City <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="city">
                                 </div>
                                 <div class="checkout__form__input">
                                     <p>State <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="state">
                                 </div>
                                 <div class="checkout__form__input">
                                     <p>Postcode/Zip <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="zip">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Phone <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="mobile">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="checkout__form__input">
                                     <p>Email <span>*</span></p>
-                                    <input type="text">
+                                    <input type="text" name="email">
                                 </div>
                             </div>
 
@@ -176,16 +171,16 @@
                                 </ul>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                <input class="form-check-input" type="radio" name="COD"
                                     id="flexRadioDefault1">
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Cash on Delivery
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                <input class="form-check-input" type="radio" name="Online"
                                     id="flexRadioDefault2" checked>
-                                <label class="form-check-label" for="flexRadioDefault2">
+                                <label class="form-check-label" for="flexRadioDefault2" disabled >
                                     Net-Banking
                                 </label>
                             </div>

@@ -4,8 +4,8 @@ const UserModel = require("../models/User");
 var session = require('express-session');
 const ProductModel = require("../models/Product");
 const sendMail = require("../utils/nodeMailer");
-const userModel = require("../models/User");
-const cartModel = require("../models/Cart")
+
+const CartModel = require("../models/Cart")
 
 
 
@@ -190,7 +190,7 @@ const editProfile = async (req, res) => {
 const cartView = async (req, res) => {
   const userId = req.session.user._id;
   console.log("1111111111111>>>>>>>>>>>>>>>>>>>>>>>>")
-  const cartItems = await cartModel.aggregate([
+  const cartItems = await CartModel.aggregate([
     {
       $match: { userId: userId }
     },
@@ -235,19 +235,19 @@ const addToCart = async (req, res) => {
       productId: productId,
       count: 1
     };
-    const cart = await cartModel.findOne({ userId: userId });
+    const cart = await CartModel.findOne({ userId: userId });
 
     if (cart) {
       const productExists = cart.cart.some(item => item.productId === productId);
       console.log(productExists, ">>>>>>11111111111111111<<<<<<<<<<<<<<")
       if (productExists) {
 
-        await cartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
+        await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
         res.redirect("/cart")
 
       } else {
 
-        await cartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 } } });
+        await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 } } });
         res.redirect("/cart")
       }
       res.status(200).json({ message: 'Product added to cart successfully' });
@@ -257,7 +257,7 @@ const addToCart = async (req, res) => {
         userId: userId,
         cart: [data]
       }
-      const newCart = await cartModel.create(cartData)
+      const newCart = await CartModel.create(cartData)
       if (newCart) {
         console.log("new Cart success")
         res.redirect("/cart")
@@ -279,7 +279,7 @@ const deleteCartItem = async (req, res) => {
   console.log(userId, ">>>>>>>>>>>>>>>>>>>>>", productId)
 
   try {
-    const cart = await cartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId } } })
+    const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId } } })
     console.log("22222222222222222222")
     if (cart) {
       console.log("deleted")
@@ -304,7 +304,7 @@ const changeProductQuantity = async (req, res) => {
     let response;
 
     if (count === -1 && quantity === 1) {
-      const removeProduct = await cartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
+      const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
       if (removeProduct) {
         console.log("stage 1");
         response = { removeProduct: true };
@@ -312,7 +312,7 @@ const changeProductQuantity = async (req, res) => {
         response = { removeProduct: false };
       }
     } else {
-      const updated = await cartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
+      const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
       if (updated) {
         console.log("stage 2");
         const userId = req.session.user._id
@@ -335,12 +335,9 @@ const changeProductQuantity = async (req, res) => {
 
 const getTotalAmout = async (req,res)=>{
 
-   console.log(req,"lllllllllllllllllllll")
    userId = req
-   console.log(userId,"idddddddd1111")
-
    
-   const total = await cartModel.aggregate([
+   const total = await CartModel.aggregate([
     {
       $match:{userId:userId}
     },
@@ -387,12 +384,16 @@ const getTotalAmout = async (req,res)=>{
 
 const proceedToCheckout = async (req,res) =>{
   let total = await getTotalAmout(userId)
-
   total = total[0] ? total[0].total : 0;
-  console.log( req.query,"]]]]]]]]]]]]]]]]]]")
+console.log(userId,"oooooooooooooo")
+
   res.render("user/checkout",{total})
 }
 
+
+const placeOrder = (req,res) =>{
+  console.log(req.body,"orderrrrrrrrrrrrrr")
+}
 
 
 
@@ -413,7 +414,8 @@ const proceedToCheckout = async (req,res) =>{
     cartView,
     deleteCartItem,
     changeProductQuantity,
-    proceedToCheckout
+    proceedToCheckout,
+    placeOrder
 
   };
 

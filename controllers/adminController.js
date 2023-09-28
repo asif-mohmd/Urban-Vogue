@@ -1,4 +1,4 @@
-const userModel = require("../models/User")
+const UserModel = require("../models/User")
 const CategoryModel = require("../models/Category")
 
 
@@ -28,16 +28,16 @@ const adminDashboard = (req, res) => {
 
 
 const userList = async (req, res) => {
-    const users = await userModel.find()
+    const users = await UserModel.find()
     res.render("admin/user-list", { users })
 
 }
 
 
 const userBlockUnblock = async (req, res) => {
-    const userData = await userModel.findOne({ _id: req.query.id })
-    await userModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
-    const users = await userModel.find({})
+    const userData = await UserModel.findOne({ _id: req.query.id })
+    await UserModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
+    const users = await UserModel.find({})
     res.render("admin/user-list", { users })
 }
 const addCategory = (req, res) => {
