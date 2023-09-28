@@ -371,24 +371,27 @@ const getTotalAmout = async (req,res)=>{
           quantity:'$count'
       }
     },
-      {
-                    
+      {             
         $group:{
-            _id:null,
-            
+            _id:null,     
             total:{$sum:{$multiply: ['$quantity', {$toInt: '$price'}]}}
         }
       },
         {
           $unwind:'$total'
         }
-  
-
    ])
-
-   
  return total
 }
+
+
+const proceedToCheckout = (req,res) =>{
+ 
+  console.log( req.query,"]]]]]]]]]]]]]]]]]]")
+}
+
+
+
 
 
   module.exports = {
@@ -406,7 +409,8 @@ const getTotalAmout = async (req,res)=>{
     addToCart,
     cartView,
     deleteCartItem,
-    changeProductQuantity
+    changeProductQuantity,
+    proceedToCheckout
 
   };
 

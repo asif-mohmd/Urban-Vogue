@@ -130,6 +130,7 @@
     <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad">
         <div class="container">
+            
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shop__cart__table">
@@ -143,7 +144,9 @@
                                     <th></th>
                                 </tr>
                             </thead>
+                            <form action="/checkout" method="get">
                             <tbody>
+                               
                                 {{#each cartItems}}
                                 <tr>
                                     <td class="cart__product__item">
@@ -168,7 +171,7 @@
                                     </td>
                                   {{/each}}
                                   
-                                    <td class="cart__total" id="totalValue">{{total}}</td>
+                           
 
                                       {{#each cartItems}}
                                     <td class="cart__close"><a href="/delete-cart-item?id={{this.product._id}}"><span
@@ -177,10 +180,12 @@
                                 {{/each}}
                                 
                             </tbody>
+                            </form>
                         </table>
                     </div>
                 </div>
             </div>
+          
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="cart__btn">
@@ -207,14 +212,18 @@
                     <div class="cart__total__procced">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>Subtotal <span>$ 750.0</span></li>
-                            <li>Total <span>$ 750.0</span></li>
+                            {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
+                            <li>Total <span id="totalValue">₹ {{total}}</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <button type="submit" class="site-btn">Proceed to checkout</button>
+                        {{!-- <a href="#" class="primary-btn">Proceed to checkout</a> --}}
                     </div>
+                   
                 </div>
             </div>
+           
         </div>
+        
     </section>
     <!-- Shop Cart Section End -->
 
@@ -403,7 +412,7 @@
                     location.reload();
                 } else {
                     document.getElementById(productId).innerHTML = quantity + parsedCount;
-                    document.getElementById('totalValue').innerText = response.total[0].total;
+                    document.getElementById('totalValue').innerText = "₹ "+response.total[0].total;
 
                 }
             }
