@@ -130,7 +130,7 @@
     <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad">
         <div class="container">
-            
+             <form action="/checkout" method="get">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shop__cart__table">
@@ -144,7 +144,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <form action="/checkout" method="get">
+                           
                             <tbody>
                                
                                 {{#each cartItems}}
@@ -180,12 +180,13 @@
                                 {{/each}}
                                 
                             </tbody>
-                            </form>
+                          x
                         </table>
                     </div>
+                    
                 </div>
             </div>
-          
+        
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="cart__btn">
@@ -223,7 +224,7 @@
             </div>
            
         </div>
-        
+          </form>
     </section>
     <!-- Shop Cart Section End -->
 

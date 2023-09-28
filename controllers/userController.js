@@ -388,6 +388,7 @@ const getTotalAmout = async (req,res)=>{
 const proceedToCheckout = (req,res) =>{
  
   console.log( req.query,"]]]]]]]]]]]]]]]]]]")
+  res.render("user/checkout")
 }
 
 
