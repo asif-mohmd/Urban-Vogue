@@ -9,11 +9,11 @@ const OrderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  Date: {
-    type: Number,
+  date: {
+    type: String,
     required: true,
   },
-  Amount:{
+  amount:{
     type: Number,
     required: true,
   },

@@ -7,6 +7,9 @@ const sendMail = require("../utils/nodeMailer");
 
 const CartModel = require("../models/Cart");
 const OrderModel = require("../models/Order");
+const formatDate = require("../utils/dateGenerator");
+const generateRandomOrder = require("../utils/orderIdGenerator")
+
 
 
 
@@ -394,11 +397,18 @@ console.log(userId,"oooooooooooooo")
 
 const placeOrder = async (req,res) =>{
   console.log(req.body,"orderrrrrrrrrrrrrr",userId)
-  
+ 
+
+  const randomOrderId = await generateRandomOrder();
+  const currentDate = new Date();
+   const formattedDate = formatDate(currentDate);
+
+  console.log("[[[[[[[[[[[[[[[[[[")
    const data = {
-    "name" : req.body.name,
+    "orderId" : randomOrderId,
     "zip" : req.body.zip,
-    "city" : req.body.city
+    "date" : formattedDate,
+    "amount" : "00000"
 
    }
 
