@@ -30,8 +30,6 @@
 
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
-  <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -436,11 +434,11 @@
 
 
     <div class="pagetitle">
-      <h1>Pending Orders</h1>
+      <h1>Cancelled Orders</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-          <li class="breadcrumb-item">Pending Orders</li>
+          <li class="breadcrumb-item">Cancelled Orders</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -462,11 +460,11 @@
                     <th scope="col">Zip</th>
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
-                    <th scope="col">Action</th>
+              
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each pendingOrders}}
+                  {{#each cancelledOrders}}
                   <tr>
                     <th scope="row"> {{@key}}</th>
                     <td>{{orderId}}</td>
@@ -474,17 +472,6 @@
                     <td>{{date}}</td>
                     <td>{{amount}}</td>
                     
-                    <td>
-                      <a href="/admin/order-delivered?id={{_id}} "><button
-                          class="btn btn-success">Delivered</button></a>
-
-                      <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal">Cacelled</button>
-                   
-                    
-                          
-                    </td>
-              
 
                   </tr>
                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -500,7 +487,7 @@
 
                           <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
 
-                          <a href="/admin/order-cancelled?id={{this._id}}"><button type="button"
+                          <a href="/admin/block-unblock?id={{this._id}}"><button type="button"
                               class="btn btn-primary">Save changes</button></a>
 
                         </div>
@@ -564,9 +551,6 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
-
-    <!-- MDB -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
 </body>
 

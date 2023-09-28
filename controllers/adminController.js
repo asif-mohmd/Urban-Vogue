@@ -143,6 +143,22 @@ const delieveredOrders = async(req,res) =>{
      res.render("admin/delivered-orders",{deliveredOrders})
  }
 
+ const orderCancelled = async(req,res) =>{
+    const orderId = req.query.id
+    console.log(orderId,"asd",req.body)
+    const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
+    if(success) {
+        console.log("cancelled")
+    }else{
+        console.log("not cancelled")
+    }
+}
+ const cancelledOrders = async(req,res) =>{
+    const cancelledOrders = await OrderModel.find({status:"cancelled"})
+   console.log(cancelledOrders,"[[[[[[[[[[[[[")
+     res.render("admin/cancelled-orders",{cancelledOrders})
+ }
+
 module.exports = {
     adminDashboard,
     adminLogin,
@@ -158,5 +174,7 @@ module.exports = {
     unListedCategory,
     pendingOrders,
     orderDelivered,
-    delieveredOrders
+    delieveredOrders,
+    cancelledOrders,
+    orderCancelled
 }
