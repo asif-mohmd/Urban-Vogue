@@ -385,10 +385,12 @@ const getTotalAmout = async (req,res)=>{
 }
 
 
-const proceedToCheckout = (req,res) =>{
- 
+const proceedToCheckout = async (req,res) =>{
+  let total = await getTotalAmout(userId)
+
+  total = total[0] ? total[0].total : 0;
   console.log( req.query,"]]]]]]]]]]]]]]]]]]")
-  res.render("user/checkout")
+  res.render("user/checkout",{total})
 }
 
 
