@@ -406,6 +406,7 @@ const placeOrder = async (req, res) => {
 
  
   const data = {
+    "userId" : userId,
     "orderId": randomOrderId,
     "zip": req.body.zip,
     "date": formattedDate,

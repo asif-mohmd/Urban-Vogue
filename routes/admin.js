@@ -28,6 +28,10 @@ router.get("/listedCategory",adminControllers.listedCategory)
 router.get("/unListedCategory",adminControllers.unListedCategory)
 router.get("/list-unlist-product/:id",productControllers.listUnlistProduct)
 router.get("/pending-orders",adminControllers.pendingOrders)
+router.get("/order-delivered",adminControllers.orderDelivered)
+router.get("/delivered-orders",adminControllers.delieveredOrders)
+
+
 
 
 

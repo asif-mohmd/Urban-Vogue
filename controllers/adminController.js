@@ -126,6 +126,22 @@ const pendingOrders = async(req,res) =>{
     res.render("admin/pending-orders",{pendingOrders})
 }
 
+const orderDelivered = async(req,res) =>{
+    const orderId = req.query.id
+    console.log(orderId,"asd",req.body)
+    const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"delivered"}})
+    if(success) {
+        console.log("deleivered")
+    }else{
+        console.log("not delivered")
+    }
+}
+
+const delieveredOrders = async(req,res) =>{
+    const deliveredOrders = await OrderModel.find({status:"delivered"})
+   console.log(deliveredOrders,"[[[[[[[[[[[[[")
+     res.render("admin/delivered-orders",{deliveredOrders})
+ }
 
 module.exports = {
     adminDashboard,
@@ -140,5 +156,7 @@ module.exports = {
     listUnlistCategory,
     listedCategory,
     unListedCategory,
-    pendingOrders
+    pendingOrders,
+    orderDelivered,
+    delieveredOrders
 }
