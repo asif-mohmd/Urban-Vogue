@@ -274,7 +274,7 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
-       <ul class="sidebar-nav" id="sidebar-nav">
+    <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
         <a class="nav-link " href="/admin">
@@ -317,30 +317,56 @@
 
           <li>
             <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
-        </a>
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
+            </a>
           </li>
 
-                <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
+            </a>
           </li>
-     <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+            </a>
           </li>
 
 
         </ul>
       </li><!-- End Forms Nav -->
 
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav3" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Order Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
+            </a>
+          </li>
+
+
+        </ul>
+      </li><!-- End Forms Nav -->
 
 
 
@@ -460,22 +486,23 @@
 
 
 
-               <div class="row mb-3">
-    <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
-    <div class="col-sm-10">
-        <textarea name="description" class="form-control" style="height: 100px">{{editProduct.description}}</textarea>
-    </div>
-</div>
+                <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
+                  <div class="col-sm-10">
+                    <textarea name="description" class="form-control"
+                      style="height: 100px">{{editProduct.description}}</textarea>
+                  </div>
+                </div>
 
 
-           
+
                 <fieldset class="row mb-3">
                   <legend class="col-form-label col-sm-2 pt-0">Category</legend>
-                  
+
                   <div class="col-sm-10">
                     <legend class="col-form-label col-sm-2 pt-0 text-primary">{{editProduct.category}}</legend>
                     <div class="form-check">
-                      
+
                       <input class="form-check-input" type="radio" name="category" id="gridRadios1" value="mens">
                       <label class="form-check-label" for="gridRadios1">
                         Mens
@@ -500,7 +527,7 @@
                 <fieldset class="row mb-3">
                   <legend class="col-form-label col-sm-2 pt-0">Size</legend>
                   <div class="col-sm-10">
-                <legend class="col-form-label col-sm-2 pt-0 text-primary">{{editProduct.size}}</legend>
+                    <legend class="col-form-label col-sm-2 pt-0 text-primary">{{editProduct.size}}</legend>
 
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="size" id="gridRadios1" value="Large">
@@ -530,7 +557,7 @@
                 </fieldset>
 
 
-                    <input type="file" name="image" id="image1" style="display: none;"
+                <input type="file" name="image" id="image1" style="display: none;"
                   onchange="displayFileName('image1', this)">
                 <label for="image1"
                   style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">
@@ -611,7 +638,7 @@
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
 
-    <script>
+  <script>
     function displayFileName(labelId, input) {
       const span = document.getElementById(labelId + 'Label');
       if (input.files.length > 0) {

@@ -119,7 +119,10 @@ const unListedCategory = async (req, res) => {
     res.render("admin/unlisted-category", { unListedCategory })
 }
 
-
+const pendingOrders = (req,res) =>{
+   
+    res.render("admin/pending-orders")
+}
 
 
 module.exports = {
@@ -134,5 +137,6 @@ module.exports = {
     showCategory,
     listUnlistCategory,
     listedCategory,
-    unListedCategory
+    unListedCategory,
+    pendingOrders
 }

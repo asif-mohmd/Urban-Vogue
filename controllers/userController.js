@@ -395,29 +395,30 @@ console.log(userId,"oooooooooooooo")
 }
 
 
-const placeOrder = async (req,res) =>{
-  console.log(req.body,"orderrrrrrrrrrrrrr",userId)
- 
+const placeOrder = async (req, res) => {
+  console.log(req.body, "orderrrrrrrrrrrrrr", userId)
+
 
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
-   const formattedDate = formatDate(currentDate);
+  const formattedDate = formatDate(currentDate);
+  let total = await getTotalAmout(userId)
 
-  console.log("[[[[[[[[[[[[[[[[[[")
-   const data = {
-    "orderId" : randomOrderId,
-    "zip" : req.body.zip,
-    "date" : formattedDate,
-    "amount" : "00000"
+ 
+  const data = {
+    "orderId": randomOrderId,
+    "zip": req.body.zip,
+    "date": formattedDate,
+    "amount": total[0].total
 
-   }
+  }
 
-   const order = await OrderModel.create(data)
-   if(order){
+  const order = await OrderModel.create(data)
+  if (order) {
     console.log("order created")
-   }else{
+  } else {
     console.log("no orders")
-   }
+  }
 
 
 }

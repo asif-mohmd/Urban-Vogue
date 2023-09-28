@@ -27,6 +27,7 @@ router.get("/list-unlist-category/:id",adminControllers.listUnlistCategory)
 router.get("/listedCategory",adminControllers.listedCategory)
 router.get("/unListedCategory",adminControllers.unListedCategory)
 router.get("/list-unlist-product/:id",productControllers.listUnlistProduct)
+router.get("/pending-orders",adminControllers.pendingOrders)
 
 
 

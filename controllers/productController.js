@@ -165,6 +165,8 @@ const listUnlistProduct = async (req, res) => {
 }
 
 
+
+
 module.exports = {
     addProduct,
     addProductView,
@@ -173,6 +175,7 @@ module.exports = {
     productDetailsEdit,
     editProductView,
     deleteProduct,
-    listUnlistProduct
+    listUnlistProduct,
+    
 
 }

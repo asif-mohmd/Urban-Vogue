@@ -32,7 +32,7 @@
   <link href="/assets/css/style.css" rel="stylesheet">
 
 
-   <!-- Font Awesome -->
+  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
@@ -326,24 +326,52 @@
 
           <li>
             <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
-        </a>
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
+            </a>
           </li>
 
-                <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
+            </a>
           </li>
-     <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+            </a>
+          </li>
+
+
+        </ul>
+      </li><!-- End Forms Nav -->
+
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav3" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Order Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
+        <ul id="forms-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
+            </a>
           </li>
 
 
@@ -439,7 +467,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Products</h5>
-          {{#if msg}}
+              {{#if msg}}
               <p class="text-center text-danger small">Cause some error .Try agian</p>
               {{/if}}
               <!-- Table with stripped rows -->
@@ -465,19 +493,19 @@
                     <td>
 
                       {{#if this.status}}
-             
+
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal{{@key}}">
                         Unlist
                       </button>
-               
-                    {{else}}
-                  
+
+                      {{else}}
+
                       <a href="/admin/list-unlist-product/{{this._id}}">
                         <button class="btn btn-success">List</button>
                       </a>
-                   
-                    {{/if}}
+
+                      {{/if}}
 
 
 
@@ -490,26 +518,25 @@
 
 
                   <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                      aria-hidden="true">
-                      <!-- Modal content -->
-                      <!-- Adjust the modal content as needed -->
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
-                              aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">Are you sure you want to unlist this category?</div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                            <a href="/admin/list-unlist-product/{{this._id}}">
-                              <button type="button" class="btn btn-primary">Save changes</button>
-                            </a>
-                          </div>
+                    aria-hidden="true">
+                    <!-- Modal content -->
+                    <!-- Adjust the modal content as needed -->
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">Are you sure you want to unlist this category?</div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                          <a href="/admin/list-unlist-product/{{this._id}}">
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                          </a>
                         </div>
                       </div>
                     </div>
+                  </div>
 
                   </tr>
                   {{/each}}
@@ -557,7 +584,7 @@
   <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="/assets/vendor/php-email-form/validate.js"></script>
 
-    <!-- MDB -->
+  <!-- MDB -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
   <!-- Template Main JS File -->

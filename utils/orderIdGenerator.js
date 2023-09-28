@@ -1,12 +1,9 @@
-const generateRandomOrder = function generateRandomOrderId() {
+const generateRandomOrder = () => {
     const timestamp = new Date().getTime(); // Current timestamp
-    const randomNum = Math.floor(Math.random() * 1000); // Random number between 0 and 999 (adjust as needed)
-    const orderId = `${timestamp}${randomNum}`; // Concatenate timestamp and random number
-   
-    return orderId;
-  }
+    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0'); // 3-digit random number
+    const orderId = `${timestamp}${randomNum}`.slice(0, 10); // Concatenate and truncate to 10 digits
   
-  // Example usage:
-
+    return orderId;
+  };
 
   module.exports= generateRandomOrder
