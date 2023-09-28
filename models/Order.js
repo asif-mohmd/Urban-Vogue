@@ -1,23 +1,25 @@
 
 const mongoose = require("mongoose");
 const OrderSchema = new mongoose.Schema({
-  userId: {
-    type: String,
+  orderId: {
+    type: Number,
     required: true,
   },
+  zip: {
+    type: Number,
+    required: true,
+  },
+  Date: {
+    type: Number,
+    required: true,
+  },
+  Amount:{
+    type: Number,
+    required: true,
+  },
+  
+  
 
-  cart : [
-    {
-      productId : {
-            type : String,
-            required : true
-        },
-        count : {
-            type : Number,
-            required : 0
-        }
-    }
-],
   
 
 });

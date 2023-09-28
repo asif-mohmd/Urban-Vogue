@@ -5,7 +5,8 @@ var session = require('express-session');
 const ProductModel = require("../models/Product");
 const sendMail = require("../utils/nodeMailer");
 
-const CartModel = require("../models/Cart")
+const CartModel = require("../models/Cart");
+const OrderModel = require("../models/Order");
 
 
 
@@ -391,8 +392,24 @@ console.log(userId,"oooooooooooooo")
 }
 
 
-const placeOrder = (req,res) =>{
-  console.log(req.body,"orderrrrrrrrrrrrrr")
+const placeOrder = async (req,res) =>{
+  console.log(req.body,"orderrrrrrrrrrrrrr",userId)
+  
+   const data = {
+    "name" : req.body.name,
+    "zip" : req.body.zip,
+    "city" : req.body.city
+
+   }
+
+   const order = await OrderModel.create(data)
+   if(order){
+    console.log("order created")
+   }else{
+    console.log("no orders")
+   }
+
+
 }
 
 
