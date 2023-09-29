@@ -299,11 +299,9 @@ const deleteCartItem = async (req, res) => {
 
 const changeProductQuantity = async (req, res) => {
   try {
-    console.log(req.body);
     let { cart, product, count, quantity } = req.body;
     count = parseInt(count);
     quantity = parseInt(quantity);
-    console.log(cart, "1111111", product, "2222222", count, "33333333");
 
     let response;
 
