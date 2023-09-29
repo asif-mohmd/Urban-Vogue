@@ -415,12 +415,38 @@ const placeOrder = async (req, res) => {
 
   const order = await OrderModel.create(data)
   if (order) {
+
     console.log("order created")
+    const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
+    console.log("22222222222222222222")
+    if (cart) {
+      console.log("cart updated")
+      res.redirect("/")
+    }
+   
   } else {
     console.log("no orders")
   }
 
 
+}
+
+const ordersView = async(req,res)=>{
+  const pendingOrders = await OrderModel.find({status:"pending"})
+  res.render("user/orders",{pendingOrders})
+}
+
+const cancelUserOrder = async(req,res) =>{
+  const orderId = req.query.id
+  console.log(orderId,"yessssssssssssss",req.body)
+  const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
+  if(success) {
+      console.log("cancelled")
+      res.redirect("/orders")
+  }else{
+    res.redirect("/orders")
+      console.log("not cancelled")
+  }
 }
 
 
@@ -443,7 +469,9 @@ const placeOrder = async (req, res) => {
     deleteCartItem,
     changeProductQuantity,
     proceedToCheckout,
-    placeOrder
+    placeOrder,
+    ordersView,
+    cancelUserOrder
 
   };
 

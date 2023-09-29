@@ -22,7 +22,9 @@ router.get("/cart",userControllers.cartView)
 router.get("/addToCart",userControllers.addToCart)
 router.get("/delete-cart-item",userControllers.deleteCartItem)
 router.get("/checkout",userControllers.proceedToCheckout)
-router.get("/orders",userControllers.OrdersView)
+router.get("/orders",userControllers.ordersView)
+router.get("/cancel-user-order",userControllers.cancelUserOrder)
+
 
 
 // POST Methods
