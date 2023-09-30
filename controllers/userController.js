@@ -8,7 +8,8 @@ const sendMail = require("../utils/nodeMailer");
 const CartModel = require("../models/Cart");
 const OrderModel = require("../models/Order");
 const formatDate = require("../utils/dateGenerator");
-const generateRandomOrder = require("../utils/orderIdGenerator")
+const generateRandomOrder = require("../utils/orderIdGenerator");
+const { productDetails } = require("./productController");
 
 
 
@@ -191,45 +192,88 @@ const editProfile = async (req, res) => {
 }
 
 
-const cartView = async (req, res) => {
+
+
+
+
+const cartView = async (req, res ) => {
+
   const userId = req.session.user._id;
+  console.log(userId)
 
-  const cartItems = await CartModel.aggregate([
-    {
-      $match: { userId: userId }
-    },
-    {
-      $unwind: '$cart'
-    },
-    {
-      $project:
-      {
-        product: { $toObjectId: "$cart.productId" },
-        count: "$cart.count"
-      }
-    },
-    {
-      $lookup:
-      {
-        from: "products",
-        localField: "product",
-        foreignField: "_id",
-        as: "product"
-      }
-    },
-    {
-      $unwind: '$product'
-    }
+   const cartItems = await getProducts(userId)
 
-
-  ])
-  
   let total = await getTotalAmout(userId)
 
   total = total[0] ? total[0].total : 0;
 
   res.render("user/cart", { cartItems, total }); // Pass the cartObject to the render function
+  return cartItems;
 };
+
+
+const placeOrder = async (req, res) => {
+
+  const randomOrderId = await generateRandomOrder();
+  const currentDate = new Date();
+  const formattedDate = formatDate(currentDate);
+ 
+  const userId = req.session.user._id; // assuming user._id is stored in the session
+  let total = await getTotalAmout(userId)
+
+  const cartItems = await getProducts(userId)
+  console.log(cartItems,"-------------------")
+  const products = cartItems.map(cartItem => ({
+    name: cartItem.product.name,
+    price: cartItem.product.price,
+    count: cartItem.count
+  }));
+  console.log(products)
+  const data = {
+    "userId" : userId,
+    "orderId": randomOrderId,
+    "zip": req.body.zip,
+    "date": formattedDate,
+     products: products,
+    "amount": total[0].total,
+    "status" : "pending"
+
+  }
+  console.log("333")
+  const order = await OrderModel.create(data)
+  if (order) {
+    console.log(order)
+    console.log("4444")
+    const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
+    console.log("555")
+    if (cart) {
+      const pendingOrders = await OrderModel.findOne({orderId: order.orderId  })
+      console.log(pendingOrders,"===========")
+      res.render("user/order-response",{pendingOrders})
+    }
+   
+  } else {
+    console.log("no orders")
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const addToCart = async (req, res) => {
   const productId = req.query.id;
@@ -389,44 +433,11 @@ const proceedToCheckout = async (req,res) =>{
 }
 
 
-const placeOrder = async (req, res) => {
-
-console.log("1111")
-
-  const randomOrderId = await generateRandomOrder();
-  const currentDate = new Date();
-  const formattedDate = formatDate(currentDate);
-  let total = await getTotalAmout(userId)
-
-  console.log("2222")
-  const data = {
-    "userId" : userId,
-    "orderId": randomOrderId,
-    "zip": req.body.zip,
-    "date": formattedDate,
-    "amount": total[0].total,
-    "status" : "pending"
-
-  }
-  console.log("333")
-  const order = await OrderModel.create(data)
-  if (order) {
-    console.log("4444")
-    const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
-    console.log("555")
-    if (cart) {
-   
-      res.render("user/order-response")
-    }
-   
-  } else {
-    console.log("no orders")
-  }
-
-
-}
 
 const ordersView = async(req,res)=>{
+  const userId = req.session.user._id
+  console.log(userId,"[[[[[[[[[[[[[[[[[[[[")
+  
   const pendingOrders = await OrderModel.find({status:"pending"})
   res.render("user/orders",{pendingOrders})
 }
@@ -444,6 +455,40 @@ const cancelUserOrder = async(req,res) =>{
   }
 }
 
+
+const getProducts = async(userId) =>{
+  const cartItems = await CartModel.aggregate([
+    {
+      $match: { userId: userId }
+    },
+    {
+      $unwind: '$cart'
+    },
+    {
+      $project:
+      {
+        product: { $toObjectId: "$cart.productId" },
+        count: "$cart.count"
+      }
+    },
+    {
+      $lookup:
+      {
+        from: "products",
+        localField: "product",
+        foreignField: "_id",
+        as: "product"
+      }
+    },
+    {
+      $unwind: '$product'
+    }
+
+
+  ])
+
+  return cartItems
+}
 
 
 
