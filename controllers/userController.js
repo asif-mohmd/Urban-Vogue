@@ -193,7 +193,7 @@ const editProfile = async (req, res) => {
 
 const cartView = async (req, res) => {
   const userId = req.session.user._id;
-  console.log("1111111111111>>>>>>>>>>>>>>>>>>>>>>>>")
+
   const cartItems = await CartModel.aggregate([
     {
       $match: { userId: userId }
@@ -227,66 +227,62 @@ const cartView = async (req, res) => {
   let total = await getTotalAmout(userId)
 
   total = total[0] ? total[0].total : 0;
-    //  console.log(cartItems)
+
   res.render("user/cart", { cartItems, total }); // Pass the cartObject to the render function
 };
 
 const addToCart = async (req, res) => {
   const productId = req.query.id;
   const userId = req.session.user._id;
+
   try {
     const data = {
       productId: productId,
       count: 1
     };
+
     const cart = await CartModel.findOne({ userId: userId });
 
     if (cart) {
       const productExists = cart.cart.some(item => item.productId === productId);
-      console.log(productExists, ">>>>>>11111111111111111<<<<<<<<<<<<<<")
+
       if (productExists) {
-
         await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
-        res.redirect("/cart")
-
       } else {
-
         await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 } } });
-        res.redirect("/cart")
       }
-      res.status(200).json({ message: 'Product added to cart successfully' });
 
+      res.redirect("/cart"); // Moved the redirect here
     } else {
-      cartData = {
+      const cartData = {
         userId: userId,
         cart: [data]
-      }
-      const newCart = await CartModel.create(cartData)
-      if (newCart) {
-        console.log("new Cart success")
-        res.redirect("/cart")
-      } else {
-        console.log("not successs")
-      }
+      };
 
+      const newCart = await CartModel.create(cartData);
+
+      if (newCart) {
+        res.redirect("/cart"); // Moved the redirect here
+      } else {
+        console.log("Creation of cart failed");
+      }
     }
   } catch (error) {
-    console.error('Error adding to cart:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
 
+
 const deleteCartItem = async (req, res) => {
-  console.log("11111111111111111")
+
   const productId = req.query.id
   const userId = req.session.user._id;
-  console.log(userId, ">>>>>>>>>>>>>>>>>>>>>", productId)
 
   try {
     const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId } } })
-    console.log("22222222222222222222")
+ 
     if (cart) {
-      console.log("deleted")
+    
       res.redirect("/cart")
     }
 
@@ -308,7 +304,7 @@ const changeProductQuantity = async (req, res) => {
     if (count === -1 && quantity === 1) {
       const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
       if (removeProduct) {
-        console.log("stage 1");
+       
         response = { removeProduct: true };
       } else {
         response = { removeProduct: false };
@@ -316,11 +312,11 @@ const changeProductQuantity = async (req, res) => {
     } else {
       const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
       if (updated) {
-        console.log("stage 2");
+       
         const userId = req.session.user._id
 
         let total = await getTotalAmout(userId)
-        console.log(total,"sueeeeee")
+ 
         response = { status: true ,total };
       } else {
         response = { status: false };
@@ -329,7 +325,7 @@ const changeProductQuantity = async (req, res) => {
 
     res.json(response);  // Send the response back to the client
   } catch (error) {
-    console.error('Error in changeProductQuantity:', error);
+  
     res.status(500).json({ error: 'Internal Server Error' });
   }
     
@@ -387,22 +383,22 @@ const getTotalAmout = async (req,res)=>{
 const proceedToCheckout = async (req,res) =>{
   let total = await getTotalAmout(userId)
   total = total[0] ? total[0].total : 0;
-console.log(userId,"oooooooooooooo")
+
 
   res.render("user/checkout",{total})
 }
 
 
 const placeOrder = async (req, res) => {
-  console.log(req.body, "orderrrrrrrrrrrrrr", userId)
 
+console.log("1111")
 
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
   let total = await getTotalAmout(userId)
 
- 
+  console.log("2222")
   const data = {
     "userId" : userId,
     "orderId": randomOrderId,
@@ -412,16 +408,15 @@ const placeOrder = async (req, res) => {
     "status" : "pending"
 
   }
-
+  console.log("333")
   const order = await OrderModel.create(data)
   if (order) {
-
-    console.log("order created")
+    console.log("4444")
     const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
-    console.log("22222222222222222222")
+    console.log("555")
     if (cart) {
-      console.log("cart updated")
-      res.redirect("/")
+   
+      res.render("user/order-response")
     }
    
   } else {
@@ -438,14 +433,14 @@ const ordersView = async(req,res)=>{
 
 const cancelUserOrder = async(req,res) =>{
   const orderId = req.query.id
-  console.log(orderId,"yessssssssssssss",req.body)
+
   const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
   if(success) {
-      console.log("cancelled")
+  
       res.redirect("/orders")
   }else{
     res.redirect("/orders")
-      console.log("not cancelled")
+
   }
 }
 

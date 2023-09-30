@@ -41,7 +41,7 @@ const addProduct = async (req, res) => {
             throw new Error("Incorrect number of images");
         }
     } catch (error) {
-        console.error("An error occurred:", error.message);
+ 
 
         let msg;
         if (error.message === "Failed to create product") {
@@ -64,7 +64,7 @@ const productDetails = async (req, res) => {
 
 const editProductDetails = async (req, res) => {
     const editProduct = await ProductModel.findOne({ _id: req.query.id })
-    console.log(editProduct)
+  
 
     res.render("admin/edit-product-details", { editProduct })
 }
@@ -77,14 +77,14 @@ const productDetailsEdit = async (req, res) => {
         // Fetch the existing product to get its image URLs
         const existingProduct = await ProductModel.findById(id);
         if (!existingProduct) {
-            console.error('Product not found with id:', id);
+         
             return res.status(404).send('Product not found.');
         }
         // Delete the existing images
         for (const imageUrl of existingProduct.imageUrl) {
             const imagePath = path.join(__dirname, "..", "public", "uploaded-images", imageUrl);
             fs.unlinkSync(imagePath);
-            console.log('Deleted image:', imageUrl);
+         
         }
         // req.files now contains the uploaded images
 
@@ -107,7 +107,7 @@ const productDetailsEdit = async (req, res) => {
         }
 
     } catch (error) {
-        console.error('Error updating product details:', error);
+       
         res.status(500).send('Error updating product details.');
     }
 }
@@ -138,7 +138,7 @@ const deleteProduct = async (req, res) => {
         // Redirect to the desired route
         res.redirect("/admin/editProductView");
     } catch (err) {
-        console.error("Error deleting product:", err);
+      
         res.status(500).json({ message: "Deleting Product failed" });
     }
 };
@@ -158,7 +158,7 @@ const listUnlistProduct = async (req, res) => {
         }
     }
     catch (err) {
-        console.error("Error updating product list/unlist:", err);
+      
         res.status(500).json({ message: "update Product listing failed" });
 
     }

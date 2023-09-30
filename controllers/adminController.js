@@ -77,7 +77,7 @@ const addNewCategory = async (req, res) => {
         }
     } catch (error) {
         // Handle the error
-        console.error('An error occurred:', error.message);
+     
         let msg;
         if (error.message === 'Category already exists') {
             msgExists = true;
@@ -122,15 +122,16 @@ const unListedCategory = async (req, res) => {
 
 const pendingOrders = async(req,res) =>{
    const pendingOrders = await OrderModel.find({status:"pending"})
-   console.log(pendingOrders,"qqqqqqqqqqqqqqqq")
+
     res.render("admin/pending-orders",{pendingOrders})
 }
 
 const orderDelivered = async(req,res) =>{
     const orderId = req.query.id
-    console.log(orderId,"asd",req.body)
+ 
     const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"delivered"}})
     if(success) {
+
         console.log("deleivered")
     }else{
         console.log("not delivered")
@@ -139,7 +140,7 @@ const orderDelivered = async(req,res) =>{
 
 const delieveredOrders = async(req,res) =>{
     const deliveredOrders = await OrderModel.find({status:"delivered"})
-   console.log(deliveredOrders,"[[[[[[[[[[[[[")
+
      res.render("admin/delivered-orders",{deliveredOrders})
  }
 

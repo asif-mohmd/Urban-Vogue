@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+     <link rel="stylesheet" href="css/order-response.css" type="text/css">
 </head>
 
 <body>
@@ -111,85 +112,55 @@
 
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
-        <div class="container">
 
-            <form action="/place-order" method="post" class="checkout__form">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <h5>Billing detail</h5>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Full Name <span>*</span></p>
-                                    <input type="text" name="name">
-                                </div>
-                            </div>
-                         
-                            <div class="col-lg-12">
 
-                                <div class="checkout__form__input">
-                                    <p>Address <span>*</span></p>
-                                    <input type="text" name="address" placeholder="Street Address">
 
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Town/City <span>*</span></p>
-                                    <input type="text" name="city">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>State <span>*</span></p>
-                                    <input type="text" name="state">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Postcode/Zip <span>*</span></p>
-                                    <input type="text" name="zip">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Phone <span>*</span></p>
-                                    <input type="text" name="mobile">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Email <span>*</span></p>
-                                    <input type="text" name="email">
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="checkout__order">
-                            <h5>Your order</h5>
 
-                            <div class="checkout__order__total">
-                                <ul>
-                                    {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
-                                    <li>Total <span>₹ {{total}}</span></li>
-                                </ul>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="COD"
-                                    id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    Cash on Delivery
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="Online"
-                                    id="flexRadioDefault2" checked>
-                                <label class="form-check-label" for="flexRadioDefault2" disabled >
-                                    Net-Banking
-                                </label>
-                            </div>
-                            <button type="submit" class="site-btn mt-4">Place oder</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+<div class="container d-flex justify-content-center pt-5 card-margin-top">
+       <div class="card p-4 mt-3">
+          <div class="first d-flex justify-content-between align-items-center mb-3">
+            <div class="info">
+                <span class="d-block name">Thank you, {{user.fullname}}</span>
+                <span class="order">Order -{{id}}</span>
+                  <span class="order">Use this order id for further need</span>
+            </div>
+           
+             <img src="https://i.imgur.com/NiAVkEw.png" width="40"/>
+              
+
+          </div>
+              <div class="detail">
+          <span class="d-block summery">Your order has been dispatched. we are delivering you order.</span>
+              </div>
+          <hr>
+          <div class="text">
+        <span class="d-block new mb-1" >{{user.fullname}}</span>
+         </div>
+        <span class="d-block address mb-3">{{user.permanentaddress}}</span>
+          <div class="  money d-flex flex-row mt-2 align-items-center">
+            <img src="https://i.imgur.com/ppwgjMU.png" width="20" />
+        
+            {{#if cod}}
+         <span class="ml-2">Cash on Delivery</span>
+        {{else}}
+        <span class="ml-2">Paid Online</span>
+        {{/if}}
+               </div>
+               <div  class="last d-flex align-items-center mt-3">
+                <a class=" btn address-line" href="/profile">
+                <span class="address-line">View Orders</span>
+                </a>
+               </div>
+
+               <div  class="last d-flex align-items-center mt-3">
+                <a class=" btn address-line" href="/">
+                <span class="address-line">Back to Home</span>
+                </a>
+               </div>
         </div>
+    </div>
+
     </section>
     <!-- Checkout Section End -->
 
