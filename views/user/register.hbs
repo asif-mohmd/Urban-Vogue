@@ -74,39 +74,41 @@
                     <div class="col-12">
                       <label for="yourName" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="yourName" required>
-                      <div class="invalid-feedback">Please, enter your name!</div>
+                      <div class="invalid-feedback">Please enter your name!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Your Email</label>
                       <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
+                      <div class="invalid-feedback">Please enter a valid Email address!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Mobile Number</label>
                       <div class="input-group has-validation">
-
                         <input type="number" name="mobile" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter mobile number.</div>
+                        <div class="invalid-feedback">Please enter a mobile number.</div>
                       </div>
                     </div>
 
-
-
-                    <label for="yourUsername" class="form-label">Gender</label>
-
-
-
-                    <div class="form-check form-check-inline">
-
-                      <input class="form-check-input" name="gender" type="checkbox" id="inlineCheckbox1" value="male">
-                      <label class="form-check-label" for="inlineCheckbox1">Male</label>
+                    <div class="col-12">
+                      <label for="yourAddress" class="form-label">Address</label>
+                      <input type="text" name="address" class="form-control" id="yourAddress" required>
+                      <div class="invalid-feedback">Please enter your address!</div>
                     </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" name="gender" type="checkbox" id="inlineCheckbox2" value="female">
-                      <label class="form-check-label" for="inlineCheckbox2">Female</label>
+
+                    <label for="yourGender" class="form-label">Gender</label>
+
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                      <label class="form-check-label" for="male">Male</label>
                     </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                      <label class="form-check-label" for="female">Female</label>
+                    </div>
+                    <div class="invalid-feedback">Please select your gender.</div>
+
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
@@ -119,15 +121,7 @@
                       <input type="password" name="confirmPassword" class="form-control" id="" required>
                       <div class="invalid-feedback">Please confirm your password!</div>
                     </div>
-                    {{!--
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and
-                            conditions</a></label>
-                        <div class="invalid-feedback">You must agree before submitting.</div>
-                      </div>
-                    </div> --}}
+
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
@@ -135,6 +129,7 @@
                       <p class="small mb-0">Already have an account? <a href="/login">Log in</a></p>
                     </div>
                   </form>
+
 
                 </div>
               </div>

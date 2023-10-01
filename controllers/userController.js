@@ -49,7 +49,7 @@ const otpVerification = async (req, res) => {
 
 
 const registerUser = async (req, res) => {
-  const { name, email, mobile, gender, password, confirmPassword } = req.body;
+  const { name, email, mobile, gender, address,country,password, confirmPassword } = req.body;
   await sendMail(email)
   if (password !== confirmPassword) {
   } else {
@@ -63,6 +63,9 @@ const registerUser = async (req, res) => {
           "mobile": mobile,
           "gender": gender,
           "password": password,
+          "address": address,
+          "shippingAddress":"",
+          "country":"",
           "status": true
         }
         data.password = await bcrypt.hash(data.password, saltRounds)
@@ -199,7 +202,6 @@ const editProfile = async (req, res) => {
 const cartView = async (req, res ) => {
 
   const userId = req.session.user._id;
-  console.log(userId)
 
    const cartItems = await getProducts(userId)
 
@@ -228,7 +230,7 @@ const placeOrder = async (req, res) => {
     price: cartItem.product.price,
     count: cartItem.count
   }));
-  console.log(products)
+
   const data = {
     "userId" : userId,
     "orderId": randomOrderId,
@@ -239,16 +241,14 @@ const placeOrder = async (req, res) => {
     "status" : "pending"
 
   }
-  console.log("333")
+ 
   const order = await OrderModel.create(data)
   if (order) {
-    console.log(order)
-    console.log("4444")
+
     const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
-    console.log("555")
+
     if (cart) {
       const pendingOrders = await OrderModel.findOne({orderId: order.orderId  })
-      console.log(pendingOrders,"===========")
       res.render("user/order-response",{pendingOrders})
     }
    
@@ -436,11 +436,9 @@ const proceedToCheckout = async (req,res) =>{
 
 const ordersView = async(req,res)=>{
   const userId = req.session.user._id
-  console.log(userId,"[[[[[[[[[[[[[[[[[[[[")
   
   const pendingOrders = await OrderModel.find({status:"pending"})
-  console.log(pendingOrders,"uuuuuuuuuuuuuuuu")
-  console.log(pendingOrders[0].products,"ppppppppppp")
+  
   res.render("user/orders",{pendingOrders})
 }
 

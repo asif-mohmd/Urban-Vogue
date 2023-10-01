@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    required: true,
+   
   },
   address:{
     type: String,
@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
   },
   shippingAddress:{
     type : String,
-    required: true
+ 
   },
   cart : [
     {

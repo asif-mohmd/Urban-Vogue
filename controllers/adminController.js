@@ -131,10 +131,11 @@ const orderDelivered = async(req,res) =>{
  
     const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"delivered"}})
     if(success) {
-
-        console.log("deleivered")
+  
+        res.redirect("/delivered-orders")
     }else{
         console.log("not delivered")
+        res.redirect("/pending-orders")
     }
 }
 
@@ -146,17 +147,19 @@ const delieveredOrders = async(req,res) =>{
 
  const orderCancelled = async(req,res) =>{
     const orderId = req.query.id
-    console.log(orderId,"asd",req.body)
+ 
     const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
     if(success) {
-        console.log("cancelled")
+        
+      
+        res.redirect("/cancelled-orders")
     }else{
         console.log("not cancelled")
+        res.redirect("/pending-orders")
     }
 }
  const cancelledOrders = async(req,res) =>{
     const cancelledOrders = await OrderModel.find({status:"cancelled"})
-   console.log(cancelledOrders,"[[[[[[[[[[[[[")
      res.render("admin/cancelled-orders",{cancelledOrders})
  }
 
