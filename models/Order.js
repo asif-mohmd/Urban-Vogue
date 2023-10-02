@@ -2,10 +2,30 @@
 const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
-  userId:{
-    type: String,
-    required: true,
+  userDetails:{
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    mobile: {
+      type: Number,
+      required: true,
+    },
+    
+    gender: {
+      type: String,
+      required: true,
+    },
+    address:{
+      type: String,
+      required: true
+    }
   },
+  
   orderId: {
     type: Number,
     required: true,

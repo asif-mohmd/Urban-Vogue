@@ -224,7 +224,16 @@ const placeOrder = async (req, res) => {
   let total = await getTotalAmout(userId)
 
   const cartItems = await getProducts(userId)
-  console.log(cartItems,"-------------------")
+ const userData = await UserModel.findOne({_id:userId})
+
+ const userDetails = {
+  "name": userData.name,
+  "email": userData.email,
+  "mobile": userData.mobile,
+  "gender":userData.gender,
+  "address": userData.address
+ }
+
   const products = cartItems.map(cartItem => ({
     name: cartItem.product.name,
     price: cartItem.product.price,
@@ -232,7 +241,7 @@ const placeOrder = async (req, res) => {
   }));
 
   const data = {
-    "userId" : userId,
+    "userDetails" : userDetails,
     "orderId": randomOrderId,
     "zip": req.body.zip,
     "date": formattedDate,
