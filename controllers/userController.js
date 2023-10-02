@@ -224,7 +224,7 @@ const placeOrder = async (req, res) => {
   let total = await getTotalAmout(userId)
 
   const cartItems = await getProducts(userId)
- const userData = await UserModel.findOne({_id:userId})
+  const userData = await UserModel.findOne({_id:userId})
 
  const userDetails = {
   "name": userData.name,
@@ -267,20 +267,6 @@ const placeOrder = async (req, res) => {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
