@@ -439,6 +439,8 @@ const ordersView = async(req,res)=>{
   console.log(userId,"[[[[[[[[[[[[[[[[[[[[")
   
   const pendingOrders = await OrderModel.find({status:"pending"})
+  console.log(pendingOrders,"uuuuuuuuuuuuuuuu")
+  console.log(pendingOrders[0].products,"ppppppppppp")
   res.render("user/orders",{pendingOrders})
 }
 
