@@ -439,7 +439,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-  <script>
+<script>
   function validatePassword() {
     var newPassword = document.getElementById("newPassword").value;
     var renewPassword = document.getElementById("renewPassword").value;
@@ -449,8 +449,12 @@
       return false;
     }
 
-    return true;
+    // Ask for confirmation before changing password
+    var confirmed = confirm("Are you sure you want to change the password?");
+    return confirmed;
   }
+
+  
 </script>
 
 
