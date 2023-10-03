@@ -14,8 +14,6 @@ const { productDetails } = require("./productController");
 
 
 
-
-
 const indexView = async (req, res) => {
 
   const products = await ProductModel.find({ status: true })
@@ -420,6 +418,7 @@ const getTotalAmout = async (req,res)=>{
 
 
 const proceedToCheckout = async (req,res) =>{
+  
   let total = await getTotalAmout(userId)
   total = total[0] ? total[0].total : 0;
 

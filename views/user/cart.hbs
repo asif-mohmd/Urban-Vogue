@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
+     <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -48,8 +51,8 @@
                 </a></li>
         </ul>
         <div class="header__logo">
-                        <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
-                    </div>
+            <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
+        </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
             <a href="#">Login</a>
@@ -96,10 +99,10 @@
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
                             <li><a href="#"><span class="icon_heart_alt"></span>
-                                    <div class="tip">2</div>
+                                    {{!-- <div class="tip">2</div> --}}
                                 </a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span>
-                                    <div class="tip">2</div>
+                                    {{!-- <div class="tip">2</div> --}}
                                 </a></li>
                         </ul>
                     </div>
@@ -130,97 +133,132 @@
     <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad">
         <div class="container">
-             <form action="/checkout" method="get">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="shop__cart__table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                           
-                            <tbody>
-                               
-                                 {{#each cartItems}}
-                                <tr>
-                                    <td class="cart__product__item">
-                                        <img src="uploaded-images/{{product.imageUrl.[1]}}" alt=""
-                                            class="img-fluid img-thumbnail" style="width: 60px;">
-                                        <div class="cart__product__item__title">
-                                            <h6>{{product.name}}</h6>
-                                            <div class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+            <form action="/checkout" method="get">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="shop__cart__table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {{#each cartItems}}
+                                    <tr>
+                                        <td class="cart__product__item">
+                                            <img src="uploaded-images/{{product.imageUrl.[1]}}" alt=""
+                                                class="img-fluid img-thumbnail" style="width: 60px;">
+                                            <div class="cart__product__item__title">
+                                                <h6>{{product.name}}</h6>
+                                                <div class="rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart__price">{{product.price}}</td>
+                                        <td class="pro-qty-container">
+                                            <button class="pro-qty-button"
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+                                            <p class="pro-qty-count" id="{{this.product._id}}">{{count}}</p>
+                                            <button class="pro-qty-button"
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+                                        </td>
+
+
+                                        {{!-- <td class="cart__close"> <button type="button" class="btn btn-danger"
+                                                data-mdb-toggle="modal" data-mdb-target="#exampleModal{{@key}}"> --}}
+
+                                                 <td class="cart__close"><a lass="btn btn-danger"
+                                                data-mdb-toggle="modal" data-mdb-target="#exampleModal{{@key}}"><span
+                                                class="icon_close"></a></span></td>
+    
+                                            </button></span></td>
+                                    </tr>
+
+
+
+                                    <!-- Modal for unlisting -->
+                                    <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <!-- Modal content -->
+                                        <!-- Adjust the modal content as needed -->
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                                                    <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">Are you sure you want to remove the cart item?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-mdb-dismiss="modal">Close</button>
+                                                    <a href="/delete-cart-item?id={{this.product._id}}">
+                                                        <button type="button" class="btn btn-primary">Remove</button>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="cart__price">{{product.price}}</td>
-                                    <td class="pro-qty-container">
-                                        <button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)" >-</button>
-                                        <p class="pro-qty-count" id="{{this.product._id}}"  >{{count}}</p>
-                                        <button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
-                                    </td>
+                                    </div>
+                                    {{/each}}
 
-                                 
-                                    <td class="cart__close"><a href="/delete-cart-item?id={{this.product._id}}"><span
-                                                class="icon_close"></a></span></td>
-                                </tr>
-                                {{/each}}
-                                
-                            </tbody>
-                         
-                        </table>
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-          
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="/">Continue Shopping</a>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="cart__btn">
+                            <a href="/">Continue Shopping</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="cart__btn update__btn">
+                            <a href="#"><span class="icon_loading"></span> Update cart</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn update__btn">
-                        <a href="#"><span class="icon_loading"></span> Update cart</a>
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{!-- <div class="discount__content">
+                            <h6>Discount codes</h6>
+                            <form action="#">
+                                <input type="text" placeholder="Enter your coupon code">
+                                <button type="submit" class="site-btn">Apply</button>
+                            </form>
+                        </div> --}}
+                    </div>
+                    <div class="col-lg-4 offset-lg-2">
+                        <div class="cart__total__procced">
+                            <h6>Cart total</h6>
+                            <ul>
+                                {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
+                                <li>Total <span id="totalValue">₹ {{total}}</span></li>
+                            </ul>
+                            <button type="submit" class="site-btn">Proceed to checkout</button>
+                            {{!-- <a href="#" class="primary-btn">Proceed to checkout</a> --}}
+                        </div>
+
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    {{!-- <div class="discount__content">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">Apply</button>
-                        </form>
-                    </div> --}}
-                </div>
-                <div class="col-lg-4 offset-lg-2">
-                    <div class="cart__total__procced">
-                        <h6>Cart total</h6>
-                        <ul>
-                            {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
-                            <li>Total <span id="totalValue">₹ {{total}}</span></li>
-                        </ul>
-                        <button type="submit" class="site-btn">Proceed to checkout</button>
-                        {{!-- <a href="#" class="primary-btn">Proceed to checkout</a> --}}
-                    </div>
-                   
-                </div>
-            </div>
             </form>
         </div>
-        
+
     </section>
     <!-- Shop Cart Section End -->
 
@@ -387,46 +425,50 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 
-<script>
-    function changeQuantity(cartId, productId, count) {
-        let quantity = parseInt(document.getElementById(productId).innerHTML);
-        let parsedCount = parseInt(count);
+         <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
-        // Disable the form submission for quantity update buttons only
-        if (event.target.classList.contains('pro-qty-button')) {
-            event.preventDefault();
-            // Disable the form submit button during the quantity update
-            document.querySelector('form[action="/checkout"] button[type="submit"]').setAttribute('disabled', 'true');
-        }
 
-        $.ajax({
-            url: "/change-product-quantity",
-            data: {
-                cart: cartId,
-                product: productId,
-                count: parsedCount,
-                quantity: quantity
-            },
-            method: 'post',
-            success: (response) => {
-                console.log('Server response:', response);
-                if (response.removeProduct) {
-                    alert("Product removed successfully");
-                    location.reload();
-                } else {
-                    document.getElementById(productId).innerHTML = quantity + parsedCount;
-                    document.getElementById('totalValue').innerText = "₹ " + response.total[0].total;
-                }
-            },
-            complete: () => {
-                // Enable the form for submission after quantity update
-                document.querySelector('form[action="/checkout"] button[type="submit"]').removeAttribute('disabled');
+    <script>
+        function changeQuantity(cartId, productId, count) {
+            let quantity = parseInt(document.getElementById(productId).innerHTML);
+            let parsedCount = parseInt(count);
+
+            // Disable the form submission for quantity update buttons only
+            if (event.target.classList.contains('pro-qty-button')) {
+                event.preventDefault();
+                // Disable the form submit button during the quantity update
+                document.querySelector('form[action="/checkout"] button[type="submit"]').setAttribute('disabled', 'true');
             }
-        });
-    }
-</script>
 
-<!-- Rest of your HTML code -->
+            $.ajax({
+                url: "/change-product-quantity",
+                data: {
+                    cart: cartId,
+                    product: productId,
+                    count: parsedCount,
+                    quantity: quantity
+                },
+                method: 'post',
+                success: (response) => {
+                    console.log('Server response:', response);
+                    if (response.removeProduct) {
+                        alert("Product removed successfully");
+                        location.reload();
+                    } else {
+                        document.getElementById(productId).innerHTML = quantity + parsedCount;
+                        document.getElementById('totalValue').innerText = "₹ " + response.total[0].total;
+                    }
+                },
+                complete: () => {
+                    // Enable the form for submission after quantity update
+                    document.querySelector('form[action="/checkout"] button[type="submit"]').removeAttribute('disabled');
+                }
+            });
+        }
+    </script>
+
+    <!-- Rest of your HTML code -->
 
 
 </body>

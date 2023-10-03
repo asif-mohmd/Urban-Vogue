@@ -112,7 +112,7 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="" required>
+                      <input type="password" name="password" class="form-control" id="password" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -160,6 +160,30 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+   {{!-- onclick="return validatePassword()" --}}
+
+  <script>
+function validatePassword() {
+    var newPassword = document.getElementById('password').value;
+    var minNumberofChars = 6;
+    var maxNumberofChars = 16;
+    var regularExpression = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,16}$/;
+
+    if (newPassword.length < minNumberofChars || newPassword.length > maxNumberofChars) {
+        alert("Password length should be between 6 and 16 characters");
+        return false;
+    }
+
+    if (!regularExpression.test(newPassword)) {
+        alert("Password should contain at least one number, one uppercase letter, and one lowercase letter");
+        return false;
+    }
+
+    return true;  // Return true if the password is valid
+}
+
+  </script>
 
 </body>
 <style>
