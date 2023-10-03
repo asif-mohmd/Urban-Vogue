@@ -511,6 +511,22 @@ const addToWishlist = async(req,res) =>{
     }
   }
 
+  const removeWishlistProduct = async(req,res) =>{
+
+    const wishlistRemoved = await ProductModel.updateOne({_id:req.query.id},{wishlist:false})
+    const wishlistProducts = await ProductModel.find({wishlist:true})
+  
+    console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
+  
+    if(wishlistRemoved){
+      res.render("user/wishlist",{wishlistProducts})  
+      }else{
+        res.render("/")
+      }
+    }
+
+
+
   module.exports = {
     registerView,
     loginView,
@@ -532,7 +548,8 @@ const addToWishlist = async(req,res) =>{
     ordersView,
     cancelUserOrder,
     wishlistView,
-    addToWishlist
+    addToWishlist,
+    removeWishlistProduct
 
   };
 

@@ -26,6 +26,7 @@ router.get("/orders",userControllers.ordersView)
 router.get("/cancel-user-order",userControllers.cancelUserOrder)
 router.get("/wishlist",userControllers.wishlistView)
 router.get("/add-to-wishlist",userControllers.addToWishlist)
+router.get("/remove-wishlist-product",userControllers.removeWishlistProduct)
 
 
 

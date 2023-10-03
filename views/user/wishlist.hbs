@@ -38,6 +38,9 @@
     <link rel="stylesheet" href="css/wishlist.css" type="text/css">
     <!------ Include the above in your HEAD tag ---------->
 
+      <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -133,7 +136,7 @@
 		<div class="container">
 	        <div class="row">
 			    <div class="col-md-12">
-			        <div class="main-heading mb-10">My wishlist</div>
+			        <div class="main-heading mb-3">My wishlist</div>
 			        <div class="table-wishlist">
 				        <table cellpadding="0" cellspacing="0" border="0" width="100%">
 				        	<thead>
@@ -161,8 +164,35 @@
 					        		<td width="15%" class="price">{{price}}</td>
 					        		<td width="15%"><span class="in-stock-box">In Stock</span></td>
 					        		<td width="15%"><button class="round-black-btn small-btn">Add to Cart</button></td>
-					        		<td width="10%" class="text-center"><a href="#" class="trash-icon"><i class="far fa-trash-alt"></i></a></td>
-					        	</tr>
+					        		<td width="10%" class="text-center"><a href="#"  data-mdb-toggle="modal" data-mdb-target="#exampleModal{{@key}}"><i class="far fa-trash-alt text-danger"></i></a></td>
+					        	
+                                </tr>
+
+
+                                   <!-- Modal for unlisting -->
+                                    <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <!-- Modal content -->
+                                        <!-- Adjust the modal content as needed -->
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                                                    <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">Are you sure you want to remove the cart item?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-mdb-dismiss="modal">Close</button>
+                                                    <a href="/remove-wishlist-product?id={{this._id}}">
+                                                        <button type="button" class="btn btn-primary">Remove</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 					{{/each}}
 				        	</tbody>
 				        </table>
@@ -184,6 +214,11 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/jquery.nicescroll.min.js"></script>
     <script src="js/main.js"></script>
+
+    
+         <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
+
     
 </body>
 </html>
