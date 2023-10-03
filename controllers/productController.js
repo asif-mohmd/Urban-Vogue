@@ -27,7 +27,8 @@ const addProduct = async (req, res) => {
                 category,
                 size,
                 imageUrl: images,
-                status: true,
+                listStatus: true,
+                deleteStatus: false,
             };
 
             const product = await ProductModel.create(data);
@@ -128,12 +129,12 @@ const deleteProduct = async (req, res) => {
         }
 
         // Delete each image associated with the product
-        for (const imageUrl of product.imageUrl) {
-            await fileHandler.deleteFile(imageUrl);
-        }
+        // for (const imageUrl of product.imageUrl) {
+        //     await fileHandler.deleteFile(imageUrl);
+        // }
 
         // Delete the product
-        await ProductModel.deleteOne({ _id: productId });
+        await ProductModel.updateOne({ _id: productId },{$set:{status:true}});
 
         // Redirect to the desired route
         res.redirect("/admin/editProductView");
@@ -148,8 +149,9 @@ const listUnlistProduct = async (req, res) => {
     try {
         const product = await ProductModel.findById({ _id: req.params.id })
         if (product) {
-            const update = await ProductModel.updateOne({ _id: product.id }, { $set: { status: !product.status } })
+            const update = await ProductModel.updateOne({ _id: product.id }, { $set: { listStatus: !product.listStatus } })
             if (update) {
+                console.log("updat elist")
                 res.redirect("/admin/editProductView")
             } else {
                 msg = true

@@ -16,7 +16,7 @@ const { productDetails } = require("./productController");
 
 const indexView = async (req, res) => {
 
-  const products = await ProductModel.find({ status: true })
+  const products = await ProductModel.find({ listStatus: true },{deleteStatus:false})
   res.render("user/index", { products });
 }
 

@@ -26,11 +26,16 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required : true
     },
-    status: 
+    listStatus: 
     { 
         type: Boolean, 
         default: true
-     }
+    },
+    deleteStatus: 
+    { 
+         type: Boolean, 
+         default: false
+    }
 
 })
 const ProductModel = mongoose.model("Product", ProductSchema);
