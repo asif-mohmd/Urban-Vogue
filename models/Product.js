@@ -26,6 +26,10 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required : true
     },
+    wishlist:{
+        type: Boolean, 
+        default: false
+    },
     listStatus: 
     { 
         type: Boolean, 

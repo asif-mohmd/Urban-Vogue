@@ -16,7 +16,7 @@ const { productDetails } = require("./productController");
 
 const indexView = async (req, res) => {
 
-  const products = await ProductModel.find({ listStatus: true },{deleteStatus:false})
+  const products = await ProductModel.find({ listStatus: true , deleteStatus:false})
   res.render("user/index", { products });
 }
 
@@ -486,6 +486,31 @@ const getProducts = async(userId) =>{
 
 
 
+const wishlistView = async(req,res) =>{
+  
+  const wishlistProducts = await ProductModel.find({wishlist:true})
+  if(wishlistProducts){
+    console.log(wishlistProducts,"=============")
+    res.render("user/wishlist",{wishlistProducts})
+  }else{
+    res.render("user/wishlist")
+  }
+}
+
+const addToWishlist = async(req,res) =>{
+
+  const wishlisted = await ProductModel.updateOne({_id:req.query.id},{wishlist:true})
+  const wishlistProducts = await ProductModel.find({wishlist:true})
+
+  console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
+
+  if(wishlisted){
+    res.render("user/wishlist",{wishlistProducts})  
+    }else{
+      res.render("/")
+    }
+  }
+
   module.exports = {
     registerView,
     loginView,
@@ -505,7 +530,9 @@ const getProducts = async(userId) =>{
     proceedToCheckout,
     placeOrder,
     ordersView,
-    cancelUserOrder
+    cancelUserOrder,
+    wishlistView,
+    addToWishlist
 
   };
 

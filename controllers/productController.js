@@ -27,6 +27,7 @@ const addProduct = async (req, res) => {
                 category,
                 size,
                 imageUrl: images,
+                wishlist: false,
                 listStatus: true,
                 deleteStatus: false,
             };
@@ -134,10 +135,10 @@ const deleteProduct = async (req, res) => {
         // }
 
         // Delete the product
-        await ProductModel.updateOne({ _id: productId },{$set:{status:true}});
-
+        await ProductModel.updateOne({ _id: productId },{$set:{deleteStatus:true}});
+        msgDelete = true
         // Redirect to the desired route
-        res.redirect("/admin/editProductView");
+        res.render("admin/deleted-products",{msgDelete});
     } catch (err) {
       
         res.status(500).json({ message: "Deleting Product failed" });

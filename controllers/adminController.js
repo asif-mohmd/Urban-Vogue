@@ -1,6 +1,7 @@
 const UserModel = require("../models/User")
 const CategoryModel = require("../models/Category")
 const OrderModel = require("../models/Order")
+const ProductModel = require("../models/Product")
 
 
 let adminEmail = "admin@gmail.com"
@@ -111,12 +112,17 @@ const listUnlistCategory = async (req, res) => {
 }
 
 const listedCategory = async (req, res) => {
-    const listedCategory = await CategoryModel.find({ status: true })
+    const listedCategory = await CategoryModel.find({ listStatus: true })
     res.render("admin/listed-category", { listedCategory })
 }
 
+const deletedProducts = async (req, res) => {
+    const deletedProducts = await ProductModel.find({ deletedProducts: true })
+    res.render("admin/deleted-products", { deletedProducts })
+}
+
 const unListedCategory = async (req, res) => {
-    const unListedCategory = await CategoryModel.find({ status: !true })
+    const unListedCategory = await CategoryModel.find({ listStatus: !true })
     res.render("admin/unlisted-category", { unListedCategory })
 }
 
@@ -180,5 +186,6 @@ module.exports = {
     orderDelivered,
     delieveredOrders,
     cancelledOrders,
-    orderCancelled
+    orderCancelled,
+    deletedProducts
 }
