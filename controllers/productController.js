@@ -116,7 +116,7 @@ const productDetailsEdit = async (req, res) => {
 
 
 const editProductView = async (req, res) => {
-    const products = await ProductModel.find()
+    const products = await ProductModel.find({deleteStatus:false})
     res.render("admin/edit-product", { products })
 }
 
@@ -137,10 +137,11 @@ const deleteProduct = async (req, res) => {
         // Delete the product
         await ProductModel.updateOne({ _id: productId },{$set:{deleteStatus:true}});
         msgDelete = true
+        console.log("----------------------")
         // Redirect to the desired route
         res.render("admin/deleted-products",{msgDelete});
     } catch (err) {
-      
+      console.log("=============")
         res.status(500).json({ message: "Deleting Product failed" });
     }
 };

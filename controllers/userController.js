@@ -268,10 +268,6 @@ const placeOrder = async (req, res) => {
       }
     }
   
-    if(stockUpdate){
-      console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj")
-    }
-
     const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
 
     if (cart) {
@@ -369,7 +365,7 @@ const changeProductQuantity = async (req, res) => {
 
       const productDetails = await ProductModel.findOne({ _id: product })
 
-      
+
       if (productDetails.stock >= quantity + count) {
         const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
         if (updated) {
