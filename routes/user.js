@@ -24,9 +24,7 @@ router.get("/delete-cart-item",userControllers.deleteCartItem)
 router.get("/checkout",userControllers.proceedToCheckout)
 router.get("/orders",userControllers.ordersView)
 router.get("/cancel-user-order",userControllers.cancelUserOrder)
-router.get("/wishlist",userControllers.wishlistView)
-router.get("/add-to-wishlist",userControllers.addToWishlist)
-router.get("/remove-wishlist-product",userControllers.removeWishlistProduct)
+
 
 
 
@@ -41,3 +39,9 @@ router.post("/place-order",userControllers.placeOrder)
 
 
 module.exports = router;
+
+
+
+// router.get("/wishlist",userControllers.wishlistView)
+// router.get("/add-to-wishlist",userControllers.addToWishlist)
+// router.get("/remove-wishlist-product",userControllers.removeWishlistProduct)

@@ -486,45 +486,6 @@ const getProducts = async(userId) =>{
 
 
 
-const wishlistView = async(req,res) =>{
-  
-  const wishlistProducts = await ProductModel.find({wishlist:true})
-  if(wishlistProducts){
-    console.log(wishlistProducts,"=============")
-    res.render("user/wishlist",{wishlistProducts})
-  }else{
-    res.render("user/wishlist")
-  }
-}
-
-const addToWishlist = async(req,res) =>{
-
-  const wishlisted = await ProductModel.updateOne({_id:req.query.id},{wishlist:true})
-  const wishlistProducts = await ProductModel.find({wishlist:true})
-
-  console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
-
-  if(wishlisted){
-    res.render("user/wishlist",{wishlistProducts})  
-    }else{
-      res.render("/")
-    }
-  }
-
-  const removeWishlistProduct = async(req,res) =>{
-
-    const wishlistRemoved = await ProductModel.updateOne({_id:req.query.id},{wishlist:false})
-    const wishlistProducts = await ProductModel.find({wishlist:true})
-  
-    console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
-  
-    if(wishlistRemoved){
-      res.render("user/wishlist",{wishlistProducts})  
-      }else{
-        res.render("/")
-      }
-    }
-
 
 
   module.exports = {
@@ -547,9 +508,51 @@ const addToWishlist = async(req,res) =>{
     placeOrder,
     ordersView,
     cancelUserOrder,
-    wishlistView,
-    addToWishlist,
-    removeWishlistProduct
+   
 
   };
 
+
+
+  
+// const wishlistView = async(req,res) =>{
+  
+//   const wishlistProducts = await ProductModel.find({wishlist:true})
+//   if(wishlistProducts){
+//     console.log(wishlistProducts,"=============")
+//     res.render("user/wishlist",{wishlistProducts})
+//   }else{
+//     noWishist = true
+//     res.render("/",{noWishist})
+//   }
+// }
+
+// const addToWishlist = async(req,res) =>{
+
+//   const wishlisted = await ProductModel.updateOne({_id:req.query.id},{wishlist:true})
+//   const wishlistProducts = await ProductModel.find({wishlist:true})
+
+//   console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
+
+//   if(wishlisted){
+//     res.render("user/wishlist",{wishlistProducts})  
+//     }else{
+//       noWishist = true
+//       res.render("/",{noWishist})
+//     }
+//   }
+
+//   const removeWishlistProduct = async(req,res) =>{
+
+//     const wishlistRemoved = await ProductModel.updateOne({_id:req.query.id},{wishlist:false})
+//     const wishlistProducts = await ProductModel.find({wishlist:true})
+  
+//     console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
+  
+//     if(wishlistRemoved){
+//       res.render("user/wishlist",{wishlistProducts})  
+//       }else{
+//         noWishist = true
+//     res.render("/",{noWishist})
+//       }
+//     }

@@ -27,7 +27,6 @@ const addProduct = async (req, res) => {
                 category,
                 size,
                 imageUrl: images,
-                wishlist: false,
                 listStatus: true,
                 deleteStatus: false,
             };

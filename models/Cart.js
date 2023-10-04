@@ -6,19 +6,23 @@ const CartSchema = new mongoose.Schema({
     required: true,
   },
 
-  cart : [
+  cart: [
     {
-      productId : {
-            type : String,
-            required : true
-        },
-        count : {
-            type : Number,
-            required : 0
-        }
+      productId: {
+        type: String,
+        required: true
+      },
+      count: {
+        type: Number,
+        required: 0
+      }
     }
-],
-  
+  ],
+  wishlist: {
+    type: Boolean,
+    default: false
+  },
+
 
 });
 const cartModel = mongoose.model("Cart", CartSchema);
