@@ -233,10 +233,13 @@ const placeOrder = async (req, res) => {
  }
 
   const products = cartItems.map(cartItem => ({
+    productId:cartItem.product._id,
     name: cartItem.product.name,
     price: cartItem.product.price,
     count: cartItem.count
   }));
+
+  console.log(products,"=========================")
 
   const data = {
     "userDetails" : userDetails,
@@ -250,7 +253,24 @@ const placeOrder = async (req, res) => {
   }
  
   const order = await OrderModel.create(data)
-  if (order) {
+  if (order)  {
+    for (const product of products) {
+      const existingProduct = await ProductModel.findById(product.productId);
+  
+      if (existingProduct && existingProduct.stock >= product.count) {
+        await ProductModel.updateOne(
+          { _id: product.productId, stock: { $gte: product.count } },
+          { $inc: { stock: -product.count } }
+        );
+      } else {
+        console.log(`Insufficient stock for product with ID ${product.productId}`);
+        // Handle insufficient stock scenario here, e.g., notify the user
+      }
+    }
+  
+    if(stockUpdate){
+      console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj")
+    }
 
     const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
 
@@ -326,13 +346,12 @@ const deleteCartItem = async (req, res) => {
   } catch (error) {
     console.log("Not deleted ")
   }
-
-
 }
 
 const changeProductQuantity = async (req, res) => {
   try {
     let { cart, product, count, quantity } = req.body;
+    console.log(product, "----------------")
     count = parseInt(count);
     quantity = parseInt(quantity);
 
@@ -341,23 +360,34 @@ const changeProductQuantity = async (req, res) => {
     if (count === -1 && quantity === 1) {
       const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
       if (removeProduct) {
-       
+
         response = { removeProduct: true };
       } else {
         response = { removeProduct: false };
       }
     } else {
-      const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
-      if (updated) {
-       
-        const userId = req.session.user._id
 
-        let total = await getTotalAmout(userId)
- 
-        response = { status: true ,total };
+      const productDetails = await ProductModel.findOne({ _id: product })
+
+      
+      if (productDetails.stock >= quantity + count) {
+        const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
+        if (updated) {
+
+          const userId = req.session.user._id
+
+          let total = await getTotalAmout(userId)
+
+          response = { status: true, total };
+        } else {
+          response = { status: false };
+        }
       } else {
-        response = { status: false };
+        response = { stockLimit: true }
       }
+
+
+
     }
 
     res.json(response);  // Send the response back to the client

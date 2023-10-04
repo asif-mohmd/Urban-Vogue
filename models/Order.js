@@ -41,6 +41,10 @@ const OrderSchema = new mongoose.Schema({
 
 
   products:[{
+    productId:{
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,

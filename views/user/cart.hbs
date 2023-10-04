@@ -460,7 +460,10 @@
                     if (response.removeProduct) {
                         alert("Product removed successfully");
                         location.reload();
-                    } else {
+                    } else if(response.stockLimit){
+                        alert("Stock limit reached")
+                    }
+                    else {
                         document.getElementById(productId).innerHTML = quantity + parsedCount;
                         document.getElementById('totalValue').innerText = "₹ " + response.total[0].total;
                     }

@@ -13,7 +13,7 @@ const addProductView = async (req, res) => {
 
 const addProduct = async (req, res) => {
     try {
-        const { name, price, description, category, size } = req.body;
+        const { name, price, description, category, size, stock } = req.body;
         const images = req.files
             .filter((file) =>
                 file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg")
@@ -27,6 +27,7 @@ const addProduct = async (req, res) => {
                 category,
                 size,
                 imageUrl: images,
+                stock:stock,
                 listStatus: true,
                 deleteStatus: false,
             };
