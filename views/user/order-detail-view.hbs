@@ -123,7 +123,7 @@
         <div class="col-lg-12">
           <div class="breadcrumb__links">
             <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-            <span>Orders</span>
+            <span>Order Details</span>
           </div>
         </div>
       </div>
@@ -150,108 +150,28 @@
               {{!-- <h5 class="card-title">Users</h5> --}}
 
               <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    
-                    <th scope="col">Order ID</th>
-                    <th scope="col">status</th>
-                    <th scope="col">Zip</th>
-                    <th scope="col">Date</th>
-
-                    <th scope="col">Amount</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each pendingOrders}}
-                  <tr>
-                    <th scope="row">{{@key}}</th>
-
-                    <td>{{orderId}}</td>
-                    <td>{{status}}</td>
-                    <td>{{zip}}</td>
-                    <td>{{date}}</td>
-                    <td>{{amount}}</td>
+  <table class="table datatable">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each orderDetails.products}}
+    <tr>
+      <th scope="row">{{@index}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.price}}</td>
+      <td>{{this.count}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
 
 
-                    <td>
-                   <a href="/order-detail-view?id={{this._id}}"><button type="button" class="btn btn-primary" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal3">View Details</button></a>  
-
-                      <button type="button" class="btn btn-warning" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal2{{@key}}">Return</button>
-
-                      <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal">Cancel</button>
-                    </td>
-
-                  </tr>
-                  
-
-
-                  <div class="modal fade" id="exampleModal2{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-                          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">Why are you returning this order</div>
-                        <fieldset class="row mb-3 ml-5">
-                          <div class="col-sm-10">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="returnType" id="gridRadios1" value="0">
-                              <label class="form-check-label" for="gridRadios1">
-                                Defective
-                              </label>
-                            </div>
-                            <div class="form-check disabled">
-                              <input class="form-check-input" type="radio" name="returnType" id="gridRadios" value="1">
-                              <label class="form-check-label" for="gridRadios3">
-                                Other
-                              </label>
-                            </div>
-                          </div>
-                        </fieldset>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-warning" name="order_id" id="order_id" onclick="returnOrder('{{this._id}}')">Return
-                            Order</button>
-                     
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-                          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">Are you sure?</div>
-                        <div class="modal-footer">
-
-                          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-
-                          <a href="/cancel-user-order?id={{this._id}}"><button type="button"
-                              class="btn btn-danger">Cancel Order</button></a>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {{/each}}
-                </tbody>
-              </table>
               <!-- End Table with stripped rows -->
 
               <!-- Button trigger modal -->

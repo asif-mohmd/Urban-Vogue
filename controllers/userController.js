@@ -503,24 +503,48 @@ const getProducts = async(userId) =>{
 }
 
 
+const orderDetailView = async(req,res)=>{
+  const orderObjId = req.query.id
+
+  const orderDetails =  await OrderModel.findById({_id:orderObjId})
+
+  res.render("user/order-detail-view",{orderDetails})
+}
+
 const returnUserOrder = async (req,res) =>{
 
   console.log(req.query,"yuyeyeyeyeyeyey")
   console.log(req.query.id,"ioddddddddddd")
   console.log(req.query.returnType,"ppppppppppppp")
-  const productId = req.query.id
-  const returnType = req.query.returnType
-  const userId = req.session._id
-  console.log(userId,"---------------")
 
-  if(returnType==1){
-    const stockUpdate = await ProductModel.OrderModel({userId:userId},{status:"returnDefective"}) 
+  
+  const orderObjId = req.query.id
+  const returnType = req.query.returnType
+  const userId = req.session.user._id
+  
+  const orderDetails = await OrderModel.findById({_id:orderObjId})
+
+  console.log(orderDetails,"podaaaa")
+  const productDetails = orderDetails.products.map(product => ({
+    productId: product.productId,
+    count: product.count
+  }));
+  
+  for (const product of productDetails) {
+    const existingProduct = await ProductModel.findById(product.productId);
+
+    if (existingProduct && existingProduct.stock >= product.count) {
+      await ProductModel.updateOne(
+        { _id: product.productId},{ $inc: { stock: product.count } }
+      );
+    } else {
+      console.log(`Insufficient stock for product with ID ${product.productId}`);
+      // Handle insufficient stock scenario here, e.g., notify the user
+    }
 
   }
 
-
-
-
+  
 
 }
 
@@ -547,7 +571,8 @@ const returnUserOrder = async (req,res) =>{
     placeOrder,
     ordersView,
     cancelUserOrder,
-    returnUserOrder
+    returnUserOrder,
+    orderDetailView
    
 
   };
