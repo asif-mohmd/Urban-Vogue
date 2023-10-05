@@ -5,6 +5,7 @@ const fs = require("fs")
 
 
 const { upload } = require('../utils/imageHandler')
+const cartModel = require("../models/Cart")
 
 
 const addProductView = async (req, res) => {
@@ -59,8 +60,9 @@ const addProduct = async (req, res) => {
 
 const productDetails = async (req, res) => {
     const singleProduct = await ProductModel.findOne({ _id: req.query.id })
-    
-    res.render("user/product-details", { singleProduct })
+    const cartCheck = await cartModel.findOne({'cart.productId': req.query.id  })
+    console.log(singleProduct.stock,"00000000000000")
+    res.render("user/product-details", { singleProduct , cartCheck })
 }
 
 

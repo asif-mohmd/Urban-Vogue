@@ -468,7 +468,7 @@
 
     <section class="section">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 ">
 
           <div class="card">
             <div class="card-body">
@@ -486,7 +486,9 @@
                     <th scope="col">Price</th>
                     <th scope="col">Size</th>
                     <th scope="col">Category</th>
+                     <th scope="col">Stock</th>
                     <th scope="col">Action</th>
+           
                   </tr>
                 </thead>
                 <tbody>
@@ -497,6 +499,7 @@
                     <td>{{price}}</td>
                     <td>{{size}}</td>
                     <td>{{category}}</td>
+                    <td><button class="btn btn-primary">Update : {{stock}}</button></td>
                     <td>
 
                       {{#if this.listStatus}}
@@ -520,6 +523,7 @@
                           class="btn btn-primary">Edit</button></a> &nbsp;
                       <a href="/admin/delete-product?id={{this._id}}"><button class="btn btn-danger">Delete</button></a>
                     </td>
+
 
                   </tr>
 

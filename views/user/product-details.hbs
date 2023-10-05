@@ -60,7 +60,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
-                   <div class="header__logo">
+                    <div class="header__logo">
                         <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
                     </div>
                 </div>
@@ -92,10 +92,10 @@
                         </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span>
+                            <li><a href="/wishlist"><span class="icon_heart_alt"></span>
                                     <div class="tip">2</div>
                                 </a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
+                            <li><a href="/cart"><span class="icon_bag_alt"></span>
                                     <div class="tip">2</div>
                                 </a></li>
                         </ul>
@@ -173,17 +173,30 @@
                         </div>
                         <div class="product__details__price">{{singleProduct.price}} <span></span></div>
                         <p>{{singleProduct.description}}</p>
-                        <div class="product__details__button">
+                        {{#if (gt singleProduct.stock 0)}}
+                        <span class="font-weight-bold pl-3">In Stock: {{singleProduct.stock}}</span>
+                        {{else}}
+                        <span class="font-weight-bold pl-3 text-danger">Out of Stock</span>
+                        {{/if}}
+
+
+                        <div class="product__details__button mt-1">
                             {{!-- <div class="quantity">
                                 <span>Quantity:</span>
                                 <div class="pro-qty">
                                     <input type="text" value="1">
                                 </div>
                             </div> --}}
+                            {{#if cartCheck}}
+                            <a href="/cart" class="cart-btn"><span class="icon_bag_alt"></span> Go to cart</a>
 
-                            <a href="/addToCart?id={{singleProduct._id}}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            {{else}}
+                            <a href="/addToCart?id={{singleProduct._id}}" class="cart-btn"><span
+                                    class="icon_bag_alt"></span> Add to cart</a>
+                            {{/if}}
                             <ul>
-                                <li><a href="/add-to-wishlist?id={{singleProduct._id}}"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="/add-to-wishlist?id={{singleProduct._id}}"><span
+                                            class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
                         </div>
