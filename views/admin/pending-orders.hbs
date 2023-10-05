@@ -303,7 +303,7 @@
             </a>
           </li>
 
-            <li>
+          <li>
             <a href="/admin/deleted-products">
               <i class="bi bi-circle"></i><span>Deleted Products</span>
             </a>
@@ -325,23 +325,23 @@
 
           <li>
             <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
-        </a>
-          </li>
-             <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
-        </a>
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
+            </a>
           </li>
           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
-        </a>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+            </a>
           </li>
 
 
@@ -354,20 +354,20 @@
         </a>
         <ul id="forms-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
-             <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
+            </a>
           </li>
           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
-        </a>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
+            </a>
           </li>
 
 
@@ -375,7 +375,31 @@
       </li><!-- End Forms Nav -->
 
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav4" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Order return</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-pending">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Pending</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-defective">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Defective</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-nonDefective">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Non-Defective</span></i>
+            </a>
+          </li>
+
+
+        </ul>
+      </li><!-- End Forms Nav -->
 
 
       <li class="nav-item">
@@ -435,7 +459,7 @@
 
 
 
- <main id="main" class="main">
+  <main id="main" class="main">
     <!-- Modal -->
 
 
@@ -479,18 +503,18 @@
                     <td>{{zip}}</td>
                     <td>{{date}}</td>
                     <td>{{amount}}</td>
-                    
+
                     <td>
                       <a href="/admin/order-delivered?id={{_id}} "><button
                           class="btn btn-success">Delivered</button></a>
 
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal">Cacelled</button>
-                   
-                    
-                          
+
+
+
                     </td>
-              
+
 
                   </tr>
                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -566,7 +590,7 @@
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
 
-    <!-- MDB -->
+  <!-- MDB -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
 </body>

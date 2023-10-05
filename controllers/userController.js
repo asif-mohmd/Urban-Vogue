@@ -222,15 +222,7 @@ const placeOrder = async (req, res) => {
   let total = await getTotalAmout(userId)
 
   const cartItems = await getProducts(userId)
-  const userData = await UserModel.findOne({_id:userId})
 
- const userDetails = {
-  "name": userData.name,
-  "email": userData.email,
-  "mobile": userData.mobile,
-  "gender":userData.gender,
-  "address": userData.address
- }
 
   const products = cartItems.map(cartItem => ({
     productId:cartItem.product._id,
@@ -242,7 +234,7 @@ const placeOrder = async (req, res) => {
   console.log(products,"=========================")
 
   const data = {
-    "userDetails" : userDetails,
+    "userId" : userId,
     "orderId": randomOrderId,
     "zip": req.body.zip,
     "date": formattedDate,
@@ -458,7 +450,7 @@ const ordersView = async(req,res)=>{
   const userId = req.session.user._id
   
   const pendingOrders = await OrderModel.find({status:"pending"})
-  
+  console.log(pendingOrders,"===========")
   res.render("user/orders",{pendingOrders})
 }
 
@@ -511,6 +503,27 @@ const getProducts = async(userId) =>{
 }
 
 
+const returnUserOrder = async (req,res) =>{
+
+  console.log(req.query,"yuyeyeyeyeyeyey")
+  console.log(req.query.id,"ioddddddddddd")
+  console.log(req.query.returnType,"ppppppppppppp")
+  const productId = req.query.id
+  const returnType = req.query.returnType
+  const userId = req.session._id
+  console.log(userId,"---------------")
+
+  if(returnType==1){
+    const stockUpdate = await ProductModel.OrderModel({userId:userId},{status:"returnDefective"}) 
+
+  }
+
+
+
+
+
+}
+
 
 
 
@@ -534,6 +547,7 @@ const getProducts = async(userId) =>{
     placeOrder,
     ordersView,
     cancelUserOrder,
+    returnUserOrder
    
 
   };

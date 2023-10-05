@@ -311,7 +311,7 @@
             </a>
           </li>
 
-            <li>
+          <li>
             <a href="/admin/deleted-products">
               <i class="bi bi-circle"></i><span>Deleted Products</span>
             </a>
@@ -341,15 +341,15 @@
               <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
             </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+            </a>
           </li>
 
 
@@ -362,20 +362,46 @@
         </a>
         <ul id="forms-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
-             <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
+            </a>
           </li>
           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
-        </a>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
+            </a>
+          </li>
+
+
+        </ul>
+      </li><!-- End Forms Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav4" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Order return</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
+        <ul id="forms-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-pending">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Pending</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-defective">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Defective</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-nonDefective">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Non-Defective</span></i>
+            </a>
           </li>
 
 
@@ -474,7 +500,7 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-              
+
 
                   </tr>
                 </thead>
@@ -484,7 +510,7 @@
                     <th scope="row">{{@key}}</th>
                     <td>{{categoryName}}</td>
 
-                    
+
                   </tr>
                   {{/each}}
 

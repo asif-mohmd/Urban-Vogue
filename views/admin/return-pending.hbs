@@ -30,6 +30,8 @@
 
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -300,7 +302,8 @@
               <i class="bi bi-circle"></i><span>Edit Product</span>
             </a>
           </li>
-            <li>
+
+          <li>
             <a href="/admin/deleted-products">
               <i class="bi bi-circle"></i><span>Deleted Products</span>
             </a>
@@ -322,23 +325,23 @@
 
           <li>
             <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
-        </a>
-          </li>
-             <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
-        </a>
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Category</span></i>
+            </a>
           </li>
           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
-        </a>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Category</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Category</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCategory">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Category</span></i>
+            </a>
           </li>
 
 
@@ -351,54 +354,52 @@
         </a>
         <ul id="forms-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
-             <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/pending-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Pending Orders</span></i>
+            </a>
           </li>
           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
-        </a>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/delivered-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Delivered Orders</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/cancelled-orders">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Cancelled Orders</span></i>
+            </a>
           </li>
 
 
         </ul>
       </li><!-- End Forms Nav -->
 
-            <li class="nav-item">
+
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav4" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Order return</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
-             <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-pending">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Return Pending</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-pending">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Pending</span></i>
+            </a>
           </li>
           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-defective">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Return Defective</span></i>
-        </a>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-defective">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Defective</span></i>
+            </a>
           </li>
-           <li>
-             <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-nonDefective">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Return Non-Defective</span></i>
-        </a>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/return-nonDefective">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Return Non-Defective</span></i>
+            </a>
           </li>
 
 
         </ul>
       </li><!-- End Forms Nav -->
-
-
-
 
 
       <li class="nav-item">
@@ -458,18 +459,18 @@
 
 
 
- <main id="main" class="main">
+  <main id="main" class="main">
     <!-- Modal -->
 
 
 
 
     <div class="pagetitle">
-      <h1>Delivered Orders</h1>
+      <h1>Pending Orders</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-          <li class="breadcrumb-item">Delivered Orders</li>
+          <li class="breadcrumb-item">Pending Orders</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -488,21 +489,32 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Order ID</th>
-                    <th scope="col">Zip</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
-              
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each deliveredOrders}}
+                  {{#each pendingOrders}}
                   <tr>
                     <th scope="row"> {{@key}}</th>
                     <td>{{orderId}}</td>
                     <td>{{zip}}</td>
                     <td>{{date}}</td>
                     <td>{{amount}}</td>
-                    
+
+                    <td>
+                      <a href="/admin/order-delivered?id={{_id}} "><button
+                          class="btn btn-success">Delivered</button></a>
+
+                      <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal">Cacelled</button>
+
+
+
+                    </td>
+
 
                   </tr>
                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -518,8 +530,8 @@
 
                           <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
 
-                          <a href="/admin/block-unblock?id={{this._id}}"><button type="button"
-                              class="btn btn-primary">Save changes</button></a>
+                          <a href="/admin/order-cancelled?id={{this._id}}"><button type="button"
+                              class="btn btn-danger">Cancel order</button></a>
 
                         </div>
                       </div>
@@ -531,11 +543,6 @@
               <!-- End Table with stripped rows -->
 
               <!-- Button trigger modal -->
-
-
-
-
-
 
             </div>
           </div>
@@ -582,6 +589,9 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
+
+  <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
 </body>
 

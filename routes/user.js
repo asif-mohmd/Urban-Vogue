@@ -24,6 +24,7 @@ router.get("/delete-cart-item",userControllers.deleteCartItem)
 router.get("/checkout",userControllers.proceedToCheckout)
 router.get("/orders",userControllers.ordersView)
 router.get("/cancel-user-order",userControllers.cancelUserOrder)
+router.get("/return-user-order",userControllers.returnUserOrder)
 
 
 

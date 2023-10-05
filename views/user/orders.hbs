@@ -67,9 +67,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xl-3 col-lg-2">
-           <div class="header__logo">
-                        <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
-                    </div>
+          <div class="header__logo">
+            <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
+          </div>
         </div>
         <div class="col-xl-6 col-lg-7">
           <nav class="header__menu">
@@ -154,9 +154,12 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
+                    
                     <th scope="col">Order ID</th>
+                    <th scope="col">Quantity</th>
                     <th scope="col">Zip</th>
                     <th scope="col">Date</th>
+
                     <th scope="col">Amount</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -168,17 +171,22 @@
 
                     {{#each products}}
                     <td>{{this.name}}</td>
+                    <td>{{this.count}}</td>
                     {{/each}}
 
                     <td>{{zip}}</td>
                     <td>{{date}}</td>
+
                     <td>{{amount}}</td>
 
                     <td>
 
+                      <button type="button" class="btn btn-warning" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal2">Return</button>
 
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal">Cancel</button>
+
 
 
 
@@ -186,6 +194,46 @@
 
 
                   </tr>
+
+
+                  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">Why are you returning this order</div>
+                        <fieldset class="row mb-3 ml-5">
+                          <div class="col-sm-10">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="returnType" id="gridRadios1" value="0">
+                              <label class="form-check-label" for="gridRadios1">
+                                Defective
+                              </label>
+                            </div>
+                            <div class="form-check disabled">
+                              <input class="form-check-input" type="radio" name="returnType" id="gridRadios" value="1">
+                              <label class="form-check-label" for="gridRadios3">
+                                Other
+                              </label>
+                            </div>
+                          </div>
+                        </fieldset>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-warning" onclick="returnOrder('{{this._id}}')">Return
+                            Order</button>
+                          <input type="text" value="{{this._id}}" name="order_id" id="order_id" hidden>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
@@ -200,7 +248,7 @@
                           <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
 
                           <a href="/cancel-user-order?id={{this._id}}"><button type="button"
-                              class="btn btn-primary">Cancel Order</button></a>
+                              class="btn btn-danger">Cancel Order</button></a>
 
                         </div>
                       </div>
@@ -264,6 +312,18 @@
 
   <!-- MDB -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
+
+  <script>
+    function returnOrder(id) {
+      const selectedValue = document.querySelector('input[name="returnType"]:checked').value;
+      console.log("Selected Value:", selectedValue);
+
+      const returnUrl = `/return-user-order?id=${id}&returnType=${selectedValue}`;
+      console.log("Return URL:", returnUrl);
+
+      window.location.href = returnUrl;
+    }
+  </script>
 
 </body>
 
