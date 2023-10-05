@@ -75,46 +75,74 @@ const editProductDetails = async (req, res) => {
 
 
 const productDetailsEdit = async (req, res) => {
-    const { id, name, price, description, size, category } = req.body;
+    const { id, name, price,stock,description, size, category } = req.body;
+    console.log("00", req.files);
 
     try {
         // Fetch the existing product to get its image URLs
         const existingProduct = await ProductModel.findById(id);
         if (!existingProduct) {
-         
             return res.status(404).send('Product not found.');
         }
-        // Delete the existing images
-        for (const imageUrl of existingProduct.imageUrl) {
-            const imagePath = path.join(__dirname, "..", "public", "uploaded-images", imageUrl);
-            fs.unlinkSync(imagePath);
-         
-        }
-        // req.files now contains the uploaded images
 
-        const updateData = {
-            name: name,
-            price: price,
-            description: description,
-            size: size,
-            category: category,
-            imageUrl: req.files.map(file => file.filename)
-        };
+        // Check if req.files is an empty array or not provided
+        if (!req.files || req.files.length === 0) {
+            console.log("No new images provided.");
 
-        const update = await ProductModel.updateOne({ _id: id }, { $set: updateData });
+            const updateData = {
+                name: name,
+                price: price,
+                stock:stock,
+                description: description,
+                size: size,
+                category: category,
+            };
 
-        if (update) {
-            res.redirect("/admin/editProductView");
+            const update = await ProductModel.updateOne({ _id: id }, { $set: updateData });
+
+            if (update) {
+                res.redirect("/admin/editProductView");
+            } else {
+                msg = true;
+                res.render("user/edit-product-details", { msg });
+            }
         } else {
-            msg = true;
-            res.render("user/edit-product-details", { msg });
-        }
+            console.log("New images provided.");
 
+            // Delete existing images
+            for (const imageUrl of existingProduct.imageUrl) {
+                const imagePath = path.join(__dirname, "..", "public", "uploaded-images", imageUrl);
+                fs.unlinkSync(imagePath);
+            }
+
+            const newImageUrls = req.files.map(file => file.filename);
+
+            const updateData = {
+                name: name,
+                price: price,
+                stock:stock,
+                description: description,
+                size: size,
+                category: category,
+                imageUrl: newImageUrls
+            };
+
+            const update = await ProductModel.updateOne({ _id: id }, { $set: updateData });
+
+            if (update) {
+                res.redirect("/admin/editProductView");
+            } else {
+                msg = true;
+                res.render("user/edit-product-details", { msg });
+            }
+        }
+        console.log("Product details updated successfully.");
     } catch (error) {
-       
+        console.error("Error updating product details:", error);
         res.status(500).send('Error updating product details.');
     }
 }
+
 
 
 const editProductView = async (req, res) => {

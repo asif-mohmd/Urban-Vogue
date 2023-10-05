@@ -18,3 +18,21 @@
 .btn:hover {
     background-color: #2980b9;
 }
+
+
+.stock-buttons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .stock-button {
+    border-radius: 50%;
+    margin: 0 3px;
+    font-size: 1em; /* Adjust the font size for the buttons */
+    padding: 5px 10px; /* Adjust the padding for the buttons */
+  }
+  
+  .stock-number {
+    font-size: 1.2em;
+  }
+  

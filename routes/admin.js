@@ -39,6 +39,7 @@ router.get("/deleted-products",adminControllers.deletedProducts)
 
 
 
+
 // Post method listing
 router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',3), productControllers.addProduct)
