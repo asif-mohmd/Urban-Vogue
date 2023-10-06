@@ -449,7 +449,7 @@ const proceedToCheckout = async (req,res) =>{
 const ordersView = async(req,res)=>{
   const userId = req.session.user._id
   
-  const pendingOrders = await OrderModel.find({status:"pending"})
+  const pendingOrders = await OrderModel.find({$in:{status:"pending",status:"returnNonDefective"}})
   console.log(pendingOrders,"===========")
   res.render("user/orders",{pendingOrders})
 }
@@ -511,42 +511,70 @@ const orderDetailView = async(req,res)=>{
   res.render("user/order-detail-view",{orderDetails})
 }
 
-const returnUserOrder = async (req,res) =>{
 
-  console.log(req.query,"yuyeyeyeyeyeyey")
-  console.log(req.query.id,"ioddddddddddd")
-  console.log(req.query.returnType,"ppppppppppppp")
 
-  
-  const orderObjId = req.query.id
-  const returnType = req.query.returnType
-  const userId = req.session.user._id
-  
-  const orderDetails = await OrderModel.findById({_id:orderObjId})
+const returnUserOrder = async (req, res) => {
 
-  console.log(orderDetails,"podaaaa")
-  const productDetails = orderDetails.products.map(product => ({
-    productId: product.productId,
-    count: product.count
-  }));
-  
-  for (const product of productDetails) {
-    const existingProduct = await ProductModel.findById(product.productId);
+  try {
+    const orderObjId = req.query.id
+    const returnType = req.query.returnType
+    const userId = req.session.user._id
 
-    if (existingProduct && existingProduct.stock >= product.count) {
-      await ProductModel.updateOne(
-        { _id: product.productId},{ $inc: { stock: product.count } }
-      );
+    if (returnType == 1) {
+
+      const orderDetails = await OrderModel.findById({ _id: orderObjId })
+
+
+      const productDetails = orderDetails.products.map(product => ({
+        productId: product.productId,
+        count: product.count
+      }));
+
+      for (const product of productDetails) {
+        const existingProduct = await ProductModel.findById(product.productId);
+
+        if (existingProduct && existingProduct.stock >= product.count) {
+          await ProductModel.updateOne(
+            { _id: product.productId }, { $inc: { stock: product.count } }
+          );
+        } else {
+          console.log(`Insufficient stock for product with ID ${product.productId}`);
+          // Handle insufficient stock scenario here, e.g., notify the user
+        }
+
+      }
+      const returnNonDefective = await OrderModel.updateOne({ _id: orderObjId }, { status: "returnNonDefective" })
+
+      if (returnNonDefective) {
+        returnSuccess = true
+        res.render("user/orders")
+      } else {
+        returnErr = true
+        res.render("user/orders", { returnErr })
+      }
+
     } else {
-      console.log(`Insufficient stock for product with ID ${product.productId}`);
-      // Handle insufficient stock scenario here, e.g., notify the user
-    }
+      const returnDefective = await OrderModel.updateOne({ _id: orderObjId }, { status: "returnDefective" })
+      if (returnDefective) {
+        returnSuccess = true
+        res.render("user/orders", { returnSuccess })
+      } else {
+        returnErr = true
+        res.render("user/orders", { returnErr })
+      }
 
+    }
+  } catch (error) {
+
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 
-  
 
+
+
+  
 }
+
 
 
 

@@ -169,6 +169,13 @@ const delieveredOrders = async(req,res) =>{
      res.render("admin/cancelled-orders",{cancelledOrders})
  }
 
+
+ const returnPending = async(req,res)=>{
+         const returnPending = await OrderModel.find({$in:{status:"returnDefective",status:"returnNonDefective"}})
+         console.log(returnPending,"---------------------")
+         res.render("admin/return-pending",{returnPending})
+ }
+
 module.exports = {
     adminDashboard,
     adminLogin,
@@ -187,5 +194,6 @@ module.exports = {
     delieveredOrders,
     cancelledOrders,
     orderCancelled,
-    deletedProducts
+    deletedProducts,
+    returnPending
 }

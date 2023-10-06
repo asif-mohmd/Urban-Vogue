@@ -154,7 +154,7 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    
+
                     <th scope="col">Order ID</th>
                     <th scope="col">status</th>
                     <th scope="col">Zip</th>
@@ -177,18 +177,23 @@
 
 
                     <td>
-                   <a href="/order-detail-view?id={{this._id}}"><button type="button" class="btn btn-primary" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal3">View Details</button></a>  
+                      <a href="/order-detail-view?id={{this._id}}"><button type="button" class="btn btn-primary"
+                          data-mdb-toggle="modal" data-mdb-target="#exampleModal3">View Details</button></a>
 
+                      {{#if (eq status "pending")}}
                       <button type="button" class="btn btn-warning" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal2{{@key}}">Return</button>
+                      {{else}}
+                      <button type="button" class="btn btn-" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal2{{@key}}">Pending Return</button>
+                      {{/if}}
 
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal">Cancel</button>
                     </td>
 
                   </tr>
-                  
+
 
 
                   <div class="modal fade" id="exampleModal2{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -218,9 +223,10 @@
                         </fieldset>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-warning" name="order_id" id="order_id" onclick="returnOrder('{{this._id}}')">Return
+                          <button type="button" class="btn btn-warning" name="order_id" id="order_id"
+                            onclick="returnOrder('{{this._id}}')">Return
                             Order</button>
-                     
+
                         </div>
                       </div>
                     </div>
