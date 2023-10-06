@@ -170,10 +170,73 @@ const delieveredOrders = async(req,res) =>{
  }
 
 
- const returnPending = async(req,res)=>{
-         const returnPending = await OrderModel.find({$in:{status:"returnDefective",status:"returnNonDefective"}})
-         console.log(returnPending,"---------------------")
-         res.render("admin/return-pending",{returnPending})
+ const returnPending = async (req, res) => {
+    try {
+      const returnPending = await OrderModel.find({
+        status: { $in: ['returnDefective', 'returnNonDefective'] }
+      });
+  
+      console.log("==================", returnPending, "---------------------");
+      res.render("admin/return-pending", { returnPending });
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  };
+
+
+
+  const returnAccept = async (req,res) =>{
+    const orderObjId = req.query.id
+    const status = req.query.status
+    console.log(orderObjId,"qqqqqqqqqqqqqqqqqqqqqqq",status)
+
+    try{
+      if(status=="returnNonDefective"){
+        const returnAcceptNonDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptNonDef"})
+        if(returnAcceptNonDef){
+            console.log("accepted")
+            res.render("admin/return-pending")
+        }else{
+            console.log("noit accepted")
+            res.render("admin/return-pending")
+        }
+      }else{
+        const returnAcceptDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptDef"})
+        if(returnAcceptDef){
+            console.log("accepted1111111")
+            res.render("admin/return-pending")
+        }else{
+            console.log("noit accepted11111111111")
+            res.render("admin/return-pending")
+        }
+      }
+      
+    }catch(error){
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+
+
+  }
+
+
+ const returnDefective = async (req,res)=>{
+    const returnDefective = await OrderModel.find({status:"returnAcceptDef"})
+console.log(returnDefective,"wwwwwwwwwwwwwwwwwwwwwwwww")
+    if(returnDefective){
+      res.render("admin/return-defective",{returnDefective})
+        
+    }
+ }
+  
+ const returnNonDefective = async (req,res)=>{
+    const returnAcceptNonDef = await OrderModel.find({status:"returnAcceptNonDef"})
+console.log(returnAcceptNonDef,"-------------------")
+    if(returnAcceptNonDef){
+      res.render("admin/return-non-defective",{returnAcceptNonDef})
+        
+    }
  }
 
 module.exports = {
@@ -195,5 +258,9 @@ module.exports = {
     cancelledOrders,
     orderCancelled,
     deletedProducts,
-    returnPending
+    returnPending,
+    returnAccept,
+    returnDefective,
+    returnNonDefective
+
 }

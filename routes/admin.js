@@ -33,7 +33,10 @@ router.get("/delivered-orders",adminControllers.delieveredOrders)
 router.get("/cancelled-orders",adminControllers.cancelledOrders)
 router.get("/order-cancelled",adminControllers.orderCancelled)
 router.get("/deleted-products",adminControllers.deletedProducts)
-router.get("/returnPending",adminControllers.returnPending)
+router.get("/return-pending",adminControllers.returnPending)
+router.get("/return-accept",adminControllers.returnAccept)
+router.get("/return-defective",adminControllers.returnDefective)
+router.get("/return-nonDefective",adminControllers.returnNonDefective)
 
 
 

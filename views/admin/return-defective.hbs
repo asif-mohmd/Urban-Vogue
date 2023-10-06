@@ -493,11 +493,11 @@
                     <th scope="col">Date</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Status</th> 
-                    <th scope="col">Action</th>
+                   
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each returnPending}}
+                  {{#each returnDefective}}
                   <tr>
                     <th scope="row"> {{@key}}</th>
                     <td>{{orderId}}</td>
@@ -506,11 +506,7 @@
                     <td>{{status}}</td>
                      <td>{{amount}}</td>
 
-                    <td>
-                 <a href="/admin/return-accept?id={{this._id}}&status={{status}}"><button
-                          class="btn btn-success">Accept 1</button></a>
-
-                    </td>
+                
 
                   
                      

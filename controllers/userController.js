@@ -554,6 +554,7 @@ const returnUserOrder = async (req, res) => {
       }
 
     } else {
+      console.log("Defecttttttttttttt")
       const returnDefective = await OrderModel.updateOne({ _id: orderObjId }, { status: "returnDefective" })
       if (returnDefective) {
         returnSuccess = true
