@@ -10,6 +10,7 @@ const OrderModel = require("../models/Order");
 const formatDate = require("../utils/dateGenerator");
 const generateRandomOrder = require("../utils/orderIdGenerator");
 const { productDetails } = require("./productController");
+const moment = require('moment'); // Import Moment.js
 
 
 
@@ -504,13 +505,43 @@ const getProducts = async(userId) =>{
 }
 
 
-const orderDetailView = async(req,res)=>{
-  const orderObjId = req.query.id
+const orderDetailView = async (req, res) => {
+  const orderObjId = req.query.id;
 
-  const orderDetails =  await OrderModel.findById({_id:orderObjId})
+  try {
+    const orderDetails = await OrderModel.findById({ _id: orderObjId });
 
-  res.render("user/order-detail-view",{orderDetails})
-}
+    if (!orderDetails) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    const today = new Date();
+    const formattedDeliveryDate = moment(orderDetails.date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+    const deliveryDate = new Date(formattedDeliveryDate);
+    
+    if (isNaN(deliveryDate.getTime())) {
+      return res.status(400).json({ message: 'Invalid delivery date' });
+    }
+
+    console.log(today,"todayyyyyyyyyyyyyyyyyyyyyyyy")
+    console.log(deliveryDate,"deliverydateeeeeeeeeeeeeeee")
+
+    // Calculate the difference in days
+    const daysDifference = Math.floor((today - deliveryDate) / (1000 * 60 * 60 * 24)) + 1;
+
+console.log(daysDifference,"oooooooooooooooooooooooooooooo")
+    let orderReturn = false;
+    if (daysDifference <= 7) {
+      orderReturn = true;
+    }
+    console.log(orderReturn, "--------------------------------------------------------------");
+    res.render('user/order-detail-view', { orderDetails, orderReturn });
+
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
 
