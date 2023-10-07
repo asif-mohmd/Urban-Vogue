@@ -449,7 +449,8 @@ const proceedToCheckout = async (req,res) =>{
 const ordersView = async(req,res)=>{
   const userId = req.session.user._id
   
-  const pendingOrders = await OrderModel.find({$in:{status:"pending",status:"returnNonDefective"}})
+  const pendingOrders = await OrderModel.find();
+  
   console.log(pendingOrders,"===========")
   res.render("user/orders",{pendingOrders})
 }
@@ -571,9 +572,6 @@ const returnUserOrder = async (req, res) => {
   }
 
 
-
-
-  
 }
 
 

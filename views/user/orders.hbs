@@ -183,13 +183,26 @@
                       {{#if (eq status "pending")}}
                       <button type="button" class="btn btn-warning" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal2{{@key}}">Return</button>
-                      {{else}}
-                      <button type="button" class="btn btn-info" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal2{{@key}}">Pending Return</button>
-                      {{/if}}
-
-                      <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
+                         <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal">Cancel</button>
+                        {{/if}}
+                      {{#if (eq status "returnAcceptDef")}}
+                      <button type="button" class="btn btn-info" data-mdb-toggle=""
+                        data-mdb-target="#exampleModal2{{@key}}">Returned</button>
+                      {{/if}}
+                   {{#if (eq status "returnAcceptNonDef")}}
+                      <button type="button" class="btn btn-info" data-mdb-toggle=""
+                        data-mdb-target="#exampleModal2{{@key}}">Returned</button>
+                      {{/if}}
+                       {{#if (eq status "delivered")}}
+                      <button type="button" class="btn btn-success" data-mdb-toggle=""
+                        data-mdb-target="#exampleModal2{{@key}}">Delivered</button>
+                           {{/if}}
+                      {{#if (eq status "returnPending")}}
+                       <button type="button" class="btn btn-success" data-mdb-toggle="modal"
+                        data-mdb-target="#exampleModal2{{@key}}">Return Pending</button>
+                      {{/if}}
+                     
                     </td>
 
                   </tr>
