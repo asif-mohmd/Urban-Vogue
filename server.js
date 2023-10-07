@@ -39,7 +39,7 @@ app.set('views', path.join(__dirname, 'views'));
 hbs.registerHelper('gt', function (a, b) {  //i am using a hbd > (greather than) on product detail for get the stock more than 0 . for that this is needed
   return a > b;
 });
-hbs.registerHelper('eq', function (a, b) {
+hbs.registerHelper('eq', function (a, b) {  //using in orders page
   return a === b;
 });
 

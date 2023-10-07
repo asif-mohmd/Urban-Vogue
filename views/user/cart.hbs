@@ -27,8 +27,8 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 
-     <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -168,6 +168,7 @@
                                         </td>
                                         <td class="cart__price">{{product.price}}</td>
                                         <td class="pro-qty-container">
+
                                             <button class="pro-qty-button"
                                                 onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
                                             <p class="pro-qty-count" id="{{this.product._id}}">{{count}}</p>
@@ -178,12 +179,12 @@
 
                                         {{!-- <td class="cart__close"> <button type="button" class="btn btn-danger"
                                                 data-mdb-toggle="modal" data-mdb-target="#exampleModal{{@key}}"> --}}
-     {{!-- </button></span></td> --}}
-                                                 <td class="cart__close"><a 
-                                                data-mdb-toggle="modal" data-mdb-target="#exampleModal{{@key}}"><span
-                                                class="icon_close"></a></span></td>
-    
-                                       
+                                                {{!-- </button></span></td> --}}
+                                        <td class="cart__close"><a data-mdb-toggle="modal"
+                                                data-mdb-target="#exampleModal{{@key}}"><span
+                                                    class="icon_close"></a></span></td>
+
+
                                     </tr>
 
 
@@ -220,14 +221,14 @@
                         </div>
                     </div>
                 </div>
- {{#if cartItems}}
+                {{#if cartItems}}
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="cart__btn">
                             <a href="/">Continue Shopping</a>
                         </div>
                     </div>
-                
+
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
@@ -239,7 +240,7 @@
                             </form>
                         </div> --}}
                     </div>
-                   
+
                     <div class="col-lg-4 offset-lg-2">
                         <div class="cart__total__procced">
                             <h6>Cart total</h6>
@@ -263,6 +264,33 @@
                 </div>
             </form>
         </div>
+
+
+
+{{!-- Model for ajax to remove the product if its count less than 1 --}}
+
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Modal content -->
+            <!-- Adjust the modal content as needed -->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">Are you sure you want to remove the cart item?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                        <a href="/delete-cart-item?id={{this.product._id}}">
+                            <button type="button" class="btn btn-primary">Remove</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- end of ajax model --}}
 
     </section>
     <!-- Shop Cart Section End -->
@@ -430,8 +458,8 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 
-         <!-- MDB -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
 
     <script>
@@ -458,9 +486,8 @@
                 success: (response) => {
                     console.log('Server response:', response);
                     if (response.removeProduct) {
-                        alert("Product removed successfully");
-                        location.reload();
-                    } else if(response.stockLimit){
+                        $('#exampleModal2').modal('show');
+                    } else if (response.stockLimit) {
                         alert("Stock limit reached")
                     }
                     else {

@@ -605,6 +605,10 @@ const returnUserOrder = async (req, res) => {
 
 }
 
+const contactView = (req,res)=>{
+  res.render("user/contact")
+}
+
 
 
 
@@ -630,7 +634,8 @@ const returnUserOrder = async (req, res) => {
     ordersView,
     cancelUserOrder,
     returnUserOrder,
-    orderDetailView
+    orderDetailView,
+    contactView
    
 
   };
