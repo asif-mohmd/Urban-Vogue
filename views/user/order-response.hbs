@@ -26,6 +26,18 @@
      <link rel="stylesheet" href="css/order-response.css" type="text/css">
 </head>
 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderId = urlParams.get('id');
+      
+      if (orderId) {
+        const orderSpan = document.querySelector('.order');
+        orderSpan.innerText = `Order - ${orderId}`;
+      }
+    });
+  </script> //for showing the order id. other the order id won show
+
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -121,8 +133,8 @@
        <div class="card p-4 mt-3">
           <div class="first d-flex justify-content-between align-items-center mb-3">
             <div class="info">
-                <span class="d-block name">Thank you, {{user.fullname}}</span>
-                <span class="order text-success">Order -{{pendingOrders.orderId}}</span>
+                {{!-- <span class="d-block name">Thank you, {{user.fullname}}</span> --}}
+                <span class="order text-success">Order -{{id}}</span>
                   <span class="order">Use this order id for further need</span>
             </div>
            
@@ -135,9 +147,9 @@
               </div>
           <hr>
           <div class="text">
-        <span class="d-block new mb-1" >{{user.fullname}}</span>
+        {{!-- <span class="d-block new mb-1" >{{user.fullname}}</span> --}}
          </div>
-        <span class="d-block address mb-3">{{user.permanentaddress}}</span>
+        {{!-- <span class="d-block address mb-3">{{user.permanentaddress}}</span> --}}
           <div class="  money d-flex flex-row mt-2 align-items-center">
             <img src="https://i.imgur.com/ppwgjMU.png" width="20" />
         

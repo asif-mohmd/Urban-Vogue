@@ -11,6 +11,13 @@ const formatDate = require("../utils/dateGenerator");
 const generateRandomOrder = require("../utils/orderIdGenerator");
 const { productDetails } = require("./productController");
 const moment = require('moment'); // Import Moment.js
+const Razorpay = require('razorpay');
+
+
+var instance = new Razorpay({
+  key_id: 'rzp_test_TtPOAmMOzmofnE',
+  key_secret: 'X3yBumo4FEeZywGxjU5zFovG',
+});
 
 
 
@@ -213,8 +220,18 @@ const cartView = async (req, res ) => {
 };
 
 
-const placeOrder = async (req, res) => {
 
+
+
+
+
+
+
+
+
+
+const placeOrder = async (req, res) => {
+ console.log(req.body,"pppppppppppppppppppppppppppppppppp")
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
@@ -223,7 +240,7 @@ const placeOrder = async (req, res) => {
   let total = await getTotalAmout(userId)
 
   const cartItems = await getProducts(userId)
-
+  let response;
 
   const products = cartItems.map(cartItem => ({
     productId:cartItem.product._id,
@@ -247,6 +264,14 @@ const placeOrder = async (req, res) => {
  
   const order = await OrderModel.create(data)
   if (order)  {
+   console.log("orderrrrrrrrrrrrrrrrrrrr")
+    if(req.body.paymentMethod=='Online'){
+
+      const success = await generateRazorpay(randomOrderId,total)
+
+
+    }else{
+    console.log("coddddddddddddddddddd")
     for (const product of products) {
       const existingProduct = await ProductModel.findById(product.productId);
   
@@ -262,18 +287,67 @@ const placeOrder = async (req, res) => {
     }
   
     const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
-
+console.log("cod22222222222")
     if (cart) {
+
+console.log("cod3333333333333333333333")
       const pendingOrders = await OrderModel.findOne({orderId: order.orderId  })
-      res.render("user/order-response",{pendingOrders})
+console.log(pendingOrders,"yeyeeeeeeeeeeee")
+      response = {status:true , pendingOrders}
+      // res.render("user/order-response",{pendingOrders})
+      res.json(response);
     }
    
-  } else {
-    console.log("no orders")
   }
 
 
+
+
+  } else {
+    console.log("no orders")
+  }
+  
+
 }
+
+
+const generateRazorpay = async (randomOrderId, total) => {
+  console.log(randomOrderId, "55555555555", total[0].total);
+  try {
+    const success = await instance.orders.create({
+      amount: total[0].total,
+      currency: "INR",
+      receipt: randomOrderId,
+      notes: {
+        key1: "value3",
+        key2: "value2"
+      }
+    });
+
+    if (success) {
+      
+      console.log("success online");
+      console.log(success)
+    } else {
+      console.log("not success online");
+    }
+  } catch (error) {
+    console.error("Error creating order:", error);
+  }
+};
+
+generateRazorpay(1696691485, [{ total: 999 }]);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -609,6 +683,11 @@ const contactView = (req,res)=>{
   res.render("user/contact")
 }
 
+const orderResponseView = (req,res) =>{
+  res.render("user/order-response")
+}
+
+
 
 
 
@@ -635,7 +714,8 @@ const contactView = (req,res)=>{
     cancelUserOrder,
     returnUserOrder,
     orderDetailView,
-    contactView
+    contactView,
+    orderResponseView
    
 
   };
