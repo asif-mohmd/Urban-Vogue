@@ -526,21 +526,45 @@ const ordersView = async(req,res)=>{
   
   const pendingOrders = await OrderModel.find();
   
-  console.log(pendingOrders,"===========")
+
   res.render("user/orders",{pendingOrders})
 }
 
 const cancelUserOrder = async(req,res) =>{
   const orderId = req.query.id
 
-  const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
-  if(success) {
-  
-      res.redirect("/orders")
-  }else{
-    res.redirect("/orders")
+
+  const orderDetails = await OrderModel.findById({ _id: orderId })
+
+
+  const productDetails = orderDetails.products.map(product => ({
+    productId: product.productId,
+    count: product.count
+  }));
+
+  for (const product of productDetails) {
+    const existingProduct = await ProductModel.findById(product.productId);
+
+    if (existingProduct && existingProduct.stock >= product.count) {
+      await ProductModel.updateOne(
+        { _id: product.productId }, { $inc: { stock: product.count } }
+      );
+    } else {
+      console.log(`Insufficient stock for product with ID ${product.productId}`);
+      // Handle insufficient stock scenario here, e.g., notify the user
+    }
 
   }
+  const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
+  if (success) {
+    console.log("cancelled")
+    res.redirect("/orders")
+  } else {
+    console.log("not cancelled")
+    res.redirect("/orders")
+  }
+
+
 }
 
 

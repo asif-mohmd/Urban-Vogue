@@ -183,7 +183,7 @@
                       {{#if (eq status "pending")}}
                
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
-                        data-mdb-target="#exampleModal">Cancel</button>
+                        data-mdb-target="#exampleModal{{@key}}">Cancel</button>
                       {{/if}}
                       {{#if (eq status "returnAcceptDef")}}
                       <button type="button" class="btn btn-info" data-mdb-toggle=""
@@ -201,6 +201,10 @@
                       {{#if (eq status "returnPending")}}
                       <button type="button" class="btn btn-success" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal2{{@key}}">Return Pending</button>
+                      {{/if}}
+                      {{#if (eq status "cancelled")}}
+                      <button type="button" class="btn btn-info" data-mdb-toggle=""
+                        data-mdb-target="#exampleModal2{{@key}}">Cancel Accpeted</button>
                       {{/if}}
 
                     </td>
@@ -248,7 +252,7 @@
 
 
 
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
