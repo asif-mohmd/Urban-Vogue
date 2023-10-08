@@ -61,7 +61,6 @@ const addProduct = async (req, res) => {
 const productDetails = async (req, res) => {
     const singleProduct = await ProductModel.findOne({ _id: req.query.id })
     const cartCheck = await cartModel.findOne({'cart.productId': req.query.id  })
-    console.log(singleProduct.stock,"00000000000000")
     res.render("user/product-details", { singleProduct , cartCheck })
 }
 
@@ -76,7 +75,6 @@ const editProductDetails = async (req, res) => {
 
 const productDetailsEdit = async (req, res) => {
     const { id, name, price,stock,description, size, category } = req.body;
-    console.log("00", req.files);
 
     try {
         // Fetch the existing product to get its image URLs
@@ -167,11 +165,9 @@ const deleteProduct = async (req, res) => {
         // Delete the product
         await ProductModel.updateOne({ _id: productId },{$set:{deleteStatus:true}});
         msgDelete = true
-        console.log("----------------------")
         // Redirect to the desired route
         res.render("admin/deleted-products",{msgDelete});
     } catch (err) {
-      console.log("=============")
         res.status(500).json({ message: "Deleting Product failed" });
     }
 };

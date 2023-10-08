@@ -12,6 +12,7 @@ const generateRandomOrder = require("../utils/orderIdGenerator");
 const { productDetails } = require("./productController");
 const moment = require('moment'); // Import Moment.js
 const Razorpay = require('razorpay');
+const { response } = require("express");
 
 
 var instance = new Razorpay({
@@ -231,7 +232,6 @@ const cartView = async (req, res ) => {
 
 
 const placeOrder = async (req, res) => {
-  console.log(req.body, "pppppppppppppppppppppppppppppppppp")
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
@@ -249,8 +249,7 @@ const placeOrder = async (req, res) => {
     count: cartItem.count
   }));
 
-  console.log(products, "=========================")
-
+console.log("call is here 1")
   const data = {
     "userId": userId,
     "orderId": randomOrderId,
@@ -258,6 +257,7 @@ const placeOrder = async (req, res) => {
     "date": formattedDate,
     products: products,
     "amount": total[0].total,
+    "paymentMethod":"COD",
     "status": "pending"
 
   }
@@ -267,18 +267,16 @@ const placeOrder = async (req, res) => {
 
   const order = await OrderModel.create(data)
   if (order) {
-
+console.log("222")
     if (req.body.paymentMethod == 'Online') {
 
       const order = await generateRazorpay(randomOrderId, total)
-      console.log("testttsuc:",order)
       response = { status: true, order }
     
       res.json(response);
   
 
     } else {
-      console.log("coddddddddddddddddddd")
       for (const product of products) {
         const existingProduct = await ProductModel.findById(product.productId);
 
@@ -294,12 +292,9 @@ const placeOrder = async (req, res) => {
       }
 
       const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
-      console.log("cod22222222222")
       if (cart) {
 
-        console.log("cod3333333333333333333333")
         const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
-        console.log(pendingOrders, "yeyeeeeeeeeeeee")
         response = { status: true, pendingOrders }
         // res.render("user/order-response",{pendingOrders})
         res.json(response);
@@ -319,7 +314,6 @@ const placeOrder = async (req, res) => {
 
 
 const generateRazorpay = async (randomOrderId, total) => {
-  console.log(randomOrderId, "55555555555", total[0].total);
   try {
     const order = await instance.orders.create({
       amount: total[0].total,
@@ -333,8 +327,7 @@ const generateRazorpay = async (randomOrderId, total) => {
 
     if (order) {
       
-      console.log("success online");
-      console.log(order)
+   
       return order
     } else {
       console.log("not success online");
@@ -346,16 +339,21 @@ const generateRazorpay = async (randomOrderId, total) => {
 
 
 
-const verifyPayment = (req, res) => {
+const verifyPayment = async (req, res) => {
   console.log('Inside verifyPayment function');
   console.log(req.body, 'verify payment razor completed');
-  const verificationSuccess = paymentVerifiaction(req.body)
-
+  const verificationSuccess = await paymentVerifiaction(req.body)
+   let response;
   if(verificationSuccess){
-    console.log(verificationSuccess,"----------------")
-      const statusUpdate = changePaymentStatus(req.body['receipt'])
-      if(statusUpdate){
-        console.log("success")
+ 
+    console.log(req.body['order[receipt]'],"xxxxxxxxxxxxxxxx"); // This should log '1696866506'
+
+      const onlineDetails = await changePaymentStatus(req.body['order[receipt]'])
+      if(onlineDetails){
+        console.log("success555555555")
+        console.log(onlineDetails,"----------------------")
+        response = { status: true, onlineDetails}
+        res.json(response)
       }else{
         console.log("status update failed")
       }
@@ -379,10 +377,14 @@ const paymentVerifiaction = (details) => {
 }
 
 const changePaymentStatus = async(orderId)=>{
-  const updated = await OrderModel.findOne({_id:orderId},{$set:{status:"placed"}})
-  if(updated){
+  console.log(orderId,"orderId")
+  const updatedDetails = await OrderModel.updateOne({orderId:orderId},{$set:{paymentMethod:"placed"}})
+ console.log(updatedDetails,"updatedDeatils")
+  if(updatedDetails){
     console.log("status updated")
-    return true
+    return updatedDetails
+  }else{
+    return false
   }
 
 }
@@ -461,7 +463,6 @@ const deleteCartItem = async (req, res) => {
 const changeProductQuantity = async (req, res) => {
   try {
     let { cart, product, count, quantity } = req.body;
-    console.log(product, "----------------")
     count = parseInt(count);
     quantity = parseInt(quantity);
 
@@ -669,18 +670,14 @@ const orderDetailView = async (req, res) => {
       return res.status(400).json({ message: 'Invalid delivery date' });
     }
 
-    console.log(today,"todayyyyyyyyyyyyyyyyyyyyyyyy")
-    console.log(deliveryDate,"deliverydateeeeeeeeeeeeeeee")
 
     // Calculate the difference in days
     const daysDifference = Math.floor((today - deliveryDate) / (1000 * 60 * 60 * 24)) + 1;
 
-console.log(daysDifference,"oooooooooooooooooooooooooooooo")
     let orderReturn = false;
     if (daysDifference <= 7) {
       orderReturn = true;
     }
-    console.log(orderReturn, "--------------------------------------------------------------");
     res.render('user/order-detail-view', { orderDetails, orderReturn });
 
   } catch (error) {
@@ -731,7 +728,6 @@ const returnUserOrder = async (req, res) => {
       }
 
     } else {
-      console.log("Defecttttttttttttt")
       const returnDefective = await OrderModel.updateOne({ _id: orderObjId }, { status: "returnDefective" })
       if (returnDefective) {
         returnSuccess = true

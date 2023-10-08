@@ -279,20 +279,32 @@
     }
 
 
-function verifyPayment(payment,order){
+
+
+    
+function verifyPayment(payment, order) {
     $.ajax({
-    url: '/verify-payment',
-    method: 'POST',
-      data:{
-        payment,
-        order
-            },
-    success: function(response) {
-    console.log('Success:', response);
-    },
-    error: function(error) {
-    console.error('Error:', error);
-    }
+        url: '/verify-payment',
+        method: 'POST',
+        data: {
+            payment,
+            order
+        },
+        success: function (response) {
+            console.log(response, "ajaxxxxxxxxxxxxxxxxx");
+
+            if (response === false) {
+                location.href = '/payment-error';
+            } else {
+                if (response.onlineDetails) {
+                    console.log(response.onlineDetails.orderId);
+                    location.href = '/order-response?id=' + response.onlineDetails.orderId;
+                }
+            }
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
     });
 }
 

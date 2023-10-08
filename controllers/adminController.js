@@ -176,7 +176,6 @@ const delieveredOrders = async(req,res) =>{
         status: { $in: ['returnDefective', 'returnNonDefective'] }
       });
   
-      console.log("==================", returnPending, "---------------------");
       res.render("admin/return-pending", { returnPending });
     } catch (error) {
       console.error("Error:", error);
@@ -189,25 +188,22 @@ const delieveredOrders = async(req,res) =>{
   const returnAccept = async (req,res) =>{
     const orderObjId = req.query.id
     const status = req.query.status
-    console.log(orderObjId,"qqqqqqqqqqqqqqqqqqqqqqq",status)
 
     try{
       if(status=="returnNonDefective"){
         const returnAcceptNonDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptNonDef"})
         if(returnAcceptNonDef){
-            console.log("accepted")
             res.render("admin/return-pending")
         }else{
-            console.log("noit accepted")
             res.render("admin/return-pending")
         }
       }else{
         const returnAcceptDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptDef"})
         if(returnAcceptDef){
-            console.log("accepted1111111")
+         
             res.render("admin/return-pending")
         }else{
-            console.log("noit accepted11111111111")
+     
             res.render("admin/return-pending")
         }
       }
@@ -223,7 +219,6 @@ const delieveredOrders = async(req,res) =>{
 
  const returnDefective = async (req,res)=>{
     const returnDefective = await OrderModel.find({status:"returnAcceptDef"})
-console.log(returnDefective,"wwwwwwwwwwwwwwwwwwwwwwwww")
     if(returnDefective){
       res.render("admin/return-defective",{returnDefective})
         
@@ -232,7 +227,6 @@ console.log(returnDefective,"wwwwwwwwwwwwwwwwwwwwwwwww")
   
  const returnNonDefective = async (req,res)=>{
     const returnAcceptNonDef = await OrderModel.find({status:"returnAcceptNonDef"})
-console.log(returnAcceptNonDef,"-------------------")
     if(returnAcceptNonDef){
       res.render("admin/return-non-defective",{returnAcceptNonDef})
         
