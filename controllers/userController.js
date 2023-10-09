@@ -348,10 +348,11 @@ const verifyPayment = async (req, res) => {
  
     console.log(req.body['order[receipt]'],"xxxxxxxxxxxxxxxx"); // This should log '1696866506'
 
-      const onlineDetails = await changePaymentStatus(req.body['order[receipt]'])
-      if(onlineDetails){
+      const success = await changePaymentStatus(req.body['order[receipt]'])
+      if(success){
         console.log("success555555555")
-        console.log(onlineDetails,"----------------------")
+        const onlineDetails = await OrderModel.findOne({orderId:req.body['order[receipt]']})
+        console.log(onlineDetails,"----------------------------")
         response = { status: true, onlineDetails}
         res.json(response)
       }else{
@@ -381,8 +382,8 @@ const changePaymentStatus = async(orderId)=>{
   const updatedDetails = await OrderModel.updateOne({orderId:orderId},{$set:{paymentMethod:"placed"}})
  console.log(updatedDetails,"updatedDeatils")
   if(updatedDetails){
-    console.log("status updated")
-    return updatedDetails
+    console.log("status updated",)
+    return true
   }else{
     return false
   }
