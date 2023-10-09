@@ -214,10 +214,10 @@
 
 
 
-
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
 
-        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
 
 
 
@@ -251,7 +251,6 @@
     var options = {
     "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
     "amount": orderDetails.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
-    50000 paise
     "currency": "INR",
     "name": "Urban Vougue", //your business name
     "description": "Test Transaction",
@@ -260,11 +259,10 @@
     "handler": function (response){
     
 
-    verifyPayment(response,order)
+    verifyPayment(payment,order)
     },
     "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially
-    their
-    phone number
+
     "name": "Gaurav Kumar", //your customer's name
     "email": "gaurav.kumar@example.com",
     "contact": "9000090000" //Provide the customer's phone number for better conversion rates
@@ -281,7 +279,7 @@
     }
 
 
-
+function verifyPayment(payment,order){
     $.ajax({
     url: '/verify-payment',
     method: 'POST',
@@ -296,7 +294,7 @@
     console.error('Error:', error);
     }
     });
-
+}
 
     </script>
 
