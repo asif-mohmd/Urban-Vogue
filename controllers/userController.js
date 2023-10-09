@@ -353,9 +353,16 @@ const verifyPayment = (req, res) => {
 
   if(verificationSuccess){
     console.log(verificationSuccess,"----------------")
-    change
+      const statusUpdate = changePaymentStatus(req.body['receipt'])
+      if(statusUpdate){
+        console.log("success")
+      }else{
+        console.log("status update failed")
+      }
+
+    }
   }
-}
+
 
 const paymentVerifiaction = (details) => {
 
@@ -369,6 +376,15 @@ const paymentVerifiaction = (details) => {
   } else {
     return false
   }
+}
+
+const changePaymentStatus = async(orderId)=>{
+  const updated = await OrderModel.findOne({_id:orderId},{$set:{status:"placed"}})
+  if(updated){
+    console.log("status updated")
+    return true
+  }
+
 }
 
 
