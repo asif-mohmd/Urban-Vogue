@@ -231,11 +231,11 @@ const cartView = async (req, res ) => {
 
 
 const placeOrder = async (req, res) => {
- console.log(req.body,"pppppppppppppppppppppppppppppppppp")
+  console.log(req.body, "pppppppppppppppppppppppppppppppppp")
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
- 
+
   const userId = req.session.user._id; // assuming user._id is stored in the session
   let total = await getTotalAmout(userId)
 
@@ -243,70 +243,77 @@ const placeOrder = async (req, res) => {
   let response;
 
   const products = cartItems.map(cartItem => ({
-    productId:cartItem.product._id,
+    productId: cartItem.product._id,
     name: cartItem.product.name,
     price: cartItem.product.price,
     count: cartItem.count
   }));
 
-  console.log(products,"=========================")
+  console.log(products, "=========================")
 
   const data = {
-    "userId" : userId,
+    "userId": userId,
     "orderId": randomOrderId,
     "zip": req.body.zip,
     "date": formattedDate,
-     products: products,
+    products: products,
     "amount": total[0].total,
-    "status" : "pending"
+    "status": "pending"
 
   }
- 
+
+
+
+
   const order = await OrderModel.create(data)
-  if (order)  {
-   console.log("orderrrrrrrrrrrrrrrrrrrr")
-    if(req.body.paymentMethod=='Online'){
+  if (order) {
 
-      const success = await generateRazorpay(randomOrderId,total)
+    if (req.body.paymentMethod == 'Online') {
 
-
-    }else{
-    console.log("coddddddddddddddddddd")
-    for (const product of products) {
-      const existingProduct = await ProductModel.findById(product.productId);
-  
-      if (existingProduct && existingProduct.stock >= product.count) {
-        await ProductModel.updateOne(
-          { _id: product.productId, stock: { $gte: product.count } },
-          { $inc: { stock: -product.count } }
-        );
-      } else {
-        console.log(`Insufficient stock for product with ID ${product.productId}`);
-        // Handle insufficient stock scenario here, e.g., notify the user
-      }
-    }
-  
-    const cart = await CartModel.updateOne({ userId: userId },{ $set: { cart: [] } } )
-console.log("cod22222222222")
-    if (cart) {
-
-console.log("cod3333333333333333333333")
-      const pendingOrders = await OrderModel.findOne({orderId: order.orderId  })
-console.log(pendingOrders,"yeyeeeeeeeeeeee")
-      response = {status:true , pendingOrders}
-      // res.render("user/order-response",{pendingOrders})
+      const order = await generateRazorpay(randomOrderId, total)
+      console.log("testttsuc:",order)
+      response = { status: true, order }
+    
       res.json(response);
-    }
-   
-  }
+  
 
+    } else {
+      console.log("coddddddddddddddddddd")
+      for (const product of products) {
+        const existingProduct = await ProductModel.findById(product.productId);
+
+        if (existingProduct && existingProduct.stock >= product.count) {
+          await ProductModel.updateOne(
+            { _id: product.productId, stock: { $gte: product.count } },
+            { $inc: { stock: -product.count } }
+          );
+        } else {
+          console.log(`Insufficient stock for product with ID ${product.productId}`);
+          // Handle insufficient stock scenario here, e.g., notify the user
+        }
+      }
+
+      const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
+      console.log("cod22222222222")
+      if (cart) {
+
+        console.log("cod3333333333333333333333")
+        const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+        console.log(pendingOrders, "yeyeeeeeeeeeeee")
+        response = { status: true, pendingOrders }
+        // res.render("user/order-response",{pendingOrders})
+        res.json(response);
+      }
+
+    }
 
 
 
   } else {
     console.log("no orders")
+    
   }
-  
+
 
 }
 
@@ -314,7 +321,7 @@ console.log(pendingOrders,"yeyeeeeeeeeeeee")
 const generateRazorpay = async (randomOrderId, total) => {
   console.log(randomOrderId, "55555555555", total[0].total);
   try {
-    const success = await instance.orders.create({
+    const order = await instance.orders.create({
       amount: total[0].total,
       currency: "INR",
       receipt: randomOrderId,
@@ -324,10 +331,11 @@ const generateRazorpay = async (randomOrderId, total) => {
       }
     });
 
-    if (success) {
+    if (order) {
       
       console.log("success online");
-      console.log(success)
+      console.log(order)
+      return order
     } else {
       console.log("not success online");
     }
@@ -336,8 +344,12 @@ const generateRazorpay = async (randomOrderId, total) => {
   }
 };
 
-generateRazorpay(1696691485, [{ total: 999 }]);
 
+
+const verifyPayment = async (req, res) => {
+  console.log('Inside verifyPayment function');
+  console.log(req.body, 'verify payment razor completed');
+}
 
 
 
@@ -716,6 +728,7 @@ const orderResponseView = (req,res) =>{
 
 
 
+
   module.exports = {
     registerView,
     loginView,
@@ -739,8 +752,8 @@ const orderResponseView = (req,res) =>{
     returnUserOrder,
     orderDetailView,
     contactView,
-    orderResponseView
-   
+    orderResponseView,
+    verifyPayment
 
   };
 

@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
 </head>
 
 <body>
@@ -60,7 +61,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-3 col-lg-2">
-                   <div class="header__logo">
+                    <div class="header__logo">
                         <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
                     </div>
                 </div>
@@ -124,7 +125,7 @@
                                     <input type="text" name="name">
                                 </div>
                             </div>
-                         
+
                             <div class="col-lg-12">
 
                                 <div class="checkout__form__input">
@@ -170,21 +171,23 @@
                                     <li>Total <span>₹ {{total}}</span></li>
                                 </ul>
                             </div>
-                           <div class="col-sm-10">
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="payment-method" id="gridRadios1" value="COD">
-                      <label class="form-check-label" for="gridRadios1">
-                        Cash on Delivery
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="paymentMethod" id="gridRadios2" value="Online">
-                      <label class="form-check-label" for="gridRadios2">
-                        Online Payment
-                      </label>
-                    </div>
-                
-                  </div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="gridRadios1"
+                                        value="COD">
+                                    <label class="form-check-label" for="gridRadios1">
+                                        Cash on Delivery
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="gridRadios2"
+                                        value="Online">
+                                    <label class="form-check-label" for="gridRadios2">
+                                        Online Payment
+                                    </label>
+                                </div>
+
+                            </div>
                             <button type="submit" class="site-btn mt-4">Place oder</button>
                         </div>
                     </div>
@@ -211,34 +214,91 @@
 
 
 
-     
-     <script>
-          $("#place-order-form").submit((e) => {
-      e.preventDefault()
-      $.ajax({
-        url: '/place-order',
-        method: 'post',
-        data: $('#place-order-form').serialize(),
-        success:( (response) => {
-            console.log(response,"ajaxxxxxxxxxxxxxxxxx")
-        
-          if (response == false) {
-            location.href = '/payment-error'
-          } else {
-            if (response.pendingOrders) {
-              console.log(response.pendingOrders.orderId)
-             
-              location.href = '/order-response?id='+ response.pendingOrders.orderId;
-            }
-            else {
-              razorpayPayment(response)
-            }
-          }
-        })
-      })
+
+    <script>
+
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+
+    $("#place-order-form").submit((e) => {
+    e.preventDefault()
+    $.ajax({
+    url: '/place-order',
+    method: 'post',
+    data: $('#place-order-form').serialize(),
+    success:( (response) => {
+    console.log(response,"ajaxxxxxxxxxxxxxxxxx")
+
+    if (response == false) {
+    location.href = '/payment-error'
+    } else {
+    if (response.pendingOrders) {
+    console.log(response.pendingOrders.orderId)
+
+    location.href = '/order-response?id='+ response.pendingOrders.orderId;
+    }
+    else {
+    console.log("iam in ahjx ")
+    razorpayPayment(response.order)
+    }
+    }
+    })
+    })
     })
 
-     </script>
+    function razorpayPayment(orderDetails){
+    var options = {
+    "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
+    "amount": orderDetails.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
+    50000 paise
+    "currency": "INR",
+    "name": "Urban Vougue", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": orderDetails.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+    
+
+    verifyPayment(response,order)
+    },
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially
+    their
+    phone number
+    "name": "Gaurav Kumar", //your customer's name
+    "email": "gaurav.kumar@example.com",
+    "contact": "9000090000" //Provide the customer's phone number for better conversion rates
+    },
+    "notes": {
+    "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+    "color": "#3399cc"
+    }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    }
+
+
+
+    $.ajax({
+    url: '/verify-payment',
+    method: 'POST',
+      data:{
+        payment,
+        order
+            },
+    success: function(response) {
+    console.log('Success:', response);
+    },
+    error: function(error) {
+    console.error('Error:', error);
+    }
+    });
+
+
+    </script>
 
 
 
