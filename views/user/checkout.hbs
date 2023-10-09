@@ -247,19 +247,19 @@
     })
     })
 
-    function razorpayPayment(orderDetails){
+    function razorpayPayment(order){
     var options = {
     "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
-    "amount": orderDetails.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
     "currency": "INR",
     "name": "Urban Vougue", //your business name
     "description": "Test Transaction",
     "image": "https://example.com/your_logo",
-    "order_id": orderDetails.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler": function (response){
-    
 
-    verifyPayment(payment,order)
+
+    verifyPayment(response,order)
     },
     "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially
 

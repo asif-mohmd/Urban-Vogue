@@ -346,11 +346,30 @@ const generateRazorpay = async (randomOrderId, total) => {
 
 
 
-const verifyPayment = async (req, res) => {
+const verifyPayment = (req, res) => {
   console.log('Inside verifyPayment function');
   console.log(req.body, 'verify payment razor completed');
+  const verificationSuccess = paymentVerifiaction(req.body)
+
+  if(verificationSuccess){
+    console.log(verificationSuccess,"----------------")
+    change
+  }
 }
 
+const paymentVerifiaction = (details) => {
+
+  const crypto = require('crypto')
+  let hmac = crypto.createHmac("sha256", "X3yBumo4FEeZywGxjU5zFovG")
+
+  hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]'])
+  hmac = hmac.digest('hex')
+  if (hmac == details['payment[razorpay_signature]']) {
+    return true
+  } else {
+    return false
+  }
+}
 
 
 
