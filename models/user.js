@@ -22,30 +22,27 @@ const UserSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-   
+
   },
-  address:{
-    type: String,
-    required: true
-  },
-  shippingAddress:{
-    type : String,
- 
-  },
-  cart : [
+
+  address: 
     {
-      productId : {
-            type : String,
-            required : true
-        },
-        count : {
-            type : Number,
-            required : 0
-        }
-    }
-],
+      homeAddress: {
+        type: String,
+        required: true
+      },
+      officeAddress: {
+        type: String,
+
+      },
+      customAddress: {
+        type: String,
+      }
+    },
+  
+
   status: {
-    type : Boolean,
+    type: Boolean,
     required: true
   },
 

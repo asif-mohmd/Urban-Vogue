@@ -16,6 +16,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
@@ -127,14 +130,38 @@
                                     <input type="text" name="name">
                                 </div>
                             </div>
-
+                            
                             <div class="col-lg-12">
-
+                                <div class="checkout__form__input">
+                                    <p>Address <span>*</span></p>
+                            
+                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                        onchange="updateCustomAddress(this)">
+                                        <option selected>Select Delivery address</option>
+                                        <option value="1" name="address">{{userDetails.address.homeAddress}}</option>
+                                        <option value="2" name="address">{{userDetails.address.officeAddress}}</option>
+                                        <option value="3">Custom Address</option>
+                                    </select>
+                            
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12" id="customAddressInput" style="display: none;">
                                 <div class="checkout__form__input">
                                     <p>Address <span>*</span></p>
                                     <input type="text" name="address" placeholder="Street Address">
-
+                            
+                            
+                            
                                 </div>
+                            </div>
+                            
+                            
+                            
+                            
+                            <div class="col-lg-12 mt-5">
+                            
+                            
                                 <div class="checkout__form__input">
                                     <p>Town/City <span>*</span></p>
                                     <input type="text" name="city">
@@ -215,100 +242,119 @@
     <script src="js/main.js"></script>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
 
-    
+
+
     <script>
 
 
 
 
 
-    $("#place-order-form").submit((e) => {
-    e.preventDefault()
-    $.ajax({
-    url: '/place-order',
-    method: 'post',
-    data: $('#place-order-form').serialize(),
-    success:( (response) => {
-    console.log(response,"ajaxxxxxxxxxxxxxxxxx")
+        $("#place-order-form").submit((e) => {
+            e.preventDefault()
+            $.ajax({
+                url: '/place-order',
+                method: 'post',
+                data: $('#place-order-form').serialize(),
+                success: ((response) => {
+                    console.log(response, "ajaxxxxxxxxxxxxxxxxx")
 
-    if (response == false) {
-    location.href = '/payment-error'
-    } else {
-    if (response.pendingOrders) {
-    console.log(response.pendingOrders.orderId)
+                    if (response == false) {
+                        location.href = '/payment-error'
+                    } else {
+                        if (response.pendingOrders) {
+                            console.log(response.pendingOrders.orderId)
 
-    location.href = '/order-response?id='+ response.pendingOrders.orderId;
-    }
-    else {
-    console.log("iam in ahjx ")
-    razorpayPayment(response.order)
-    }
-    }
-    })
-    })
-    })
+                            location.href = '/order-response?id=' + response.pendingOrders.orderId;
+                        }
+                        else {
+                            console.log("iam in ahjx ")
+                            razorpayPayment(response.order)
+                        }
+                    }
+                })
+            })
+        })
 
-    function razorpayPayment(order){
-    var options = {
-    "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
-    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
-    "currency": "INR",
-    "name": "Urban Vougue", //your business name
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-
-
-    verifyPayment(response,order)
-    },
-    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially
-
-    "name": "Gaurav Kumar", //your customer's name
-    "email": "gaurav.kumar@example.com",
-    "contact": "9000090000" //Provide the customer's phone number for better conversion rates
-    },
-    "notes": {
-    "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-    "color": "#3399cc"
-    }
-    };
-    var rzp1 = new Razorpay(options);
-    rzp1.open();
-    }
+        function razorpayPayment(order) {
+            var options = {
+                "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
+                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
+                "currency": "INR",
+                "name": "Urban Vougue", //your business name
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
 
 
+                    verifyPayment(response, order)
+                },
+                "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially
 
-
-    
-function verifyPayment(payment, order) {
-    $.ajax({
-        url: '/verify-payment',
-        method: 'POST',
-        data: {
-            payment,
-            order
-        },
-        success: function (response) {
-            console.log(response, "ajaxxxxxxxxxxxxxxxxx");
-
-            if (response === false) {
-                location.href = '/payment-error';
-            } else {
-                if (response.onlineDetails) {
-                    console.log(response.onlineDetails.orderId);
-                    location.href = '/order-response?id=' + response.onlineDetails.orderId;
+                    "name": "Gaurav Kumar", //your customer's name
+                    "email": "gaurav.kumar@example.com",
+                    "contact": "9000090000" //Provide the customer's phone number for better conversion rates
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
                 }
-            }
-        },
-        error: function (error) {
-            console.error('Error:', error);
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
         }
-    });
+
+
+
+
+
+        function verifyPayment(payment, order) {
+            $.ajax({
+                url: '/verify-payment',
+                method: 'POST',
+                data: {
+                    payment,
+                    order
+                },
+                success: function (response) {
+                    console.log(response, "ajaxxxxxxxxxxxxxxxxx");
+
+                    if (response === false) {
+                        location.href = '/payment-error';
+                    } else {
+                        if (response.onlineDetails) {
+                            console.log(response.onlineDetails.orderId);
+                            location.href = '/order-response?id=' + response.onlineDetails.orderId;
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function updateCustomAddress(selectElement) {
+    const customAddressInput = document.getElementById('customAddressInput');
+    
+    if (selectElement.value === '3') {
+        customAddressInput.style.display = 'block';
+    } else {
+        customAddressInput.style.display = 'none';
+        customAddressInput.value = selectElement.options[selectElement.selectedIndex].text;
+    }
 }
+
 
     </script>
 

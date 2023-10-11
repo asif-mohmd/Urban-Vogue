@@ -56,7 +56,7 @@ const otpVerification = async (req, res) => {
 
 
 const registerUser = async (req, res) => {
-  const { name, email, mobile, gender, address,country,password, confirmPassword } = req.body;
+  const { name, email, mobile, gender, address,officeAddress,country,password, confirmPassword } = req.body;
   await sendMail(email)
   if (password !== confirmPassword) {
   } else {
@@ -70,7 +70,7 @@ const registerUser = async (req, res) => {
           "mobile": mobile,
           "gender": gender,
           "password": password,
-          "address": address,
+          "address": {homeAddress:address,officeAddress:officeAddress,customAddress:"NIL"},
           "shippingAddress":"",
           "country":"",
           "status": true
@@ -235,6 +235,11 @@ const placeOrder = async (req, res) => {
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
+  const address = req.body.address === '3' ? req.body.customAddress : req.body.address;
+
+  // Now, 'address' should contain the correct value (either a predefined address or the custom address)
+  console.log('Address:', address);
+  console.log(req.body,"yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 
   const userId = req.session.user._id; // assuming user._id is stored in the session
   let total = await getTotalAmout(userId)
@@ -265,49 +270,49 @@ console.log("call is here 1")
 
 
 
-  const order = await OrderModel.create(data)
-  if (order) {
-console.log("222")
-    if (req.body.paymentMethod == 'Online') {
+//   const order = await OrderModel.create(data)
+//   if (order) {
+// console.log("222")
+//     if (req.body.paymentMethod == 'Online') {
 
-      const order = await generateRazorpay(randomOrderId, total)
-      response = { status: true, order }
+//       const order = await generateRazorpay(randomOrderId, total)
+//       response = { status: true, order }
     
-      res.json(response);
+//       res.json(response);
   
 
-    } else {
-      for (const product of products) {
-        const existingProduct = await ProductModel.findById(product.productId);
+//     } else {
+//       for (const product of products) {
+//         const existingProduct = await ProductModel.findById(product.productId);
 
-        if (existingProduct && existingProduct.stock >= product.count) {
-          await ProductModel.updateOne(
-            { _id: product.productId, stock: { $gte: product.count } },
-            { $inc: { stock: -product.count } }
-          );
-        } else {
-          console.log(`Insufficient stock for product with ID ${product.productId}`);
-          // Handle insufficient stock scenario here, e.g., notify the user
-        }
-      }
+//         if (existingProduct && existingProduct.stock >= product.count) {
+//           await ProductModel.updateOne(
+//             { _id: product.productId, stock: { $gte: product.count } },
+//             { $inc: { stock: -product.count } }
+//           );
+//         } else {
+//           console.log(`Insufficient stock for product with ID ${product.productId}`);
+//           // Handle insufficient stock scenario here, e.g., notify the user
+//         }
+//       }
 
-      const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
-      if (cart) {
+//       const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
+//       if (cart) {
 
-        const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
-        response = { status: true, pendingOrders }
-        // res.render("user/order-response",{pendingOrders})
-        res.json(response);
-      }
+//         const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+//         response = { status: true, pendingOrders }
+//         // res.render("user/order-response",{pendingOrders})
+//         res.json(response);
+//       }
 
-    }
+//     }
 
 
 
-  } else {
-    console.log("no orders")
+//   } else {
+//     console.log("no orders")
     
-  }
+//   }
 
 
 }
@@ -561,11 +566,14 @@ const getTotalAmout = async (req,res)=>{
 
 const proceedToCheckout = async (req,res) =>{
   
+  const userId = req.session.user._id
+
+  const userDetails = await UserModel.findById({_id:userId})
+
   let total = await getTotalAmout(userId)
   total = total[0] ? total[0].total : 0;
 
-
-  res.render("user/checkout",{total})
+  res.render("user/checkout",{total,userDetails})
 }
 
 
