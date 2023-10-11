@@ -35,4 +35,33 @@
   .stock-number {
     font-size: 1.2em;
   }
+
+
+  .close-button {
+    color: #fff;
+    background-color: #e74c3c;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  
+  .close-button:hover {
+    background-color: red;
+  }
+  
+  .close-button:hover .close-icon {
+    color: #fff;
+  }
+  
+  .close-icon {
+    font-size: 14px;
+  }
+  
+  /* Added this style to change cursor on hover */
+  .close-button:hover {
+    cursor: pointer;
+  }
   
