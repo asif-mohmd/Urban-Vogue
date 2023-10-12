@@ -15,6 +15,7 @@ const addProductView = async (req, res) => {
 const addProduct = async (req, res) => {
     try {
         const { name, price, description, category, size, stock } = req.body;
+        console.log(req.body)
         const images = req.files
             .filter((file) =>
                 file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg")
@@ -26,13 +27,15 @@ const addProduct = async (req, res) => {
                 price,
                 description,
                 category,
-                size,
+                "size.large":size[0] ,
+                "size.medium":size[1],
+                "size.small":size[2] ,
                 imageUrl: images,
                 stock:stock,
                 listStatus: true,
                 deleteStatus: false,
             };
-
+console.log(data,"yeeyeyeye")
             const product = await ProductModel.create(data);
 
             if (product) {

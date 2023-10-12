@@ -559,33 +559,31 @@
                 </fieldset>
 
 
-                <fieldset class="row mb-3">
-                  <legend class="col-form-label col-sm-2 pt-0">Size</legend>
+
+
+
+
+                <fieldset class="row mb-5">
+                  <legend class="col-form-label col-sm-2 pt-0">Sizes</legend>
                   <div class="col-sm-10">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios1" value="Large">
-                      <label class="form-check-label" for="gridRadios1">
+                      <input class="form-check-input" name="size" type="checkbox" value="Large"  id="flexCheckDefault" checked>
+                      <label class="form-check-label" for="flexCheckDefault">
                         Large
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios2" value="Medium">
-                      <label class="form-check-label" for="gridRadios2">
+                      <input class="form-check-input" name="size" type="checkbox" value="Medium" id="flexCheckDefault" >
+                      <label class="form-check-label" for="flexCheckDefault">
                         Medium
                       </label>
                     </div>
-                    <div class="form-check disabled">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios3" value="Small">
-                      <label class="form-check-label" for="gridRadios3">
+                       <div class="form-check">
+                      <input class="form-check-input" name="size" type="checkbox" value="Small" id="flexCheckDefault" >
+                      <label class="form-check-label" for="flexCheckDefault">
                         Small
                       </label>
                     </div>
-                    {{!-- <div class="form-check disabled">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios3" value="All">
-                      <label class="form-check-label" for="gridRadios3">
-                        All the bove
-                      </label>
-                    </div> --}}
                   </div>
                 </fieldset>
 
@@ -617,7 +615,7 @@
 
 
 
-                <div class="row mb-3">
+                <div class="row mb-3 mt-5">
                   <label class="col-sm-2 col-form-label">Submit Button</label>
                   <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary">Submit Form</button>
