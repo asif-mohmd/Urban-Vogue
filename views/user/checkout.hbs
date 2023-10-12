@@ -130,29 +130,29 @@
                                     <input type="text" name="name">
                                 </div>
                             </div>
-                            
-                        
-                            
-                            <div class="col-lg-12" >
+
+
+
+
+                            <div class="col-lg-12">
                                 <div class="checkout__form__input">
-                                    <p>Address <span>*</span></p>
-                                    <input type="text" name="defaultAddress"  placeholder="Street Address">
+                                    <label for="browser" class="form-label">Enter / Select Delivery Address</label>
+                                    <input class="form-control" list="browsers" name="address" id="browser">
+                                    <datalist id="browsers">
+                                        <option value="{{userDetails.address.officeAddress}}">
+                                        <option value="{{userDetails.address.homeAddress}}">
+                                   
+                                    </datalist>
+
                                 </div>
-                                 <select name="defaultAddress" class="form-select form-select-sm" aria-label=".form-select-sm example"
-                                        onchange="updateCustomAddress(this)">
-                                        <option selected>Select Delivery address</option>
-                                        <option value="{{userDetails.address.homeAddress}}" >{{userDetails.address.homeAddress}}</option>
-                                        <option value="{{userDetails.address.officeAddress}}" >{{userDetails.address.officeAddress}}</option>
-                                        <option value="3" >Custom Address</option>
-                                    </select>
                             </div>
-                            
-                            
-                            
-                            
-                            <div class="col-lg-12 mt-5">
-                            
-                            
+
+
+
+
+                            <div class="col-lg-12 mt-3">
+
+
                                 <div class="checkout__form__input">
                                     <p>Town/City <span>*</span></p>
                                     <input type="text" name="city">
@@ -335,23 +335,23 @@
             });
         }
 
-  function updateCustomAddress(selectElement) {
-    const customAddressInput = document.getElementById('customAddressInput');
+        function updateCustomAddress(selectElement) {
+            const customAddressInput = document.getElementById('customAddressInput');
 
-    if (selectElement.value === '3') {
-        customAddressInput.style.display = 'block';
-    } else {
-        customAddressInput.style.display = 'none';
-        // Clear the custom address input value when not selected
-        customAddressInput.querySelector('input').value = '';
-    }
-}
+            if (selectElement.value === '3') {
+                customAddressInput.style.display = 'block';
+            } else {
+                customAddressInput.style.display = 'none';
+                // Clear the custom address input value when not selected
+                customAddressInput.querySelector('input').value = '';
+            }
+        }
 
-// Function to update the address in the form data
-function updateAddressInput(inputElement) {
-    const addressInput = document.querySelector('input[name="address"]');
-    addressInput.value = inputElement.value;
-}
+        // Function to update the address in the form data
+        function updateAddressInput(inputElement) {
+            const addressInput = document.querySelector('input[name="address"]');
+            addressInput.value = inputElement.value;
+        }
 
 
     </script>
