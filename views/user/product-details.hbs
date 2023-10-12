@@ -217,19 +217,26 @@
                                 <li>
                                     <span>Available size:</span>
                                     <div class="size__btn">
-                              
+                              {{#if singleProduct.size.small}}
                                         <label for="s-btn">
                                             <input type="radio" id="s-btn">
                                             s
                                         </label>
+                                        {{/if}}
+                        {{#if singleProduct.size.medium}}
+
                                         <label for="m-btn">
                                             <input type="radio" id="m-btn">
                                             m
                                         </label>
+                 {{#if singleProduct.size.large}}
+
+                                            {{/if}}
                                         <label for="l-btn">
                                             <input type="radio" id="l-btn">
                                             l
                                         </label>
+                                            {{/if}}
                                     </div>
                                 </li>
                                 <li>
@@ -240,6 +247,15 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
 
 
                 <div class="col-lg-12">
@@ -400,6 +416,11 @@
             <script src="js/owl.carousel.min.js"></script>
             <script src="js/jquery.nicescroll.min.js"></script>
             <script src="js/main.js"></script>
+
+
+
+
+
 </body>
 
 </html>
