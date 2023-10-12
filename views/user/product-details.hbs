@@ -212,41 +212,73 @@
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
-                                </li> --}}
-
-                                <li>
-                                    <span>Available size:</span>
-                                    <div class="size__btn">
-                              {{#if singleProduct.size.small}}
-                                        <label for="s-btn">
-                                            <input type="radio" id="s-btn">
-                                            s
-                                        </label>
-                                        {{/if}}
-                        {{#if singleProduct.size.medium}}
-
-                                        <label for="m-btn">
-                                            <input type="radio" id="m-btn">
-                                            m
-                                        </label>
-                 {{#if singleProduct.size.large}}
-
+                                    </li> --}}
+                                    
+                                    <li>
+                                        <span>Available size:</span>
+                                        <div class="size__btn">
+                                            {{!-- {{#if singleProduct.size.small}}
+                                            <label for="s-btn">
+                                                <input type="radio" id="s-btn">
+                                                s
+                                            </label>
                                             {{/if}}
-                                        <label for="l-btn">
-                                            <input type="radio" id="l-btn">
-                                            l
-                                        </label>
+                                            {{#if singleProduct.size.medium}}
+                                    
+                                            <label for="m-btn">
+                                                <input type="radio" id="m-btn">
+                                                m
+                                            </label>
+                                            {{#if singleProduct.size.large}}
+                                    
                                             {{/if}}
+                                            <label for="l-btn">
+                                                <input type="radio" id="l-btn">
+                                                l
+                                            </label>
+                                            {{/if}} --}}
+                                        </div>
+                                    </li>
+                                     
+
+
+                                       {{#if singleProduct.size.small}}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="size" id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            S
+                                        </label>
                                     </div>
-                                </li>
-                                <li>
-                                    <span>Promotions:</span>
-                                    <p>Free shipping</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                                    
+                                      {{/if}}
+                                       {{#if singleProduct.size.medium}}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="size" id="flexRadioDefault2" checked>
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            M
+                                        </label>
+                                    </div>
+                                      {{/if}}
+                                       {{#if singleProduct.size.large}}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="size" id="flexRadioDefault2" checked>
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            L
+                                        </label>
+                                    </div>
+                                      {{/if}}
+                                    
+                                    
+                                    
+                                    
+                                    <li>
+                                        <span>Promotions:</span>
+                                        <p>Free shipping</p>
+                                    </li>
+                                    </ul>
+                                    </div>
+                                    </div>
+                                    </div>
 
 
 
@@ -417,10 +449,23 @@
             <script src="js/jquery.nicescroll.min.js"></script>
             <script src="js/main.js"></script>
 
+            
 
+  <script>
+    function addToCart(id) {
+      const selectedValue = document.querySelector('input[name="size"]:checked').value;
+      console.log("Selected Value:", selectedValue);
+
+      const returnUrl = `/addToCart?id=${id}&size=${selectedValue}`;
+      console.log("Size Selected:", returnUrl);
+
+      window.location.href = returnUrl;
+    }
+  </script>
 
 
 
 </body>
 
 </html>
+
