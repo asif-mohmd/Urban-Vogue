@@ -6,9 +6,14 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
+
   orderId: {
     type: Number,
+    required: true,
+  },
+
+  address:{
+    type: String,
     required: true,
   },
   zip: {
@@ -21,43 +26,43 @@ const OrderSchema = new mongoose.Schema({
   },
 
 
-  products:[{
-    productId:{
+  products: [{
+    productId: {
       type: String,
       required: true,
     },
     name: {
       type: String,
       required: true,
-  },
-  price: {
+    },
+    price: {
       type: Number,
       required: true,
-  },
-  count:{
-    type: Number,
-    required: true,
-  }
+    },
+    count: {
+      type: Number,
+      required: true,
+    }
   }
   ],
 
-  
-  amount:{
+
+  amount: {
     type: Number,
     required: true,
   },
-  status:{
+  status: {
     type: String,
     required: true
   },
-  paymentMethod:{
+  paymentMethod: {
     type: String,
     required: true
   }
-  
-  
 
-  
+
+
+
 
 });
 const OrderModel = mongoose.model("Order", OrderSchema);

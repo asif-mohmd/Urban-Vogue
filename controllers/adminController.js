@@ -58,7 +58,7 @@ const addNewCategory = async (req, res) => {
         const { categoryName } = req.body;
         const data = {
             categoryName,
-            status: true
+            listStatus: true
         };
 
         if (data) {
@@ -85,7 +85,7 @@ const addNewCategory = async (req, res) => {
         } else {
             msg = true;
         }
-        res.render('admin/add-category', { msg, msgExists });
+        res.render('admin/add-category', { msg });
     }
 };
 
@@ -102,7 +102,7 @@ const categoryDelete = async (req, res) => {
 
 const listUnlistCategory = async (req, res) => {
     const categoryData = await CategoryModel.findById({ _id: req.params.id })
-    const updated = await CategoryModel.updateOne({ _id: req.params.id }, { $set: { status: !categoryData.status } })
+    const updated = await CategoryModel.updateOne({ _id: req.params.id }, { $set: { listStatus: !categoryData.listStatus } })
     if (updated) {
         res.redirect("/admin/showCategory")
     } else {
