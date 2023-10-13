@@ -408,6 +408,8 @@ const addToCart = async (req, res) => {
   const productId = req.query.id;
   const userId = req.session.user._id;
 
+  console.log("eeeeeeeee",req.query.size,"sizeeeeeeeeeeeeeeeeeeeeeeee")
+
   try {
     const data = {
       productId: productId,

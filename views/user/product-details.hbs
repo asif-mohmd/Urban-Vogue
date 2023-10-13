@@ -192,8 +192,8 @@
                             <a href="/cart" class="cart-btn"><span class="icon_bag_alt"></span> Go to cart</a>
 
                             {{else}}
-                            <a href="/addToCart?id={{singleProduct._id}}" class="cart-btn"><span
-                                    class="icon_bag_alt"></span> Add to cart</a>
+                            <button onclick="addToCart('{{singleProduct._id}}')" class="cart-btn"><span
+                                    class="icon_bag_alt"></span> Add to cart</button>
                             {{/if}}
                             <ul>
                                 <li><a href="/add-to-wishlist?id={{singleProduct._id}}"><span

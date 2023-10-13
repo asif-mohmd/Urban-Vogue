@@ -53,7 +53,7 @@ connectDB()
 app.use("/", userRouter)
 app.use("/admin", adminRouter)
 
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
