@@ -209,6 +209,7 @@ const editProfile = async (req, res) => {
 const cartView = async (req, res ) => {
 
   const userId = req.session.user._id;
+  
 
    const cartItems = await getProducts(userId)
 
@@ -248,7 +249,9 @@ const placeOrder = async (req, res) => {
     productId: cartItem.product._id,
     name: cartItem.product.name,
     price: cartItem.product.price,
-    count: cartItem.count
+    count: cartItem.count,
+    size: cartItem.size
+    
   }));
 
 console.log("call is here 1")
@@ -407,24 +410,26 @@ const changePaymentStatus = async(orderId)=>{
 const addToCart = async (req, res) => {
   const productId = req.query.id;
   const userId = req.session.user._id;
+  const size = req.query.size
 
   console.log("eeeeeeeee",req.query.size,"sizeeeeeeeeeeeeeeeeeeeeeeee")
 
   try {
     const data = {
       productId: productId,
-      count: 1
+      count: 1,
+      size: size
     };
-
+console.log(data,"::::::::::::::::::::::::")
     const cart = await CartModel.findOne({ userId: userId });
 
     if (cart) {
       const productExists = cart.cart.some(item => item.productId === productId);
 
       if (productExists) {
-        await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } });
+        await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } }, {$set:{size:size}});
       } else {
-        await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 } } });
+        await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 , size} } });
       }
 
       res.redirect("/cart"); // Moved the redirect here
@@ -435,7 +440,7 @@ const addToCart = async (req, res) => {
       };
 
       const newCart = await CartModel.create(cartData);
-
+console.log(newCart,"qqqqqqqqqqqqqqqqqqqqqq")
       if (newCart) {
         res.redirect("/cart"); // Moved the redirect here
       } else {
@@ -637,7 +642,8 @@ const getProducts = async(userId) =>{
       $project:
       {
         product: { $toObjectId: "$cart.productId" },
-        count: "$cart.count"
+        count: "$cart.count",
+        size: "$cart.size"
       }
     },
     {

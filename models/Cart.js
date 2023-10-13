@@ -15,6 +15,10 @@ const CartSchema = new mongoose.Schema({
       count: {
         type: Number,
         required: 0
+      },
+      size:{
+        type: String,
+        required: true
       }
     }
   ],
