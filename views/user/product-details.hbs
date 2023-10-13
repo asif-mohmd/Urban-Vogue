@@ -15,6 +15,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
+
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
+
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
@@ -213,7 +218,7 @@
                                             {{/if}}
                                             {{#if singleProduct.size.medium}}
                                             <div class="form-check">
-                                                <input class="form-check-input" value="M" type="radio" name="size" id="flexRadioDefault2" checked>
+                                                <input class="form-check-input" value="M" type="radio" name="size" id="flexRadioDefault2" >
                                                 <label class="form-check-label" for="flexRadioDefault2">M</label>
                                             </div>
                                             {{/if}}
@@ -235,7 +240,23 @@
                             </div>
                             </div>
                             
-                            
+
+
+
+                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Please select a size</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" id="closeModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+</div> 
                             
                             
                             
@@ -405,18 +426,36 @@
             <script src="js/main.js"></script>
 
             
+  <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
-  <script>
-    function addToCart(id) {
-      const selectedValue = document.querySelector('input[name="size"]:checked').value;
-      console.log("Selected Value:", selectedValue);
 
-      const returnUrl = `/addToCart?id=${id}&size=${selectedValue}`;
-      console.log("Size Selected:", returnUrl);
+            
 
-      window.location.href = returnUrl;
+<script>
+  function addToCart(id) {
+    const selectedSize = document.querySelector('input[name="size"]:checked');
+
+    if (!selectedSize) {
+      // Show the modal if no size is selected
+      $('#exampleModal').modal('show');
+      return;  // Stop the function if no size is selected
     }
-  </script>
+
+    const selectedValue = selectedSize.value;
+    console.log("Selected Value:", selectedValue);
+
+    const returnUrl = `/addToCart?id=${id}&size=${selectedValue}`;
+    console.log("Size Selected:", returnUrl);
+
+    window.location.href = returnUrl;
+  }
+
+  // Close the modal when the "Close" button inside the modal is clicked
+  document.getElementById('closeModalBtn').addEventListener('click', function() {
+    $('#exampleModal').modal('hide');
+  });
+</script>
 
 
 
