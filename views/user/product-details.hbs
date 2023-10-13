@@ -171,152 +171,107 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
-                        </div>
-                        <div class="product__details__price">{{singleProduct.price}} <span></span></div>
-                        <p>{{singleProduct.description}}</p>
-                        {{#if (gt singleProduct.stock 0)}}
-                        <span class="font-weight-bold pl-3">In Stock: {{singleProduct.stock}}</span>
-                        {{else}}
-                        <span class="font-weight-bold pl-3 text-danger">Out of Stock</span>
-                        {{/if}}
-
-
-                        <div class="product__details__button mt-1">
-                            {{!-- <div class="quantity">
-                                <span>Quantity:</span>
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </div> --}}
-                            {{#if cartCheck}}
-                            <a href="/cart" class="cart-btn"><span class="icon_bag_alt"></span> Go to cart</a>
-
+                            </div>
+                            <div class="product__details__price">{{singleProduct.price}} <span></span></div>
+                            <p>{{singleProduct.description}}</p>
+                            {{#if (gt singleProduct.stock 0)}}
+                            <span class="font-weight-bold pl-3">In Stock: {{singleProduct.stock}}</span>
                             {{else}}
-                            <button onclick="addToCart('{{singleProduct._id}}')" class="cart-btn"><span
-                                    class="icon_bag_alt"></span> Add to cart</button>
+                            <span class="font-weight-bold pl-3 text-danger">Out of Stock</span>
                             {{/if}}
-                            <ul>
-                                <li><a href="/add-to-wishlist?id={{singleProduct._id}}"><span
-                                            class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__details__widget">
-                            <ul>
-                                {{!-- <li>
-                                    <span>Availability:</span>
-                                    <div class="stock__checkbox">
-                                        <label for="stockin">
-                                            In Stock
-                                            <input type="checkbox" id="stockin">
-                                            <span class="checkmark"></span>
-                                        </label>
+                            
+                            
+                            <div class="product__details__button mt-1">
+                                {{!-- <div class="quantity">
+                                    <span>Quantity:</span>
+                                    <div class="pro-qty">
+                                        <input type="text" value="1">
                                     </div>
-                                    </li> --}}
-                                    
+                                </div> --}}
+                                {{#if cartCheck}}
+                                <a href="/cart" class="cart-btn"><span class="icon_bag_alt"></span> Go to cart</a>
+                            
+                                {{else}}
+                                <button onclick="addToCart('{{singleProduct._id}}')" class="cart-btn"><span class="icon_bag_alt"></span> Add to
+                                    cart</button>
+                                {{/if}}
+                                <ul>
+                                    <li><a href="/add-to-wishlist?id={{singleProduct._id}}"><span class="icon_heart_alt"></span></a></li>
+                                    <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__details__widget">
+                                <ul>
                                     <li>
                                         <span>Available size:</span>
                                         <div class="size__btn">
-                                            {{!-- {{#if singleProduct.size.small}}
-                                            <label for="s-btn">
-                                                <input type="radio" id="s-btn">
-                                                s
-                                            </label>
+                                            {{#if singleProduct.size.small}}
+                                            <div class="form-check">
+                                                <input class="form-check-input" value="S" type="radio" name="size" id="flexRadioDefault1">
+                                                <label class="form-check-label" for="flexRadioDefault1">S</label>
+                                            </div>
                                             {{/if}}
                                             {{#if singleProduct.size.medium}}
-                                    
-                                            <label for="m-btn">
-                                                <input type="radio" id="m-btn">
-                                                m
-                                            </label>
-                                            {{#if singleProduct.size.large}}
-                                    
+                                            <div class="form-check">
+                                                <input class="form-check-input" value="M" type="radio" name="size" id="flexRadioDefault2" checked>
+                                                <label class="form-check-label" for="flexRadioDefault2">M</label>
+                                            </div>
                                             {{/if}}
-                                            <label for="l-btn">
-                                                <input type="radio" id="l-btn">
-                                                l
-                                            </label>
-                                            {{/if}} --}}
+                                            {{#if singleProduct.size.large}}
+                                            <div class="form-check">
+                                                <input class="form-check-input" value="L" type="radio" name="size" id="flexRadioDefault3">
+                                                <label class="form-check-label" for="flexRadioDefault3">L</label>
+                                            </div>
+                                            {{/if}}
                                         </div>
                                     </li>
-                                     
-
-
-                                       {{#if singleProduct.size.small}}
-                                    <div class="form-check">
-                                        <input class="form-check-input" value="S" type="radio" name="size" id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            S
-                                        </label>
-                                    </div>
-                                    
-                                      {{/if}}
-                                       {{#if singleProduct.size.medium}}
-                                    <div class="form-check">
-                                        <input class="form-check-input" value="M" type="radio" name="size" id="flexRadioDefault2" checked>
-                                        <label class="form-check-label" for="flexRadioDefault2">
-                                            M
-                                        </label>
-                                    </div>
-                                      {{/if}}
-                                       {{#if singleProduct.size.large}}
-                                    <div class="form-check">
-                                        <input class="form-check-input" value="L" type="radio" name="size" id="flexRadioDefault2" checked>
-                                        <label class="form-check-label" for="flexRadioDefault2">
-                                            L
-                                        </label>
-                                    </div>
-                                      {{/if}}
-                                    
-                                    
-                                    
-                                    
                                     <li>
                                         <span>Promotions:</span>
                                         <p>Free shipping</p>
                                     </li>
-                                    </ul>
-                                    </div>
-                                    </div>
-                                    </div>
-
-
-
-
-
-
-
-
-
-
-
-                <div class="col-lg-12">
-                    <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <h6>Description</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                    consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                    quis, sem.</p>
+                                </ul>
                             </div>
+                            
+                            </div>
+                            </div>
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            <div class="col-lg-12">
+                                <div class="product__details__tab">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                            <h6>Description</h6>
+                                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
+                                                quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
+                                                Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
+                                                voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
+                                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
+                                                consequat massa quis enim.</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
+                                                dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
+                                                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
+                                                quis, sem.</p>
+                                        </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>Specification</h6>
                                 <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed

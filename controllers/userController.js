@@ -587,10 +587,15 @@ const ordersView = async(req,res)=>{
   const userId = req.session.user._id
   
   const pendingOrders = await OrderModel.find();
+
+  
   
 
   res.render("user/orders",{pendingOrders})
 }
+
+
+
 
 const cancelUserOrder = async(req,res) =>{
   const orderId = req.query.id
@@ -693,6 +698,8 @@ const orderDetailView = async (req, res) => {
     if (daysDifference <= 7) {
       orderReturn = true;
     }
+
+    console.log(orderDetails,"------------------------------")
     res.render('user/order-detail-view', { orderDetails, orderReturn });
 
   } catch (error) {
@@ -703,12 +710,12 @@ const orderDetailView = async (req, res) => {
 
 
 const returnUserOrder = async (req, res) => {
-
+console.log("gehehehehehee")
   try {
-    const orderObjId = req.query.id
+    const orderObjId = req.query.orderId
     const returnType = req.query.returnType
     const userId = req.session.user._id
-
+console.log(orderObjId,"................",returnType)
     if (returnType == 1) {
 
       const orderDetails = await OrderModel.findById({ _id: orderObjId })

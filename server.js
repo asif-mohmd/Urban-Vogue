@@ -42,6 +42,11 @@ hbs.registerHelper('gt', function (a, b) {  //i am using a hbd > (greather than)
 hbs.registerHelper('eq', function (a, b) {  //using in orders page
   return a === b;
 });
+hbs.registerHelper('or', function (a, b) {  //using in orders page
+  return a === b;
+});
+
+
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));

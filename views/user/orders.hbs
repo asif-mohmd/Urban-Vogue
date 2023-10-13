@@ -187,6 +187,19 @@
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal{{@key}}">Cancel</button>
                       {{/if}}
+
+
+                      {{#if (eq status "returnDefective")}}
+                      <button type="button" class="btn btn-info" data-mdb-toggle=""
+                        data-mdb-target="#exampleModal2{{@key}}">Return Pending</button>
+                      {{/if}}
+                    
+                       {{#if (eq status "returnNonDefective")}}
+                      <button type="button" class="btn btn-info" data-mdb-toggle=""
+                        data-mdb-target="#exampleModal2{{@key}}">Return Pending</button>
+                      {{/if}}
+
+                      
                       {{#if (eq status "returnAcceptDef")}}
                       <button type="button" class="btn btn-info" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Returned</button>
@@ -208,8 +221,11 @@
                       <button type="button" class="btn btn-info" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Cancel Accpeted</button>
                       {{/if}}
+                      
 
                     </td>
+
+                    
 
                   </tr>
 

@@ -1990,28 +1990,35 @@ ol {
 	content: "";
 }
 
+.product__details__widget ul li .size__btn {
+    display: flex;
+}
+
+.product__details__widget ul li .size__btn .form-check {
+    margin-right: 10px;
+}
+
 .product__details__widget ul li .size__btn label {
-	font-size: 14px;
-	color: #666666;
-	text-transform: uppercase;
-	cursor: pointer;
-	margin-right: 10px;
-	display: inline-block;
-	margin-bottom: 0;
+    font-size: 14px;
+    color: #666666;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: block;
 }
 
 .product__details__widget ul li .size__btn label:last-child {
-	margin-right: 0;
+    margin-right: 0;
 }
 
 .product__details__widget ul li .size__btn label.active {
-	color: #ca1515;
+    color: #ca1515;
 }
 
 .product__details__widget ul li .size__btn label input {
-	position: absolute;
-	visibility: hidden;
+    position: absolute;
+    visibility: hidden;
 }
+
 
 .product__details__widget ul li p {
 	margin-bottom: 0;
