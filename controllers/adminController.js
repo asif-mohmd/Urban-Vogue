@@ -24,8 +24,12 @@ const adminLogin = (req, res) => {
 }
 
 
-const adminDashboard = (req, res) => {
-    res.render("admin/index")
+const adminDashboard = async (req, res) => {
+
+    const salesData = await OrderModel.find()
+    console.log(salesData,"ppppppppppppppppp")
+
+    res.render("admin/index",{salesData})
 }
 
 

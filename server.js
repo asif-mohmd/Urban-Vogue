@@ -46,6 +46,11 @@ hbs.registerHelper('or', function (a, b) {  //using in orders page
   return a === b;
 });
 
+hbs.registerHelper("inc", function(value, options)
+{
+    return parseInt(value) + 1;
+});
+
 
 
 app.use(express.json())
