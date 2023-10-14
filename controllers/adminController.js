@@ -25,12 +25,79 @@ const adminLogin = (req, res) => {
 
 
 const adminDashboard = async (req, res) => {
+    try {
+        // Fetch sales data from the database
+        const salesData = await OrderModel.find();
 
-    const salesData = await OrderModel.find()
-    console.log(salesData,"ppppppppppppppppp")
+        // Extract necessary data for the chart (e.g., sales, revenue, customers)
+        const sales = salesData.map(item => item.amount);
+        const revenue = salesData.map(item => item.revenue);
+        const customers = salesData.map(item => item.customers);
+        
+        // Extract categories (assuming your salesData has date information)
+        const categories = salesData.map(item => item.date);
 
-    res.render("admin/index",{salesData})
-}
+        // Render the page with the chart using the retrieved data
+        res.render("admin/index", {
+            salesData: {
+                series: [
+                    {
+                        name: 'Sales',
+                        data: sales
+                    },
+                    {
+                        name: 'Revenue',
+                        data: revenue
+                    },
+                    {
+                        name: 'Customers',
+                        data: customers
+                    }
+                ],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false
+                    },
+                },
+                markers: {
+                    size: 4
+                },
+                colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        shadeIntensity: 1,
+                        opacityFrom: 0.3,
+                        opacityTo: 0.4,
+                        stops: [0, 90, 100]
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2
+                },
+                xaxis: {
+                    type: 'datetime',
+                    categories: categories
+                },
+                tooltip: {
+                    x: {
+                        format: 'dd/MM/yy HH:mm'
+                    },
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching sales data:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 
 
 const userList = async (req, res) => {

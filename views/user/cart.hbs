@@ -169,7 +169,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td >{{size}}</td>
+                                        <td>{{size}}</td>
                                         <td class="cart__price">₹ {{product.price}}</td>
                                         <td class="pro-qty-container">
 
@@ -271,7 +271,7 @@
 
 
 
-{{!-- Model for ajax to remove the product if its count less than 1 --}}
+        {{!-- Model for ajax to remove the product if its count less than 1 --}}
 
         <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <!-- Modal content -->
@@ -478,34 +478,38 @@
                 document.querySelector('form[action="/checkout"] button[type="submit"]').setAttribute('disabled', 'true');
             }
 
-            $.ajax({
-                url: "/change-product-quantity",
-                data: {
+            fetch("/change-product-quantity", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
                     cart: cartId,
                     product: productId,
                     count: parsedCount,
                     quantity: quantity
-                },
-                method: 'post',
-                success: (response) => {
+                })
+            })
+                .then(response => response.json())
+                .then(response => {
                     console.log('Server response:', response);
                     if (response.removeProduct) {
                         $('#exampleModal2').modal('show');
                     } else if (response.stockLimit) {
-                        alert("Stock limit reached")
-                    }
-                    else {
+                        alert("Stock limit reached");
+                    } else {
                         document.getElementById(productId).innerHTML = quantity + parsedCount;
                         document.getElementById('totalValue').innerText = "₹ " + response.total[0].total;
                     }
-                },
-                complete: () => {
+                })
+                .catch(error => console.error('Error:', error))
+                .finally(() => {
                     // Enable the form for submission after quantity update
                     document.querySelector('form[action="/checkout"] button[type="submit"]').removeAttribute('disabled');
-                }
-            });
+                });
         }
     </script>
+
 
     <!-- Rest of your HTML code -->
 
