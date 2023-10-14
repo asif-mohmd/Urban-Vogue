@@ -37,6 +37,7 @@ router.get("/return-pending",adminControllers.returnPending)
 router.get("/return-accept",adminControllers.returnAccept)
 router.get("/return-defective",adminControllers.returnDefective)
 router.get("/return-nonDefective",adminControllers.returnNonDefective)
+router.get("/adminChartLoad", adminControllers.adminChartLoad);
 
 
 

@@ -2,6 +2,7 @@ const UserModel = require("../models/User")
 const CategoryModel = require("../models/Category")
 const OrderModel = require("../models/Order")
 const ProductModel = require("../models/Product")
+const { response } = require("express")
 
 
 let adminEmail = "admin@gmail.com"
@@ -25,79 +26,26 @@ const adminLogin = (req, res) => {
 
 
 const adminDashboard = async (req, res) => {
+
+    res.render("admin/index")
+}
+
+const adminChartLoad = async (req, res) => {
+    console.log("Working tetchchhhhhhhhhhhhhhhhhh");
+  
     try {
-        // Fetch sales data from the database
-        const salesData = await OrderModel.find();
-
-        // Extract necessary data for the chart (e.g., sales, revenue, customers)
-        const sales = salesData.map(item => item.amount);
-        const revenue = salesData.map(item => item.revenue);
-        const customers = salesData.map(item => item.customers);
-        
-        // Extract categories (assuming your salesData has date information)
-        const categories = salesData.map(item => item.date);
-
-        // Render the page with the chart using the retrieved data
-        res.render("admin/index", {
-            salesData: {
-                series: [
-                    {
-                        name: 'Sales',
-                        data: sales
-                    },
-                    {
-                        name: 'Revenue',
-                        data: revenue
-                    },
-                    {
-                        name: 'Customers',
-                        data: customers
-                    }
-                ],
-                chart: {
-                    height: 350,
-                    type: 'area',
-                    toolbar: {
-                        show: false
-                    },
-                },
-                markers: {
-                    size: 4
-                },
-                colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                fill: {
-                    type: "gradient",
-                    gradient: {
-                        shadeIntensity: 1,
-                        opacityFrom: 0.3,
-                        opacityTo: 0.4,
-                        stops: [0, 90, 100]
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2
-                },
-                xaxis: {
-                    type: 'datetime',
-                    categories: categories
-                },
-                tooltip: {
-                    x: {
-                        format: 'dd/MM/yy HH:mm'
-                    },
-                }
-            }
-        });
+      const data = await OrderModel.find().lean();  // Use lean() to get plain JavaScript objects
+      const dataArray = Array.isArray(data) ? data : [data];  // Ensure data is an array
+  
+      const response = { status: true, data: dataArray };
+      console.log(dataArray);
+      res.json(response);
     } catch (error) {
-        console.error('Error fetching sales data:', error);
-        res.status(500).send('Internal Server Error');
+      console.error('Error in adminChartLoad:', error);
+      res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
     }
-};
-
+  };
+  
 
 
 const userList = async (req, res) => {
@@ -326,6 +274,7 @@ module.exports = {
     returnPending,
     returnAccept,
     returnDefective,
-    returnNonDefective
+    returnNonDefective,
+    adminChartLoad
 
 }
