@@ -31,9 +31,6 @@
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
 
-
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Aug 30 2023 with Bootstrap v5.3.1
@@ -59,7 +56,7 @@
 
 
 
-    
+    {{!-- <button onclick="loadAdminChart()">Load Admin Chart</button> --}}
 
 
     <div class="search-bar">
@@ -475,6 +472,8 @@
 
 
 
+
+
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -625,17 +624,15 @@
                   <h5 class="card-title">Reports <span>/Today</span></h5>
 
                   <!-- Line Chart -->
-                 
-<div id="chart"></div>
+                  <div id="reportsChart"></div>
+
                   <script>
 
+                    let sales
 
-                    window.onload = function () {
-                      loadAdminChart();
-                    };
+                    document.addEventListener("DOMContentLoaded", () => {
 
-                    function loadAdminChart() {
-                      console.log("idfklasdfjnesdfjbnasdfjobasd[jofbq3]");
+
 
                       fetch("/admin/adminChartLoad", {
                         method: 'GET',
@@ -660,45 +657,69 @@
                           }
 
                           // Calculate sales, orders, and revenue
-                          const sales = data.reduce((total, order) => total + order.amount, 0);
+                          sales = data.map((a) => { return a.amount });
                           const orders = data.length;
                           const revenue = sales;
+
+
+                          new ApexCharts(document.querySelector("#reportsChart"), {
+                            series: [{
+                              name: 'Sales',
+                              data: sales,
+                            }, {
+                              name: 'Revenue',
+                              data: [11, 32, 45, 32, 34, 52, 41]
+                            }, {
+                              name: 'Customers',
+                              data: [15, 11, 32, 18, 9, 24, 11]
+                            }],
+                            chart: {
+                              height: 350,
+                              type: 'area',
+                              toolbar: {
+                                show: false
+                              },
+                            },
+                            markers: {
+                              size: 4
+                            },
+                            colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                            fill: {
+                              type: "gradient",
+                              gradient: {
+                                shadeIntensity: 1,
+                                opacityFrom: 0.3,
+                                opacityTo: 0.4,
+                                stops: [0, 90, 100]
+                              }
+                            },
+                            dataLabels: {
+                              enabled: false
+                            },
+                            stroke: {
+                              curve: 'smooth',
+                              width: 2
+                            },
+                            xaxis: {
+                              type: 'datetime',
+                              categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                            },
+                            tooltip: {
+                              x: {
+                                format: 'dd/MM/yy HH:mm'
+                              },
+                            }
+                          }).render();
 
                           console.log("Sales:", sales);
                           console.log("Orders:", orders);
                           console.log("Revenue:", revenue);
-                        })
-                        .catch(error => console.error("Error:", error));
-                    }
+                        }).catch(error => console.error("Error:", error));
 
 
-
-
-
-
-
-      var options = {
-  chart: {
-    type: 'bar'
-  },
-  series: [{
-    name: 'sales',
-    data: [30,40,45,50,49,60,70,91,125]
-  }],
-  xaxis: {
-    categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
-  }
-}
-
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-chart.render();
-
-
-
-
+                      console.log(newSales, "newwwww")
+                    })
                   </script>
-                  </div>
                   <!-- End Line Chart -->
 
                 </div>
@@ -798,43 +819,12 @@ chart.render();
 
     function loadAdminChart() {
       console.log("idfklasdfjnesdfjbnasdfjobasd[jofbq3]");
-
-      fetch("/admin/adminChartLoad", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => {
-          if (res.ok) {
-            console.log("SUCCESS");
-            return res.json();
-          } else {
-            throw new Error('Network response was not ok');
-          }
-        })
-        .then(data => {
-          console.log("Data from server:", data);
-
-          // Ensure data is an array
-          if (!Array.isArray(data)) {
-            throw new Error('Data is not an array');
-          }
-
-          // Calculate sales, orders, and revenue
-          const sales = data.reduce((total, order) => total + order.amount, 0);
-          const orders = data.length;
-          const revenue = sales;
-
-          console.log("Sales:", sales);
-          console.log("Orders:", orders);
-          console.log("Revenue:", revenue);
-        })
-        .catch(error => console.error("Error:", error));
     }
 
 
   </script>
+
+
 
 
 
