@@ -22,6 +22,8 @@
   <!-- MDB -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
   <!-- Css Styles -->
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -212,6 +214,7 @@
                     
                       <button type="button" class="btn btn-success" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Delivered</button>
+                        <a href="/report-generate"><i class="fa-solid fa-download fa-xl"></i></a>
                       {{/if}}
                       {{#if (eq status "returnPending")}}
                       <button type="button" class="btn btn-success" data-mdb-toggle="modal"

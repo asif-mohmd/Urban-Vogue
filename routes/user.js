@@ -30,6 +30,9 @@ router.get("/contact-page",userControllers.contactView)
 router.get("/order-response",userControllers.orderResponseView)
 
 
+router.get("/report",userControllers.loadReport)
+router.get("/report-generate",userControllers.generateReport)
+
 
 
 // POST Methods

@@ -13,6 +13,11 @@ const { productDetails } = require("./productController");
 const moment = require('moment'); // Import Moment.js
 const Razorpay = require('razorpay');
 const { response } = require("express");
+const puppeteer = require("puppeteer")
+if (!Symbol.dispose) {
+  Symbol.dispose = Symbol('dispose');
+}
+
 
 
 var instance = new Razorpay({
@@ -777,6 +782,36 @@ const orderResponseView = (req,res) =>{
 }
 
 
+const loadReport = (req,res) =>{
+  console.log("its here")
+}
+
+
+const generateReport = async (req,res) =>{
+  console.log("yeyey")
+
+  try{
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    await page.goto(`${req.protocol}://${req.get("host")}`+"/orders",{
+      waitUntil:"networkidle2"
+    })
+
+    await page.setViewport({width:1680, height: 1050})
+
+    page.pdf({
+      path:`${path.join(__dirname,"../public/files")}`
+    })
+
+  }catch(error){
+    console.log(error.message)
+  }
+
+
+
+}
 
 
 
@@ -806,7 +841,9 @@ const orderResponseView = (req,res) =>{
     orderDetailView,
     contactView,
     orderResponseView,
-    verifyPayment
+    verifyPayment,
+    loadReport,
+    generateReport
 
   };
 
