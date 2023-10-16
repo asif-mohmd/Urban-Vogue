@@ -34,11 +34,9 @@ const adminChartLoad = async (req, res) => {
     console.log("Working tetchchhhhhhhhhhhhhhhhhh");
   
     try {
-      const data = await OrderModel.find()  // Use lean() to get plain JavaScript objects
-    //   const dataArray = Array.isArray(data) ? data : [data];  // Ensure data is an array
-  
-    //   const response = { status: true, data: dataArray };
-    //   console.log(dataArray);
+      const data = await OrderModel.find() 
+
+      console.log(data);
       res.json(data);
     } catch (error) {
       console.error('Error in adminChartLoad:', error);

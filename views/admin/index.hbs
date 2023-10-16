@@ -629,6 +629,8 @@
                   <script>
 
                     let sales
+                    let pending
+                    let deliveredAmounts
 
                     document.addEventListener("DOMContentLoaded", () => {
 
@@ -658,8 +660,12 @@
 
                           // Calculate sales, orders, and revenue
                           sales = data.map((a) => { return a.amount });
-                          const orders = data.length;
-                          const revenue = sales;
+                          deliveredAmounts = data.map((a) => { return a.status == "delivered" });
+                          console.log(pending, "pendingsgsgsgsgwsgsg")
+
+                           pending = data
+                            .filter((order) => order.status === "pending")
+                            .map((order) => order.amount);
 
 
                           new ApexCharts(document.querySelector("#reportsChart"), {
@@ -667,11 +673,11 @@
                               name: 'Sales',
                               data: sales,
                             }, {
-                              name: 'Revenue',
-                              data: [11, 32, 45, 32, 34, 52, 41]
+                              name: '',
+                              data: deliveredAmounts
                             }, {
-                              name: 'Customers',
-                              data: [15, 11, 32, 18, 9, 24, 11]
+                              name: 'Pending',
+                              data: pending
                             }],
                             chart: {
                               height: 350,

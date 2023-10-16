@@ -561,63 +561,55 @@
                   </div>
                 </fieldset>
 
-
-                <fieldset class="row mb-3">
-                  <legend class="col-form-label col-sm-2 pt-0">Size</legend>
+                <fieldset class="row mb-5">
+                  <legend class="col-form-label col-sm-2 pt-0">Sizes</legend>
                   <div class="col-sm-10">
-                    <legend class="col-form-label col-sm-2 pt-0 text-primary">{{editProduct.size}}</legend>
-
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios1" value="Large">
-                      <label class="form-check-label" for="gridRadios1">
+                      <input class="form-check-input" name="size" type="checkbox" value="Large"  id="flexCheckDefault" >
+                      <label class="form-check-label" for="flexCheckDefault">
                         Large
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios2" value="Medium">
-                      <label class="form-check-label" for="gridRadios2">
+                      <input class="form-check-input" name="size" type="checkbox" value="Medium" id="flexCheckDefault" >
+                      <label class="form-check-label" for="flexCheckDefault">
                         Medium
                       </label>
                     </div>
-                    <div class="form-check disabled">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios3" value="Small">
-                      <label class="form-check-label" for="gridRadios3">
+                       <div class="form-check">
+                      <input class="form-check-input" name="size" type="checkbox" value="Small" id="flexCheckDefault" >
+                      <label class="form-check-label" for="flexCheckDefault">
                         Small
                       </label>
                     </div>
-                    {{!-- <div class="form-check disabled">
-                      <input class="form-check-input" type="radio" name="size" id="gridRadios3" value="All">
-                      <label class="form-check-label" for="gridRadios3">
-                        All the bove
-                      </label>
-                    </div> --}}
                   </div>
                 </fieldset>
 
-
                 <input type="file" name="image" id="image1" style="display: none;"
-                  onchange="displayFileName('image1', this)">
+                  onchange="displayFileName('image1', this)" accept="image/png, image/webp, image/jpeg">
                 <label for="image1"
-                  style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">
-                  Image 1
-                  <span id="image1Label"></span>
-                </label>
+                  style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">Image
+                  1 <span id="image1Label"></span> </label><span class="close-button"
+                  onclick="clearImage('image1')"><span class="close-icon btn"><i
+                      class="fa-solid fa-x "></i></span></span>
 
                 <input type="file" name="image" id="image2" style="display: none;"
-                  onchange="displayFileName('image2', this)">
+                  onchange="displayFileName('image2', this)" accept="image/png, image/webp, image/jpeg">
                 <label for="image2"
-                  style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">
-                  Image 2
-                  <span id="image2Label"></span>
-                </label>
+                  style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">Image
+                  2 <span id="image2Label"></span></label> <span class="close-button"
+                  onclick="clearImage('image2')"><span class="close-icon btn"><i
+                      class="fa-solid fa-x "></i></span></span>
 
                 <input type="file" name="image" id="image3" style="display: none;"
-                  onchange="displayFileName('image3', this)">
+                  onchange="displayFileName('image3', this)" accept="image/png, image/webp, image/jpeg">
                 <label for="image3"
-                  style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">
-                  Image 3
-                  <span id="image3Label"></span>
-                </label>
+                  style="padding: 8px 16px; font-size: 14px; font-weight: bold; color: #fff; background-color: #3498db; cursor: pointer; border-radius: 10px; border: none; text-align: center; display: inline-block; margin: 5px;">Image
+                  3 <span id="image3Label"></span></label> <span class="close-button"
+                  onclick="clearImage('image3')"><span class="close-icon btn"><i
+                      class="fa-solid fa-x "></i></span></span>
+
+
 
 
 
