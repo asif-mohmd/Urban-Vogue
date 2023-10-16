@@ -14,9 +14,6 @@ const moment = require('moment'); // Import Moment.js
 const Razorpay = require('razorpay');
 const { response } = require("express");
 const puppeteer = require("puppeteer")
-if (!Symbol.dispose) {
-  Symbol.dispose = Symbol('dispose');
-}
 
 
 
@@ -800,10 +797,23 @@ const generateReport = async (req,res) =>{
     })
 
     await page.setViewport({width:1680, height: 1050})
+    
+    const todayDate = new Date()
 
-    page.pdf({
-      path:`${path.join(__dirname,"../public/files")}`
+    const pdfn =  await page.pdf({
+      path:`${path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")}`,
+      format:"A4"
     })
+
+    await browser.close()
+
+    const pdfURL = path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")
+
+    res.set({
+      "Content-Type":"application/pdf",
+      "Content-Length":pdfn.length
+    })
+    res.sendFile(pdfURL)
 
   }catch(error){
     console.log(error.message)
