@@ -4,7 +4,7 @@ const UserModel = require("../models/User");
 var session = require('express-session');
 const ProductModel = require("../models/Product");
 const sendMail = require("../utils/nodeMailer");
-
+const path = require('path')
 const CartModel = require("../models/Cart");
 const OrderModel = require("../models/Order");
 const formatDate = require("../utils/dateGenerator");
@@ -586,7 +586,7 @@ const proceedToCheckout = async (req,res) =>{
 
 
 const ordersView = async(req,res)=>{
-  const userId = req.session.user._id
+
   
   const pendingOrders = await OrderModel.find();
 
@@ -789,7 +789,9 @@ const generateReport = async (req,res) =>{
 
   try{
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: false //
+    });
     const page = await browser.newPage();
 
     await page.goto(`${req.protocol}://${req.get("host")}`+"/orders",{
@@ -802,18 +804,26 @@ const generateReport = async (req,res) =>{
 
     const pdfn =  await page.pdf({
       path:`${path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")}`,
+      printBackground:true,
       format:"A4"
     })
 
-    await browser.close()
+    if(browser) await browser.close()
 
     const pdfURL = path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")
 
-    res.set({
-      "Content-Type":"application/pdf",
-      "Content-Length":pdfn.length
+    // res.set({
+    //   "Content-Type":"application/pdf",
+    //   "Content-Length":pdfn.length
+    // })
+    // res.sendFile(pdfURL)
+
+    res.download(pdfURL,function(err){
+      if(err){
+        console.log(err)
+      }
+
     })
-    res.sendFile(pdfURL)
 
   }catch(error){
     console.log(error.message)

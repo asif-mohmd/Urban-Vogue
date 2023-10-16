@@ -518,7 +518,7 @@
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
+                      <h6>{{countOfDeliveredOrders}}</h6>
                       <span class="text-success small pt-1 fw-bold">12%</span> <span
                         class="text-muted small pt-2 ps-1">increase</span>
 
@@ -554,7 +554,7 @@
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>$3,264</h6>
+                      <h6>₹ {{totalDeliveredAmount}}</h6>
                       <span class="text-success small pt-1 fw-bold">8%</span> <span
                         class="text-muted small pt-2 ps-1">increase</span>
 
@@ -758,19 +758,21 @@
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
+                        {{!-- <th scope="col">Product</th> --}}
                         <th scope="col">Price</th>
                         <th scope="col">Status</th>
                       </tr>
                     </thead>
                     <tbody>
+                      {{#each recentOrders}}
                       <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
+                        <th scope="row"><a href="#">{{orderId}}</a></th>
+                        <td>{{amount}}</td>
+                        {{!-- <td><a href="#" class="text-primary">At praesentium minu</a></td> --}}
+                        <td>{{amount}}</td>
+                        <td><span class="badge bg-success">{{paymentMethod}}</span></td>
                       </tr>
+                      {{/each}}
 
                     </tbody>
                   </table>

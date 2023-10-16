@@ -27,7 +27,20 @@ const adminLogin = (req, res) => {
 
 const adminDashboard = async (req, res) => {
 
-    res.render("admin/index")
+    let totalDeliveredAmount = 0;
+
+    const recentOrders = await OrderModel.find({status:'delivered'})
+    const countOfDeliveredOrders = await OrderModel.countDocuments({ status: 'delivered' });
+    const deliveredOrders = await OrderModel.find({ status: 'delivered' });
+    console.log(recentOrders,"ppppppppppppppppp")
+
+    deliveredOrders.forEach(order => {
+        totalDeliveredAmount += order.amount;
+      });
+
+
+
+    res.render("admin/index",{recentOrders,countOfDeliveredOrders,totalDeliveredAmount})
 }
 
 const adminChartLoad = async (req, res) => {
@@ -36,7 +49,7 @@ const adminChartLoad = async (req, res) => {
     try {
       const data = await OrderModel.find() 
 
-      console.log(data);
+  
       res.json(data);
     } catch (error) {
       console.error('Error in adminChartLoad:', error);
