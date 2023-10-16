@@ -31,16 +31,16 @@ const adminDashboard = async (req, res) => {
 
     const recentOrders = await OrderModel.find({status:'delivered'})
     const countOfDeliveredOrders = await OrderModel.countDocuments({ status: 'delivered' });
-    const deliveredOrders = await OrderModel.find({ status: 'delivered' });
-    console.log(recentOrders,"ppppppppppppppppp")
+    const countOfUsers = await UserModel.countDocuments();
 
-    deliveredOrders.forEach(order => {
+
+    recentOrders.forEach(order => {
         totalDeliveredAmount += order.amount;
       });
 
 
 
-    res.render("admin/index",{recentOrders,countOfDeliveredOrders,totalDeliveredAmount})
+    res.render("admin/index",{recentOrders,countOfDeliveredOrders,totalDeliveredAmount,countOfUsers})
 }
 
 const adminChartLoad = async (req, res) => {
