@@ -779,8 +779,11 @@ const orderResponseView = (req,res) =>{
 }
 
 
-const loadReport = (req,res) =>{
-  console.log("its here")
+const loadReport = async(req,res) =>{
+
+  const recentOrders = await OrderModel.find({status:'delivered'})
+  
+  res.render("admin/sales-report",{recentOrders})
 }
 
 
@@ -794,7 +797,7 @@ const generateReport = async (req,res) =>{
     });
     const page = await browser.newPage();
 
-    await page.goto(`${req.protocol}://${req.get("host")}`+"/orders",{
+    await page.goto(`${req.protocol}://${req.get("host")}`+"/report",{
       waitUntil:"networkidle2"
     })
 
