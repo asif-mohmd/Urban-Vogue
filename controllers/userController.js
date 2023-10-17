@@ -836,31 +836,33 @@ const generateReport = async (req,res) =>{
 
 const invoiceView = async (req,res) =>{
 
-  // console.log(req.query.id,"qqqqqqqqqqqqqqqqqqqqqqqqqqq")
-  const orderObjId = "652958617c4a2784a57ea3c1"
+  const today = new Date();
+
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const year = today.getFullYear();
+  const formattedDate = `${day} ${month} ${year}`;
+
+  const orderObjId = req.query.id
 
   let userOrders = await OrderModel.find({_id:orderObjId}) 
 
   userOrders = userOrders[0]
 
-
-
-
-
-  console.log(userOrders,"iiiiiiiiiiiiiiiiiiiiiiii")
-  console.log(userOrders.products,"ppppppppppppppppppp")
+  const userDetails = await UserModel.findById({_id:userOrders.userId})
 
   const productDetails = userOrders.products
-  console.log(productDetails,";;;;;;;;;;;;;;;;;;;;")
 
-
-  res.render("user/invoice",{userOrders,productDetails})
+  res.render("user/invoice",{userOrders,productDetails,formattedDate,userDetails})
 }
 
 
 
 
 const invoiceReport = async(req,res) =>{
+
+
+ 
 
   const orderObjId = req.query.id
   console.log(orderObjId,"kkkkkkkkkkkkkkk")
