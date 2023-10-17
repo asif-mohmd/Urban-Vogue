@@ -892,13 +892,6 @@ const invoiceReport = async(req,res) =>{
     if(browser) await browser.close()
 
     const pdfURL = path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")
-
-    // res.set({
-    //   "Content-Type":"application/pdf",
-    //   "Content-Length":pdfn.length
-    // })
-    // res.sendFile(pdfURL)
-
     res.download(pdfURL,function(err){
       if(err){
         console.log(err)
@@ -910,6 +903,14 @@ const invoiceReport = async(req,res) =>{
     console.log(error.message)
   }
 }
+
+
+const productListView = (req,res) => {
+  res.render("user/product-list")
+
+}
+
+
 
 
 
@@ -941,51 +942,10 @@ const invoiceReport = async(req,res) =>{
     loadReport,
     generateReport,
     invoiceView,
-    invoiceReport
+    invoiceReport,
+    productListView
 
   };
 
 
 
-  
-// const wishlistView = async(req,res) =>{
-  
-//   const wishlistProducts = await ProductModel.find({wishlist:true})
-//   if(wishlistProducts){
-//     console.log(wishlistProducts,"=============")
-//     res.render("user/wishlist",{wishlistProducts})
-//   }else{
-//     noWishist = true
-//     res.render("/",{noWishist})
-//   }
-// }
-
-// const addToWishlist = async(req,res) =>{
-
-//   const wishlisted = await ProductModel.updateOne({_id:req.query.id},{wishlist:true})
-//   const wishlistProducts = await ProductModel.find({wishlist:true})
-
-//   console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
-
-//   if(wishlisted){
-//     res.render("user/wishlist",{wishlistProducts})  
-//     }else{
-//       noWishist = true
-//       res.render("/",{noWishist})
-//     }
-//   }
-
-//   const removeWishlistProduct = async(req,res) =>{
-
-//     const wishlistRemoved = await ProductModel.updateOne({_id:req.query.id},{wishlist:false})
-//     const wishlistProducts = await ProductModel.find({wishlist:true})
-  
-//     console.log(wishlistProducts,"addtowishhhhhhhhhhhhhhhhhhh")
-  
-//     if(wishlistRemoved){
-//       res.render("user/wishlist",{wishlistProducts})  
-//       }else{
-//         noWishist = true
-//     res.render("/",{noWishist})
-//       }
-//     }

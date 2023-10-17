@@ -9,7 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Urban Vogue</title>
 
-   <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/favicon.png" rel="icon">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -26,7 +32,6 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -72,17 +77,9 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="./index.html">Home</a></li>
-                            <!-- <li><a href="#">Women’s</a></li>
-                            <li><a href="#">Men’s</a></li> -->
-                            <li><a href="./shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./product-details.html">Product Details</a></li>
-                                    <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                    <li><a href="/cart">Checkout</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
+
+                            <li><a href="/product-list">ALL Product</a></li>
+
 
                             <li><a href="/contact-page">Contact</a></li>
                         </ul>
@@ -91,8 +88,8 @@
                 <div class="col-lg-3">
                     <div class="header__right">
                         <div class="header__right__auth">
-                           <a href="/logout">Logout</a>
-                      
+                            <a href="/logout">Logout</a>
+
                         </div>
                         <ul class="header__right__widget">
                             <li><span class="icon_search search-switch"></span></li>
@@ -102,14 +99,14 @@
                             <li><a href="/cart"><span class="icon_bag_alt"></span>
                                     {{!-- <div class="tip">2</div> --}}
                                 </a></li>
-                                <li><a href="/userProfile"><span class="fa-solid fa-user"></span>
-                                    
+                            <li><a href="/userProfile"><span class="fa-solid fa-user"></span>
+
                                 </a></li>
-                                
+
                         </ul>
                     </div>
                 </div>
-                
+
             </div>
             <div class="canvas__open">
                 <i class="fa fa-bars"></i>
@@ -192,7 +189,7 @@
                         <li class="active" data-filter="*">All</li>
                         <li data-filter=".women">Women’s</li>
                         <li data-filter=".men">Men’s</li>
-                        <li data-filter=".kid">Kid’s</li>
+                        {{!-- <li data-filter=".kid">Kid’s</li> --}}
                         {{!-- <li data-filter=".accessories">Accessories</li>
                         <li data-filter=".cosmetic">Cosmetics</li> --}}
                     </ul>
@@ -210,13 +207,14 @@
                             <ul class="product__hover">
                                 {{!-- <li><a href="uploaded-images/{{imageUrl}}" class="image-popup"><span
                                             class="arrow_expand"></span></a></li> --}}
-                                <li><a href="/add-to-wishlist?id={{this._id}}"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="/add-to-wishlist?id={{this._id}}"><span class="icon_heart_alt"></span></a>
+                                </li>
                                 <li><a href="/addToCart?id={{this._id}}"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
                             <h6><a href="#">{{name}}</a></h6>
-                      
+
                             <div class="product__price">₹ {{price}}</div>
                         </div>
                     </div>
@@ -350,48 +348,42 @@
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
                     <div class="instagram__item set-bg" data-setbg="img/instagram/insta-1.jpg">
                         <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
+                            <span>Urban Vougue</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
                     <div class="instagram__item set-bg" data-setbg="img/instagram/insta-2.jpg">
                         <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
+                            <span>Urban Vougue</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
                     <div class="instagram__item set-bg" data-setbg="img/instagram/insta-3.jpg">
                         <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
+                            <span>Urban Vougue</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
                     <div class="instagram__item set-bg" data-setbg="img/instagram/insta-4.jpg">
                         <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
+                            <span>Urban Vougue</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
                     <div class="instagram__item set-bg" data-setbg="img/instagram/insta-5.jpg">
                         <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
+                            <span>Urban Vougue</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4 p-0">
                     <div class="instagram__item set-bg" data-setbg="img/instagram/insta-6.jpg">
                         <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
+                            <span>Urban Vougue</span>
                         </div>
                     </div>
                 </div>
@@ -409,8 +401,8 @@
                         <div class="footer__logo">
                             <a href="./index.html"><img src="img/logo.png" alt=""></a>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            cilisis.</p>
+                        <p> 24th Cross, 27th Main Rd,
+                            2nd Sector, HSR Layout, Bengaluru, Karnataka 560102</p>
                         <div class="footer__payment">
                             <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
                             <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
@@ -424,10 +416,9 @@
                     <div class="footer__widget">
                         <h6>Quick links</h6>
                         <ul>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Blogs</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="/contact-page">About</a></li>
+                            <li><a href="/contact-page">Blogs</a></li>
+                            <li><a href="/contact-page">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -435,10 +426,9 @@
                     <div class="footer__widget">
                         <h6>Account</h6>
                         <ul>
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Orders Tracking</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="/userProfile">My Account</a></li>
+                            <li><a href="/orders">Orders Tracking</a></li>
+                            <li><a href="/wishlist">Wishlist</a></li>
                         </ul>
                     </div>
                 </div>

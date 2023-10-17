@@ -28,12 +28,11 @@ router.get("/return-user-order",userControllers.returnUserOrder)
 router.get("/order-detail-view",userControllers.orderDetailView)
 router.get("/contact-page",userControllers.contactView)
 router.get("/order-response",userControllers.orderResponseView)
-
-
 router.get("/report",userControllers.loadReport)
 router.get("/report-generate",userControllers.generateReport)
 router.get("/invoice",userControllers.invoiceView)
 router.get("/invoice-generate",userControllers.invoiceReport)
+router.get("/product-list",userControllers.productListView)
 
 
 
