@@ -831,12 +831,83 @@ const generateReport = async (req,res) =>{
   }catch(error){
     console.log(error.message)
   }
-
-
-
 }
 
 
+const invoiceView = async (req,res) =>{
+
+  // console.log(req.query.id,"qqqqqqqqqqqqqqqqqqqqqqqqqqq")
+  const orderObjId = "652958617c4a2784a57ea3c1"
+
+  let userOrders = await OrderModel.find({_id:orderObjId}) 
+
+  userOrders = userOrders[0]
+
+
+
+
+
+  console.log(userOrders,"iiiiiiiiiiiiiiiiiiiiiiii")
+  console.log(userOrders.products,"ppppppppppppppppppp")
+
+  const productDetails = userOrders.products
+  console.log(productDetails,";;;;;;;;;;;;;;;;;;;;")
+
+
+  res.render("user/invoice",{userOrders,productDetails})
+}
+
+
+
+
+const invoiceReport = async(req,res) =>{
+
+  const orderObjId = req.query.id
+  console.log(orderObjId,"kkkkkkkkkkkkkkk")
+
+
+  try{
+
+    const browser = await puppeteer.launch({
+      headless: false //
+    });
+    const page = await browser.newPage();
+
+    await page.goto(`${req.protocol}://${req.get("host")}/invoice?id=${orderObjId}`, {
+      waitUntil: "networkidle2"
+    });
+
+    await page.setViewport({width:1680, height: 1050})
+    
+    const todayDate = new Date()
+
+    const pdfn =  await page.pdf({
+      path:`${path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")}`,
+      printBackground:true,
+      format:"A4"
+    })
+
+    if(browser) await browser.close()
+
+    const pdfURL = path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")
+
+    // res.set({
+    //   "Content-Type":"application/pdf",
+    //   "Content-Length":pdfn.length
+    // })
+    // res.sendFile(pdfURL)
+
+    res.download(pdfURL,function(err){
+      if(err){
+        console.log(err)
+      }
+
+    })
+
+  }catch(error){
+    console.log(error.message)
+  }
+}
 
 
 
@@ -866,7 +937,9 @@ const generateReport = async (req,res) =>{
     orderResponseView,
     verifyPayment,
     loadReport,
-    generateReport
+    generateReport,
+    invoiceView,
+    invoiceReport
 
   };
 

@@ -32,6 +32,8 @@ router.get("/order-response",userControllers.orderResponseView)
 
 router.get("/report",userControllers.loadReport)
 router.get("/report-generate",userControllers.generateReport)
+router.get("/invoice",userControllers.invoiceView)
+router.get("/invoice-generate",userControllers.invoiceReport)
 
 
 
