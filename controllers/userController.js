@@ -905,8 +905,10 @@ const invoiceReport = async(req,res) =>{
 }
 
 
-const productListView = (req,res) => {
-  res.render("user/product-list")
+const productListView = async(req,res) => {
+
+  const products = await ProductModel.find({ listStatus: true , deleteStatus:false})
+  res.render("user/product-list",{ products })
 
 }
 
