@@ -414,19 +414,17 @@ const addToCart = async (req, res) => {
   const userId = req.session.user._id;
   const size = req.query.size
 
-  console.log("eeeeeeeee",req.query.size,"sizeeeeeeeeeeeeeeeeeeeeeeee")
-
   try {
     const data = {
       productId: productId,
       count: 1,
       size: size
     };
-console.log(data,"::::::::::::::::::::::::")
     const cart = await CartModel.findOne({ userId: userId });
 
     if (cart) {
-      const productExists = cart.cart.some(item => item.productId === productId);
+      const productExists = cart.cart.some(item => item.productId === productId  );
+
 
       if (productExists) {
         await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } }, {$set:{size:size}});
@@ -442,7 +440,6 @@ console.log(data,"::::::::::::::::::::::::")
       };
 
       const newCart = await CartModel.create(cartData);
-console.log(newCart,"qqqqqqqqqqqqqqqqqqqqqq")
       if (newCart) {
         res.redirect("/cart"); // Moved the redirect here
       } else {

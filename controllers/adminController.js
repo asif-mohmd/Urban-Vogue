@@ -33,12 +33,9 @@ const adminDashboard = async (req, res) => {
     const countOfDeliveredOrders = await OrderModel.countDocuments({ status: 'delivered' });
     const countOfUsers = await UserModel.countDocuments();
 
-
     recentOrders.forEach(order => {
         totalDeliveredAmount += order.amount;
       });
-
-
 
     res.render("admin/index",{recentOrders,countOfDeliveredOrders,totalDeliveredAmount,countOfUsers})
 }
