@@ -50,6 +50,9 @@ hbs.registerHelper("inc", function(value, options)
 {
     return parseInt(value) + 1;
 });
+hbs.registerHelper('increment', function(value) {
+  return value + 1;
+});
 
 
 

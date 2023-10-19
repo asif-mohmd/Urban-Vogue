@@ -126,39 +126,30 @@
                     <div class="col-lg-8">
                         <h5>Billing detail</h5>
                         <div class="row">
-                           
-                                <div class="grid">
-                                    {{#each newAddress.address}}
-                                    <div class="card">
-                                        <label>
-                                            <input name="plan" class="radio" type="radio" >
-                                            <span class="plan-details">
-                                                <span class="plan-type">Basic</span>
-                                                <input type="text" value="{{_id}}" hidden>
-                                                <span>{{name}}</span>
-                                                <span>{{mobile}}</span>
-                                                <span>{{address}}</span>
-                                                <span>{{city}}</span>
-                                                <span>{{state}}</span>
-                                                <span>{{pincode}}</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    {{/each}}
+
+                            <div class="grid">
+                                {{#each newAddress.address}}
+                                <div class="card">
+                                    <label>
+                                        <input name="plan" class="radio" type="radio" checked>
+                                        <span class="plan-details">
+                                            <span class="plan-type">Address Line {{increment @key}}</span>
+                                            <input type="text" value="{{_id}}" hidden>
+                                            <span>{{name}}</span>
+                                            <span>{{mobile}}</span>
+                                            <span>{{address}}</span>
+                                            <span>{{city}}</span>
+                                            <span>{{state}}</span>
+                                            <span>{{pincode}}</span>
+                                        </span>
+                                    </label>
                                 </div>
-                                <div class="text-center mt-3">
-                                    <a href="" class="btn btn-default btn-rounded mb-4 btn-primary" data-toggle="modal"
-                                        data-target="#modalLoginForm">Enter custom address</a>
-                                </div>
-                       
-
-
-                        
-
-                          
-
-
-
+                                {{/each}}
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="" class="btn btn-default btn-rounded mb-4 btn-primary" data-toggle="modal"
+                                    data-target="#modalLoginForm">Enter custom address</a>
+                            </div>
 
                         </div>
                     </div>
@@ -176,7 +167,7 @@
                             <div class="col-sm-10">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="paymentMethod" id="gridRadios1"
-                                        value="COD">
+                                        value="COD" checked>
                                     <label class="form-check-label" for="gridRadios1">
                                         Cash on Delivery
                                     </label>
@@ -201,84 +192,76 @@
 
 
 
-      {{!-- Modal --}}
+    {{!-- Modal --}}
 
-                            <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-                                        <div class="modal-body mx-3">
-                                            <form action="/add-new-address-checkout" method="post"
-                                                class="row g-3 needs-validation" novalidate>
-                                                <div class="col-12">
-                                                    <label for="yourName" class="form-label">Your Name</label>
-                                                    <input type="text" name="name" class="form-control" id="yourName"
-                                                        required>
-                                                    <div class="invalid-feedback">Please enter your name!</div>
-                                                </div>
+                <div class="modal-body mx-3">
+                    <form action="/add-new-address-checkout" method="post" class="row g-3 needs-validation" novalidate>
+                        <div class="col-12">
+                            <label for="yourName" class="form-label">Your Name</label>
+                            <input type="text" name="name" class="form-control" id="yourName" required>
+                            <div class="invalid-feedback">Please enter your name!</div>
+                        </div>
 
-                                                <div class="col-12">
-                                                    <label for="yourEmail" class="form-label">Your Email</label>
-                                                    <input type="email" name="email" class="form-control" id="yourEmail"
-                                                        required>
-                                                    <div class="invalid-feedback">Please enter a valid Email address!
-                                                    </div>
-                                                </div>
+                        <div class="col-12">
+                            <label for="yourEmail" class="form-label">Your Email</label>
+                            <input type="email" name="email" class="form-control" id="yourEmail" required>
+                            <div class="invalid-feedback">Please enter a valid Email address!
+                            </div>
+                        </div>
 
-                                                <div class="col-12">
-                                                    <label for="yourMobile" class="form-label">Mobile Number</label>
-                                                    <div class="input-group has-validation">
-                                                        <input type="number" name="mobile" class="form-control"
-                                                            id="yourUsername" required>
-                                                        <div class="invalid-feedback">Please enter a mobile number.
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <label for="yourAddress" class="form-label">Address</label>
-                                                    <input type="text" name="address" class="form-control"
-                                                        id="yourAddress" required>
-                                                    <div class="invalid-feedback">Please enter your address</div>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <label for="yourCity" class="form-label">State</label>
-                                                    <input type="text" name="state" class="form-control" id="state"
-                                                        required>
-                                                    <div class="invalid-feedback">Please enter your State</div>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <label for="yourCity" class="form-label">City</label>
-                                                    <input type="text" name="city" class="form-control" id="city"
-                                                        required>
-                                                    <div class="invalid-feedback">Please enter your City</div>
-                                                </div>
-
-
-
-
-                                                <div class="col-12">
-                                                    <label for="yourCity" class="form-label">Pincode</label>
-                                                    <input type="number" name="pincode" class="form-control" id="mobile"
-                                                        required>
-                                                    <div class="invalid-feedback">Please enter your City</div>
-                                                </div>
-
-
-                                                <div class="col-12">
-                                                    <button class="btn btn-primary w-100" type="submit">Submit</button>
-                                                </div>
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>
+                        <div class="col-12">
+                            <label for="yourMobile" class="form-label">Mobile Number</label>
+                            <div class="input-group has-validation">
+                                <input type="number" name="mobile" class="form-control" id="yourUsername" required>
+                                <div class="invalid-feedback">Please enter a mobile number.
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="yourAddress" class="form-label">Address</label>
+                            <input type="text" name="address" class="form-control" id="yourAddress" required>
+                            <div class="invalid-feedback">Please enter your address</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="yourCity" class="form-label">State</label>
+                            <input type="text" name="state" class="form-control" id="state" required>
+                            <div class="invalid-feedback">Please enter your State</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="yourCity" class="form-label">City</label>
+                            <input type="text" name="city" class="form-control" id="city" required>
+                            <div class="invalid-feedback">Please enter your City</div>
+                        </div>
+
+
+
+
+                        <div class="col-12">
+                            <label for="yourCity" class="form-label">Pincode</label>
+                            <input type="number" name="pincode" class="form-control" id="mobile" required>
+                            <div class="invalid-feedback">Please enter your City</div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100" type="submit">Submit</button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 
