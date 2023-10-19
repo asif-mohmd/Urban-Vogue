@@ -94,12 +94,60 @@ const registerUser = async (req, res) => {
 
 
 
-const addNewAddress = async (req, res) => {
+const addNewAddressUser = async (req, res) => {
+
+  try {
+console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    const userId = req.session.user._id
+    console.log(userId,"oooooooooooooooooooooooo")
+
+    let details = req.body
+console.log(details,"uuuuuuuuuuuuuuuuuuuuuu")
+    const updateAddress = await newAddressManagement(details,userId)
+   
+
+      if (updateAddress) {
+        const newAddress = await AddressModel.findOne({userId:userId})
+        const userDetails = await UserModel.findById({ _id: userId })
+        msgAddressNew = true
+        res.render("user/user-profile", { msgAddressNew, userDetails, newAddress })
+      }else{
+        const newAddress = await AddressModel.findOne({userId:userId})
+        const userDetails = await UserModel.findById({ _id: userId })
+        errOccurred = true
+        res.render("user/user-profile", { errOccurred, userDetails, newAddress })
+      }
+    }catch (err) {
+    console.log(err)
+
+  }
+}
+
+
+const addNewAddressCheckout = async (req, res) => {
 
   try {
 
     const userId = req.session.user._id
-    const { name, email, mobile, address, city, state, pincode } = req.body;
+    let details = req.body
+    const updateAddress = await newAddressManagement(details,userId)
+   
+
+      if (updateAddress) {
+
+        res.redirect("/checkout")
+      }
+    }catch (err) {
+    console.log(err)
+
+  }
+}
+
+
+const newAddressManagement = async (details,userId) =>{
+  try{
+
+    const { name, email, mobile, address, city, state, pincode } = details;
 
     const newAddress = {
       name: name,
@@ -118,10 +166,7 @@ const addNewAddress = async (req, res) => {
 
       if (updateAddress) {
  
-        const userDetails = await UserModel.findById({ _id: userId })
-        const newAddress = await AddressModel.findOne({userId:userId})
-        let msgAddressNew = true
-        res.render("user/user-profile", { msgAddressNew, userDetails,newAddress })
+        return true
       }
 
     } else {
@@ -134,16 +179,15 @@ const addNewAddress = async (req, res) => {
       const updateAddress = await AddressModel.create(data)
 
       if (updateAddress) {
-        const newAddress = await AddressModel.findOne({userId:userId})
-        const userDetails = await UserModel.findById({ _id: userId })
-        msgAddressNew = true
-        res.render("user/user-profile", { msgAddressNew, userDetails, newAddress })
+         return true
+      }else{
+        return false
       }
     }
 
-  } catch (err) {
-    console.log(err)
 
+  }catch(err){
+    console.log(err)
   }
 }
 
@@ -328,6 +372,8 @@ const cartView = async (req, res) => {
 
 
 const placeOrder = async (req, res) => {
+
+  console.log(req.body,"boxxxxxxxxxxxxxxxxxxxxxxxx")
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
@@ -1030,7 +1076,8 @@ module.exports = {
   generateReport,
   invoiceView,
   invoiceReport,
-  addNewAddress,
+  addNewAddressUser,
+  addNewAddressCheckout,
   removeNewAddress
 
 

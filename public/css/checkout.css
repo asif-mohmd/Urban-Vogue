@@ -2,13 +2,13 @@
     --card-line-height: 1.2em;
     --card-padding: 1em;
     --card-radius: 0.5em;
-    --color-green: #558309;
-    --color-gray: #e2ebf6;
-    --color-dark-gray: #c4d1e1;
+    --color-green: #2874f0;
+    --color-gray: #ffffff;
+    --color-dark-gray: #ffffff;
     --radio-border-width: 2px;
     --radio-size: 1.5em;
+    --card-width: calc(50% - var(--card-padding)); /* Added card width */
   }
-  
 
   .grid {
     display: grid;
@@ -16,14 +16,13 @@
     margin: 0 auto;
     max-width: 60em;
     padding: 0;
-   
-    @media (min-width: 42em) {
-      grid-template-columns: repeat(3, 1fr);
-    }
+    grid-template-columns: repeat(2, var(--card-width)); /* Display 2 cards per row */
   }
   
+  .card {
+    width: 100%; /* Make each card take up the full width of its container */
+  }
 
-  
   .radio {
     font-size: inherit;
     margin: 0;
@@ -31,6 +30,7 @@
     right: calc(var(--card-padding) + var(--radio-border-width));
     top: calc(var(--card-padding) + var(--radio-border-width));
   }
+
   
   @supports(-webkit-appearance: none) or (-moz-appearance: none) { 
     .radio {
@@ -86,14 +86,22 @@
     flex-direction: column;
     padding: var(--card-padding);
     transition: border-color 0.2s ease-out;
+    
+  }
+
+  .plan-details input{
+    cursor: pointer;
+    border: none;
+border-color: transparent;
   }
   
   .card:hover .plan-details {
     border-color: var(--color-dark-gray);
   }
   
-  .radio:checked ~ .plan-details {
+  .radio:checked + .plan-details {
     border-color: var(--color-green);
+    transform: scale(1.05); /* Increase size when checked */
   }
   
   .radio:focus ~ .plan-details {

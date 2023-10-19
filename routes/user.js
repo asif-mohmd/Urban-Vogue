@@ -46,7 +46,9 @@ router.post("/editProfile",userControllers.editProfile)
 router.post("/change-product-quantity",userControllers.changeProductQuantity)
 router.post("/place-order",userControllers.placeOrder)
 router.post("/verify-payment",userControllers.verifyPayment)
-router.post("/add-new-address",userControllers.addNewAddress)
+router.post("/add-new-address",userControllers.addNewAddressUser)
+router.post("/add-new-address-checkout",userControllers.addNewAddressCheckout)
+
 
 
 
