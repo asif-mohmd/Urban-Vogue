@@ -65,7 +65,7 @@
   
       &:checked {
         background: var(--color-green);
-        border-color: var(--color-green);
+        border-color: var(--color-gray);
       }
     }
     
@@ -100,7 +100,7 @@ border-color: transparent;
   }
   
   .radio:checked + .plan-details {
-    border-color: var(--color-green);
+    border-color: var(--color-gray);
     transform: scale(1.05); /* Increase size when checked */
   }
   
