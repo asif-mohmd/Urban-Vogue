@@ -32,7 +32,8 @@ router.get("/report",userControllers.loadReport)
 router.get("/report-generate",userControllers.generateReport)
 router.get("/invoice",userControllers.invoiceView)
 router.get("/invoice-generate",userControllers.invoiceReport)
-router.get("/product-list",userControllers.productListView)
+router.get("/product-list",productControllers.productListView)
+router.get("/remove-new-address",userControllers.removeNewAddress)
 
 
 
@@ -45,6 +46,7 @@ router.post("/editProfile",userControllers.editProfile)
 router.post("/change-product-quantity",userControllers.changeProductQuantity)
 router.post("/place-order",userControllers.placeOrder)
 router.post("/verify-payment",userControllers.verifyPayment)
+router.post("/add-new-address",userControllers.addNewAddress)
 
 
 

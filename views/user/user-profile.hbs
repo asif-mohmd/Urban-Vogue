@@ -9,6 +9,9 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
+     <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -19,9 +22,11 @@
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -33,6 +38,8 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+
+ 
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -135,15 +142,15 @@
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a class="nav-link collapsed" href="/orders">
-          <i class="bi bi-grid"></i>
-          <span>Orders</span>
-        </a>
+              <i class="bi bi-grid"></i>
+              <span>Orders</span>
+            </a>
           </li>
           <li>
-             <a class="nav-link collapsed" href="/orders">
-          <i class="bi bi-grid"></i>
-          <span>Returned or Cancelled</span>
-        </a>
+            <a class="nav-link collapsed" href="/orders">
+              <i class="bi bi-grid"></i>
+              <span>Returned or Cancelled</span>
+            </a>
           </li>
 
 
@@ -197,22 +204,28 @@
         <div class="col-xl-8">
 
           <div class="card">
-              
+
             <div class="card-body pt-3">
-               {{#if msgNewPass}}
+              {{#if msgNewPass}}
               <p class="text-center text-success small">Password Changed</p>
               {{/if}}
               {{#if errNewPass}}
               <p class="text-center text-danger small">Password not changed .Try again</p>
               {{/if}}
-               {{#if errMatchPass}}
+              {{#if errMatchPass}}
               <p class="text-center text-danger small">Entered password not match with previous password</p>
               {{/if}}
               {{#if msgProfile}}
               <p class="text-center text-success small">Profile successfully updated</p>
               {{/if}}
-                {{#if errOccurred}}
+              {{#if errOccurred}}
               <p class="text-center text-danger small">Something Went Wrong. Try again</p>
+              {{/if}}
+              {{#if msgAddressNew}}
+              <p class="text-center text-success small">New Address Added</p>
+              {{/if}}
+              {{#if msgAddressRemove}}
+              <p class="text-center text-danger small">Address Removed</p>
               {{/if}}
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
@@ -226,11 +239,11 @@
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                 </li>
 
-                 <li class="nav-item">
+                <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#manage-address">Manage Address</button>
                 </li>
 
-            
+
 
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change
@@ -250,10 +263,9 @@
                     <div class="col-lg-9 col-md-8">{{userDetails.name}}</div>
                   </div>
 
-
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Address</div>
-                    <div class="col-lg-9 col-md-8">{{userDetails.address.homeAddress}}</div>
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">{{userDetails.email}}</div>
                   </div>
 
                   <div class="row">
@@ -262,9 +274,29 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">{{userDetails.email}}</div>
+                    <div class="col-lg-3 col-md-4 label">Address</div>
+                    <div class="col-lg-9 col-md-8">{{userDetails.address}}</div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">State</div>
+                    <div class="col-lg-9 col-md-8">{{userDetails.state}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">City</div>
+                    <div class="col-lg-9 col-md-8">{{userDetails.city}}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Pincode</div>
+                    <div class="col-lg-9 col-md-8">{{userDetails.pincode}}</div>
+                  </div>
+
+
+
+
+
 
                 </div>
 
@@ -296,9 +328,9 @@
 
 
                     <div class="row mb-3">
-                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
+                      <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text" class="form-control" id="Country" value="{{userDetails.country}}">
+                        <input name="email" type="text" class="form-control" id="email" value="{{userDetails.email}}">
                       </div>
                     </div>
 
@@ -311,30 +343,39 @@
                       </div>
                     </div>
 
-                    <div class="row mb-3">
-                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="{{userDetails.email}}">
-                      </div>
-                    </div>
-
 
 
                     <div class="row mb-3">
                       <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="homeAddress" type="text" class="form-control" id="Address"
-                          value="{{userDetails.address.homeAddress}}">
+                        <input name="address" type="text" class="form-control" id="Address"
+                          value="{{userDetails.address}}">
                       </div>
                     </div>
 
-                      <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Shipping Address</label>
+                    <div class="row mb-3">
+                      <label for="State" class="col-md-4 col-lg-3 col-form-label">State</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="officeAddress" type="text" class="form-control" id="Address"
-                          value="{{userDetails.address.officeAddress}}">
+                        <input name="state" type="text" class="form-control" id="State" value="{{userDetails.state}}">
                       </div>
                     </div>
+
+                    <div class="row mb-3">
+                      <label for="City" class="col-md-4 col-lg-3 col-form-label">City</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="city" type="text" class="form-control" id="Email" value="{{userDetails.city}}">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Pincode" class="col-md-4 col-lg-3 col-form-label">Pincode</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="pincode" type="text" class="form-control" id="Pincode"
+                          value="{{userDetails.pincode}}">
+                      </div>
+                    </div>
+
+
 
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -348,42 +389,124 @@
 
 
 
-             <div class="tab-pane fade profile-edit pt-3" id="manage-address">
+                <div class="tab-pane fade profile-edit pt-3" id="manage-address">
 
                   <!-- Profile Edit Form -->
                   <form action="/editProfile" method="post">
-                   
 
-                    <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="homeAddress" type="text" class="form-control" id="Address"
-                          value="{{userDetails.address.homeAddress}}">
+
+                    <div class="card text-center">
+
+                     {{#each newAddress.address}}
+                      <div class="card-body ">
+                        <p class="card-title">Address {{@key}}</p>
+                        <h6>{{name}}, {{mobile}}, {{address}}, {{city}} , {{state}} , {{pincode}}
+                            
+                        </h6>
+                       <br>
+                        <a href="/remove-new-address?id={{this._id}}" class="btn btn-danger btn-sm">Remove</a>
                       </div>
+                      <hr>
+                     {{/each}}
                     </div>
 
-                      <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Shipping Address</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="officeAddress" type="text" class="form-control" id="Address"
-                          value="{{userDetails.address.officeAddress}}">
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
+                  <div class="text-center">
+                    <a href="" class="btn btn-default btn-rounded mb-4 btn-primary" data-toggle="modal"
+                      data-target="#modalLoginForm">Add new address</a>
+                  </div>
                   </form><!-- End Profile Edit Form -->
+
+
+                  {{!-- Modal --}}
+
+                  <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                      
+                        <div class="modal-body mx-3">
+                  <form action="/add-new-address" method="post" class="row g-3 needs-validation" novalidate>
+                    <div class="col-12">
+                      <label for="yourName" class="form-label">Your Name</label>
+                      <input type="text" name="name" class="form-control" id="yourName" required>
+                      <div class="invalid-feedback">Please enter your name!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourEmail" class="form-label">Your Email</label>
+                      <input type="email" name="email" class="form-control" id="yourEmail" required>
+                      <div class="invalid-feedback">Please enter a valid Email address!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourMobile" class="form-label">Mobile Number</label>
+                      <div class="input-group has-validation">
+                        <input type="number" name="mobile" class="form-control" id="yourUsername" required>
+                        <div class="invalid-feedback">Please enter a mobile number.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourAddress" class="form-label">Address</label>
+                      <input type="text" name="address" class="form-control" id="yourAddress" required>
+                      <div class="invalid-feedback">Please enter your address</div>
+                    </div>
+
+                        <div class="col-12">
+                      <label for="yourCity" class="form-label">State</label>
+                      <input type="text" name="state" class="form-control" id="state" required>
+                      <div class="invalid-feedback">Please enter your State</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourCity" class="form-label">City</label>
+                      <input type="text" name="city" class="form-control" id="city" required>
+                      <div class="invalid-feedback">Please enter your City</div>
+                    </div>
+
+
+                
+                    
+                    <div class="col-12">
+                      <label for="yourCity" class="form-label">Pincode</label>
+                      <input type="number" name="pincode" class="form-control" id="mobile" required>
+                      <div class="invalid-feedback">Please enter your City</div>
+                    </div>
+           
+
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">Submit</button>
+                    </div>
+                   
+                  </form>
+
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+
+                
+
+
+
+
+
+
+
+
+
+
 
                 </div>
 
-             
+
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
                   <form action="/changePassword" method="post" onsubmit="return validatePassword()">
 
-                  {{!-- Modal Popup for incorrect password starts --}}
+                    {{!-- Modal Popup for incorrect password starts --}}
                     <div class="modal fade" id="passwordMismatchModal" tabindex="-1"
                       aria-labelledby="passwordMismatchModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
@@ -462,6 +585,12 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
+
+
+        <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
+
+
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -475,27 +604,29 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-<script>
-  function validatePassword() {
-    var newPassword = document.getElementById("newPassword").value;
-    var renewPassword = document.getElementById("renewPassword").value;
+  <script>
+    function validatePassword() {
+      var newPassword = document.getElementById("newPassword").value;
+      var renewPassword = document.getElementById("renewPassword").value;
 
-    if (newPassword !== renewPassword) {
-      $('#passwordMismatchModal').modal('show');
-      return false;
+      if (newPassword !== renewPassword) {
+        $('#passwordMismatchModal').modal('show');
+        return false;
+      }
+
+      // Ask for confirmation before changing password
+      var confirmed = confirm("Are you sure you want to change the password?");
+      return confirmed;
     }
 
-    // Ask for confirmation before changing password
-    var confirmed = confirm("Are you sure you want to change the password?");
-    return confirmed;
-  }
 
-  
-</script>
+  </script>
 
 
 

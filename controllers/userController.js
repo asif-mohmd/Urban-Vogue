@@ -14,6 +14,7 @@ const moment = require('moment'); // Import Moment.js
 const Razorpay = require('razorpay');
 const { response } = require("express");
 const puppeteer = require("puppeteer")
+const AddressModel = require("../models/Address")
 
 
 
@@ -27,7 +28,7 @@ var instance = new Razorpay({
 
 const indexView = async (req, res) => {
 
-  const products = await ProductModel.find({ listStatus: true , deleteStatus:false})
+  const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
   res.render("user/index", { products });
 }
 
@@ -71,7 +72,7 @@ const registerUser = async (req, res) => {
           "name": name,
           "email": email,
           "mobile": mobile,
-          "address": address,   
+          "address": address,
           "state": state,
           "city": city,
           "pincode": pincode,
@@ -90,6 +91,91 @@ const registerUser = async (req, res) => {
     });
   }
 };
+
+
+
+const addNewAddress = async (req, res) => {
+
+  try {
+
+    const userId = req.session.user._id
+    const { name, email, mobile, address, city, state, pincode } = req.body;
+
+    const newAddress = {
+      name: name,
+      email: email,
+      mobile: mobile,
+      address: address,
+      city: city,
+      state: state,
+      pincode: pincode
+    }
+
+    const addressExists = await AddressModel.findOne({ userId: userId })
+    if (addressExists) {
+
+      const updateAddress = await AddressModel.updateOne({ userId: userId }, { $push: { address: newAddress } })
+
+      if (updateAddress) {
+ 
+        const userDetails = await UserModel.findById({ _id: userId })
+        const newAddress = await AddressModel.findOne({userId:userId})
+        let msgAddressNew = true
+        res.render("user/user-profile", { msgAddressNew, userDetails,newAddress })
+      }
+
+    } else {
+
+      data = {
+        userId: userId,
+        address: [newAddress]
+      }
+
+      const updateAddress = await AddressModel.create(data)
+
+      if (updateAddress) {
+        const newAddress = await AddressModel.findOne({userId:userId})
+        const userDetails = await UserModel.findById({ _id: userId })
+        msgAddressNew = true
+        res.render("user/user-profile", { msgAddressNew, userDetails, newAddress })
+      }
+    }
+
+  } catch (err) {
+    console.log(err)
+
+  }
+}
+
+
+const removeNewAddress = async (req,res)=>{
+  try{
+      const addressId = req.query.id
+      const userId = req.session.user._id
+
+      const addressRemoved = await AddressModel.updateOne({userId:userId},{$pull:{address:{_id:addressId}}})
+
+      if(addressRemoved){
+        const userDetails = await UserModel.findById({ _id: userId })
+        const newAddress = await AddressModel.findOne({userId:userId})
+        msgAddressRemove = true
+        res.render("user/user-profile", { msgAddressRemove, userDetails, newAddress })
+      }else{
+        const userDetails = await UserModel.findById({ _id: userId })
+        const newAddress = await AddressModel.findOne({userId:userId})
+        errOccurred = true
+        res.render("user/user-profile", { errOccurred, userDetails,newAddress })
+      }
+
+  }catch(err){
+    console.log(err)
+
+  }
+}
+
+
+
+
 
 
 const loginView = (req, res) => {
@@ -131,7 +217,9 @@ const userLogout = (req, res) => {
 const userProfile = async (req, res) => {
   const userId = req.session.user._id
   const userDetails = await UserModel.findById({ _id: userId })
-  res.render("user/user-profile", { userDetails })
+  const newAddress = await AddressModel.findOne({userId:userId})
+  console.log("qqqq",newAddress,"wwwwwwwwwww")
+  res.render("user/user-profile", { userDetails,newAddress })
 }
 
 
@@ -174,8 +262,10 @@ const changePassword = async (req, res) => {
 
 
 const editProfile = async (req, res) => {
+
+
   const userId = req.session.user._id
-  const { name, country, mobile, email, homeAddress, officeAddress } = req.body
+  const { name, mobile, email, address, state, city, pincode } = req.body
   const userDetails = await UserModel.findById({ _id: userId })
   try {
     const user = await UserModel.updateOne({ _id: userId },
@@ -184,14 +274,16 @@ const editProfile = async (req, res) => {
           name: name,
           email: email,
           mobile: mobile,
-          country: country,
-          'address.homeAddress': homeAddress,
-          'address.officeAddress': officeAddress
+          address: address,
+          state: state,
+          city: city,
+          pincode: pincode
+
         }
       })
     if (user) {
       msgProfile = true
-
+      const userDetails = await UserModel.findById({ _id: userId })
       res.render("user/user-profile", { msgProfile, userDetails })
     } else {
       errOccurred = true
@@ -209,12 +301,12 @@ const editProfile = async (req, res) => {
 
 
 
-const cartView = async (req, res ) => {
+const cartView = async (req, res) => {
 
   const userId = req.session.user._id;
-  
 
-   const cartItems = await getProducts(userId)
+
+  const cartItems = await getProducts(userId)
 
   let total = await getTotalAmout(userId)
 
@@ -254,36 +346,36 @@ const placeOrder = async (req, res) => {
     price: cartItem.product.price,
     count: cartItem.count,
     size: cartItem.size
-    
+
   }));
 
-console.log("call is here 1")
+  console.log("call is here 1")
   const data = {
     "userId": userId,
     "orderId": randomOrderId,
-    "address":address,
+    "address": address,
     "zip": req.body.zip,
     "date": formattedDate,
     products: products,
     "amount": total[0].total,
-    "paymentMethod":"COD",
+    "paymentMethod": "COD",
     "status": "pending"
 
   }
 
 
-console.log("data:",data)
+  console.log("data:", data)
 
   const order = await OrderModel.create(data)
   if (order) {
-console.log("222")
+    console.log("222")
     if (req.body.paymentMethod == 'Online') {
 
       const order = await generateRazorpay(randomOrderId, total)
       response = { status: true, order }
-    
+
       res.json(response);
-  
+
 
     } else {
       for (const product of products) {
@@ -315,7 +407,7 @@ console.log("222")
 
   } else {
     console.log("no orders")
-    
+
   }
 
 
@@ -335,8 +427,8 @@ const generateRazorpay = async (randomOrderId, total) => {
     });
 
     if (order) {
-      
-   
+
+
       return order
     } else {
       console.log("not success online");
@@ -352,24 +444,24 @@ const verifyPayment = async (req, res) => {
   console.log('Inside verifyPayment function');
   console.log(req.body, 'verify payment razor completed');
   const verificationSuccess = await paymentVerifiaction(req.body)
-   let response;
-  if(verificationSuccess){
- 
-    console.log(req.body['order[receipt]'],"xxxxxxxxxxxxxxxx"); // This should log '1696866506'
+  let response;
+  if (verificationSuccess) {
 
-      const success = await changePaymentStatus(req.body['order[receipt]'])
-      if(success){
-        console.log("success555555555")
-        const onlineDetails = await OrderModel.findOne({orderId:req.body['order[receipt]']})
-        console.log(onlineDetails,"----------------------------")
-        response = { status: true, onlineDetails}
-        res.json(response)
-      }else{
-        console.log("status update failed")
-      }
+    console.log(req.body['order[receipt]'], "xxxxxxxxxxxxxxxx"); // This should log '1696866506'
 
+    const success = await changePaymentStatus(req.body['order[receipt]'])
+    if (success) {
+      console.log("success555555555")
+      const onlineDetails = await OrderModel.findOne({ orderId: req.body['order[receipt]'] })
+      console.log(onlineDetails, "----------------------------")
+      response = { status: true, onlineDetails }
+      res.json(response)
+    } else {
+      console.log("status update failed")
     }
+
   }
+}
 
 
 const paymentVerifiaction = (details) => {
@@ -386,14 +478,14 @@ const paymentVerifiaction = (details) => {
   }
 }
 
-const changePaymentStatus = async(orderId)=>{
-  console.log(orderId,"orderId")
-  const updatedDetails = await OrderModel.updateOne({orderId:orderId},{$set:{paymentMethod:"placed"}})
- console.log(updatedDetails,"updatedDeatils")
-  if(updatedDetails){
+const changePaymentStatus = async (orderId) => {
+  console.log(orderId, "orderId")
+  const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "placed" } })
+  console.log(updatedDetails, "updatedDeatils")
+  if (updatedDetails) {
     console.log("status updated",)
     return true
-  }else{
+  } else {
     return false
   }
 
@@ -424,13 +516,13 @@ const addToCart = async (req, res) => {
     const cart = await CartModel.findOne({ userId: userId });
 
     if (cart) {
-      const productExists = cart.cart.some(item => item.productId === productId  );
+      const productExists = cart.cart.some(item => item.productId === productId);
 
 
       if (productExists) {
-        await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } }, {$set:{size:size}});
+        await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } }, { $set: { size: size } });
       } else {
-        await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1 , size} } });
+        await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1, size } } });
       }
 
       res.redirect("/cart"); // Moved the redirect here
@@ -460,9 +552,9 @@ const deleteCartItem = async (req, res) => {
 
   try {
     const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId } } })
- 
+
     if (cart) {
-    
+
       res.redirect("/cart")
     }
 
@@ -514,90 +606,91 @@ const changeProductQuantity = async (req, res) => {
 
     res.json(response);  // Send the response back to the client
   } catch (error) {
-  
+
     res.status(500).json({ error: 'Internal Server Error' });
   }
-    
+
 };
 
-const getTotalAmout = async (req,res)=>{
+const getTotalAmout = async (req, res) => {
 
-   userId = req
-   
-   const total = await CartModel.aggregate([
+  userId = req
+
+  const total = await CartModel.aggregate([
     {
-      $match:{userId:userId}
+      $match: { userId: userId }
     },
     {
-      $unwind:'$cart'
-    },{
-      $project:{
+      $unwind: '$cart'
+    }, {
+      $project: {
         product: { $toObjectId: "$cart.productId" },
-        count:'$cart.count',
-        
+        count: '$cart.count',
+
       }
     },
     {
-      $lookup:{
-        from:'products',
-        localField:"product",
-        foreignField:"_id",
-        as:"product"
+      $lookup: {
+        from: 'products',
+        localField: "product",
+        foreignField: "_id",
+        as: "product"
       }
     },
     {
-      $unwind:'$product'
+      $unwind: '$product'
     },
     {
-      $project:{
+      $project: {
         price: '$product.price',
-          name: '$product.name',
-          quantity:'$count'
+        name: '$product.name',
+        quantity: '$count'
       }
     },
-      {             
-        $group:{
-            _id:null,     
-            total:{$sum:{$multiply: ['$quantity', {$toInt: '$price'}]}}
-        }
-      },
-        {
-          $unwind:'$total'
-        }
-   ])
- return total
+    {
+      $group: {
+        _id: null,
+        total: { $sum: { $multiply: ['$quantity', { $toInt: '$price' }] } }
+      }
+    },
+    {
+      $unwind: '$total'
+    }
+  ])
+  return total
 }
 
 
-const proceedToCheckout = async (req,res) =>{
-  
+const proceedToCheckout = async (req, res) => {
+
   const userId = req.session.user._id
 
-  const userDetails = await UserModel.findById({_id:userId})
+  const userDetails = await UserModel.findById({ _id: userId })
+  const newAddress = await AddressModel.findOne({userId:userId})
 
   let total = await getTotalAmout(userId)
   total = total[0] ? total[0].total : 0;
 
-  res.render("user/checkout",{total,userDetails})
+  res.render("user/checkout", { total, userDetails ,newAddress })
 }
 
 
 
-const ordersView = async(req,res)=>{
+const ordersView = async (req, res) => {
 
-  
+
   const pendingOrders = await OrderModel.find();
 
-  
-  
 
-  res.render("user/orders",{pendingOrders})
+
+
+  res.render("user/orders", { pendingOrders })
 }
 
 
 
 
-const cancelUserOrder = async(req,res) =>{
+const cancelUserOrder = async (req, res) => {
   const orderId = req.query.id
 
 
@@ -622,7 +715,7 @@ const cancelUserOrder = async(req,res) =>{
     }
 
   }
-  const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
+  const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
   if (success) {
     console.log("cancelled")
     res.redirect("/orders")
@@ -635,7 +728,7 @@ const cancelUserOrder = async(req,res) =>{
 }
 
 
-const getProducts = async(userId) =>{
+const getProducts = async (userId) => {
   const cartItems = await CartModel.aggregate([
     {
       $match: { userId: userId }
@@ -685,7 +778,7 @@ const orderDetailView = async (req, res) => {
     const formattedDeliveryDate = moment(orderDetails.date, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
     const deliveryDate = new Date(formattedDeliveryDate);
-    
+
     if (isNaN(deliveryDate.getTime())) {
       return res.status(400).json({ message: 'Invalid delivery date' });
     }
@@ -699,7 +792,7 @@ const orderDetailView = async (req, res) => {
       orderReturn = true;
     }
 
-    console.log(orderDetails,"------------------------------")
+    console.log(orderDetails, "------------------------------")
     res.render('user/order-detail-view', { orderDetails, orderReturn });
 
   } catch (error) {
@@ -710,12 +803,12 @@ const orderDetailView = async (req, res) => {
 
 
 const returnUserOrder = async (req, res) => {
-console.log("gehehehehehee")
+  console.log("gehehehehehee")
   try {
     const orderObjId = req.query.orderId
     const returnType = req.query.returnType
     const userId = req.session.user._id
-console.log(orderObjId,"................",returnType)
+    console.log(orderObjId, "................", returnType)
     if (returnType == 1) {
 
       const orderDetails = await OrderModel.findById({ _id: orderObjId })
@@ -768,50 +861,50 @@ console.log(orderObjId,"................",returnType)
 
 }
 
-const contactView = (req,res)=>{
+const contactView = (req, res) => {
   res.render("user/contact")
 }
 
-const orderResponseView = (req,res) =>{
+const orderResponseView = (req, res) => {
   res.render("user/order-response")
 }
 
 
-const loadReport = async(req,res) =>{
+const loadReport = async (req, res) => {
 
-  const recentOrders = await OrderModel.find({status:'delivered'})
-  
-  res.render("admin/sales-report",{recentOrders})
+  const recentOrders = await OrderModel.find({ status: 'delivered' })
+
+  res.render("admin/sales-report", { recentOrders })
 }
 
 
-const generateReport = async (req,res) =>{
+const generateReport = async (req, res) => {
   console.log("yeyey")
 
-  try{
+  try {
 
     const browser = await puppeteer.launch({
       headless: false //
     });
     const page = await browser.newPage();
 
-    await page.goto(`${req.protocol}://${req.get("host")}`+"/report",{
-      waitUntil:"networkidle2"
+    await page.goto(`${req.protocol}://${req.get("host")}` + "/report", {
+      waitUntil: "networkidle2"
     })
 
-    await page.setViewport({width:1680, height: 1050})
-    
+    await page.setViewport({ width: 1680, height: 1050 })
+
     const todayDate = new Date()
 
-    const pdfn =  await page.pdf({
-      path:`${path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")}`,
-      printBackground:true,
-      format:"A4"
+    const pdfn = await page.pdf({
+      path: `${path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")}`,
+      printBackground: true,
+      format: "A4"
     })
 
-    if(browser) await browser.close()
+    if (browser) await browser.close()
 
-    const pdfURL = path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")
+    const pdfURL = path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")
 
     // res.set({
     //   "Content-Type":"application/pdf",
@@ -819,20 +912,20 @@ const generateReport = async (req,res) =>{
     // })
     // res.sendFile(pdfURL)
 
-    res.download(pdfURL,function(err){
-      if(err){
+    res.download(pdfURL, function (err) {
+      if (err) {
         console.log(err)
       }
 
     })
 
-  }catch(error){
+  } catch (error) {
     console.log(error.message)
   }
 }
 
 
-const invoiceView = async (req,res) =>{
+const invoiceView = async (req, res) => {
 
   const today = new Date();
 
@@ -843,30 +936,27 @@ const invoiceView = async (req,res) =>{
 
   const orderObjId = req.query.id
 
-  let userOrders = await OrderModel.find({_id:orderObjId}) 
+  let userOrders = await OrderModel.find({ _id: orderObjId })
 
   userOrders = userOrders[0]
 
-  const userDetails = await UserModel.findById({_id:userOrders.userId})
+  const userDetails = await UserModel.findById({ _id: userOrders.userId })
 
   const productDetails = userOrders.products
 
-  res.render("user/invoice",{userOrders,productDetails,formattedDate,userDetails})
+  res.render("user/invoice", { userOrders, productDetails, formattedDate, userDetails })
 }
 
 
 
 
-const invoiceReport = async(req,res) =>{
-
-
- 
+const invoiceReport = async (req, res) => {
 
   const orderObjId = req.query.id
-  console.log(orderObjId,"kkkkkkkkkkkkkkk")
+  console.log(orderObjId, "kkkkkkkkkkkkkkk")
 
 
-  try{
+  try {
 
     const browser = await puppeteer.launch({
       headless: false //
@@ -877,75 +967,74 @@ const invoiceReport = async(req,res) =>{
       waitUntil: "networkidle2"
     });
 
-    await page.setViewport({width:1680, height: 1050})
-    
+    await page.setViewport({ width: 1680, height: 1050 })
+
     const todayDate = new Date()
 
-    const pdfn =  await page.pdf({
-      path:`${path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")}`,
-      printBackground:true,
-      format:"A4"
+    const pdfn = await page.pdf({
+      path: `${path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")}`,
+      printBackground: true,
+      format: "A4"
     })
 
-    if(browser) await browser.close()
+    if (browser) await browser.close()
 
-    const pdfURL = path.join(__dirname,"../public/files", todayDate.getTime()+".pdf")
-    res.download(pdfURL,function(err){
-      if(err){
+    const pdfURL = path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")
+    res.download(pdfURL, function (err) {
+      if (err) {
         console.log(err)
       }
 
     })
 
-  }catch(error){
+  } catch (error) {
     console.log(error.message)
   }
 }
 
 
-const productListView = async(req,res) => {
-
-  const products = await ProductModel.find({ listStatus: true , deleteStatus:false})
-  res.render("user/product-list",{ products })
-
-}
 
 
 
 
 
-  module.exports = {
-    registerView,
-    loginView,
-    otpView,
-    registerUser,
-    loginUser,
-    indexView,
-    otpVerification,
-    userLogout,
-    userProfile,
-    changePassword,
-    editProfile,
-    addToCart,
-    cartView,
-    deleteCartItem,
-    changeProductQuantity,
-    proceedToCheckout,
-    placeOrder,
-    ordersView,
-    cancelUserOrder,
-    returnUserOrder,
-    orderDetailView,
-    contactView,
-    orderResponseView,
-    verifyPayment,
-    loadReport,
-    generateReport,
-    invoiceView,
-    invoiceReport,
-    productListView
 
-  };
+
+
+module.exports = {
+  registerView,
+  loginView,
+  otpView,
+  registerUser,
+  loginUser,
+  indexView,
+  otpVerification,
+  userLogout,
+  userProfile,
+  changePassword,
+  editProfile,
+  addToCart,
+  cartView,
+  deleteCartItem,
+  changeProductQuantity,
+  proceedToCheckout,
+  placeOrder,
+  ordersView,
+  cancelUserOrder,
+  returnUserOrder,
+  orderDetailView,
+  contactView,
+  orderResponseView,
+  verifyPayment,
+  loadReport,
+  generateReport,
+  invoiceView,
+  invoiceReport,
+  addNewAddress,
+  removeNewAddress
+
+
+};
 
 
 

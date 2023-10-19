@@ -203,6 +203,13 @@ const listUnlistProduct = async (req, res) => {
     }
 }
 
+const productListView = async(req,res) => {
+
+    const products = await ProductModel.find({ listStatus: true , deleteStatus:false})
+    res.render("user/product-list",{ products })
+  
+  }
+
 
 
 
@@ -215,6 +222,7 @@ module.exports = {
     editProductView,
     deleteProduct,
     listUnlistProduct,
+    productListView,
     
 
 }

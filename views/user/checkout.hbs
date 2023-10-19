@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/checkout.css" type="text/css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 
@@ -125,63 +126,119 @@
                     <div class="col-lg-8">
                         <h5>Billing detail</h5>
                         <div class="row">
-                            <div class="col-lg-12 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Full Name <span>*</span></p>
-                                    <input type="text" name="name">
+                            <form action="/editProfile" method="post">
+                                <div class="grid">
+                                    {{#each newAddress.address}}
+                                    <div class="card">
+                                        <label>
+                                            <input name="plan" class="radio" type="radio" checked>
+                                            <span class="plan-details">
+                                                <span class="plan-type">Basic</span>
+                                                <span>{{name}}</span>
+                                                <span>{{mobile}}</span>
+                                                <span>{{address}}</span>
+                                                <span>{{city}}</span>
+                                                <span>{{state}}</span>
+                                                <span>{{pincode}}</span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="" class="btn btn-default btn-rounded mb-4 btn-primary" data-toggle="modal"
+                                        data-target="#modalLoginForm">Enter custom address</a>
+                                </div>
+                            </form><!-- End Profile Edit Form -->
+
+
+                        
+
+                            {{!-- Modal --}}
+
+                            <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+
+                                        <div class="modal-body mx-3">
+                                            <form action="/add-new-address" method="post"
+                                                class="row g-3 needs-validation" novalidate>
+                                                <div class="col-12">
+                                                    <label for="yourName" class="form-label">Your Name</label>
+                                                    <input type="text" name="name" class="form-control" id="yourName"
+                                                        required>
+                                                    <div class="invalid-feedback">Please enter your name!</div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label for="yourEmail" class="form-label">Your Email</label>
+                                                    <input type="email" name="email" class="form-control" id="yourEmail"
+                                                        required>
+                                                    <div class="invalid-feedback">Please enter a valid Email address!
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label for="yourMobile" class="form-label">Mobile Number</label>
+                                                    <div class="input-group has-validation">
+                                                        <input type="number" name="mobile" class="form-control"
+                                                            id="yourUsername" required>
+                                                        <div class="invalid-feedback">Please enter a mobile number.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label for="yourAddress" class="form-label">Address</label>
+                                                    <input type="text" name="address" class="form-control"
+                                                        id="yourAddress" required>
+                                                    <div class="invalid-feedback">Please enter your address</div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label for="yourCity" class="form-label">State</label>
+                                                    <input type="text" name="state" class="form-control" id="state"
+                                                        required>
+                                                    <div class="invalid-feedback">Please enter your State</div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label for="yourCity" class="form-label">City</label>
+                                                    <input type="text" name="city" class="form-control" id="city"
+                                                        required>
+                                                    <div class="invalid-feedback">Please enter your City</div>
+                                                </div>
+
+
+
+
+                                                <div class="col-12">
+                                                    <label for="yourCity" class="form-label">Pincode</label>
+                                                    <input type="number" name="pincode" class="form-control" id="mobile"
+                                                        required>
+                                                    <div class="invalid-feedback">Please enter your City</div>
+                                                </div>
+
+
+                                                <div class="col-12">
+                                                    <button class="btn btn-primary w-100" type="submit">Submit</button>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
 
 
 
-
-                            <div class="col-lg-12">
-                                <div class="checkout__form__input">
-                                    <label for="browser" class="form-label">Enter / Select Delivery Address</label>
-                                    <input class="form-control" list="browsers" name="address" id="browser">
-                                    <datalist id="browsers">
-                                        <option value="{{userDetails.address.officeAddress}}">
-                                        <option value="{{userDetails.address.homeAddress}}">
-                                   
-                                    </datalist>
-
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="col-lg-12 mt-3">
-
-
-                                <div class="checkout__form__input">
-                                    <p>Town/City <span>*</span></p>
-                                    <input type="text" name="city">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>State <span>*</span></p>
-                                    <input type="text" name="state">
-                                </div>
-                                <div class="checkout__form__input">
-                                    <p>Postcode/Zip <span>*</span></p>
-                                    <input type="text" name="zip">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Phone <span>*</span></p>
-                                    <input type="text" name="mobile">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="checkout__form__input">
-                                    <p>Email <span>*</span></p>
-                                    <input type="text" name="email">
-                                </div>
-                            </div>
 
                         </div>
                     </div>
+
                     <div class="col-lg-4">
                         <div class="checkout__order">
                             <h5>Your order</h5>
@@ -279,7 +336,7 @@
             let calcAmount = order.amount * 100
             var options = {
                 "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
-                "amount": calcAmount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
+                "amount": calcAmount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
                 "currency": "INR",
                 "name": "Urban Vougue", //your business name
                 "description": "Test Transaction",
