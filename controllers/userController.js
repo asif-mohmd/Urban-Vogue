@@ -58,9 +58,10 @@ const otpVerification = async (req, res) => {
 
 
 const registerUser = async (req, res) => {
-  const { name, email, mobile, gender, address,officeAddress,country,password, confirmPassword } = req.body;
+  const { name, email, mobile, address, city, state, pincode, password, confirmPassword } = req.body;
   await sendMail(email)
   if (password !== confirmPassword) {
+    console.log("confirm password not match")
   } else {
     UserModel.findOne({ email: email }).then(async (user) => {
       if (user) {
@@ -70,11 +71,11 @@ const registerUser = async (req, res) => {
           "name": name,
           "email": email,
           "mobile": mobile,
-          "gender": gender,
+          "address": address,   
+          "state": state,
+          "city": city,
+          "pincode": pincode,
           "password": password,
-          "address": {homeAddress:address,officeAddress:officeAddress,customAddress:"NIL"},
-          "shippingAddress":"",
-          "country":"",
           "status": true
         }
         data.password = await bcrypt.hash(data.password, saltRounds)

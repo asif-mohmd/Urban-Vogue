@@ -30,14 +30,11 @@ const AddressSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    is_default: {
-        type: Boolean,
-        required: true
-    }
+ 
 
 })
 
-const addressModel = mongoose.model("Address",AddressSchema)
-module.exports = addressModel
+const AddressModel = mongoose.model("Address",AddressSchema)
+module.exports = AddressModel
 
 
