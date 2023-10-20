@@ -13,13 +13,30 @@ const OrderSchema = new mongoose.Schema({
   },
 
   address:{
-    type: String,
-    required: true,
+    name:{
+      type: String,
+       required: true,
+    },
+
+    mobile: {
+      type: Number,
+      required: true,
+    },
+    city:{
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    pincode: {
+      type: Number,
+      required: true,
+    }
+
   },
-  zip: {
-    type: Number,
-    required: true,
-  },
+
   date: {
     type: String,
     required: true,
@@ -46,19 +63,19 @@ const OrderSchema = new mongoose.Schema({
   }
   ],
 
-
   amount: {
     type: Number,
     required: true,
+  },
+  paymentMethod: {
+    type: String,
+    required: true
   },
   status: {
     type: String,
     required: true
   },
-  paymentMethod: {
-    type: String,
-    required: true
-  }
+
 
 
 

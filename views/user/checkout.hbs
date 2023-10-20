@@ -131,10 +131,10 @@
                                 {{#each newAddress.address}}
                                 <div class="card">
                                     <label>
-                                        <input name="plan" class="radio" type="radio" >
+                                        <input name="address" class="radio" type="radio" id="addressId_{{this._id}}">
                                         <span class="plan-details">
                                             <span class="plan-type">Address Line {{increment @key}}</span>
-                                            <input type="text" value="{{_id}}" id="addressId" hidden>
+                                            <input type="text" value="{{this._id}}" id="addressIdValue_{{this._id}}" hidden>
                                             <span>{{name}}</span>
                                             <span>{{mobile}}</span>
                                             <span>{{address}}</span>
@@ -166,22 +166,22 @@
                             </div>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod"
-                                        value="COD" checked>
-                                    <label class="form-check-label" for="gridRadios1">
+                                    <input class="form-check-input" type="radio" name="paymentMethod"
+                                        id="paymentMethodCOD" value="COD">
+                                    <label class="form-check-label" for="paymentMethodCOD">
                                         Cash on Delivery
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod"
-                                        value="Online">
-                                    <label class="form-check-label" for="gridRadios2">
+                                    <input class="form-check-input" type="radio" name="paymentMethod"
+                                        id="paymentMethodOnline" value="Online">
+                                    <label class="form-check-label" for="paymentMethodOnline">
                                         Online Payment
                                     </label>
                                 </div>
 
                             </div>
-                            <button type="submit" onclick="placeOrderSubmit()"  class="site-btn mt-4">Place oder</button>
+                            <button type="submit" onclick="placeOrderSubmit()" class="site-btn mt-4">Place oder</button>
                         </div>
                     </div>
                 </div>
@@ -295,20 +295,27 @@
 
 
         function placeOrderSubmit() {
-                console.log("calleed")
-            
-            const paymentMethod = document.getElementById("paymentMethod").value
-            const addressId = document.getElementById("addressId").value
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
-            console.log(paymentMethod,"methodddddd",addressId)
+            // Find the selected address ID
+            let selectedAddressId;
 
-            
+            // Find the checked radio input
+            const checkedInput = document.querySelector('input[name="address"]:checked');
+
+            if (checkedInput) {
+                selectedAddressId = checkedInput.id.split('_')[1]; // Extract the ID from the input's ID attribute
+            }
+
+            console.log(paymentMethod, "method", selectedAddressId ,);
+
+
             $.ajax({
                 url: '/place-order',
                 method: 'post',
-                data:{
-                    paymentMethod:paymentMethod,
-                    addressId:addressId
+                data: {
+                    paymentMethod: paymentMethod,
+                    selectedAddressId: selectedAddressId
                 },
                 success: ((response) => {
                     console.log(response, "ajaxxxxxxxxxxxxxxxxx")

@@ -15,6 +15,7 @@ const Razorpay = require('razorpay');
 const { response } = require("express");
 const puppeteer = require("puppeteer")
 const AddressModel = require("../models/Address")
+const { ObjectId } = require('mongodb');
 
 
 
@@ -373,14 +374,25 @@ const cartView = async (req, res) => {
 
 const placeOrder = async (req, res) => {
 
+
+
   console.log(req.body,"boxxxxxxxxxxxxxxxxxxxxxxxx")
+  const selectedAddressId = new ObjectId(req.body.selectedAddressId); 
   const randomOrderId = await generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
-  const address = req.body.address === '3' ? req.body.customAddress : req.body.address;
+  const userId = req.session.user._id;
+  let userAddress = await AddressModel.findOne({ userId: userId});
+  userAddress = userAddress.address
 
+  console.log(userAddress,"---------------------")
 
-  const userId = req.session.user._id; // assuming user._id is stored in the session
+  const address = userAddress.find((address) => address._id.equals(selectedAddressId));
+
+console.log(address, "gottttttttttttt");
+  
+
+   // assuming user._id is stored in the session
   let total = await getTotalAmout(userId)
 
   const cartItems = await getProducts(userId)
@@ -396,11 +408,11 @@ const placeOrder = async (req, res) => {
   }));
 
   console.log("call is here 1")
+  console.log(address,"objjjjjjjjjjjjjj");
   const data = {
     "userId": userId,
     "orderId": randomOrderId,
     "address": address,
-    "zip": req.body.zip,
     "date": formattedDate,
     products: products,
     "amount": total[0].total,
