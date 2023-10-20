@@ -121,7 +121,7 @@
     <section class="checkout spad">
         <div class="container">
 
-            <form action="/place-order" method="post" id="place-order-form" class="checkout__form">
+            <div class="checkout__form">
                 <div class="row">
                     <div class="col-lg-8">
                         <h5>Billing detail</h5>
@@ -131,10 +131,10 @@
                                 {{#each newAddress.address}}
                                 <div class="card">
                                     <label>
-                                        <input name="plan" class="radio" type="radio" checked>
+                                        <input name="plan" class="radio" type="radio" >
                                         <span class="plan-details">
                                             <span class="plan-type">Address Line {{increment @key}}</span>
-                                            <input type="text" value="{{_id}}" hidden>
+                                            <input type="text" value="{{_id}}" id="addressId" hidden>
                                             <span>{{name}}</span>
                                             <span>{{mobile}}</span>
                                             <span>{{address}}</span>
@@ -166,14 +166,14 @@
                             </div>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="gridRadios1"
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod"
                                         value="COD" checked>
                                     <label class="form-check-label" for="gridRadios1">
                                         Cash on Delivery
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="gridRadios2"
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod"
                                         value="Online">
                                     <label class="form-check-label" for="gridRadios2">
                                         Online Payment
@@ -181,11 +181,11 @@
                                 </div>
 
                             </div>
-                            <button type="submit" class="site-btn mt-4">Place oder</button>
+                            <button type="submit" onclick="placeOrderSubmit()"  class="site-btn mt-4">Place oder</button>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </section>
     <!-- Checkout Section End -->
@@ -294,12 +294,22 @@
 
 
 
-        $("#place-order-form").submit((e) => {
-            e.preventDefault()
+        function placeOrderSubmit() {
+                console.log("calleed")
+            
+            const paymentMethod = document.getElementById("paymentMethod").value
+            const addressId = document.getElementById("addressId").value
+
+            console.log(paymentMethod,"methodddddd",addressId)
+
+            
             $.ajax({
                 url: '/place-order',
                 method: 'post',
-                data: $('#place-order-form').serialize(),
+                data:{
+                    paymentMethod:paymentMethod,
+                    addressId:addressId
+                },
                 success: ((response) => {
                     console.log(response, "ajaxxxxxxxxxxxxxxxxx")
 
@@ -318,7 +328,7 @@
                     }
                 })
             })
-        })
+        }
 
         function razorpayPayment(order) {
             let calcAmount = order.amount * 100
