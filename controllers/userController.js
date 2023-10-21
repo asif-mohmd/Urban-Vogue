@@ -431,6 +431,7 @@ console.log(address, "gottttttttttttt");
     if (req.body.paymentMethod == 'Online') {
 
       const order = await generateRazorpay(randomOrderId, total)
+      const cartClear = await CartModel.updateOne({userId:userId},{$set:{cart:[]}})
       response = { status: true, order }
 
       res.json(response);
@@ -455,6 +456,7 @@ console.log(address, "gottttttttttttt");
       if (cart) {
 
         const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+        const cartClear = await CartModel.updateOne({userId:userId},{$set:{cart:[]}})
         response = { status: true, pendingOrders }
         // res.render("user/order-response",{pendingOrders})
         res.json(response);
