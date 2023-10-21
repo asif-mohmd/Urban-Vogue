@@ -29,6 +29,7 @@ var instance = new Razorpay({
 
 const indexView = async (req, res) => {
 
+
   const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
   res.render("user/index", { products });
 }
@@ -475,7 +476,7 @@ console.log(address, "gottttttttttttt");
 const generateRazorpay = async (randomOrderId, total) => {
   try {
     const order = await instance.orders.create({
-      amount: total[0].total,
+      amount: total[0].total * 100,
       currency: "INR",
       receipt: randomOrderId,
       notes: {
@@ -827,6 +828,8 @@ const orderDetailView = async (req, res) => {
 
   try {
     const orderDetails = await OrderModel.findById({ _id: orderObjId });
+
+   
 
     if (!orderDetails) {
       return res.status(404).json({ message: 'Order not found' });

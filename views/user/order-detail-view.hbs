@@ -172,6 +172,9 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
+                     <th scope="col">order ID</th>
+                     <th scope="col">Date</th>
+                     <th scope="col">Zip</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Count</th>
@@ -183,6 +186,9 @@
                   {{#each orderDetails.products}}
                   <tr>
                     <th scope="row">{{@index}}</th>
+                    <td>{{../orderDetails.orderId}}</td> 
+                    <td>{{../orderDetails.date}}</td>
+                    <td>{{../orderDetails.address.pincode}}</td>
                     <td>{{this.name}}</td>
                     <td>{{this.price}}</td>
                     <td>{{this.count}}</td>

@@ -338,10 +338,11 @@
         }
 
         function razorpayPayment(order) {
-            let calcAmount = order.amount * 100
+            console.log(order.amount,"hmmhnmhmhjm")
+          
             var options = {
                 "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
-                "amount": calcAmount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
+                "amount": order.amount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to
                 "currency": "INR",
                 "name": "Urban Vougue", //your business name
                 "description": "Test Transaction",

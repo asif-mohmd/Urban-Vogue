@@ -158,7 +158,7 @@
 
                     <th scope="col">Order ID</th>
                     <th scope="col">status</th>
-                    <th scope="col">Zip</th>
+                    
                     <th scope="col">Date</th>
 
                     <th scope="col">Amount</th>
@@ -172,14 +172,14 @@
 
                     <td>{{orderId}}</td>
                     <td>{{status}}</td>
-                    <td>{{zip}}</td>
+                 
                     <td>{{date}}</td>
                     <td>{{amount}}</td>
 
 
                     <td>
                       <a href="/order-detail-view?id={{this._id}}"><button type="button" class="btn btn-primary"
-                          data-mdb-toggle="modal" data-mdb-target="#exampleModal3">View Details</button></a>
+                       >View Details</button></a>
 
                       {{#if (eq status "pending")}}
                
