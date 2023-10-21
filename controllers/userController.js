@@ -539,7 +539,7 @@ const paymentVerifiaction = (details) => {
 
 const changePaymentStatus = async (orderId) => {
   console.log(orderId, "orderId")
-  const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "placed" } })
+  const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "Online" } })
   console.log(updatedDetails, "updatedDeatils")
   if (updatedDetails) {
     console.log("status updated",)
@@ -738,7 +738,7 @@ const proceedToCheckout = async (req, res) => {
 const ordersView = async (req, res) => {
 
 
-  const pendingOrders = await OrderModel.find();
+  const pendingOrders = await OrderModel.find().sort({$natural:-1})
 
 
 

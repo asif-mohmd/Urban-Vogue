@@ -65,10 +65,7 @@ const productDetails = async (req, res) => {
     const singleProduct = await ProductModel.findOne({ _id: req.query.id })
     const cartCheck = await cartModel.findOne({'cart.productId': req.query.id  })
 
-    const sizes = cartCheck.cart.map((cart)=>{
-        return cart.size
-    })
-    console.log(sizes,"sizez")
+
     console.log("eeeeeeeeeeeeee",cartCheck,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
     res.render("user/product-details", { singleProduct , cartCheck })
 }
