@@ -79,7 +79,9 @@ const registerUser = async (req, res) => {
           "city": city,
           "pincode": pincode,
           "password": password,
-          "status": true
+          "wallet" : 0,
+          "status": true,
+       
         }
         data.password = await bcrypt.hash(data.password, saltRounds)
         session.userData = data

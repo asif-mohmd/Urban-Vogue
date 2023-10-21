@@ -39,6 +39,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  wallet: {
+    type: Number,
+    required: true,
+  },
 
   status: {
     type: Boolean,

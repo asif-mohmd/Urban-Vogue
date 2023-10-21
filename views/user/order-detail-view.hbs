@@ -167,6 +167,7 @@
 
 {{!-- This is the input of order Id . its from url and parsed with the help of script --}}
        <input type="text" id="orderId" name="orderId" hidden>
+       <input type="text" id="userId" value="{{orderDetails.userId}}">
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
@@ -303,9 +304,10 @@
   <script>
     function returnOrder(id) {
      const selectedValue = document.getElementById('orderId').value;
+     const userId = document.getElementById('userId').value;
       console.log("Selected Value:", selectedValue);
 
-      const returnUrl = `/return-user-order?id=${id}&orderId=${selectedValue}`;
+      const returnUrl = `/return-user-order?id=${id}&orderId=${selectedValue}&userId=${userId}`;
       console.log("Return URL:", returnUrl);
 
       window.location.href = returnUrl;

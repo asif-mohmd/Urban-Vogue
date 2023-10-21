@@ -216,29 +216,42 @@ const delieveredOrders = async(req,res) =>{
     const orderObjId = req.query.id
     const status = req.query.status
 
-    try{
-      if(status=="returnNonDefective"){
-        const returnAcceptNonDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptNonDef"})
-        if(returnAcceptNonDef){
-            res.render("admin/return-pending")
-        }else{
-            res.render("admin/return-pending")
-        }
-      }else{
-        const returnAcceptDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptDef"})
-        if(returnAcceptDef){
-         
-            res.render("admin/return-pending")
-        }else{
-     
-            res.render("admin/return-pending")
-        }
-      }
-      
-    }catch(error){
-        console.error("Error:", error);
-        res.status(500).send("Internal Server Error");
+    const orderDetails = await OrderModel.findOne({_id:orderObjId})
+
+    const walletUpdate = await UserModel.updateOne({ _id: orderDetails.userId }, { $inc: { wallet: orderDetails.amount } });
+    console.log(walletUpdate,"ooooooooooooooooo")
+
+    // Check the result of the update
+    if (walletUpdate) {
+      console.log("Wallet updated successfully. New wallet balance: ");
+    } else {
+      console.log(`Failed to update the wallet.`);
     }
+
+    // try{
+    //   if(status=="returnNonDefective"){
+    //     const returnAcceptNonDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptNonDef"})
+    //     if(returnAcceptNonDef){
+    //         const walletUpdate = await UserModel.updateOne({_id})
+    //         res.render("admin/return-pending")
+    //     }else{
+    //         res.render("admin/return-pending")
+    //     }
+    //   }else{
+    //     const returnAcceptDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptDef"})
+    //     if(returnAcceptDef){
+         
+    //         res.render("admin/return-pending")
+    //     }else{
+     
+    //         res.render("admin/return-pending")
+    //     }
+    //   }
+      
+    // }catch(error){
+    //     console.error("Error:", error);
+    //     res.status(500).send("Internal Server Error");
+    // }
 
 
   }
