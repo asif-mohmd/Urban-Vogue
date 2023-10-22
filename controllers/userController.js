@@ -376,9 +376,7 @@ const cartView = async (req, res) => {
 
 
 const placeOrder = async (req, res) => {
-
-
-
+  let response;
   console.log(req.body,"boxxxxxxxxxxxxxxxxxxxxxxxx")
   const selectedAddressId = new ObjectId(req.body.selectedAddressId); 
   const randomOrderId = await generateRandomOrder();
@@ -392,14 +390,14 @@ const placeOrder = async (req, res) => {
 
   const address = userAddress.find((address) => address._id.equals(selectedAddressId));
 
-console.log(address, "gottttttttttttt");
+  console.log(address, "gottttttttttttt");
   
 
    // assuming user._id is stored in the session
   let total = await getTotalAmout(userId)
 
   const cartItems = await getProducts(userId)
-  let response;
+  
 
   const products = cartItems.map(cartItem => ({
     productId: cartItem.product._id,
@@ -430,35 +428,50 @@ console.log(address, "gottttttttttttt");
   const order = await OrderModel.create(data)
   if (order) {
     console.log("222")
-    if (req.body.paymentMethod == 'Online') {
 
-      const order = await generateRazorpay(randomOrderId, total)
-      const cartClear = await CartModel.updateOne({userId:userId},{$set:{cart:[]}})
-      response = { status: true, order }
+    if(req.body.paymentMethod == 'Wallet'){
 
-      res.json(response);
+      let stockUpdate = stockQuantityUpdate()
+
+
+      if (stockUpdate) {
+
+        const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+        
+        response = { status: true, pendingOrders }
+        // res.render("user/order-response",{pendingOrders})
+        res.json(response);
+      }
+
+
+    }
+
+    else if (req.body.paymentMethod == 'Online') {
+
+     
+
+      let stockUpdate = stockQuantityUpdate()
+
+
+      if (stockUpdate) {
+
+        const order = await generateRazorpay(randomOrderId, total)
+        
+        response = { status: true, order }
+        res.json(response);
+      }
+      
 
 
     } else {
-      for (const product of products) {
-        const existingProduct = await ProductModel.findById(product.productId);
+     
+     let stockUpdate = stockQuantityUpdate()
 
-        if (existingProduct && existingProduct.stock >= product.count) {
-          await ProductModel.updateOne(
-            { _id: product.productId, stock: { $gte: product.count } },
-            { $inc: { stock: -product.count } }
-          );
-        } else {
-          console.log(`Insufficient stock for product with ID ${product.productId}`);
-          // Handle insufficient stock scenario here, e.g., notify the user
-        }
-      }
 
-      const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
-      if (cart) {
+      if (stockUpdate) {
 
         const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
-        const cartClear = await CartModel.updateOne({userId:userId},{$set:{cart:[]}})
+        
         response = { status: true, pendingOrders }
         // res.render("user/order-response",{pendingOrders})
         res.json(response);
@@ -471,6 +484,48 @@ console.log(address, "gottttttttttttt");
   } else {
     console.log("no orders")
 
+  }
+
+
+}
+
+
+async function stockQuantityUpdate(){
+
+
+  const cartItems = await getProducts(userId)
+  
+
+  const products = cartItems.map(cartItem => ({
+    productId: cartItem.product._id,
+    name: cartItem.product.name,
+    price: cartItem.product.price,
+    count: cartItem.count,
+    size: cartItem.size
+
+  }));
+
+  for (const product of products) {
+    const existingProduct = await ProductModel.findById(product.productId);
+
+    if (existingProduct && existingProduct.stock >= product.count) {
+      await ProductModel.updateOne(
+        { _id: product.productId, stock: { $gte: product.count } },
+        { $inc: { stock: -product.count } }
+      );
+    } else {
+      console.log(`Insufficient stock for product with ID ${product.productId}`);
+      return false
+      // Handle insufficient stock scenario here, e.g., notify the user
+    }
+  }
+
+  const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
+
+  if(cart){
+    return true
+  }else{
+    return false
   }
 
 

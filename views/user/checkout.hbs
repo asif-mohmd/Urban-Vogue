@@ -322,14 +322,16 @@
                 console.log(walletAmount, ";;;;;;;;;;;;;;;;;;;;;", totalAmount);
 
                 if (totalAmount <= walletAmount) {
-
-                    paymentMethodCheck(paymentMethod)
+console.log("wallet")
+paymentMethodCheck(paymentMethod)
+                   
 
                 }else{
 
                 }
             }else{
                  paymentMethodCheck(paymentMethod)
+                 console.log("noo walleet")
             }
             // Find the selected address ID
 
@@ -343,6 +345,7 @@
 
         function paymentMethodCheck(paymentMethod) {
             let selectedAddressId;
+        
            
             // Find the checked radio input
             const checkedInput = document.querySelector('input[name="address"]:checked');
