@@ -167,10 +167,12 @@
                             </div>
                             <div class="col-sm-10">
                                 <div class="form-check">
+                                    <p class="text-danger font-weight-bold" id="InsufficientWallet"></p>
                                     <input class="form-check-input" type="radio" name="paymentMethod"
                                         id="paymentMethodWallet" value="Wallet">
                                     <label class="form-check-label font-weight-bold text-success"
                                         for="paymentMethodOnline">
+
                                         Wallet : ₹ <span class="" id="walletAmount">{{userDetails.wallet}}</span>
                                     </label>
                                 </div>
@@ -322,16 +324,15 @@
                 console.log(walletAmount, ";;;;;;;;;;;;;;;;;;;;;", totalAmount);
 
                 if (totalAmount <= walletAmount) {
-console.log("wallet")
-paymentMethodCheck(paymentMethod)
-                   
+                    console.log("wallet")
+                    paymentMethodCheck(paymentMethod)
 
-                }else{
 
-                }
-            }else{
-                 paymentMethodCheck(paymentMethod)
-                 console.log("noo walleet")
+                } else {
+                  document.getElementById('InsufficientWallet').textContent = "Insufficient wallet amount";                }
+            } else {
+                paymentMethodCheck(paymentMethod)
+                console.log("noo walleet")
             }
             // Find the selected address ID
 
@@ -345,8 +346,8 @@ paymentMethodCheck(paymentMethod)
 
         function paymentMethodCheck(paymentMethod) {
             let selectedAddressId;
-        
-           
+
+
             // Find the checked radio input
             const checkedInput = document.querySelector('input[name="address"]:checked');
 

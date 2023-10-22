@@ -434,16 +434,22 @@ const placeOrder = async (req, res) => {
       let stockUpdate = stockQuantityUpdate()
 
 
+
       if (stockUpdate) {
 
+        await UserModel.updateOne({_id:userId},{$inc:{wallet: -total[0].total}})
+
         const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
-        
-        response = { status: true, pendingOrders }
-        // res.render("user/order-response",{pendingOrders})
-        res.json(response);
+        const updatedDetails = await OrderModel.updateOne({ orderId:  order.orderId }, { $set: { paymentMethod: "Wallet" } })
+       
+        if(updatedDetails){
+          response = { status: true, pendingOrders }
+          res.json(response);
+        }else{
+          response = { status: false }
+          res.json(response);
+        }
       }
-
-
     }
 
     else if (req.body.paymentMethod == 'Online') {
