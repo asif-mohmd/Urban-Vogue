@@ -192,7 +192,7 @@
                                 </div>
 
                             </div>
-                            <button type="submit" onclick="placeOrderSubmit()" class="site-btn mt-4">Place oder</button>
+                            <button type="submit" onclick="placeOrderSubmit()" class="site-btn mt-4" id="placeOrderButton">Place oder</button>
                         </div>
                     </div>
                 </div>
@@ -300,6 +300,7 @@
 
 
     <script>
+        
 
 
 
@@ -448,6 +449,8 @@
                 },
                 success: function (response) {
                     console.log(response, "ajaxxxxxxxxxxxxxxxxx");
+
+                    
 
                     if (response === false) {
                         location.href = '/payment-error';

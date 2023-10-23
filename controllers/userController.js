@@ -408,7 +408,7 @@ const placeOrder = async (req, res) => {
 
   }));
 
-  console.log("call is here 1")
+  console.log("call is here 1",products)
   console.log(address,"objjjjjjjjjjjjjj");
   const data = {
     "userId": userId,
@@ -426,6 +426,10 @@ const placeOrder = async (req, res) => {
   console.log("data:", data)
 
   const order = await OrderModel.create(data)
+  
+
+  console.log(order,"dddddddddddddddddddddddddddddddddd")
+
   if (order) {
     console.log("222")
 
@@ -454,21 +458,11 @@ const placeOrder = async (req, res) => {
 
     else if (req.body.paymentMethod == 'Online') {
 
-     
-
-      let stockUpdate = stockQuantityUpdate()
-
-
-      if (stockUpdate) {
-
         const order = await generateRazorpay(randomOrderId, total)
         
         response = { status: true, order }
         res.json(response);
-      }
       
-
-
     } else {
      
      let stockUpdate = stockQuantityUpdate()
@@ -484,8 +478,6 @@ const placeOrder = async (req, res) => {
       }
 
     }
-
-
 
   } else {
     console.log("no orders")
@@ -577,9 +569,11 @@ const verifyPayment = async (req, res) => {
     if (success) {
       console.log("success555555555")
       const onlineDetails = await OrderModel.findOne({ orderId: req.body['order[receipt]'] })
-      console.log(onlineDetails, "----------------------------")
-      response = { status: true, onlineDetails }
-      res.json(response)
+      let stockUpdate = await stockQuantityUpdate()
+      if(stockUpdate){
+        response = { status: true, onlineDetails }
+        res.json(response)
+      }
     } else {
       console.log("status update failed")
     }
@@ -640,7 +634,7 @@ const addToCart = async (req, res) => {
     const cart = await CartModel.findOne({ userId: userId });
 
     if (cart) {
-      const productExists = cart.cart.some(item => item.productId === productId);
+      const productExists = cart.cart.some(item => item.productId === productId && item.size===size) ;
 
 
       if (productExists) {

@@ -59,6 +59,10 @@ const OrderSchema = new mongoose.Schema({
     count: {
       type: Number,
       required: true,
+    },
+    size:{
+      type: String,
+      required: true
     }
   }
   ],
