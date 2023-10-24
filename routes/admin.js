@@ -21,7 +21,6 @@ router.get("/delete-product",productControllers.deleteProduct)
 router.get("/userList",adminControllers.userList)
 router.get("/block-unblock",adminControllers.userBlockUnblock)
 router.get("/list-unlist-product/:id",productControllers.listUnlistProduct)
-
 router.get("/addCategory",adminControllers.addCategory)
 router.get("/showCategory",adminControllers.showCategory)
 router.get("/category-delete",adminControllers.categoryDelete)
@@ -41,6 +40,9 @@ router.get("/return-nonDefective",adminControllers.returnNonDefective)
 router.get("/adminChartLoad", adminControllers.adminChartLoad);
 router.get("/addCoupen",adminControllers.addCoupen)
 router.get("/showCoupen",adminControllers.showCoupen)
+router.get("/listedCoupen",adminControllers.showListedCoupen)
+router.get("/unlistedCoupen",adminControllers.showUnlistedCoupen)
+router.get("/list-unlist-coupen/:id",adminControllers.listUnlistCoupen)
 
 
 

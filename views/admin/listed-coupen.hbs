@@ -506,11 +506,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Listed Category</h1>
+      <h1>Listed Coupen</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-          <li class="breadcrumb-item">Listed Category</li>
+          <li class="breadcrumb-item">Listed Coupen</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -521,9 +521,9 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Listed Category</h5>
+              <h5 class="card-title">Listed Coupen</h5>
               {{#if msg}}
-              <p class="text-center text-danger small">Category Not deleted . Try agian</p>
+              <p class="text-center text-danger small">Coupen Not deleted . Try agian</p>
               {{/if}}
               <!-- Table with stripped rows -->
               <table class="table datatable">
@@ -536,10 +536,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each listedCategory}}
+                  {{#each listedCoupen}}
                   <tr>
                     <th scope="row">{{@key}}</th>
-                    <td>{{categoryName}}</td>
+                    <td>{{coupenName}}</td>
 
 
                   </tr>

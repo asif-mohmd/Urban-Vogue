@@ -312,13 +312,51 @@ const addNewCoupen = async (req, res) => {
 
 const showCoupen = async (req, res) => {
     try {
-    res.render("admin/show-coupens")
+        const showCoupen = await CoupenModel.find()
+
+        res.render("admin/show-coupens", { showCoupen })
 
     } catch (err) {
         consoel.log(err)
     }
 }
 
+
+const showListedCoupen = async (req, res) => {
+    try {
+        const listedCoupen = await CoupenModel.find({ listStatus: true })
+        res.render("admin/listed-coupen", { listedCoupen })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const showUnlistedCoupen = async (req, res) => {
+    try {
+        const unlistedCoupen = await CoupenModel.find({ listStatus: false })
+        res.render("admin/unlisted-coupen", { unlistedCoupen })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
+const listUnlistCoupen = async (req, res) => {
+    try {
+        const coupenData = await CoupenModel.findById({ _id: req.params.id })
+        console.log("oooooooooooooooooooooooo",coupenData)
+        const updated = await CoupenModel.updateOne({ _id: req.params.id }, { $set: { listStatus: !coupenData.listStatus } })
+        if (updated) {
+            res.redirect("/admin/showCoupen")
+        } else {
+            msgUnlist = true
+            res.render("admin/show-coupen", { msgUnlist })
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 module.exports = {
     adminDashboard,
@@ -346,6 +384,9 @@ module.exports = {
     adminChartLoad,
     addCoupen,
     addNewCoupen,
-    showCoupen
+    showCoupen,
+    showListedCoupen,
+    showUnlistedCoupen,
+    listUnlistCoupen
 
 }

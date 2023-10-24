@@ -526,26 +526,29 @@
               {{#if msg}}
               <p class="text-center text-danger small">Coupen Not deleted . Try agian</p>
               {{/if}}
+              {{#if msgUnlist}}
+              <p class="text-center text-danger small">Something went wrong . Try agian</p>
+              {{/if}}
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    {{!-- <th scope="col">Email</th>
-                    <th scope="col">Mobile</th>
-                    <th scope="col">Gender</th>--}}
+                    <th scope="col">Discount</th>
+                    {{!-- <th scope="col">Mobile</th>
+                    <th scope="col">Gender</th> --}}
                     <th scope="col">List/Unlist</th>
                     <th scope="col">Action</th>
 
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each showCategory}}
+                  {{#each showCoupen}}
                   <tr>
                     <th scope="row">{{@key}}</th>
-                    <td>{{categoryName}}</td>
-
+                    <td>{{coupenName}}</td>
+                    <td>{{coupenPercentage}}%</td>
                     {{#if this.listStatus}}
                     <td>
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
@@ -555,7 +558,7 @@
                     </td>
                     {{else}}
                     <td>
-                      <a href="/admin/list-unlist-category/{{this._id}}">
+                      <a href="/admin/list-unlist-coupen/{{this._id}}">
                         <button class="btn btn-success">List</button>
                       </a>
                     </td>
@@ -563,7 +566,7 @@
 
 
                     <td>
-                      <a href="/admin/category-delete?id={{this._id}}">
+                      <a href="/admin/coupen-delete?id={{this._id}}">
                         <button class="btn btn-danger">Delete</button>
                       </a>
                     </td>
@@ -580,10 +583,10 @@
                             <button type="button" class="btn-close" data-mdb-dismiss="modal"
                               aria-label="Close"></button>
                           </div>
-                          <div class="modal-body">Are you sure you want to unlist this category?</div>
+                          <div class="modal-body">Are you sure you want to unlist this coupen?</div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                            <a href="/admin/list-unlist-category/{{this._id}}">
+                            <a href="/admin/list-unlist-coupen/{{this._id}}">
                               <button type="button" class="btn btn-primary">Save changes</button>
                             </a>
                           </div>
