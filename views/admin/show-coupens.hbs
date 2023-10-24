@@ -324,8 +324,40 @@
 
 
 
+        <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Coupen Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
-      <li class="nav-item">
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupen</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupen</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupen</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupen</span></i>
+            </a>
+          </li>
+
+
+        </ul>
+      </li><!-- End Forms Nav -->
+
+
+
+      {{!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Category Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -354,7 +386,7 @@
 
 
         </ul>
-      </li><!-- End Forms Nav -->
+      </li><!-- End Forms Nav --> --}}
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav3" data-bs-toggle="collapse" href="#">
@@ -475,11 +507,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Category List</h1>
+      <h1>Coupen List</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-          <li class="breadcrumb-item">Category List</li>
+          <li class="breadcrumb-item">Coupen List</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -490,9 +522,9 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Category List</h5>
+              <h5 class="card-title">Coupen List</h5>
               {{#if msg}}
-              <p class="text-center text-danger small">Category Not deleted . Try agian</p>
+              <p class="text-center text-danger small">Coupen Not deleted . Try agian</p>
               {{/if}}
               <!-- Table with stripped rows -->
               <table class="table datatable">

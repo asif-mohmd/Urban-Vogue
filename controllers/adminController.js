@@ -3,6 +3,7 @@ const CategoryModel = require("../models/Category")
 const OrderModel = require("../models/Order")
 const ProductModel = require("../models/Product")
 const { response } = require("express")
+const CoupenModel = require("../models/Coupen")
 
 
 let adminEmail = "admin@gmail.com"
@@ -29,31 +30,31 @@ const adminDashboard = async (req, res) => {
 
     let totalDeliveredAmount = 0;
 
-    const recentOrders = await OrderModel.find({status:'delivered'})
+    const recentOrders = await OrderModel.find({ status: 'delivered' })
     const countOfDeliveredOrders = await OrderModel.countDocuments({ status: 'delivered' });
     const countOfUsers = await UserModel.countDocuments();
 
     recentOrders.forEach(order => {
         totalDeliveredAmount += order.amount;
-      });
+    });
 
-    res.render("admin/index",{recentOrders,countOfDeliveredOrders,totalDeliveredAmount,countOfUsers})
+    res.render("admin/index", { recentOrders, countOfDeliveredOrders, totalDeliveredAmount, countOfUsers })
 }
 
 const adminChartLoad = async (req, res) => {
     console.log("Working tetchchhhhhhhhhhhhhhhhhh");
-  
-    try {
-      const data = await OrderModel.find() 
 
-  
-      res.json(data);
+    try {
+        const data = await OrderModel.find()
+
+
+        res.json(data);
     } catch (error) {
-      console.error('Error in adminChartLoad:', error);
-      res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
+        console.error('Error in adminChartLoad:', error);
+        res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
     }
-  };
-  
+};
+
 
 
 const userList = async (req, res) => {
@@ -105,7 +106,7 @@ const addNewCategory = async (req, res) => {
         }
     } catch (error) {
         // Handle the error
-     
+
         let msg;
         if (error.message === 'Category already exists') {
             msgExists = true;
@@ -153,79 +154,79 @@ const unListedCategory = async (req, res) => {
     res.render("admin/unlisted-category", { unListedCategory })
 }
 
-const pendingOrders = async(req,res) =>{
-   const pendingOrders = await OrderModel.find({status:"pending"})
+const pendingOrders = async (req, res) => {
+    const pendingOrders = await OrderModel.find({ status: "pending" })
 
-    res.render("admin/pending-orders",{pendingOrders})
+    res.render("admin/pending-orders", { pendingOrders })
 }
 
-const orderDelivered = async(req,res) =>{
+const orderDelivered = async (req, res) => {
     const orderId = req.query.id
- 
-    const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"delivered"}})
-    if(success) {
-  
+
+    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "delivered" } })
+    if (success) {
+
         res.redirect("/admin/delivered-orders")
-    }else{
+    } else {
         console.log("not delivered")
         res.redirect("/admin/pending-orders")
     }
 }
 
-const delieveredOrders = async(req,res) =>{
-    const deliveredOrders = await OrderModel.find({status:"delivered"})
+const delieveredOrders = async (req, res) => {
+    const deliveredOrders = await OrderModel.find({ status: "delivered" })
 
-     res.render("admin/delivered-orders",{deliveredOrders})
- }
+    res.render("admin/delivered-orders", { deliveredOrders })
+}
 
- const orderCancelled = async(req,res) =>{
+const orderCancelled = async (req, res) => {
     const orderId = req.query.id
- 
-    const success = await OrderModel.updateOne({_id:orderId},{$set:{status:"cancelled"}})
-    if(success) {
-        
-      
+
+    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
+    if (success) {
+
+
         res.redirect("/admin/cancelled-orders")
-    }else{
+    } else {
         console.log("not cancelled")
         res.redirect("/admin/pending-orders")
     }
 }
- const cancelledOrders = async(req,res) =>{
-    const cancelledOrders = await OrderModel.find({status:"cancelled"})
-     res.render("admin/cancelled-orders",{cancelledOrders})
- }
+const cancelledOrders = async (req, res) => {
+    const cancelledOrders = await OrderModel.find({ status: "cancelled" })
+    res.render("admin/cancelled-orders", { cancelledOrders })
+}
 
 
- const returnPending = async (req, res) => {
+const returnPending = async (req, res) => {
     try {
-      const returnPending = await OrderModel.find({
-        status: { $in: ['returnDefective', 'returnNonDefective'] }
-      });
-  
-      res.render("admin/return-pending", { returnPending });
+        const returnPending = await OrderModel.find({
+            status: { $in: ['returnDefective', 'returnNonDefective'] }
+        });
+
+        res.render("admin/return-pending", { returnPending });
     } catch (error) {
-      console.error("Error:", error);
-      res.status(500).send("Internal Server Error");
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
     }
-  };
+};
 
 
 
-  const returnAccept = async (req,res) =>{
+const returnAccept = async (req, res) => {
     const orderObjId = req.query.id
     const status = req.query.status
 
-    const orderDetails = await OrderModel.findOne({_id:orderObjId})
+    const orderDetails = await OrderModel.findOne({ _id: orderObjId })
 
     const walletUpdate = await UserModel.updateOne({ _id: orderDetails.userId }, { $inc: { wallet: orderDetails.amount } });
-    console.log(walletUpdate,"ooooooooooooooooo")
+    console.log(walletUpdate, "ooooooooooooooooo")
 
     // Check the result of the update
     if (walletUpdate) {
-      console.log("Wallet updated successfully. New wallet balance: ");
+        console.log("Wallet updated successfully. New wallet balance: ");
     } else {
-      console.log(`Failed to update the wallet.`);
+        console.log(`Failed to update the wallet.`);
     }
 
     // try{
@@ -240,38 +241,84 @@ const delieveredOrders = async(req,res) =>{
     //   }else{
     //     const returnAcceptDef = await OrderModel.updateOne({_id:orderObjId},{status:"returnAcceptDef"})
     //     if(returnAcceptDef){
-         
+
     //         res.render("admin/return-pending")
     //     }else{
-     
+
     //         res.render("admin/return-pending")
     //     }
     //   }
-      
+
     // }catch(error){
     //     console.error("Error:", error);
     //     res.status(500).send("Internal Server Error");
     // }
 
 
-  }
+}
 
 
- const returnDefective = async (req,res)=>{
-    const returnDefective = await OrderModel.find({status:"returnAcceptDef"})
-    if(returnDefective){
-      res.render("admin/return-defective",{returnDefective})
-        
+const returnDefective = async (req, res) => {
+    const returnDefective = await OrderModel.find({ status: "returnAcceptDef" })
+    if (returnDefective) {
+        res.render("admin/return-defective", { returnDefective })
+
     }
- }
-  
- const returnNonDefective = async (req,res)=>{
-    const returnAcceptNonDef = await OrderModel.find({status:"returnAcceptNonDef"})
-    if(returnAcceptNonDef){
-      res.render("admin/return-non-defective",{returnAcceptNonDef})
-        
+}
+
+const returnNonDefective = async (req, res) => {
+    const returnAcceptNonDef = await OrderModel.find({ status: "returnAcceptNonDef" })
+    if (returnAcceptNonDef) {
+        res.render("admin/return-non-defective", { returnAcceptNonDef })
+
     }
- }
+}
+
+
+
+const addCoupen = async (req, res) => {
+    try {
+        res.render("admin/add-coupen")
+    } catch (err) {
+        console.log(err, "catch error")
+    }
+
+}
+
+
+const addNewCoupen = async (req, res) => {
+
+    try {
+        const { coupenName, coupenPercentage } = req.body
+
+        const data = {
+            coupenName: coupenName,
+            coupenPercentage: coupenPercentage,
+            listStatus: true
+        }
+        const coupenAdded = await CoupenModel.create(data)
+        if (coupenAdded) {
+            msgTrue = true
+            res.render("admin/add-coupen", { msgTrue })
+
+        } else {
+            msgFalse = true
+            res.render("admin/add-coupen", { msgFalse })
+        }
+    } catch (err) {
+        console.log(err, "catch error")
+    }
+}
+
+const showCoupen = async (req, res) => {
+    try {
+    res.render("admin/show-coupens")
+
+    } catch (err) {
+        consoel.log(err)
+    }
+}
+
 
 module.exports = {
     adminDashboard,
@@ -296,6 +343,9 @@ module.exports = {
     returnAccept,
     returnDefective,
     returnNonDefective,
-    adminChartLoad
+    adminChartLoad,
+    addCoupen,
+    addNewCoupen,
+    showCoupen
 
 }

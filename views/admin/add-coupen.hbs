@@ -312,10 +312,42 @@
       </li><!-- End Forms Nav -->
 
 
+       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Coupen Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupen</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupen</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupen</span></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupen">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupen</span></i>
+            </a>
+          </li>
+
+
+        </ul>
+      </li><!-- End Forms Nav -->
 
 
 
-      <li class="nav-item">
+
+
+      {{!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Category Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -344,7 +376,7 @@
 
 
         </ul>
-      </li><!-- End Forms Nav -->
+      </li><!-- End Forms Nav --> --}}
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav3" data-bs-toggle="collapse" href="#">
@@ -467,7 +499,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Forms</li>
-          <li class="breadcrumb-item active">Elements</li>
+          <li class="breadcrumb-item active">Add Coupen</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -478,22 +510,31 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Add new Category</h5>
+              <h5 class="card-title">Add new Coupen</h5>
 
-              {{#if msg}}
-              <p class="text-center text-danger small">Category Not Added . Try agian</p>
+              {{#if msgTrue}}
+              <p class="text-center text-danger small">New Coupen Added Successfully/p>
+              {{/if}}
+              {{#if msgFalse}}
+              <p class="text-center text-danger small">Coupen Not Added . Try agian</p>
               {{/if}}
               {{#if msgExists}}
               <p class="text-center text-danger small">Category already exist . Try another name</p>
               {{/if}}
 
               <!-- General Form Elements -->
-              <form action="/admin/addNewCategory" method="post">
+              <form action="/admin/addNewCoupen" method="post">
                 <div class="row mb-3">
-                  <label for="inputText" class="col-sm-2 col-form-label">Category Name</label>
+                  <label for="inputText" class="col-sm-2 col-form-label">Coupen Name</label>
                   <div class="col-sm-10">
-                    <input type="text" name="categoryName" class="form-control">
+                    <input type="text" name="coupenName" class="form-control">
                   </div>
+
+                   <label for="inputText" class="col-sm-2 col-form-label">Discount in Percentage</label>
+                  <div class="col-sm-10">
+                    <input type="Number" name="coupenPercentage" class="form-control">
+                  </div>
+                  
                 </div>
 
                 <div class="row mb-3">

@@ -20,13 +20,14 @@ router.get("/editProductDetails",productControllers.editProductDetails)
 router.get("/delete-product",productControllers.deleteProduct)
 router.get("/userList",adminControllers.userList)
 router.get("/block-unblock",adminControllers.userBlockUnblock)
+router.get("/list-unlist-product/:id",productControllers.listUnlistProduct)
+
 router.get("/addCategory",adminControllers.addCategory)
 router.get("/showCategory",adminControllers.showCategory)
 router.get("/category-delete",adminControllers.categoryDelete)
 router.get("/list-unlist-category/:id",adminControllers.listUnlistCategory)
 router.get("/listedCategory",adminControllers.listedCategory)
 router.get("/unListedCategory",adminControllers.unListedCategory)
-router.get("/list-unlist-product/:id",productControllers.listUnlistProduct)
 router.get("/pending-orders",adminControllers.pendingOrders)
 router.get("/order-delivered",adminControllers.orderDelivered)
 router.get("/delivered-orders",adminControllers.delieveredOrders)
@@ -38,6 +39,8 @@ router.get("/return-accept",adminControllers.returnAccept)
 router.get("/return-defective",adminControllers.returnDefective)
 router.get("/return-nonDefective",adminControllers.returnNonDefective)
 router.get("/adminChartLoad", adminControllers.adminChartLoad);
+router.get("/addCoupen",adminControllers.addCoupen)
+router.get("/showCoupen",adminControllers.showCoupen)
 
 
 
@@ -50,6 +53,9 @@ router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',3), productControllers.addProduct)
 router.post("/edited-ProductDetails",upload.array('image',3),productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
+router.post("/addNewCoupen",adminControllers.addNewCoupen)
+
+
 
 
 
