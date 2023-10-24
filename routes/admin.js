@@ -38,12 +38,12 @@ router.get("/return-accept",adminControllers.returnAccept)
 router.get("/return-defective",adminControllers.returnDefective)
 router.get("/return-nonDefective",adminControllers.returnNonDefective)
 router.get("/adminChartLoad", adminControllers.adminChartLoad);
-router.get("/addCoupen",adminControllers.addCoupen)
-router.get("/showCoupen",adminControllers.showCoupen)
-router.get("/listedCoupen",adminControllers.showListedCoupen)
-router.get("/unlistedCoupen",adminControllers.showUnlistedCoupen)
-router.get("/list-unlist-coupen/:id",adminControllers.listUnlistCoupen)
-router.get("/coupen-delete",adminControllers.coupenDelete)
+router.get("/addCoupon",adminControllers.addCoupon)
+router.get("/showCoupon",adminControllers.showCoupon)
+router.get("/listedCoupon",adminControllers.showListedCoupon)
+router.get("/unlistedCoupon",adminControllers.showUnlistedCoupon)
+router.get("/list-unlist-coupon/:id",adminControllers.listUnlistCoupon)
+router.get("/coupon-delete",adminControllers.couponDelete)
 
 
 
@@ -56,7 +56,8 @@ router.post("/adminLogin", adminControllers.adminLogin)
 router.post("/addProduct", upload.array('image',3), productControllers.addProduct)
 router.post("/edited-ProductDetails",upload.array('image',3),productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
-router.post("/addNewCoupen",adminControllers.addNewCoupen)
+router.post("/addNewCoupon",adminControllers.addNewCoupon)
+router.post("/coupon-validate",adminControllers.couponValidate)
 
 
 

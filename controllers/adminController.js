@@ -3,7 +3,7 @@ const CategoryModel = require("../models/Category")
 const OrderModel = require("../models/Order")
 const ProductModel = require("../models/Product")
 const { response } = require("express")
-const CoupenModel = require("../models/Coupen")
+const CouponModel = require("../models/Coupon")
 
 
 let adminEmail = "admin@gmail.com"
@@ -334,38 +334,38 @@ const returnNonDefective = async (req, res) => {
 }
 
 
-const addCoupen = async (req, res) => {
+const addCoupon = async (req, res) => {
     try {
-        res.render("admin/add-coupen")
+        res.render("admin/add-coupon")
     } catch (err) {
         console.log(err, "catch error")
     }
 }
 
 
-const addNewCoupen = async (req, res) => {
+const addNewCoupon = async (req, res) => {
     try {
-        const { coupenName, coupenPercentage } = req.body
+        const { couponName, couponPercentage } = req.body
 
         const data = {
-            coupenName: coupenName,
-            coupenPercentage: coupenPercentage,
+            couponName: couponName,
+            couponPercentage: couponPercentage,
             listStatus: true
         }
-        const exists = await CoupenModel.findOne({ coupenName: coupenName });
+        const exists = await CouponModel.findOne({ couponName: couponName });
 
         if (exists) {
             let msgExists = true
-            res.render("admin/add-coupen", { msgExists })
+            res.render("admin/add-coupon", { msgExists })
         } else {
-            const coupenAdded = await CoupenModel.create(data)
-            if (coupenAdded) {
+            const couponAdded = await CouponModel.create(data)
+            if (couponAdded) {
                 msgTrue = true
-                res.render("admin/add-coupen", { msgTrue })
+                res.render("admin/add-coupon", { msgTrue })
 
             } else {
                 msgFalse = true
-                res.render("admin/add-coupen", { msgFalse })
+                res.render("admin/add-coupon", { msgFalse })
             }
         }
     } catch (err) {
@@ -373,61 +373,87 @@ const addNewCoupen = async (req, res) => {
     }
 }
 
-const showCoupen = async (req, res) => {
+const showCoupon = async (req, res) => {
     try {
-        const showCoupen = await CoupenModel.find()
-        res.render("admin/show-coupens", { showCoupen })
+        const showCoupon = await CouponModel.find()
+        res.render("admin/show-coupons", { showCoupon })
     } catch (err) {
         consoel.log(err)
     }
 }
 
 
-const showListedCoupen = async (req, res) => {
+const showListedCoupon = async (req, res) => {
     try {
-        const listedCoupen = await CoupenModel.find({ listStatus: true })
-        res.render("admin/listed-coupen", { listedCoupen })
+        const listedCoupon = await CouponModel.find({ listStatus: true })
+        res.render("admin/listed-coupon", { listedCoupon })
     } catch (err) {
         console.log(err)
     }
 }
 
-const showUnlistedCoupen = async (req, res) => {
+const showUnlistedCoupon = async (req, res) => {
     try {
-        const unlistedCoupen = await CoupenModel.find({ listStatus: false })
-        res.render("admin/unlisted-coupen", { unlistedCoupen })
+        const unlistedCoupon = await CouponModel.find({ listStatus: false })
+        res.render("admin/unlisted-coupon", { unlistedCoupon })
     } catch (err) {
         console.log(err)
     }
 }
 
-const listUnlistCoupen = async (req, res) => {
+const listUnlistCoupon = async (req, res) => {
     try {
-        const coupenData = await CoupenModel.findById({ _id: req.params.id })
-        const updated = await CoupenModel.updateOne({ _id: req.params.id }, { $set: { listStatus: !coupenData.listStatus } })
+        const couponData = await CouponModel.findById({ _id: req.params.id })
+        const updated = await CouponModel.updateOne({ _id: req.params.id }, { $set: { listStatus: !couponData.listStatus } })
         if (updated) {
-            res.redirect("/admin/showCoupen")
+            res.redirect("/admin/showCoupon")
         } else {
             msgUnlist = true
-            res.render("admin/show-coupen", { msgUnlist })
+            res.render("admin/show-coupon", { msgUnlist })
         }
     } catch (err) {
         console.log(err)
     }
 }
 
-const coupenDelete = async (req, res) => {
+const couponDelete = async (req, res) => {
     try {
-        const deleted = await CoupenModel.deleteOne({ _id: req.query.id })
+        const deleted = await CouponModel.deleteOne({ _id: req.query.id })
         if (deleted) {
-            res.redirect("/admin/showCoupen")
+            res.redirect("/admin/showCoupon")
         } else {
             msg = true
-            res.render("admin/show-coupens", { msg })
+            res.render("admin/show-coupons", { msg })
         }
 
     } catch (err) {
 
+    }
+}
+
+const couponValidate = async (req,res) =>{
+    try{
+       let response
+
+       const couponCode = req.body.couponCode
+       const totalAmount = req.body.totalAmount
+       console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhhhh")
+       const couponValidate = await CouponModel.findOne({couponName:couponCode})
+       if(couponValidate){
+        
+        const couponDiscount = (totalAmount * couponValidate.couponPercentage) / 100;
+        const discountTotal = (totalAmount - couponDiscount)
+
+        console.log(discountTotal,"kkkkkkkkkkkkkkkkk")
+        response = { status : true , discountTotal}
+       }else{
+        response = { status : false}
+       }
+
+       res.json(response)
+
+    }catch(err){
+        console.log(err)
     }
 }
 
@@ -455,12 +481,13 @@ module.exports = {
     returnDefective,
     returnNonDefective,
     adminChartLoad,
-    addCoupen,
-    addNewCoupen,
-    showCoupen,
-    showListedCoupen,
-    showUnlistedCoupen,
-    listUnlistCoupen,
-    coupenDelete
+    addCoupon,
+    addNewCoupon,
+    showCoupon,
+    showListedCoupon,
+    showUnlistedCoupon,
+    listUnlistCoupon,
+    couponDelete,
+    couponValidate
 
 }

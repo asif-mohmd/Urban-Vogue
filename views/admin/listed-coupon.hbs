@@ -325,28 +325,28 @@
 
  <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Coupen Management</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Coupon Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupon</span></i>
             </a>
           </li>
 
@@ -506,11 +506,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Listed Coupen</h1>
+      <h1>Listed Coupon</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-          <li class="breadcrumb-item">Listed Coupen</li>
+          <li class="breadcrumb-item">Listed Coupon</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -521,9 +521,9 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Listed Coupen</h5>
+              <h5 class="card-title">Listed Coupon</h5>
               {{#if msg}}
-              <p class="text-center text-danger small">Coupen Not deleted . Try agian</p>
+              <p class="text-center text-danger small">Coupon Not deleted . Try agian</p>
               {{/if}}
               <!-- Table with stripped rows -->
               <table class="table datatable">
@@ -536,10 +536,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each listedCoupen}}
+                  {{#each listedCoupon}}
                   <tr>
                     <th scope="row">{{@key}}</th>
-                    <td>{{coupenName}}</td>
+                    <td>{{couponName}}</td>
 
 
                   </tr>

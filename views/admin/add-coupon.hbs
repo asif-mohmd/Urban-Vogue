@@ -31,16 +31,6 @@
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-  <!-- MDB -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
-
   <!-- =======================================================
   * Template Name: NiceAdmin
   * Updated: Aug 30 2023 with Bootstrap v5.3.1
@@ -322,37 +312,39 @@
       </li><!-- End Forms Nav -->
 
 
-
-     <li class="nav-item">
+       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Coupen Management</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Coupon Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupon</span></i>
             </a>
           </li>
 
 
         </ul>
       </li><!-- End Forms Nav -->
+
+
+
 
 
       {{!-- <li class="nav-item">
@@ -451,9 +443,6 @@
 
 
 
-
-
-
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
@@ -462,7 +451,6 @@
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
-
 
 
       <li class="nav-item">
@@ -502,61 +490,75 @@
 
 
 
+
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Unlisted Coupen</h1>
+      <h1>Form Elements</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-          <li class="breadcrumb-item">Unlisted Coupen</li>
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Forms</li>
+          <li class="breadcrumb-item active">Add Coupon</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-9">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Unlisted Coupen</h5>
-              {{#if msg}}
-              <p class="text-center text-danger small">Coupen Not deleted . Try agian</p>
+              <h5 class="card-title">Add new Coupon</h5>
+
+              {{#if msgTrue}}
+              <p class="text-center text-success small">New Coupon Added Successfully</p>
               {{/if}}
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
+              {{#if msgFalse}}
+              <p class="text-center text-danger small">Coupon Not Added . Try agian</p>
+              {{/if}}
+              {{#if msgExists}}
+              <p class="text-center text-danger small">Category already exist . Try another name</p>
+              {{/if}}
 
+              <!-- General Form Elements -->
+              <form action="/admin/addNewCoupon" method="post">
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Coupon Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="couponName" class="form-control">
+                  </div>
 
-                  </tr>
-                </thead>
-                <tbody>
-                  {{#each unlistedCoupen}}
-                  <tr>
-                    <th scope="row">{{@key}}</th>
-                    <td>{{coupenName}}</td>
+                   <label for="inputText" class="col-sm-2 col-form-label">Discount in Percentage</label>
+                  <div class="col-sm-10">
+                    <input type="Number" name="couponPercentage" class="form-control">
+                  </div>
+                  
+                </div>
 
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Submit Button</label>
+                  <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                  </div>
+                </div>
 
-                  </tr>
-                  {{/each}}
-
-
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
+              </form><!-- End General Form Elements -->
 
             </div>
           </div>
 
         </div>
+
       </div>
     </section>
 
   </main><!-- End #main -->
+
+
+
+
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
@@ -575,6 +577,10 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
 
+
+
+
+
   <!-- Vendor JS Files -->
   <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -588,18 +594,36 @@
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
 
-
-  <!-- MDB -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
-
-  <script>
-    function userBlockUnblockHandler() {
-      console.log('clicked <<<<')
-      window.location.reload()
-      // window.onload
-    }
-  </script>
-
 </body>
 
 </html>
+
+{{!--       <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
+                  <div class="col-sm-10">
+                    <textarea name="description" class="form-control" style="height: 100px"></textarea>
+                  </div>
+                </div>
+                <fieldset class="row mb-3">
+                  <legend class="col-form-label col-sm-2 pt-0">Category</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="category" id="gridRadios1" value="mens">
+                      <label class="form-check-label" for="gridRadios1">
+                        Mens
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="category" id="gridRadios2" value="womens">
+                      <label class="form-check-label" for="gridRadios2">
+                        Womens
+                      </label>
+                    </div>
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="category" id="gridRadios" value="kids">
+                      <label class="form-check-label" for="gridRadios3">
+                        Kids
+                      </label>
+                    </div>
+                  </div>
+                </fieldset> --}}

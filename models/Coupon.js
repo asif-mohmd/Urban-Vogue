@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const CoupenSchema = new mongoose.Schema({
-    coupenName: {
+const CouponSchema = new mongoose.Schema({
+    couponName: {
         type: String,
         required: true,
     },
-    coupenPercentage:{
+    couponPercentage:{
         type: Number,
         required: true
     },
@@ -16,5 +16,5 @@ const CoupenSchema = new mongoose.Schema({
 
 
 })
-const CoupenModel = mongoose.model("Coupen", CoupenSchema);
-module.exports = CoupenModel;
+const CouponModel = mongoose.model("Coupon", CouponSchema);
+module.exports = CouponModel;

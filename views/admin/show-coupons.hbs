@@ -326,28 +326,28 @@
 
         <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Coupen Management</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Coupon Management</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav1" href="/admin/addCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Add Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/showCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show All Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/listedCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Listed Coupon</span></i>
             </a>
           </li>
           <li>
-            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupen">
-              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupen</span></i>
+            <a class="nav-link collapsed" data-bs-target="#tables-nav2" href="/admin/unlistedCoupon">
+              <i class="bi bi-layout-text-window-reverse"></i><span>Show Unlisted Coupon</span></i>
             </a>
           </li>
 
@@ -507,11 +507,11 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Coupen List</h1>
+      <h1>Coupon List</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-          <li class="breadcrumb-item">Coupen List</li>
+          <li class="breadcrumb-item">Coupon List</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -522,9 +522,9 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Coupen List</h5>
+              <h5 class="card-title">Coupon List</h5>
               {{#if msg}}
-              <p class="text-center text-danger small">Coupen Not deleted . Try agian</p>
+              <p class="text-center text-danger small">Coupon Not deleted . Try agian</p>
               {{/if}}
               {{#if msgUnlist}}
               <p class="text-center text-danger small">Something went wrong . Try agian</p>
@@ -544,11 +544,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {{#each showCoupen}}
+                  {{#each showCoupon}}
                   <tr>
                     <th scope="row">{{@key}}</th>
-                    <td>{{coupenName}}</td>
-                    <td>{{coupenPercentage}}%</td>
+                    <td>{{couponName}}</td>
+                    <td>{{couponPercentage}}%</td>
                     {{#if this.listStatus}}
                     <td>
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
@@ -558,7 +558,7 @@
                     </td>
                     {{else}}
                     <td>
-                      <a href="/admin/list-unlist-coupen/{{this._id}}">
+                      <a href="/admin/list-unlist-coupon/{{this._id}}">
                         <button class="btn btn-success">List</button>
                       </a>
                     </td>
@@ -566,7 +566,7 @@
 
 
                     <td>
-                      <a href="/admin/coupen-delete?id={{this._id}}">
+                      <a href="/admin/coupon-delete?id={{this._id}}">
                         <button class="btn btn-danger">Delete</button>
                       </a>
                     </td>
@@ -583,10 +583,10 @@
                             <button type="button" class="btn-close" data-mdb-dismiss="modal"
                               aria-label="Close"></button>
                           </div>
-                          <div class="modal-body">Are you sure you want to unlist this coupen?</div>
+                          <div class="modal-body">Are you sure you want to unlist this coupon?</div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                            <a href="/admin/list-unlist-coupen/{{this._id}}">
+                            <a href="/admin/list-unlist-coupon/{{this._id}}">
                               <button type="button" class="btn btn-primary">Save changes</button>
                             </a>
                           </div>
