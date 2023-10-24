@@ -16,7 +16,7 @@ const { response } = require("express");
 const puppeteer = require("puppeteer")
 const AddressModel = require("../models/Address")
 const { ObjectId } = require('mongodb');
-
+const CouponModel = require("../models/Coupon")
 
 
 var instance = new Razorpay({
@@ -383,6 +383,7 @@ const placeOrder = async (req, res) => {
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
   const userId = req.session.user._id;
+  const finalAmount = req.body.finalAmount
   let userAddress = await AddressModel.findOne({ userId: userId});
   userAddress = userAddress.address
 
@@ -392,9 +393,6 @@ const placeOrder = async (req, res) => {
 
   console.log(address, "gottttttttttttt");
   
-
-   // assuming user._id is stored in the session
-  let total = await getTotalAmout(userId)
 
   const cartItems = await getProducts(userId)
   
@@ -416,7 +414,7 @@ const placeOrder = async (req, res) => {
     "address": address,
     "date": formattedDate,
     products: products,
-    "amount": total[0].total,
+    "amount": finalAmount,
     "paymentMethod": "COD",
     "status": "pending"
 
@@ -441,7 +439,7 @@ const placeOrder = async (req, res) => {
 
       if (stockUpdate) {
 
-        await UserModel.updateOne({_id:userId},{$inc:{wallet: -total[0].total}})
+        await UserModel.updateOne({_id:userId},{$inc:{wallet: -finalAmount}})
 
         const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
         const updatedDetails = await OrderModel.updateOne({ orderId:  order.orderId }, { $set: { paymentMethod: "Wallet" } })
@@ -458,7 +456,7 @@ const placeOrder = async (req, res) => {
 
     else if (req.body.paymentMethod == 'Online') {
 
-        const order = await generateRazorpay(randomOrderId, total)
+        const order = await generateRazorpay(randomOrderId, finalAmount)
         
         response = { status: true, order }
         res.json(response);
@@ -530,10 +528,10 @@ async function stockQuantityUpdate(){
 }
 
 
-const generateRazorpay = async (randomOrderId, total) => {
+const generateRazorpay = async (randomOrderId, finalAmount) => {
   try {
     const order = await instance.orders.create({
-      amount: total[0].total * 100,
+      amount: finalAmount * 100,
       currency: "INR",
       receipt: randomOrderId,
       notes: {
@@ -1113,7 +1111,33 @@ const invoiceReport = async (req, res) => {
 }
 
 
+const couponValidate = async (req,res) =>{
+  try{
+     let response
 
+     const couponCode = req.body.couponCode
+     const totalAmount = req.body.totalAmount
+     console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhhhh")
+     const couponValidate = await CouponModel.findOne({couponName:couponCode})
+     if(couponValidate){
+      
+      const couponDiscount = (totalAmount * couponValidate.couponPercentage) / 100;
+      const discountTotal = (totalAmount - couponDiscount)
+
+      
+
+      console.log(discountTotal,"bbbbbbbbbbbbb")
+      response = { status : true , discountTotal}
+     }else{
+      response = { status : false}
+     }
+
+     res.json(response)
+
+  }catch(err){
+      console.log(err)
+  }
+}
 
 
 
@@ -1152,7 +1176,8 @@ module.exports = {
   invoiceReport,
   addNewAddressUser,
   addNewAddressCheckout,
-  removeNewAddress
+  removeNewAddress,
+  couponValidate
 
 
 };

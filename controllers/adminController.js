@@ -431,31 +431,7 @@ const couponDelete = async (req, res) => {
     }
 }
 
-const couponValidate = async (req,res) =>{
-    try{
-       let response
 
-       const couponCode = req.body.couponCode
-       const totalAmount = req.body.totalAmount
-       console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhhhh")
-       const couponValidate = await CouponModel.findOne({couponName:couponCode})
-       if(couponValidate){
-        
-        const couponDiscount = (totalAmount * couponValidate.couponPercentage) / 100;
-        const discountTotal = (totalAmount - couponDiscount)
-
-        console.log(discountTotal,"kkkkkkkkkkkkkkkkk")
-        response = { status : true , discountTotal}
-       }else{
-        response = { status : false}
-       }
-
-       res.json(response)
-
-    }catch(err){
-        console.log(err)
-    }
-}
 
 module.exports = {
     adminDashboard,
@@ -488,6 +464,6 @@ module.exports = {
     showUnlistedCoupon,
     listUnlistCoupon,
     couponDelete,
-    couponValidate
+   
 
 }

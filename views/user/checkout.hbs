@@ -156,26 +156,37 @@
                     </div>
 
                     <div class="col-lg-4">
-                        <div>
-                            <div class="discount__content">
-                                <h6>Discount codes</h6>
-                                <form action="#">
-                                    <input type="text" placeholder="Enter your coupon code">
-                                    <button type="submit" class="site-btn">Apply</button>
-                                </form>
-                            </div>
+                        <div class="discount__content m-3">
+                            <h6>Discount codes</h6>
+                            <form action="#">
+                                <input type="text" id="couponCode" placeholder="Enter your coupon code">
+                                <button type="submit" class="site-btn" onclick="applyCoupon()">Apply</button>
+                            </form>
+
+
                         </div>
 
-
+                        <p class="ml-3 mt-1 text-danger" id="invalidCoupon" style="display: none;">Invalid Coupon</p>
+                        <p class="ml-3 mt-1 text-success" id="validCoupon" style="display: none;">Coupon Added</p>
 
                         <div>
                             <div class="checkout__order mt-3">
                                 <h5>Your order</h5>
-                               <div class="checkout__order__total">
-                                    <ul>
-                                        {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
-                                        <li>Total ₹<span id="totalAmount">{{total}}</span></li>
-                                    </ul>
+                                <div class="checkout__order__total">
+                                    <div style="display: block;" id="onlyTotal">
+                                        <ul>
+                                            {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
+                                            <li>Total ₹<span id="totalValue">{{total}}</span></li>
+                                        </ul>
+                                    </div>
+                                    <div style="display: none;" id="discountTotal">
+                                        <ul>
+                                            {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
+                                            <li>Total ₹<span id="totalValue"><strike>{{total}}</strike></span></li>
+                                            <li>Discount Price ₹<span id="discountPrice"></span></li>
+                                        </ul>
+                                    </div>
+
                                 </div>
                                 <div class="col-sm-10">
                                     <div class="form-check">
@@ -320,19 +331,73 @@
 
 
 
+        function applyCoupon() {
+
+            const couponCode = document.getElementById("couponCode").value;
+            const totalAmount = document.getElementById("totalValue").textContent;
+
+            console.log(couponCode, "[[[[[[[[[[[]]]]]]]]]]]")
+
+            fetch("/coupon-validate", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    couponCode: couponCode,
+                    totalAmount: totalAmount
+
+                })
+            }).then(response => response.json())
+                .then(response => {
+                    if (response.status == false) {
+                        document.getElementById("invalidCoupon").style.display = "block";
+                        document.getElementById("validCoupon").style.display = "none";
+                        document.getElementById("discountTotal").style.display = "none"
+                        document.getElementById("onlyTotal").style.display = "block"
+
+                    } else {
+
+                        console.log(response.discountTotal, "dddddddddddddd")
+                        document.getElementById("invalidCoupon").style.display = "none";
+                        document.getElementById("validCoupon").style.display = "block";
+                        document.getElementById("onlyTotal").style.display = "none"
+
+                        document.getElementById("discountTotal").style.display = "block"
+                        document.getElementById('discountPrice').innerText =  response.discountTotal;
+
+                    }
+
+                })
+
+
+        }
+
 
 
 
         function placeOrderSubmit() {
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            let finalAmount = 0
+
+            if(document.getElementById("discountTotal").style.display === "block"){
+                   finalAmount = document.getElementById('discountPrice').textContent;
+                  console.log(finalAmount,"llllllllllllllllllll")
+            }else{
+               
+
+                  finalAmount = document.getElementById('totalValue').innerText;
+                   console.log(finalAmount,"sssssssssssssssssssss")
+
+            }
 
             if (paymentMethod === "Wallet") {
                 var walletElement = document.getElementById('walletAmount');
-                var totalElement = document.getElementById('totalAmount');
+                
 
                 // Get the content of the selected element
                 var walletAmount = walletElement.innerText;
-                var totalAmount = totalElement.innerText;
+                var totalAmount = finalAmount.innerText;
 
                 // Extract the numeric value from the content
                 var walletAmount = parseInt(walletAmount);
@@ -343,14 +408,14 @@
 
                 if (totalAmount <= walletAmount) {
                     console.log("wallet")
-                    paymentMethodCheck(paymentMethod)
+                    paymentMethodCheck(paymentMethod,finalAmount)
 
 
                 } else {
                     document.getElementById('InsufficientWallet').textContent = "Insufficient wallet amount";
                 }
             } else {
-                paymentMethodCheck(paymentMethod)
+                paymentMethodCheck(paymentMethod,finalAmount)
                 console.log("noo walleet")
             }
             // Find the selected address ID
@@ -363,7 +428,7 @@
 
 
 
-        function paymentMethodCheck(paymentMethod) {
+        function paymentMethodCheck(paymentMethod,finalAmount) {
             let selectedAddressId;
 
 
@@ -374,7 +439,7 @@
                 selectedAddressId = checkedInput.id.split('_')[1]; // Extract the ID from the input's ID attribute
             }
 
-            console.log(paymentMethod, "method", selectedAddressId,);
+            console.log(paymentMethod, "method", selectedAddressId,"ammmtttt",finalAmount);
 
 
             $.ajax({
@@ -382,7 +447,8 @@
                 method: 'post',
                 data: {
                     paymentMethod: paymentMethod,
-                    selectedAddressId: selectedAddressId
+                    selectedAddressId: selectedAddressId,
+                    finalAmount:finalAmount
                 },
                 success: ((response) => {
                     console.log(response, "ajaxxxxxxxxxxxxxxxxx")

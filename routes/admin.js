@@ -57,7 +57,7 @@ router.post("/addProduct", upload.array('image',3), productControllers.addProduc
 router.post("/edited-ProductDetails",upload.array('image',3),productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
 router.post("/addNewCoupon",adminControllers.addNewCoupon)
-router.post("/coupon-validate",adminControllers.couponValidate)
+
 
 
 
