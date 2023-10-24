@@ -29,38 +29,62 @@ var instance = new Razorpay({
 
 const indexView = async (req, res) => {
 
+  try{
+    const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
+    res.render("user/index", { products });
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
-  const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
-  res.render("user/index", { products });
 }
 
 
 const registerView = (req, res) => {
-  res.render("user/register", {});
+  try{
+    res.render("user/register", {});
+  }catch(err){
+    console.log(err,"catch error")
+  }
+
 }
 
 
 const otpView = (req, res) => {
-  res.render("user/otp")
+  try{
+    res.render("user/otp")
+  }catch(err){
+    console.log(err,"catch error")
+  }
+
 }
 
 
 const otpVerification = async (req, res) => {
-
-  const { otpNum1, otpNum2, otpNum3, otpNum4, otpNum5, otpNum6 } = req.body
-  const combinedOTP = otpNum1 + otpNum2 + otpNum3 + otpNum4 + otpNum5 + otpNum6;
-  if (combinedOTP == session.otp) {
-    data = session.userData
-    const user = await UserModel.create(data)
-    res.redirect("/")
-  } else {
-    msg = true
-    res.render("user/otp", { msg })
+  try{
+    const { otpNum1, otpNum2, otpNum3, otpNum4, otpNum5, otpNum6 } = req.body
+    const combinedOTP = otpNum1 + otpNum2 + otpNum3 + otpNum4 + otpNum5 + otpNum6;
+    if (combinedOTP == session.otp) {
+      data = session.userData
+      const user = await UserModel.create(data)
+      res.redirect("/")
+    } else {
+      msg = true
+      res.render("user/otp", { msg })
+    }
+  }catch(err){
+    console.log(err,"catch error")
   }
+
+ 
 }
 
 
 const registerUser = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   const { name, email, mobile, address, city, state, pincode, password, confirmPassword } = req.body;
   await sendMail(email)
   if (password !== confirmPassword) {
@@ -227,12 +251,22 @@ const removeNewAddress = async (req,res)=>{
 
 
 const loginView = (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   res.render("user/login", {});
 }
 
 
 
 const loginUser = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email: email })
   if (user) {
@@ -257,12 +291,22 @@ const loginUser = async (req, res) => {
 }
 
 const userLogout = (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   req.session.destroy((err) => {
     res.redirect('/') // will always fire after session is destroyed
   })
 }
 
 const userProfile = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   const userId = req.session.user._id
   const userDetails = await UserModel.findById({ _id: userId })
   const newAddress = await AddressModel.findOne({userId:userId})
@@ -350,6 +394,11 @@ const editProfile = async (req, res) => {
 
 
 const cartView = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
   const userId = req.session.user._id;
 
@@ -376,6 +425,11 @@ const cartView = async (req, res) => {
 
 
 const placeOrder = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   let response;
   console.log(req.body,"boxxxxxxxxxxxxxxxxxxxxxxxx")
   const selectedAddressId = new ObjectId(req.body.selectedAddressId); 
@@ -487,7 +541,11 @@ const placeOrder = async (req, res) => {
 
 
 async function stockQuantityUpdate(){
+  try{
 
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
   const cartItems = await getProducts(userId)
   
@@ -555,6 +613,11 @@ const generateRazorpay = async (randomOrderId, finalAmount) => {
 
 
 const verifyPayment = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   console.log('Inside verifyPayment function');
   console.log(req.body, 'verify payment razor completed');
   const verificationSuccess = await paymentVerifiaction(req.body)
@@ -581,6 +644,11 @@ const verifyPayment = async (req, res) => {
 
 
 const paymentVerifiaction = (details) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
   const crypto = require('crypto')
   let hmac = crypto.createHmac("sha256", "X3yBumo4FEeZywGxjU5zFovG")
@@ -729,6 +797,11 @@ const changeProductQuantity = async (req, res) => {
 };
 
 const getTotalAmout = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
   userId = req
 
@@ -778,6 +851,11 @@ const getTotalAmout = async (req, res) => {
 
 
 const proceedToCheckout = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
   const userId = req.session.user._id
 
@@ -793,6 +871,11 @@ const proceedToCheckout = async (req, res) => {
 
 
 const ordersView = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
 
   const pendingOrders = await OrderModel.find().sort({$natural:-1})
@@ -807,6 +890,11 @@ const ordersView = async (req, res) => {
 
 
 const cancelUserOrder = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   const orderId = req.query.id
 
 
@@ -845,6 +933,11 @@ const cancelUserOrder = async (req, res) => {
 
 
 const getProducts = async (userId) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   const cartItems = await CartModel.aggregate([
     {
       $match: { userId: userId }
@@ -980,16 +1073,30 @@ const returnUserOrder = async (req, res) => {
 }
 
 const contactView = (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   res.render("user/contact")
 }
 
 const orderResponseView = (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
   res.render("user/order-response")
 }
 
 
 const loadReport = async (req, res) => {
+  try{
 
+  }catch(err){
+    console.log(err,"catch error")
+  }
   const recentOrders = await OrderModel.find({ status: 'delivered' })
 
   res.render("admin/sales-report", { recentOrders })
@@ -1044,6 +1151,11 @@ const generateReport = async (req, res) => {
 
 
 const invoiceView = async (req, res) => {
+  try{
+
+  }catch(err){
+    console.log(err,"catch error")
+  }
 
   const today = new Date();
 
@@ -1069,6 +1181,7 @@ const invoiceView = async (req, res) => {
 
 
 const invoiceReport = async (req, res) => {
+  
 
   const orderObjId = req.query.id
   console.log(orderObjId, "kkkkkkkkkkkkkkk")
