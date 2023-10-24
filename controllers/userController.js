@@ -379,7 +379,7 @@ const placeOrder = async (req, res) => {
   let response;
   console.log(req.body,"boxxxxxxxxxxxxxxxxxxxxxxxx")
   const selectedAddressId = new ObjectId(req.body.selectedAddressId); 
-  const randomOrderId = await generateRandomOrder();
+  const randomOrderId = generateRandomOrder();
   const currentDate = new Date();
   const formattedDate = formatDate(currentDate);
   const userId = req.session.user._id;

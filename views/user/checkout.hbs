@@ -156,45 +156,62 @@
                     </div>
 
                     <div class="col-lg-4">
-                        <div class="checkout__order">
-                            <h5>Your order</h5>
-
-                            <div class="checkout__order__total">
-                                <ul>
-                                    {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
-                                    <li>Total ₹<span id="totalAmount">{{total}}</span></li>
-                                </ul>
+                        <div>
+                            <div class="discount__content">
+                                <h6>Discount codes</h6>
+                                <form action="#">
+                                    <input type="text" placeholder="Enter your coupon code">
+                                    <button type="submit" class="site-btn">Apply</button>
+                                </form>
                             </div>
-                            <div class="col-sm-10">
-                                <div class="form-check">
-                                    <p class="text-danger font-weight-bold" id="InsufficientWallet"></p>
-                                    <input class="form-check-input" type="radio" name="paymentMethod"
-                                        id="paymentMethodWallet" value="Wallet">
-                                    <label class="form-check-label font-weight-bold text-success"
-                                        for="paymentMethodOnline">
+                        </div>
 
-                                        Wallet : ₹ <span class="" id="walletAmount">{{userDetails.wallet}}</span>
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod"
-                                        id="paymentMethodCOD" value="COD">
-                                    <label class="form-check-label" for="paymentMethodCOD">
-                                        Cash on Delivery
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod"
-                                        id="paymentMethodOnline" value="Online">
-                                    <label class="form-check-label" for="paymentMethodOnline">
-                                        Online Payment
-                                    </label>
-                                </div>
 
+
+                        <div>
+                            <div class="checkout__order mt-3">
+                                <h5>Your order</h5>
+                               <div class="checkout__order__total">
+                                    <ul>
+                                        {{!-- <li>Subtotal <span>$ 750.0</span></li> --}}
+                                        <li>Total ₹<span id="totalAmount">{{total}}</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <p class="text-danger font-weight-bold" id="InsufficientWallet"></p>
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            id="paymentMethodWallet" value="Wallet">
+                                        <label class="form-check-label font-weight-bold text-success"
+                                            for="paymentMethodOnline">
+
+                                            Wallet : ₹ <span class="" id="walletAmount">{{userDetails.wallet}}</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            id="paymentMethodCOD" value="COD">
+                                        <label class="form-check-label" for="paymentMethodCOD">
+                                            Cash on Delivery
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod"
+                                            id="paymentMethodOnline" value="Online">
+                                        <label class="form-check-label" for="paymentMethodOnline">
+                                            Online Payment
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <button type="submit" onclick="placeOrderSubmit()" class="site-btn mt-4"
+                                    id="placeOrderButton">Place oder</button>
                             </div>
-                            <button type="submit" onclick="placeOrderSubmit()" class="site-btn mt-4" id="placeOrderButton">Place oder</button>
                         </div>
                     </div>
+
+
+
                 </div>
             </div>
         </div>
@@ -300,7 +317,7 @@
 
 
     <script>
-        
+
 
 
 
@@ -330,7 +347,8 @@
 
 
                 } else {
-                  document.getElementById('InsufficientWallet').textContent = "Insufficient wallet amount";                }
+                    document.getElementById('InsufficientWallet').textContent = "Insufficient wallet amount";
+                }
             } else {
                 paymentMethodCheck(paymentMethod)
                 console.log("noo walleet")
@@ -450,7 +468,7 @@
                 success: function (response) {
                     console.log(response, "ajaxxxxxxxxxxxxxxxxx");
 
-                    
+
 
                     if (response === false) {
                         location.href = '/payment-error';

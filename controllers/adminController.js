@@ -11,43 +11,48 @@ let adminPassword = "123"
 
 
 const adminLoginView = (req, res) => {
-    res.render("admin/login")
+    try {
+        res.render("admin/login")
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
-
 const adminLogin = (req, res) => {
-    const { email, password } = req.body
-    if (email === adminEmail && password == adminPassword) {
-        req.session.admin = true
-        res.redirect("/admin")
-    } else {
-        res.redirect("/admin/login")
+    try {
+        const { email, password } = req.body
+        if (email === adminEmail && password == adminPassword) {
+            req.session.admin = true
+            res.redirect("/admin")
+        } else {
+            res.redirect("/admin/login")
+        }
+    } catch (err) {
+        consoel.log(err, "catched error")
     }
 }
 
 
 const adminDashboard = async (req, res) => {
+    try {
+        let totalDeliveredAmount = 0;
+        const recentOrders = await OrderModel.find({ status: 'delivered' })
+        const countOfDeliveredOrders = await OrderModel.countDocuments({ status: 'delivered' });
+        const countOfUsers = await UserModel.countDocuments();
 
-    let totalDeliveredAmount = 0;
+        recentOrders.forEach(order => {
+            totalDeliveredAmount += order.amount;
+        });
 
-    const recentOrders = await OrderModel.find({ status: 'delivered' })
-    const countOfDeliveredOrders = await OrderModel.countDocuments({ status: 'delivered' });
-    const countOfUsers = await UserModel.countDocuments();
-
-    recentOrders.forEach(order => {
-        totalDeliveredAmount += order.amount;
-    });
-
-    res.render("admin/index", { recentOrders, countOfDeliveredOrders, totalDeliveredAmount, countOfUsers })
+        res.render("admin/index", { recentOrders, countOfDeliveredOrders, totalDeliveredAmount, countOfUsers })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
 const adminChartLoad = async (req, res) => {
-    console.log("Working tetchchhhhhhhhhhhhhhhhhh");
-
     try {
         const data = await OrderModel.find()
-
-
         res.json(data);
     } catch (error) {
         console.error('Error in adminChartLoad:', error);
@@ -55,31 +60,43 @@ const adminChartLoad = async (req, res) => {
     }
 };
 
-
-
 const userList = async (req, res) => {
-    const users = await UserModel.find()
-    res.render("admin/user-list", { users })
-
+    try {
+        const users = await UserModel.find()
+        res.render("admin/user-list", { users })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
 
 const userBlockUnblock = async (req, res) => {
-    const userData = await UserModel.findOne({ _id: req.query.id })
-    await UserModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
-    const users = await UserModel.find({})
-    res.render("admin/user-list", { users })
-}
-const addCategory = (req, res) => {
-    res.render("admin/add-category")
+    try {
+        const userData = await UserModel.findOne({ _id: req.query.id })
+        await UserModel.updateOne({ _id: req.query.id }, { $set: { status: !userData.status } })
+        const users = await UserModel.find({})
+        res.render("admin/user-list", { users })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
+const addCategory = (req, res) => {
+    try {
+        res.render("admin/add-category")
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
+}
 
 const showCategory = async (req, res) => {
-    const showCategory = await CategoryModel.find({})
-    res.render("admin/show-category", { showCategory })
+    try {
+        const showCategory = await CategoryModel.find({})
+        res.render("admin/show-category", { showCategory })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
-
 
 const addNewCategory = async (req, res) => {
     try {
@@ -105,8 +122,6 @@ const addNewCategory = async (req, res) => {
             }
         }
     } catch (error) {
-        // Handle the error
-
         let msg;
         if (error.message === 'Category already exists') {
             msgExists = true;
@@ -117,86 +132,120 @@ const addNewCategory = async (req, res) => {
     }
 };
 
-
 const categoryDelete = async (req, res) => {
-    const deleted = await CategoryModel.deleteOne({ _id: req.query.id })
-    if (deleted) {
-        res.redirect("/admin/showCategory")
-    } else {
-        msg = true
-        res.render("admin/show-category", { msg })
+    try {
+        const deleted = await CategoryModel.deleteOne({ _id: req.query.id })
+        if (deleted) {
+            res.redirect("/admin/showCategory")
+        } else {
+            msg = true
+            res.render("admin/show-category", { msg })
+        }
+    } catch (err) {
+        consoel.log(err, "catched error")
     }
 }
 
 const listUnlistCategory = async (req, res) => {
-    const categoryData = await CategoryModel.findById({ _id: req.params.id })
-    const updated = await CategoryModel.updateOne({ _id: req.params.id }, { $set: { listStatus: !categoryData.listStatus } })
-    if (updated) {
-        res.redirect("/admin/showCategory")
-    } else {
-        msgUnlist = true
-        res.render("admin/show-category", { msgUnlist })
+    try {
+        const categoryData = await CategoryModel.findById({ _id: req.params.id })
+        const updated = await CategoryModel.updateOne({ _id: req.params.id }, { $set: { listStatus: !categoryData.listStatus } })
+        if (updated) {
+            res.redirect("/admin/showCategory")
+        } else {
+            msgUnlist = true
+            res.render("admin/show-category", { msgUnlist })
+        }
+    } catch (err) {
+        consoel.log(err, "catched error")
     }
 }
 
 const listedCategory = async (req, res) => {
-    const listedCategory = await CategoryModel.find({ listStatus: true })
-    res.render("admin/listed-category", { listedCategory })
+    try {
+        const listedCategory = await CategoryModel.find({ listStatus: true })
+        res.render("admin/listed-category", { listedCategory })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
 const deletedProducts = async (req, res) => {
-    const deletedProducts = await ProductModel.find({ deletedProducts: true })
-    res.render("admin/deleted-products", { deletedProducts })
+    try {
+        const deletedProducts = await ProductModel.find({ deletedProducts: true })
+        res.render("admin/deleted-products", { deletedProducts })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
 const unListedCategory = async (req, res) => {
-    const unListedCategory = await CategoryModel.find({ listStatus: !true })
-    res.render("admin/unlisted-category", { unListedCategory })
+    try {
+        const unListedCategory = await CategoryModel.find({ listStatus: !true })
+        res.render("admin/unlisted-category", { unListedCategory })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
 const pendingOrders = async (req, res) => {
-    const pendingOrders = await OrderModel.find({ status: "pending" })
-
-    res.render("admin/pending-orders", { pendingOrders })
+    try {
+        const pendingOrders = await OrderModel.find({ status: "pending" })
+        res.render("admin/pending-orders", { pendingOrders })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
 const orderDelivered = async (req, res) => {
-    const orderId = req.query.id
-
-    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "delivered" } })
-    if (success) {
-
-        res.redirect("/admin/delivered-orders")
-    } else {
-        console.log("not delivered")
-        res.redirect("/admin/pending-orders")
+    try {
+        const orderId = req.query.id
+        const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "delivered" } })
+        if (success) {
+            res.redirect("/admin/delivered-orders")
+        } else {
+            console.log("not delivered")
+            res.redirect("/admin/pending-orders")
+        }
+    } catch (err) {
+        consoel.log(err, "catched error")
     }
 }
 
 const delieveredOrders = async (req, res) => {
-    const deliveredOrders = await OrderModel.find({ status: "delivered" })
-
-    res.render("admin/delivered-orders", { deliveredOrders })
+    try {
+        const deliveredOrders = await OrderModel.find({ status: "delivered" })
+        res.render("admin/delivered-orders", { deliveredOrders })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
 }
 
 const orderCancelled = async (req, res) => {
-    const orderId = req.query.id
+    try {
+        const orderId = req.query.id
 
-    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
-    if (success) {
-
-
-        res.redirect("/admin/cancelled-orders")
-    } else {
-        console.log("not cancelled")
-        res.redirect("/admin/pending-orders")
+        const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
+        if (success) {
+            res.redirect("/admin/cancelled-orders")
+        } else {
+            console.log("not cancelled")
+            res.redirect("/admin/pending-orders")
+        }
+    } catch (err) {
+        consoel.log(err, "catched error")
     }
 }
-const cancelledOrders = async (req, res) => {
-    const cancelledOrders = await OrderModel.find({ status: "cancelled" })
-    res.render("admin/cancelled-orders", { cancelledOrders })
-}
 
+const cancelledOrders = async (req, res) => {
+    try {
+        const cancelledOrders = await OrderModel.find({ status: "cancelled" })
+        res.render("admin/cancelled-orders", { cancelledOrders })
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
+
+}
 
 const returnPending = async (req, res) => {
     try {
@@ -211,9 +260,12 @@ const returnPending = async (req, res) => {
     }
 };
 
-
-
 const returnAccept = async (req, res) => {
+    try {
+
+    } catch (err) {
+        consoel.log(err, "catched error")
+    }
     const orderObjId = req.query.id
     const status = req.query.status
 
@@ -259,21 +311,27 @@ const returnAccept = async (req, res) => {
 
 
 const returnDefective = async (req, res) => {
-    const returnDefective = await OrderModel.find({ status: "returnAcceptDef" })
-    if (returnDefective) {
-        res.render("admin/return-defective", { returnDefective })
+    try {
+        const returnDefective = await OrderModel.find({ status: "returnAcceptDef" })
+        if (returnDefective) {
+            res.render("admin/return-defective", { returnDefective })
 
+        }
+    } catch (err) {
+        consoel.log(err, "catched error")
     }
 }
 
 const returnNonDefective = async (req, res) => {
-    const returnAcceptNonDef = await OrderModel.find({ status: "returnAcceptNonDef" })
-    if (returnAcceptNonDef) {
-        res.render("admin/return-non-defective", { returnAcceptNonDef })
-
+    try {
+        const returnAcceptNonDef = await OrderModel.find({ status: "returnAcceptNonDef" })
+        if (returnAcceptNonDef) {
+            res.render("admin/return-non-defective", { returnAcceptNonDef })
+        }
+    } catch (err) {
+        consoel.log(err, "catched error")
     }
 }
-
 
 
 const addCoupen = async (req, res) => {
@@ -282,12 +340,10 @@ const addCoupen = async (req, res) => {
     } catch (err) {
         console.log(err, "catch error")
     }
-
 }
 
 
 const addNewCoupen = async (req, res) => {
-
     try {
         const { coupenName, coupenPercentage } = req.body
 
@@ -296,14 +352,21 @@ const addNewCoupen = async (req, res) => {
             coupenPercentage: coupenPercentage,
             listStatus: true
         }
-        const coupenAdded = await CoupenModel.create(data)
-        if (coupenAdded) {
-            msgTrue = true
-            res.render("admin/add-coupen", { msgTrue })
+        const exists = await CoupenModel.findOne({ coupenName: coupenName });
 
+        if (exists) {
+            let msgExists = true
+            res.render("admin/add-coupen", { msgExists })
         } else {
-            msgFalse = true
-            res.render("admin/add-coupen", { msgFalse })
+            const coupenAdded = await CoupenModel.create(data)
+            if (coupenAdded) {
+                msgTrue = true
+                res.render("admin/add-coupen", { msgTrue })
+
+            } else {
+                msgFalse = true
+                res.render("admin/add-coupen", { msgFalse })
+            }
         }
     } catch (err) {
         console.log(err, "catch error")
@@ -313,9 +376,7 @@ const addNewCoupen = async (req, res) => {
 const showCoupen = async (req, res) => {
     try {
         const showCoupen = await CoupenModel.find()
-
         res.render("admin/show-coupens", { showCoupen })
-
     } catch (err) {
         consoel.log(err)
     }
@@ -340,11 +401,9 @@ const showUnlistedCoupen = async (req, res) => {
     }
 }
 
-
 const listUnlistCoupen = async (req, res) => {
     try {
         const coupenData = await CoupenModel.findById({ _id: req.params.id })
-        console.log("oooooooooooooooooooooooo",coupenData)
         const updated = await CoupenModel.updateOne({ _id: req.params.id }, { $set: { listStatus: !coupenData.listStatus } })
         if (updated) {
             res.redirect("/admin/showCoupen")
@@ -352,9 +411,23 @@ const listUnlistCoupen = async (req, res) => {
             msgUnlist = true
             res.render("admin/show-coupen", { msgUnlist })
         }
-
     } catch (err) {
         console.log(err)
+    }
+}
+
+const coupenDelete = async (req, res) => {
+    try {
+        const deleted = await CoupenModel.deleteOne({ _id: req.query.id })
+        if (deleted) {
+            res.redirect("/admin/showCoupen")
+        } else {
+            msg = true
+            res.render("admin/show-coupens", { msg })
+        }
+
+    } catch (err) {
+
     }
 }
 
@@ -387,6 +460,7 @@ module.exports = {
     showCoupen,
     showListedCoupen,
     showUnlistedCoupen,
-    listUnlistCoupen
+    listUnlistCoupen,
+    coupenDelete
 
 }

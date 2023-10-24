@@ -43,6 +43,7 @@ router.get("/showCoupen",adminControllers.showCoupen)
 router.get("/listedCoupen",adminControllers.showListedCoupen)
 router.get("/unlistedCoupen",adminControllers.showUnlistedCoupen)
 router.get("/list-unlist-coupen/:id",adminControllers.listUnlistCoupen)
+router.get("/coupen-delete",adminControllers.coupenDelete)
 
 
 
