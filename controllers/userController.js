@@ -29,7 +29,7 @@ var instance = new Razorpay({
 const indexView = async (req, res) => {
 
   try {
-    const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
+    const products = await ProductModel.find({ listStatus: true, deleteStatus: false }).limit(8)
     res.render("user/index", { products });
   } catch (err) {
     console.log(err, "catch error")
