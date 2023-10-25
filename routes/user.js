@@ -50,7 +50,7 @@ router.post("/verify-payment",userControllers.verifyPayment)
 router.post("/add-new-address",userControllers.addNewAddressUser)
 router.post("/add-new-address-checkout",userControllers.addNewAddressCheckout)
 router.post("/coupon-validate",userControllers.couponValidate)
-router.post("/sort-all-products",productControllers.sortAllProducts)
+
 
 
 

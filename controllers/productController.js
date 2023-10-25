@@ -165,12 +165,12 @@ const editProductView = async (req, res) => {
     } catch (err) {
         console.log(err, "catch error")
     }
-    
+
 }
 
 
 const deleteProduct = async (req, res) => {
-   
+
     try {
         const productId = req.query.id;
         const product = await ProductModel.findById(productId);
@@ -218,35 +218,82 @@ const listUnlistProduct = async (req, res) => {
 
 const productListView = async (req, res) => {
 
+    try {
     const pageNum = req.query.page;
     const perPage = 6
     let docCount
-    let pages 
+    let pages
 
-    try {
-        const documents = await ProductModel.find({ listStatus: true, deleteStatus: false }).countDocuments()
-        const products = await ProductModel.find({ listStatus: true, deleteStatus: false }).skip((pageNum - 1) * perPage ).limit(perPage)
-         
+
+    if (req.query.sort) {
+        console.log(req.query.size, "fffffffffffffffff");
+        const sizes = req.query.size;
+        const category = req.query.category; // Assuming you have the category in the request body
+
+        const products = await ProductModel.find({
+            $and: [
+                { category: category }, // Match the specified category
+                {
+                    $or: [
+                        { 'size.large': { $in: sizes } },  // Match large size
+                        { 'size.medium': { $in: sizes } }, // Match medium size
+                        { 'size.small': { $in: sizes } }   // Match small size
+                    ]
+                }
+            ]
+        }).skip((pageNum - 1) * perPage).limit(perPage)
+
+        const documents = await ProductModel.countDocuments({
+            $and: [
+                { category: category }, // Match the specified category
+                {
+                    $or: [
+                        { 'size.large': { $in: sizes } },  // Match large size
+                        { 'size.medium': { $in: sizes } }, // Match medium size
+                        { 'size.small': { $in: sizes } }   // Match small size
+                    ]
+                }
+            ]
+        });
+
         docCount = documents
-        pages = Math.ceil(docCount/perPage)
-        console.log(docCount,"hhhhhhhhhhhhhh",pages)
+        pages = Math.ceil(docCount / perPage)
+        console.log(docCount, "hhhhhhhhhhhhhh", pages)
 
-         let countPages = []
-        for(let i=0;i<pages;i++){
-            
-            countPages[i] = i+1
+        let countPages = []
+        for (let i = 0; i < pages; i++) {
+
+            countPages[i] = i + 1
         }
-        console.log(countPages,"kkkkkkkkkkk")
+        console.log(countPages, "kkkkkkkkkkk")
 
-        res.render("user/product-list", { products,countPages })
-    } catch (err) {
-        console.log(err, "catch error")
+        res.render("user/product-list", { products, countPages })
+
+
+    } else {
+
+            const documents = await ProductModel.find({ listStatus: true, deleteStatus: false }).countDocuments()
+            const products = await ProductModel.find({ listStatus: true, deleteStatus: false }).skip((pageNum - 1) * perPage).limit(perPage)
+
+            docCount = documents
+            pages = Math.ceil(docCount / perPage)
+            console.log(docCount, "hhhhhhhhhhhhhh", pages)
+
+            let countPages = []
+            for (let i = 0; i < pages; i++) {
+
+                countPages[i] = i + 1
+            }
+            console.log(countPages, "kkkkkkkkkkk")
+
+            res.render("user/product-list", { products, countPages })
+        
+
     }
+} catch (err) {
+    console.log(err, "catch error")
 }
 
-
-const sortAllProducts = async (req,res) =>{
-    console.log(req.body,"fffffffffffffffff")
 }
 
 
@@ -287,7 +334,7 @@ const sortAllProducts = async (req,res) =>{
 
 //       if (totalPages > maxVisiblePages) {
 //         const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-  
+
 //         if (currentPage <= halfVisiblePages) {
 //           endPage = maxVisiblePages;
 //         } else if (currentPage + halfVisiblePages >= totalPages) {
@@ -317,7 +364,7 @@ module.exports = {
     deleteProduct,
     listUnlistProduct,
     productListView,
-    sortAllProducts
+ 
 
 
 }
