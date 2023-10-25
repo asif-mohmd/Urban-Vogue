@@ -34,6 +34,7 @@ router.get("/invoice",userControllers.invoiceView)
 router.get("/invoice-generate",userControllers.invoiceReport)
 router.get("/product-list",productControllers.productListView)
 router.get("/remove-new-address",userControllers.removeNewAddress)
+router.get("/search",userControllers.searchProducts)
 
 
 
@@ -49,6 +50,8 @@ router.post("/verify-payment",userControllers.verifyPayment)
 router.post("/add-new-address",userControllers.addNewAddressUser)
 router.post("/add-new-address-checkout",userControllers.addNewAddressCheckout)
 router.post("/coupon-validate",userControllers.couponValidate)
+router.post("/sort-all-products",productControllers.sortAllProducts)
+
 
 
 

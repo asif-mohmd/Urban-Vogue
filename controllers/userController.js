@@ -1099,6 +1099,20 @@ const couponValidate = async (req, res) => {
 
 
 
+const searchProducts = async (req,res) =>{
+
+  let searchs = req.query.search;
+  // let searchProduct = await productHelper.searchProduct(search);
+  var search=new RegExp(searchs,'i')
+
+  const searchProduct = await ProductModel.find({$or:[{Name:search},{Category:search}]})
+console.log("earch");
+  res.json(searchProduct);
+
+
+res.json(searchProduct);
+}
+
 
 
 
@@ -1135,7 +1149,8 @@ module.exports = {
   addNewAddressUser,
   addNewAddressCheckout,
   removeNewAddress,
-  couponValidate
+  couponValidate,
+  searchProducts
 
 
 };

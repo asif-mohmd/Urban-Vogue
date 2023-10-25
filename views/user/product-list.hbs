@@ -12,6 +12,8 @@
     <link href="assets/img/favicon.png" rel="icon">
 
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -31,6 +33,122 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+
+        .contianer {
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .input-searchbar {
+            background-color: rgb(255, 255, 255);
+            border-radius: 0.8rem;
+
+
+
+        }
+
+        .contianer .TopHeader .InputBox {
+            max-width: 600px;
+            height: 34px;
+            display: -webkit-flex;
+            display: -ms-flex;
+            display: flex;
+            flex-grow: 1;
+            background-color: #fff;
+            -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+            position: relative;
+            border-radius: 0.8rem;
+        }
+
+        .contianer .TopHeader {
+            margin-right: 1%;
+            margin-top: 8.5%;
+            min-height: 2rem;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            -ms-align-items: center;
+            align-items: center;
+            max-width: 600px;
+            border-radius: 0.8rem;
+
+        }
+
+        .contianer .TopHeader .InputBox .SearchResult {
+            position: absolute;
+            top: 36px;
+            left: 0;
+            background-color: #fff;
+            width: 100%;
+            border-top: 1px solid #ccc;
+            border-radius: 0.8rem;
+            display: none;
+            box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .contianer .TopHeader .InputBox input {
+            border: none;
+            outline: none;
+            padding: 8px 0 8px 15px;
+            width: 100%;
+        }
+
+        .contianer .TopHeader .InputBox .SearchIcon {
+            display: -webkit-flex;
+            display: -ms-flex;
+            display: flex;
+            justify-content: center;
+            -ms-align-items: center;
+            align-items: center;
+            padding: 0 15px;
+            font-size: 19px;
+            cursor: pointer;
+        }
+
+        .contianer .TopHeader .InputBox .SearchIcon .fa-search {
+            color: #555;
+        }
+
+        .contianer .TopHeader .InputBox .SearchResult li {
+            list-style: none;
+            padding-left: 20px;
+            display: -webkit-flex;
+            display: -ms-flex;
+            display: flex;
+            -ms-align-items: center;
+            align-items: center;
+        }
+
+        .contianer .TopHeader .InputBox .SearchResult li a {
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 15px;
+            display: block;
+            width: 100%;
+            color: #696262;
+        }
+
+        .contianer .TopHeader .InputBox .SearchResult li:hover {
+            background-color: #eee;
+            border-radius: 0.8rem;
+
+        }
+
+        .contianer .TopHeader .InputBox .SearchResult li .fa {
+            color: #afa6a6;
+            font-size: 14px;
+        }
+    </style>
 
 
 </head>
@@ -69,15 +187,15 @@
     <header class="header">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-3 col-lg-2">
+                <div class="col-xl-2 col-lg-2 col-md-2">
                     <div class="header__logo">
                         <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-7">
+                <div class="col-xl-4 col-lg-3 col-md-4">
                     <nav class="header__menu">
                         <ul>
-                            <li ><a href="/">Home</a></li>
+                            <li><a href="/">Home</a></li>
 
                             <li><a href="/product-list">ALL Product</a></li>
 
@@ -86,14 +204,39 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
+                <div class=" col-xl-3 col-lg-3 col-md-3">
                     <div class="header__right">
-                        <div class="header__right__auth">
-                            <a href="/logout">Logout</a>
-
+                        <div class="TopHeader" id="TopHeader">
+                            <!-- search input box start -->
+                            <div class="InputBox" id="inputBar">
+                                <input class="input-searchbar" type="search" placeholder="Search" id="SearchInput"
+                                    autocomplete="off">
+                                <div class="SearchIcon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <!-- search result dropdown box start -->
+                                <ul class="SearchResult resultBox" id="ResultBox">
+                                </ul>
+                                <!-- search result dropdown box End -->
+                            </div>
+                            <!-- search input box End -->
                         </div>
+                    </div>
+                </div>
+                <div class=" col-xl-3 col-lg-3 col-md-3">
+                    <div class="header__right">
+
+
+
+
+
+
                         <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
+
+                            <div class="header__right__auth">
+                                <a href="/logout">Logout</a>
+
+                            </div>
                             <li><a href="/wishlist"><span class="icon_heart_alt"></span>
                                     {{!-- <div class="tip">2</div> --}}
                                 </a></li>
@@ -103,6 +246,7 @@
                             <li><a href="/userProfile"><span class="fa-solid fa-user"></span>
 
                                 </a></li>
+
 
                         </ul>
                     </div>
@@ -135,89 +279,79 @@
     <section class="shop spad">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-3 col-md-3">
-                    <div class="shop__sidebar">
-                        <div class="sidebar__categories">
-                            <div class="section-title">
-                                <h4>Categories</h4>
-                            </div>
-                            <div class="categories__accordion">
-                                <div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-heading active">
-                                            <a data-toggle="collapse" data-target="#collapseOne">Women</a>
-                                        </div>
-                                        <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <ul>
-                                                    <li><a href="#">Coats</a></li>
-                              
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-heading">
-                                            <a data-toggle="collapse" data-target="#collapseTwo">Men</a>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <ul>
-                                                    <li><a href="#">Coats</a></li>
-                                 
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <form action="/sort-all-products" method="post">
+                        <div class="shop__sidebar">
+                            <div class="sidebar__sizes">
+                                <div class="section-title">
+                                    <h4>Shop by categories</h4>
+                                </div>
+                                <div class="size__list">
+
+
+                                    <label for="mens">
+                                        MEN
+                                        <input type="checkbox" name="category" value="mens" id="mens">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label for="womens">
+                                        WOMEN
+                                        <input type="checkbox" name="category" value="womens" id="womens">
+                                        <span class="checkmark"></span>
+                                    </label>
+
 
                                 </div>
                             </div>
-                        </div>
-                        <div class="sidebar__filter">
-                            <div class="section-title">
-                                <h4>Shop by price</h4>
-                            </div>
-                            <div class="filter-range-wrap">
-                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                    data-min="33" data-max="99"></div>
-                                <div class="range-slider">
-                                    <div class="price-input">
-                                        <p>Price:</p>
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
+                            {{!-- <div class="sidebar__filter">
+                                <div class="section-title">
+                                    <h4>Shop by price</h4>
+                                </div>
+                                <div class="filter-range-wrap">
+                                    <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                        data-min="33" data-max="99"></div>
+                                    <div class="range-slider">
+                                        <div class="price-input">
+                                            <p>Price:</p>
+                                            <input type="text" id="minamount">
+                                            <input type="text" id="maxamount">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <a href="#">Filter</a>
-                        </div>
-                        <div class="sidebar__sizes">
-                            <div class="section-title">
-                                <h4>Shop by size</h4>
-                            </div>
-                            <div class="size__list">
-                        
-                        
-                                <label for="s">
-                                    s
-                                    <input type="checkbox" id="s">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="m">
-                                    m
-                                    <input type="checkbox" id="m">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="l">
-                                    l
-                                    <input type="checkbox" id="l">
-                                    <span class="checkmark"></span>
-                                </label>
+                                <a href="#">Filter</a>
+                            </div> --}}
+                            <div class="sidebar__sizes">
+                                <div class="section-title">
+                                    <h4>Shop by size</h4>
+                                </div>
+                                <div class="size__list">
 
+
+                                    <label for="s">
+                                        s
+                                        <input type="checkbox" name="size" value="Large" id="s">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label for="m">
+                                        m
+                                        <input type="checkbox" name="size" value="Medium" id="m">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label for="l">
+                                        l
+                                        <input type="checkbox" name="size" value="Small" id="l">
+                                        <span class="checkmark"></span>
+                                    </label>
+
+                                </div>
                             </div>
+
                         </div>
-                  
-                    </div>
+                        <button type="submit" class="btn btn-danger">Submit</button>
+                    </form>
                 </div>
+
                 <div class="col-lg-9 col-md-9">
                     <div class="row">
 
@@ -250,17 +384,12 @@
                         <div class="col-lg-12 text-center">
                             <div class="pagination__option">
 
-                                 {{!-- <button class="pro-qty-button"
-                                                onclick="changePage(-1)">-</button>
-                                            <p class="pro-qty-count" id="{{this.product._id}}">{{currentPage}}</p>
-                                            <button class="pro-qty-button"
-                                                onclick="changePage(1)">+</button> --}}
 
+                                {{#each countPages}}
+                                <a href="/product-list?page={{this}}">{{this}}</a>
+                                {{/each}}
 
-                                <a href="/product-list?page=1">1</a>
-                                <a href="/product-list?page=2">2</a>
-                                <a href="/product-list?page=3">3</a>
-                                <a href="#"><i class="fa fa-angle-right"></i></a>
+                                {{!-- <a href="#"><i class="fa fa-angle-right"></i></a> --}}
                             </div>
                         </div>
                     </div>
@@ -369,18 +498,94 @@
     <script src="js/jquery.nicescroll.min.js"></script>
     <script src="js/main.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-{{!-- 
+
+
     <script>
-        function changePage(page){
 
-            console.log(page,"uuuuuuuuuuuuuuuu")
- const returnUrl = `/product-list?page=${page}`;
-console.log("Return URL:", returnUrl);
+        const searchInput = document.querySelector(".InputBox");
+        const input = searchInput.querySelector("input");
+        const resultBox = searchInput.querySelector(".resultBox");
+        var SearchResult = document.getElementById("ResultBox");
+        // const icon = searchInput.querySelector(".SearchIcon");
+        // let linkTag = searchInput.querySelector("a");
+        let webLink;
 
-  window.location.href = returnUrl;
+
+        // if user press any key and release
+        input.onkeyup = (e) => {
+            let userData = e.target.value; //user enetered data
+
+            let emptyArray = [{}];
+            if (userData) {
+                $.ajax({
+                    url: '/search',
+                    type: 'GET',
+                    data: { search: userData },
+                    success: function (data) {
+                        if (data.length > 0) {
+
+                            emptyArray = data.map(function (val) {
+                                return (val);
+                            });
+
+                            emptyArray = emptyArray.map((data) => {
+
+
+                                // passing return data inside li tag
+                                return data = '<li> <a href="/product-detail-page?id=' + data._id + '">' + data.Name + '</a></li>';
+                            });
+
+
+                            SearchResult.style.display = "block"; //show autocomplete box
+                            showSuggestions(emptyArray);
+                            let allList = resultBox.querySelectorAll("li");
+                            for (let i = 0; i < allList.length; i++) {
+                                //adding onclick attribute in all li tag
+                                allList[i].setAttribute("onclick", "select(this)");
+                            }
+
+                        } else {
+
+                            data = '<ul> </ul>';
+                            resultBox.innerHTML = data;
+                        }
+                    }
+
+                })
+            }
+            else {
+
+                SearchResult.style.display = "none"; //hide autocomplete box
+            }
         }
-    </script> --}}
+
+        const elem = document.getElementById('inputBar')
+        elem.onmouseover = function () {
+            SearchResult.style.display = "block";
+        }
+
+
+        elem.onmouseout = function () {
+            SearchResult.style.display = "none";
+        }
+
+
+        function showSuggestions(list) {
+            let listData;
+            if (!list.length) {
+                userValue = inputBox.value;
+                return data = '<ul>' + data + '</ul>';
+            } else {
+                listData = list.join('');
+            }
+            resultBox.innerHTML = listData;
+        }
+
+
+    </script>
 
 
 

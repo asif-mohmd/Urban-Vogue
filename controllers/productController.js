@@ -219,15 +219,38 @@ const listUnlistProduct = async (req, res) => {
 const productListView = async (req, res) => {
 
     const pageNum = req.query.page;
-    const perPage = 2
+    const perPage = 6
+    let docCount
+    let pages 
 
     try {
+        const documents = await ProductModel.find({ listStatus: true, deleteStatus: false }).countDocuments()
         const products = await ProductModel.find({ listStatus: true, deleteStatus: false }).skip((pageNum - 1) * perPage ).limit(perPage)
-        res.render("user/product-list", { products })
+         
+        docCount = documents
+        pages = Math.ceil(docCount/perPage)
+        console.log(docCount,"hhhhhhhhhhhhhh",pages)
+
+         let countPages = []
+        for(let i=0;i<pages;i++){
+            
+            countPages[i] = i+1
+        }
+        console.log(countPages,"kkkkkkkkkkk")
+
+        res.render("user/product-list", { products,countPages })
     } catch (err) {
         console.log(err, "catch error")
     }
 }
+
+
+const sortAllProducts = async (req,res) =>{
+    console.log(req.body,"fffffffffffffffff")
+}
+
+
+
 
 
 // const productListView = async (req, res) => {
@@ -294,6 +317,7 @@ module.exports = {
     deleteProduct,
     listUnlistProduct,
     productListView,
+    sortAllProducts
 
 
 }
