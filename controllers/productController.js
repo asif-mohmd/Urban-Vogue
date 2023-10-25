@@ -218,45 +218,70 @@ const listUnlistProduct = async (req, res) => {
 
 const productListView = async (req, res) => {
 
+    const pageNum = req.query.page;
+    const perPage = 2
+
     try {
-
-
-     const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
-
-      const pageSize = 3;
-      const currentPage = req.query.page || 1;
-      const result = await ProductModel.paginate({}, { page: currentPage, limit: pageSize });
-      const allProduct = result.docs;
-      const totalPages = result.totalPages;
-      const maxVisiblePages = 3;
-      let startPage = 1;
-      let endPage = totalPages;
-
-
-      if (totalPages > maxVisiblePages) {
-        const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-  
-        if (currentPage <= halfVisiblePages) {
-          endPage = maxVisiblePages;
-        } else if (currentPage + halfVisiblePages >= totalPages) {
-          startPage = totalPages - maxVisiblePages + 1;
-        } else {
-          startPage = currentPage - halfVisiblePages;
-          endPage = currentPage + halfVisiblePages;
-        }
-      }
-
-      const pages = [];
-      for (let i = startPage; i <= endPage; i++) {
-        pages.push(i);
-      }
-       console.log(allProduct,"allproducts",totalPages,"pages",currentPage,"cuurentpage",startPage,"start",endPage,"end")
-        res.render("user/product-list", { pages,products ,allProduct, totalPages, currentPage, startPage, endPage})
+        const products = await ProductModel.find({ listStatus: true, deleteStatus: false }).skip((pageNum - 1) * perPage ).limit(perPage)
+        res.render("user/product-list", { products })
     } catch (err) {
         console.log(err, "catch error")
     }
 }
 
+
+// const productListView = async (req, res) => {
+
+//     const page = req.params.page;
+//     const perPage = 2
+
+//     try {
+//         const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
+//         res.render("user/product-list", { products })
+//     } catch (err) {
+//         console.log(err, "catch error")
+//     }
+// }
+
+
+
+// const productListView = async (req, res) => {
+
+//     try {
+
+
+//      const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
+//      console.log("jjjjjjjjj",req.query.page,"kkkkkkkkkkkkkkkkkkkk")
+//       const pageSize = 3;
+//       const currentPage = req.query.page || 1;
+//       const result = await ProductModel.paginate({}, { page: currentPage, limit: pageSize });
+//       const allProduct = result.docs;
+//       const totalPages = result.totalPages;
+//       const maxVisiblePages = 3;
+//       let startPage = 1;
+//       let endPage = totalPages;
+
+
+//       if (totalPages > maxVisiblePages) {
+//         const halfVisiblePages = Math.floor(maxVisiblePages / 2);
+  
+//         if (currentPage <= halfVisiblePages) {
+//           endPage = maxVisiblePages;
+//         } else if (currentPage + halfVisiblePages >= totalPages) {
+//           startPage = totalPages - maxVisiblePages + 1;
+//         } else {
+//           startPage = currentPage - halfVisiblePages;
+//           endPage = currentPage + halfVisiblePages;
+//         }
+//       }
+
+
+//        console.log(totalPages,"pages",currentPage,"cuurentpage",startPage,"start",endPage,"end")
+//         res.render("user/product-list", { products ,allProduct, totalPages, currentPage, startPage, endPage})
+//     } catch (err) {
+//         console.log(err, "catch error")
+//     }
+// }
 
 
 module.exports = {

@@ -39,8 +39,13 @@ app.set('views', path.join(__dirname, 'views'));
 hbs.registerHelper('gt', function (a, b) {  //i am using a hbd > (greather than) on product detail for get the stock more than 0 . for that this is needed
   return a > b;
 });
-hbs.registerHelper('and', function (a, b) {  //i am using a hbd > (greather than) on product detail for get the stock more than 0 . for that this is needed
-  return a && b;
+hbs.registerHelper('eq', function (a, b, options) {
+  return a === b ? options.fn(this) : options.inverse(this);
+});
+
+// Register a custom "and" helper
+hbs.registerHelper('and', function () {
+  return Array.prototype.slice.call(arguments, 0, -1).every(Boolean);
 });
 hbs.registerHelper('lt', function (a, b) {  //i am using a hbd > (greather than) on product detail for get the stock more than 0 . for that this is needed
   return a < b;
