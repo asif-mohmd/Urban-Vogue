@@ -2,17 +2,21 @@ const ProductModel = require("../models/Product")
 const fileHandler = require("../utils/file")
 const path = require("path")
 const fs = require("fs")
-
-
 const { upload } = require('../utils/imageHandler')
 const cartModel = require("../models/Cart")
 
 
 const addProductView = async (req, res) => {
-    res.render("admin/add-product")
+
+    try {
+        res.render("admin/add-product")
+    } catch (err) {
+        console.log(err, "catch error")
+    }
 }
 
 const addProduct = async (req, res) => {
+
     try {
         const { name, price, description, category, size, stock } = req.body;
         console.log(req.body)
@@ -27,15 +31,14 @@ const addProduct = async (req, res) => {
                 price,
                 description,
                 category,
-                "size.large":size[0] ,
-                "size.medium":size[1],
-                "size.small":size[2] ,
+                "size.large": size[0],
+                "size.medium": size[1],
+                "size.small": size[2],
                 imageUrl: images,
-                stock:stock,
+                stock: stock,
                 listStatus: true,
                 deleteStatus: false,
             };
-console.log(data,"yeeyeyeye")
             const product = await ProductModel.create(data);
 
             if (product) {
@@ -47,7 +50,7 @@ console.log(data,"yeeyeyeye")
             throw new Error("Incorrect number of images");
         }
     } catch (error) {
- 
+
 
         let msg;
         if (error.message === "Failed to create product") {
@@ -62,27 +65,32 @@ console.log(data,"yeeyeyeye")
 
 
 const productDetails = async (req, res) => {
-    const singleProduct = await ProductModel.findOne({ _id: req.query.id })
-    const cartCheck = await cartModel.findOne({'cart.productId': req.query.id  })
 
-
-    console.log("eeeeeeeeeeeeee",cartCheck,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-    res.render("user/product-details", { singleProduct , cartCheck })
+    try {
+        const singleProduct = await ProductModel.findOne({ _id: req.query.id })
+        const cartCheck = await cartModel.findOne({ 'cart.productId': req.query.id })
+        res.render("user/product-details", { singleProduct, cartCheck })
+    } catch (err) {
+        console.log(err, "catch error")
+    }
 }
 
 
 const editProductDetails = async (req, res) => {
-    const editProduct = await ProductModel.findOne({ _id: req.query.id })
-  
 
-    res.render("admin/edit-product-details", { editProduct })
+    try {
+        const editProduct = await ProductModel.findOne({ _id: req.query.id })
+        res.render("admin/edit-product-details", { editProduct })
+    } catch (err) {
+        console.log(err, "catch error")
+    }
 }
 
 
 const productDetailsEdit = async (req, res) => {
-    const { id, name, price,stock,description, size, category } = req.body;
 
     try {
+        const { id, name, price, stock, description, size, category } = req.body;
         // Fetch the existing product to get its image URLs
         const existingProduct = await ProductModel.findById(id);
         if (!existingProduct) {
@@ -96,7 +104,7 @@ const productDetailsEdit = async (req, res) => {
             const updateData = {
                 name: name,
                 price: price,
-                stock:stock,
+                stock: stock,
                 description: description,
                 size: size,
                 category: category,
@@ -124,7 +132,7 @@ const productDetailsEdit = async (req, res) => {
             const updateData = {
                 name: name,
                 price: price,
-                stock:stock,
+                stock: stock,
                 description: description,
                 size: size,
                 category: category,
@@ -150,14 +158,21 @@ const productDetailsEdit = async (req, res) => {
 
 
 const editProductView = async (req, res) => {
-    const products = await ProductModel.find({deleteStatus:false})
-    res.render("admin/edit-product", { products })
+
+    try {
+        const products = await ProductModel.find({ deleteStatus: false })
+        res.render("admin/edit-product", { products })
+    } catch (err) {
+        console.log(err, "catch error")
+    }
+    
 }
 
 
 const deleteProduct = async (req, res) => {
-    const productId = req.query.id;
+   
     try {
+        const productId = req.query.id;
         const product = await ProductModel.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
@@ -169,10 +184,10 @@ const deleteProduct = async (req, res) => {
         // }
 
         // Delete the product
-        await ProductModel.updateOne({ _id: productId },{$set:{deleteStatus:true}});
+        await ProductModel.updateOne({ _id: productId }, { $set: { deleteStatus: true } });
         msgDelete = true
         // Redirect to the desired route
-        res.render("admin/deleted-products",{msgDelete});
+        res.render("admin/deleted-products", { msgDelete });
     } catch (err) {
         res.status(500).json({ message: "Deleting Product failed" });
     }
@@ -180,6 +195,7 @@ const deleteProduct = async (req, res) => {
 
 
 const listUnlistProduct = async (req, res) => {
+
     try {
         const product = await ProductModel.findById({ _id: req.params.id })
         if (product) {
@@ -194,19 +210,21 @@ const listUnlistProduct = async (req, res) => {
         }
     }
     catch (err) {
-      
-        res.status(500).json({ message: "update Product listing failed" });
 
+        res.status(500).json({ message: "update Product listing failed" });
     }
 }
 
-const productListView = async(req,res) => {
 
-    const products = await ProductModel.find({ listStatus: true , deleteStatus:false})
-    res.render("user/product-list",{ products })
-  
-  }
+const productListView = async (req, res) => {
 
+    try {
+        const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
+        res.render("user/product-list", { products })
+    } catch (err) {
+        console.log(err, "catch error")
+    }
+}
 
 
 
@@ -220,6 +238,6 @@ module.exports = {
     deleteProduct,
     listUnlistProduct,
     productListView,
-    
+
 
 }

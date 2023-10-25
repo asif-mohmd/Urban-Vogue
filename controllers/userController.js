@@ -26,41 +26,39 @@ var instance = new Razorpay({
 
 
 
-
 const indexView = async (req, res) => {
 
-  try{
+  try {
     const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
     res.render("user/index", { products });
-  }catch(err){
-    console.log(err,"catch error")
+  } catch (err) {
+    console.log(err, "catch error")
   }
-
 }
 
 
 const registerView = (req, res) => {
-  try{
-    res.render("user/register", {});
-  }catch(err){
-    console.log(err,"catch error")
-  }
 
+  try {
+    res.render("user/register", {});
+  } catch (err) {
+    console.log(err, "catch error")
+  }
 }
 
 
 const otpView = (req, res) => {
-  try{
-    res.render("user/otp")
-  }catch(err){
-    console.log(err,"catch error")
-  }
 
+  try {
+    res.render("user/otp")
+  } catch (err) {
+    console.log(err, "catch error")
+  }
 }
 
-
 const otpVerification = async (req, res) => {
-  try{
+
+  try {
     const { otpNum1, otpNum2, otpNum3, otpNum4, otpNum5, otpNum6 } = req.body
     const combinedOTP = otpNum1 + otpNum2 + otpNum3 + otpNum4 + otpNum5 + otpNum6;
     if (combinedOTP == session.otp) {
@@ -71,83 +69,74 @@ const otpVerification = async (req, res) => {
       msg = true
       res.render("user/otp", { msg })
     }
-  }catch(err){
-    console.log(err,"catch error")
+  } catch (err) {
+    console.log(err, "catch error")
   }
-
- 
 }
 
 
 const registerUser = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
-  }
-  const { name, email, mobile, address, city, state, pincode, password, confirmPassword } = req.body;
-  await sendMail(email)
-  if (password !== confirmPassword) {
-    console.log("confirm password not match")
-  } else {
-    UserModel.findOne({ email: email }).then(async (user) => {
-      if (user) {
-        console.log("email exists");
-      } else {
-        data = {
-          "name": name,
-          "email": email,
-          "mobile": mobile,
-          "address": address,
-          "state": state,
-          "city": city,
-          "pincode": pincode,
-          "password": password,
-          "wallet" : 0,
-          "status": true,
-       
-        }
-        data.password = await bcrypt.hash(data.password, saltRounds)
-        session.userData = data
-        if (session.userData) {
-          res.render("user/otp")
+  try {
+    const { name, email, mobile, address, city, state, pincode, password, confirmPassword } = req.body;
+    await sendMail(email)
+    if (password !== confirmPassword) {
+      console.log("confirm password not match")
+    } else {
+      UserModel.findOne({ email: email }).then(async (user) => {
+        if (user) {
+          console.log("email exists");
         } else {
-          msg = true
-          res.render("user/register", { msg })
+          data = {
+            "name": name,
+            "email": email,
+            "mobile": mobile,
+            "address": address,
+            "state": state,
+            "city": city,
+            "pincode": pincode,
+            "password": password,
+            "wallet": 0,
+            "status": true,
+          }
+          data.password = await bcrypt.hash(data.password, saltRounds)
+          session.userData = data
+          if (session.userData) {
+            res.render("user/otp")
+          } else {
+            msg = true
+            res.render("user/register", { msg })
+          }
         }
-      }
-    });
+      });
+    }
+  } catch (err) {
+    console.log(err, "catch error")
   }
 };
-
 
 
 const addNewAddressUser = async (req, res) => {
 
   try {
-console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
     const userId = req.session.user._id
-    console.log(userId,"oooooooooooooooooooooooo")
 
     let details = req.body
-console.log(details,"uuuuuuuuuuuuuuuuuuuuuu")
-    const updateAddress = await newAddressManagement(details,userId)
-   
+    const updateAddress = await newAddressManagement(details, userId)
 
-      if (updateAddress) {
-        const newAddress = await AddressModel.findOne({userId:userId})
-        const userDetails = await UserModel.findById({ _id: userId })
-        msgAddressNew = true
-        res.render("user/user-profile", { msgAddressNew, userDetails, newAddress })
-      }else{
-        const newAddress = await AddressModel.findOne({userId:userId})
-        const userDetails = await UserModel.findById({ _id: userId })
-        errOccurred = true
-        res.render("user/user-profile", { errOccurred, userDetails, newAddress })
-      }
-    }catch (err) {
+    if (updateAddress) {
+      const newAddress = await AddressModel.findOne({ userId: userId })
+      const userDetails = await UserModel.findById({ _id: userId })
+      msgAddressNew = true
+      res.render("user/user-profile", { msgAddressNew, userDetails, newAddress })
+    } else {
+      const newAddress = await AddressModel.findOne({ userId: userId })
+      const userDetails = await UserModel.findById({ _id: userId })
+      errOccurred = true
+      res.render("user/user-profile", { errOccurred, userDetails, newAddress })
+    }
+  } catch (err) {
     console.log(err)
-
   }
 }
 
@@ -155,28 +144,22 @@ console.log(details,"uuuuuuuuuuuuuuuuuuuuuu")
 const addNewAddressCheckout = async (req, res) => {
 
   try {
-
     const userId = req.session.user._id
     let details = req.body
-    const updateAddress = await newAddressManagement(details,userId)
-   
-
-      if (updateAddress) {
-
-        res.redirect("/checkout")
-      }
-    }catch (err) {
+    const updateAddress = await newAddressManagement(details, userId)
+    if (updateAddress) {
+      res.redirect("/checkout")
+    }
+  } catch (err) {
     console.log(err)
-
   }
 }
 
 
-const newAddressManagement = async (details,userId) =>{
-  try{
-
+const newAddressManagement = async (details, userId) => {
+  
+  try {
     const { name, email, mobile, address, city, state, pincode } = details;
-
     const newAddress = {
       name: name,
       email: email,
@@ -193,7 +176,7 @@ const newAddressManagement = async (details,userId) =>{
       const updateAddress = await AddressModel.updateOne({ userId: userId }, { $push: { address: newAddress } })
 
       if (updateAddress) {
- 
+
         return true
       }
 
@@ -207,122 +190,112 @@ const newAddressManagement = async (details,userId) =>{
       const updateAddress = await AddressModel.create(data)
 
       if (updateAddress) {
-         return true
-      }else{
+        return true
+      } else {
         return false
       }
     }
-
-
-  }catch(err){
+  } catch (err) {
     console.log(err)
   }
 }
 
 
-const removeNewAddress = async (req,res)=>{
-  try{
-      const addressId = req.query.id
-      const userId = req.session.user._id
+const removeNewAddress = async (req, res) => {
 
-      const addressRemoved = await AddressModel.updateOne({userId:userId},{$pull:{address:{_id:addressId}}})
+  try {
+    const addressId = req.query.id
+    const userId = req.session.user._id
 
-      if(addressRemoved){
-        const userDetails = await UserModel.findById({ _id: userId })
-        const newAddress = await AddressModel.findOne({userId:userId})
-        msgAddressRemove = true
-        res.render("user/user-profile", { msgAddressRemove, userDetails, newAddress })
-      }else{
-        const userDetails = await UserModel.findById({ _id: userId })
-        const newAddress = await AddressModel.findOne({userId:userId})
-        errOccurred = true
-        res.render("user/user-profile", { errOccurred, userDetails,newAddress })
-      }
+    const addressRemoved = await AddressModel.updateOne({ userId: userId }, { $pull: { address: { _id: addressId } } })
 
-  }catch(err){
+    if (addressRemoved) {
+      const userDetails = await UserModel.findById({ _id: userId })
+      const newAddress = await AddressModel.findOne({ userId: userId })
+      let msgAddressRemove = true
+      res.render("user/user-profile", { msgAddressRemove, userDetails, newAddress })
+    } else {
+      const userDetails = await UserModel.findById({ _id: userId })
+      const newAddress = await AddressModel.findOne({ userId: userId })
+      errOccurred = true
+      res.render("user/user-profile", { errOccurred, userDetails, newAddress })
+    }
+
+  } catch (err) {
     console.log(err)
-
   }
 }
-
-
-
-
 
 
 const loginView = (req, res) => {
-  try{
-
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    res.render("user/login", {});
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  res.render("user/login", {});
 }
 
 
-
 const loginUser = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
-  }
-  const { email, password } = req.body;
-  const user = await UserModel.findOne({ email: email })
-  if (user) {
-    const data = await bcrypt.compare(password, user.password)
-    if (data) {
-      if (user.status == true) {
-        req.session.user = user
-        res.redirect("/")
+  try {
+    const { email, password } = req.body;
+    const user = await UserModel.findOne({ email: email })
+    if (user) {
+      const data = await bcrypt.compare(password, user.password)
+      if (data) {
+        if (user.status == true) {
+          req.session.user = user
+          res.redirect("/")
+        } else {
+          msgBlock = true
+          res.render("user/login", { msgBlock })
+        }
+
       } else {
-        msgBlock = true
-        res.render("user/login", { msgBlock })
+        msgPass = true
+        res.render("user/login", { msgPass })
       }
-
     } else {
-      msgPass = true
-      res.render("user/login", { msgPass })
+      msgEmail = true
+      res.render("user/login", { msgEmail })
     }
-  } else {
-    msgEmail = true
-    res.render("user/login", { msgEmail })
+  } catch (err) {
+    console.log(err, "catch error")
   }
 }
 
 const userLogout = (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    req.session.destroy((err) => {
+      res.redirect('/') // will always fire after session is destroyed
+    })
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  req.session.destroy((err) => {
-    res.redirect('/') // will always fire after session is destroyed
-  })
 }
 
 const userProfile = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    const userId = req.session.user._id
+    const userDetails = await UserModel.findById({ _id: userId })
+    const newAddress = await AddressModel.findOne({ userId: userId })
+    res.render("user/user-profile", { userDetails, newAddress })
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  const userId = req.session.user._id
-  const userDetails = await UserModel.findById({ _id: userId })
-  const newAddress = await AddressModel.findOne({userId:userId})
-  console.log("qqqq",newAddress,"wwwwwwwwwww")
-  res.render("user/user-profile", { userDetails,newAddress })
+
 }
 
 
 const changePassword = async (req, res) => {
 
-  const currentPassword = req.body.password
-  let newPassword = req.body.newpassword
-  const userId = req.session.user._id
-
-
   try {
+    const currentPassword = req.body.password
+    let newPassword = req.body.newpassword
+    const userId = req.session.user._id
     const userDetails = await UserModel.findById({ _id: userId })
 
     const isPasswordValid = await bcrypt.compare(currentPassword, userDetails.password);
@@ -344,22 +317,19 @@ const changePassword = async (req, res) => {
       errMatchPass = true
       res.render("user/user-profile", { errMatchPass, userDetails })
     }
-
   } catch (error) {
     errOccurred = true
     res.render("user/user-profile", { errOccurred, userDetails })
-
   }
 }
 
 
 const editProfile = async (req, res) => {
 
-
-  const userId = req.session.user._id
-  const { name, mobile, email, address, state, city, pincode } = req.body
-  const userDetails = await UserModel.findById({ _id: userId })
   try {
+    const userId = req.session.user._id
+    const { name, mobile, email, address, state, city, pincode } = req.body
+    const userDetails = await UserModel.findById({ _id: userId })
     const user = await UserModel.updateOne({ _id: userId },
       {
         $set: {
@@ -389,20 +359,15 @@ const editProfile = async (req, res) => {
 }
 
 
-
-
-
-
 const cartView = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+
+  } catch (err) {
+    console.log(err, "catch error")
   }
 
   const userId = req.session.user._id;
-
-
   const cartItems = await getProducts(userId)
 
   let total = await getTotalAmout(userId)
@@ -413,180 +378,143 @@ const cartView = async (req, res) => {
   return cartItems;
 };
 
-
-
-
-
-
-
-
-
-
-
-
 const placeOrder = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
-  }
-  let response;
-  console.log(req.body,"boxxxxxxxxxxxxxxxxxxxxxxxx")
-  const selectedAddressId = new ObjectId(req.body.selectedAddressId); 
-  const randomOrderId = generateRandomOrder();
-  const currentDate = new Date();
-  const formattedDate = formatDate(currentDate);
-  const userId = req.session.user._id;
-  const finalAmount = req.body.finalAmount
-  let userAddress = await AddressModel.findOne({ userId: userId});
-  userAddress = userAddress.address
+  try {
+    let response;
+    const selectedAddressId = new ObjectId(req.body.selectedAddressId);
+    const randomOrderId = generateRandomOrder();
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate);
+    const userId = req.session.user._id;
+    const finalAmount = req.body.finalAmount
+    let userAddress = await AddressModel.findOne({ userId: userId });
+    userAddress = userAddress.address
+    const address = userAddress.find((address) => address._id.equals(selectedAddressId));
+    const cartItems = await getProducts(userId)
 
-  console.log(userAddress,"---------------------")
+    const products = cartItems.map(cartItem => ({
+      productId: cartItem.product._id,
+      name: cartItem.product.name,
+      price: cartItem.product.price,
+      count: cartItem.count,
+      size: cartItem.size
 
-  const address = userAddress.find((address) => address._id.equals(selectedAddressId));
+    }));
 
-  console.log(address, "gottttttttttttt");
-  
+    const data = {
+      "userId": userId,
+      "orderId": randomOrderId,
+      "address": address,
+      "date": formattedDate,
+      products: products,
+      "amount": finalAmount,
+      "paymentMethod": "COD",
+      "status": "pending"
 
-  const cartItems = await getProducts(userId)
-  
+    }
 
-  const products = cartItems.map(cartItem => ({
-    productId: cartItem.product._id,
-    name: cartItem.product.name,
-    price: cartItem.product.price,
-    count: cartItem.count,
-    size: cartItem.size
+    const order = await OrderModel.create(data)
 
-  }));
+    if (order) {
+      console.log("222")
 
-  console.log("call is here 1",products)
-  console.log(address,"objjjjjjjjjjjjjj");
-  const data = {
-    "userId": userId,
-    "orderId": randomOrderId,
-    "address": address,
-    "date": formattedDate,
-    products: products,
-    "amount": finalAmount,
-    "paymentMethod": "COD",
-    "status": "pending"
+      if (req.body.paymentMethod == 'Wallet') {
 
-  }
+        let stockUpdate = stockQuantityUpdate()
 
+        if (stockUpdate) {
 
-  console.log("data:", data)
+          await UserModel.updateOne({ _id: userId }, { $inc: { wallet: -finalAmount } })
 
-  const order = await OrderModel.create(data)
-  
+          const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+          const updatedDetails = await OrderModel.updateOne({ orderId: order.orderId }, { $set: { paymentMethod: "Wallet" } })
 
-  console.log(order,"dddddddddddddddddddddddddddddddddd")
-
-  if (order) {
-    console.log("222")
-
-    if(req.body.paymentMethod == 'Wallet'){
-
-      let stockUpdate = stockQuantityUpdate()
-
-
-
-      if (stockUpdate) {
-
-        await UserModel.updateOne({_id:userId},{$inc:{wallet: -finalAmount}})
-
-        const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
-        const updatedDetails = await OrderModel.updateOne({ orderId:  order.orderId }, { $set: { paymentMethod: "Wallet" } })
-       
-        if(updatedDetails){
-          response = { status: true, pendingOrders }
-          res.json(response);
-        }else{
-          response = { status: false }
-          res.json(response);
+          if (updatedDetails) {
+            response = { status: true, pendingOrders }
+            res.json(response);
+          } else {
+            response = { status: false }
+            res.json(response);
+          }
         }
       }
-    }
 
-    else if (req.body.paymentMethod == 'Online') {
+      else if (req.body.paymentMethod == 'Online') {
 
         const order = await generateRazorpay(randomOrderId, finalAmount)
-        
+
         response = { status: true, order }
         res.json(response);
-      
-    } else {
-     
-     let stockUpdate = stockQuantityUpdate()
 
+      } else {
 
-      if (stockUpdate) {
+        let stockUpdate = stockQuantityUpdate()
 
-        const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
-        
-        response = { status: true, pendingOrders }
-        // res.render("user/order-response",{pendingOrders})
-        res.json(response);
+        if (stockUpdate) {
+
+          const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+
+          response = { status: true, pendingOrders }
+          // res.render("user/order-response",{pendingOrders})
+          res.json(response);
+        }
+
       }
-
+    } else {
+      console.log("no orders")
     }
-
-  } else {
-    console.log("no orders")
-
+  } catch (err) {
+    console.log(err, "catch error")
   }
-
-
 }
 
 
-async function stockQuantityUpdate(){
-  try{
+async function stockQuantityUpdate() {
 
-  }catch(err){
-    console.log(err,"catch error")
-  }
+  try {
+    const cartItems = await getProducts(userId)
+    const products = cartItems.map(cartItem => ({
+      productId: cartItem.product._id,
+      name: cartItem.product.name,
+      price: cartItem.product.price,
+      count: cartItem.count,
+      size: cartItem.size
 
-  const cartItems = await getProducts(userId)
-  
+    }));
 
-  const products = cartItems.map(cartItem => ({
-    productId: cartItem.product._id,
-    name: cartItem.product.name,
-    price: cartItem.product.price,
-    count: cartItem.count,
-    size: cartItem.size
+    for (const product of products) {
+      const existingProduct = await ProductModel.findById(product.productId);
 
-  }));
-
-  for (const product of products) {
-    const existingProduct = await ProductModel.findById(product.productId);
-
-    if (existingProduct && existingProduct.stock >= product.count) {
-      await ProductModel.updateOne(
-        { _id: product.productId, stock: { $gte: product.count } },
-        { $inc: { stock: -product.count } }
-      );
-    } else {
-      console.log(`Insufficient stock for product with ID ${product.productId}`);
-      return false
-      // Handle insufficient stock scenario here, e.g., notify the user
+      if (existingProduct && existingProduct.stock >= product.count) {
+        await ProductModel.updateOne(
+          { _id: product.productId, stock: { $gte: product.count } },
+          { $inc: { stock: -product.count } }
+        );
+      } else {
+        console.log(`Insufficient stock for product with ID ${product.productId}`);
+        return false
+        // Handle insufficient stock scenario here, e.g., notify the user
+      }
     }
+
+    const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
+
+    if (cart) {
+      return true
+    } else {
+      return false
+    }
+
+
+  } catch (err) {
+    console.log(err, "catch error")
   }
-
-  const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
-
-  if(cart){
-    return true
-  }else{
-    return false
-  }
-
-
 }
 
 
 const generateRazorpay = async (randomOrderId, finalAmount) => {
+
   try {
     const order = await instance.orders.create({
       amount: finalAmount * 100,
@@ -599,8 +527,6 @@ const generateRazorpay = async (randomOrderId, finalAmount) => {
     });
 
     if (order) {
-
-
       return order
     } else {
       console.log("not success online");
@@ -610,88 +536,74 @@ const generateRazorpay = async (randomOrderId, finalAmount) => {
   }
 };
 
-
-
 const verifyPayment = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
-  }
-  console.log('Inside verifyPayment function');
-  console.log(req.body, 'verify payment razor completed');
-  const verificationSuccess = await paymentVerifiaction(req.body)
-  let response;
-  if (verificationSuccess) {
+  try {
+    console.log('Inside verifyPayment function');
+    console.log(req.body, 'verify payment razor completed');
+    const verificationSuccess = await paymentVerifiaction(req.body)
+    let response;
+    if (verificationSuccess) {
 
-    console.log(req.body['order[receipt]'], "xxxxxxxxxxxxxxxx"); // This should log '1696866506'
-
-    const success = await changePaymentStatus(req.body['order[receipt]'])
-    if (success) {
-      console.log("success555555555")
-      const onlineDetails = await OrderModel.findOne({ orderId: req.body['order[receipt]'] })
-      let stockUpdate = await stockQuantityUpdate()
-      if(stockUpdate){
-        response = { status: true, onlineDetails }
-        res.json(response)
+      const success = await changePaymentStatus(req.body['order[receipt]'])
+      if (success) {
+        console.log("success555555555")
+        const onlineDetails = await OrderModel.findOne({ orderId: req.body['order[receipt]'] })
+        let stockUpdate = await stockQuantityUpdate()
+        if (stockUpdate) {
+          response = { status: true, onlineDetails }
+          res.json(response)
+        }
+      } else {
+        console.log("status update failed")
       }
-    } else {
-      console.log("status update failed")
     }
-
+  } catch (err) {
+    console.log(err, "catch error")
   }
 }
 
-
 const paymentVerifiaction = (details) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
-  }
+  try {
+    const crypto = require('crypto')
+    let hmac = crypto.createHmac("sha256", "X3yBumo4FEeZywGxjU5zFovG")
 
-  const crypto = require('crypto')
-  let hmac = crypto.createHmac("sha256", "X3yBumo4FEeZywGxjU5zFovG")
-
-  hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]'])
-  hmac = hmac.digest('hex')
-  if (hmac == details['payment[razorpay_signature]']) {
-    return true
-  } else {
-    return false
+    hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]'])
+    hmac = hmac.digest('hex')
+    if (hmac == details['payment[razorpay_signature]']) {
+      return true
+    } else {
+      return false
+    }
+  } catch (err) {
+    console.log(err, "catch error")
   }
 }
 
 const changePaymentStatus = async (orderId) => {
-  console.log(orderId, "orderId")
-  const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "Online" } })
-  console.log(updatedDetails, "updatedDeatils")
-  if (updatedDetails) {
-    console.log("status updated",)
-    return true
-  } else {
-    return false
-  }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-const addToCart = async (req, res) => {
-  const productId = req.query.id;
-  const userId = req.session.user._id;
-  const size = req.query.size
 
   try {
+    console.log(orderId, "orderId")
+    const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "Online" } })
+    console.log(updatedDetails, "updatedDeatils")
+    if (updatedDetails) {
+      console.log("status updated",)
+      return true
+    } else {
+      return false
+    }
+  } catch (err) {
+    console.log(err, "catch error")
+  }
+}
+
+const addToCart = async (req, res) => {
+
+  try {
+    const productId = req.query.id;
+    const userId = req.session.user._id;
+    const size = req.query.size
     const data = {
       productId: productId,
       count: 1,
@@ -700,8 +612,7 @@ const addToCart = async (req, res) => {
     const cart = await CartModel.findOne({ userId: userId });
 
     if (cart) {
-      const productExists = cart.cart.some(item => item.productId === productId && item.size===size) ;
-
+      const productExists = cart.cart.some(item => item.productId === productId && item.size === size);
 
       if (productExists) {
         await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } }, { $set: { size: size } });
@@ -728,26 +639,23 @@ const addToCart = async (req, res) => {
   }
 };
 
-
 const deleteCartItem = async (req, res) => {
 
-  const productId = req.query.id
-  const userId = req.session.user._id;
-
   try {
+    const productId = req.query.id
+    const userId = req.session.user._id;
     const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId } } })
 
     if (cart) {
-
       res.redirect("/cart")
     }
-
   } catch (error) {
     console.log("Not deleted ")
   }
 }
 
 const changeProductQuantity = async (req, res) => {
+
   try {
     let { cart, product, count, quantity } = req.body;
     count = parseInt(count);
@@ -767,7 +675,6 @@ const changeProductQuantity = async (req, res) => {
 
       const productDetails = await ProductModel.findOne({ _id: product })
 
-
       if (productDetails.stock >= quantity + count) {
         const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
         if (updated) {
@@ -783,9 +690,6 @@ const changeProductQuantity = async (req, res) => {
       } else {
         response = { stockLimit: true }
       }
-
-
-
     }
 
     res.json(response);  // Send the response back to the client
@@ -793,193 +697,171 @@ const changeProductQuantity = async (req, res) => {
 
     res.status(500).json({ error: 'Internal Server Error' });
   }
-
 };
 
 const getTotalAmout = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    userId = req
+
+    const total = await CartModel.aggregate([
+      {
+        $match: { userId: userId }
+      },
+      {
+        $unwind: '$cart'
+      }, {
+        $project: {
+          product: { $toObjectId: "$cart.productId" },
+          count: '$cart.count',
+
+        }
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: "product",
+          foreignField: "_id",
+          as: "product"
+        }
+      },
+      {
+        $unwind: '$product'
+      },
+      {
+        $project: {
+          price: '$product.price',
+          name: '$product.name',
+          quantity: '$count'
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: { $multiply: ['$quantity', { $toInt: '$price' }] } }
+        }
+      },
+      {
+        $unwind: '$total'
+      }
+    ])
+    return total
+  } catch (err) {
+    console.log(err, "catch error")
   }
-
-  userId = req
-
-  const total = await CartModel.aggregate([
-    {
-      $match: { userId: userId }
-    },
-    {
-      $unwind: '$cart'
-    }, {
-      $project: {
-        product: { $toObjectId: "$cart.productId" },
-        count: '$cart.count',
-
-      }
-    },
-    {
-      $lookup: {
-        from: 'products',
-        localField: "product",
-        foreignField: "_id",
-        as: "product"
-      }
-    },
-    {
-      $unwind: '$product'
-    },
-    {
-      $project: {
-        price: '$product.price',
-        name: '$product.name',
-        quantity: '$count'
-      }
-    },
-    {
-      $group: {
-        _id: null,
-        total: { $sum: { $multiply: ['$quantity', { $toInt: '$price' }] } }
-      }
-    },
-    {
-      $unwind: '$total'
-    }
-  ])
-  return total
 }
 
 
 const proceedToCheckout = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    const userId = req.session.user._id
+
+    const userDetails = await UserModel.findById({ _id: userId })
+    const newAddress = await AddressModel.findOne({ userId: userId })
+
+    let total = await getTotalAmout(userId)
+    total = total[0] ? total[0].total : 0;
+
+    res.render("user/checkout", { total, userDetails, newAddress })
+  } catch (err) {
+    console.log(err, "catch error")
   }
-
-  const userId = req.session.user._id
-
-  const userDetails = await UserModel.findById({ _id: userId })
-  const newAddress = await AddressModel.findOne({userId:userId})
-
-  let total = await getTotalAmout(userId)
-  total = total[0] ? total[0].total : 0;
-
-  res.render("user/checkout", { total, userDetails ,newAddress })
 }
 
 
 
 const ordersView = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    const pendingOrders = await OrderModel.find().sort({ $natural: -1 })
+    res.render("user/orders", { pendingOrders })
+  } catch (err) {
+    console.log(err, "catch error")
   }
-
-
-  const pendingOrders = await OrderModel.find().sort({$natural:-1})
-
-
-
-
-  res.render("user/orders", { pendingOrders })
 }
 
 
-
-
 const cancelUserOrder = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
-  }
-  const orderId = req.query.id
+  try {
+    const orderId = req.query.id
+    const orderDetails = await OrderModel.findById({ _id: orderId })
+    const productDetails = orderDetails.products.map(product => ({
+      productId: product.productId,
+      count: product.count
+    }));
 
+    for (const product of productDetails) {
+      const existingProduct = await ProductModel.findById(product.productId);
 
-  const orderDetails = await OrderModel.findById({ _id: orderId })
+      if (existingProduct && existingProduct.stock >= product.count) {
+        await ProductModel.updateOne(
+          { _id: product.productId }, { $inc: { stock: product.count } }
+        );
+      } else {
+        console.log(`Insufficient stock for product with ID ${product.productId}`);
+        // Handle insufficient stock scenario here, e.g., notify the user
+      }
 
-
-  const productDetails = orderDetails.products.map(product => ({
-    productId: product.productId,
-    count: product.count
-  }));
-
-  for (const product of productDetails) {
-    const existingProduct = await ProductModel.findById(product.productId);
-
-    if (existingProduct && existingProduct.stock >= product.count) {
-      await ProductModel.updateOne(
-        { _id: product.productId }, { $inc: { stock: product.count } }
-      );
-    } else {
-      console.log(`Insufficient stock for product with ID ${product.productId}`);
-      // Handle insufficient stock scenario here, e.g., notify the user
     }
-
+    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
+    if (success) {
+      console.log("cancelled")
+      res.redirect("/orders")
+    } else {
+      console.log("not cancelled")
+      res.redirect("/orders")
+    }
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
-  if (success) {
-    console.log("cancelled")
-    res.redirect("/orders")
-  } else {
-    console.log("not cancelled")
-    res.redirect("/orders")
-  }
-
-
 }
 
 
 const getProducts = async (userId) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    const cartItems = await CartModel.aggregate([
+      {
+        $match: { userId: userId }
+      },
+      {
+        $unwind: '$cart'
+      },
+      {
+        $project:
+        {
+          product: { $toObjectId: "$cart.productId" },
+          count: "$cart.count",
+          size: "$cart.size"
+        }
+      },
+      {
+        $lookup:
+        {
+          from: "products",
+          localField: "product",
+          foreignField: "_id",
+          as: "product"
+        }
+      },
+      {
+        $unwind: '$product'
+      }
+    ])
+    return cartItems
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  const cartItems = await CartModel.aggregate([
-    {
-      $match: { userId: userId }
-    },
-    {
-      $unwind: '$cart'
-    },
-    {
-      $project:
-      {
-        product: { $toObjectId: "$cart.productId" },
-        count: "$cart.count",
-        size: "$cart.size"
-      }
-    },
-    {
-      $lookup:
-      {
-        from: "products",
-        localField: "product",
-        foreignField: "_id",
-        as: "product"
-      }
-    },
-    {
-      $unwind: '$product'
-    }
-
-
-  ])
-
-  return cartItems
 }
 
 
 const orderDetailView = async (req, res) => {
-  const orderObjId = req.query.id;
 
   try {
+    const orderObjId = req.query.id;
     const orderDetails = await OrderModel.findById({ _id: orderObjId });
-
-   
 
     if (!orderDetails) {
       return res.status(404).json({ message: 'Order not found' });
@@ -993,8 +875,6 @@ const orderDetailView = async (req, res) => {
     if (isNaN(deliveryDate.getTime())) {
       return res.status(400).json({ message: 'Invalid delivery date' });
     }
-
-
     // Calculate the difference in days
     const daysDifference = Math.floor((today - deliveryDate) / (1000 * 60 * 60 * 24)) + 1;
 
@@ -1003,7 +883,6 @@ const orderDetailView = async (req, res) => {
       orderReturn = true;
     }
 
-    console.log(orderDetails, "------------------------------")
     res.render('user/order-detail-view', { orderDetails, orderReturn });
 
   } catch (error) {
@@ -1014,12 +893,11 @@ const orderDetailView = async (req, res) => {
 
 
 const returnUserOrder = async (req, res) => {
-  console.log("gehehehehehee")
+
   try {
     const orderObjId = req.query.orderId
     const returnType = req.query.returnType
     const userId = req.session.user._id
-    console.log(orderObjId, "................", returnType)
     if (returnType == 1) {
 
       const orderDetails = await OrderModel.findById({ _id: orderObjId })
@@ -1068,127 +946,98 @@ const returnUserOrder = async (req, res) => {
 
     res.status(500).json({ error: 'Internal Server Error' });
   }
-
-
 }
 
 const contactView = (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    res.render("user/contact")
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  res.render("user/contact")
+
 }
 
 const orderResponseView = (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    res.render("user/order-response")
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  res.render("user/order-response")
+
 }
 
 
 const loadReport = async (req, res) => {
-  try{
 
-  }catch(err){
-    console.log(err,"catch error")
+  try {
+    const recentOrders = await OrderModel.find({ status: 'delivered' })
+    res.render("admin/sales-report", { recentOrders })
+  } catch (err) {
+    console.log(err, "catch error")
   }
-  const recentOrders = await OrderModel.find({ status: 'delivered' })
 
-  res.render("admin/sales-report", { recentOrders })
 }
 
 
 const generateReport = async (req, res) => {
-  console.log("yeyey")
 
   try {
-
     const browser = await puppeteer.launch({
       headless: false //
     });
     const page = await browser.newPage();
-
     await page.goto(`${req.protocol}://${req.get("host")}` + "/report", {
       waitUntil: "networkidle2"
     })
-
     await page.setViewport({ width: 1680, height: 1050 })
-
     const todayDate = new Date()
-
     const pdfn = await page.pdf({
       path: `${path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")}`,
       printBackground: true,
       format: "A4"
     })
-
     if (browser) await browser.close()
-
     const pdfURL = path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")
-
-    // res.set({
-    //   "Content-Type":"application/pdf",
-    //   "Content-Length":pdfn.length
-    // })
-    // res.sendFile(pdfURL)
-
     res.download(pdfURL, function (err) {
       if (err) {
         console.log(err)
       }
-
     })
-
   } catch (error) {
     console.log(error.message)
   }
 }
 
-
 const invoiceView = async (req, res) => {
-  try{
-
-  }catch(err){
-    console.log(err,"catch error")
-  }
-
-  const today = new Date();
-
-  const day = String(today.getDate()).padStart(2, '0');
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-  const year = today.getFullYear();
-  const formattedDate = `${day} ${month} ${year}`;
-
-  const orderObjId = req.query.id
-
-  let userOrders = await OrderModel.find({ _id: orderObjId })
-
-  userOrders = userOrders[0]
-
-  const userDetails = await UserModel.findById({ _id: userOrders.userId })
-
-  const productDetails = userOrders.products
-
-  res.render("user/invoice", { userOrders, productDetails, formattedDate, userDetails })
-}
-
-
-
-
-const invoiceReport = async (req, res) => {
-  
-
-  const orderObjId = req.query.id
-  console.log(orderObjId, "kkkkkkkkkkkkkkk")
-
 
   try {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const year = today.getFullYear();
+    const formattedDate = `${day} ${month} ${year}`;
+    const orderObjId = req.query.id
 
+    let userOrders = await OrderModel.find({ _id: orderObjId })
+
+    userOrders = userOrders[0]
+
+    const userDetails = await UserModel.findById({ _id: userOrders.userId })
+
+    const productDetails = userOrders.products
+
+    res.render("user/invoice", { userOrders, productDetails, formattedDate, userDetails })
+  } catch (err) {
+    console.log(err, "catch error")
+  }
+}
+
+const invoiceReport = async (req, res) => {
+
+  try {
+    const orderObjId = req.query.id
     const browser = await puppeteer.launch({
       headless: false //
     });
@@ -1217,38 +1066,34 @@ const invoiceReport = async (req, res) => {
       }
 
     })
-
   } catch (error) {
     console.log(error.message)
   }
 }
 
 
-const couponValidate = async (req,res) =>{
-  try{
-     let response
+const couponValidate = async (req, res) => {
 
-     const couponCode = req.body.couponCode
-     const totalAmount = req.body.totalAmount
-     console.log(req.body,"hhhhhhhhhhhhhhhhhhhhhhhh")
-     const couponValidate = await CouponModel.findOne({couponName:couponCode})
-     if(couponValidate){
-      
+  try {
+    let response
+    const couponCode = req.body.couponCode
+    const totalAmount = req.body.totalAmount
+
+    const couponValidate = await CouponModel.findOne({ couponName: couponCode })
+    if (couponValidate) {
+
       const couponDiscount = (totalAmount * couponValidate.couponPercentage) / 100;
       const discountTotal = (totalAmount - couponDiscount)
+  
+      response = { status: true, discountTotal }
+    } else {
+      response = { status: false }
+    }
 
-      
+    res.json(response)
 
-      console.log(discountTotal,"bbbbbbbbbbbbb")
-      response = { status : true , discountTotal}
-     }else{
-      response = { status : false}
-     }
-
-     res.json(response)
-
-  }catch(err){
-      console.log(err)
+  } catch (err) {
+    console.log(err)
   }
 }
 
