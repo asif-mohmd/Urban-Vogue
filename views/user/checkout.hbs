@@ -131,7 +131,7 @@
                                 {{#each newAddress.address}}
                                 <div class="card">
                                     <label>
-                                        <input name="address" class="radio" type="radio" id="addressId_{{this._id}}">
+                                        <input name="address" onclick="enablePlaceOrder()"  class="radio" type="radio" id="addressId_{{this._id}}">
                                         <span class="plan-details">
                                             <span class="plan-type">Address Line {{increment @key}}</span>
                                             <input type="text" value="{{this._id}}" id="addressIdValue_{{this._id}}"
@@ -166,8 +166,10 @@
 
                         </div>
 
-                        <p class="ml-3 mt-1 text-danger" id="invalidCoupon" style="display: none;">Invalid Coupon</p>
+                        <p class="ml-3 mt-1 text-danger" id="invalidCoupon" style="display: none;">Coupon not validated</p>
                         <p class="ml-3 mt-1 text-success" id="validCoupon" style="display: none;">Coupon Added</p>
+                     
+                        <button class="btn btn-danger ml-3" type="button" onclick="clearCoupon()" id="removeBtn"  style="display: none;">Remove</button>
 
                         <div>
                             <div class="checkout__order mt-3">
@@ -216,7 +218,7 @@
 
                                 </div>
                                 <button type="submit" onclick="placeOrderSubmit()" class="site-btn mt-4"
-                                    id="placeOrderButton">Place oder</button>
+                                    id="placeOrderButton" disabled>Place oder</button>
                             </div>
                         </div>
                     </div>
@@ -328,7 +330,12 @@
 
 
     <script>
-
+ function enablePlaceOrder() {
+      var button2 = document.getElementById("placeOrderButton");
+      button2.style.opacity = 1; // Enable button 2 by changing opacity
+      button2.disabled = false;  // Enable button 2
+      button2.style.pointerEvents = "auto"; // Enable pointer events on button 2
+    }
 
 
         function applyCoupon() {
@@ -355,6 +362,7 @@
                         document.getElementById("validCoupon").style.display = "none";
                         document.getElementById("discountTotal").style.display = "none"
                         document.getElementById("onlyTotal").style.display = "block"
+                        document.getElementById("removeBtn").style.display = "none"
 
                     } else {
 
@@ -362,9 +370,12 @@
                         document.getElementById("invalidCoupon").style.display = "none";
                         document.getElementById("validCoupon").style.display = "block";
                         document.getElementById("onlyTotal").style.display = "none"
-
+                      document.getElementById("removeBtn").style.display = "block"
                         document.getElementById("discountTotal").style.display = "block"
                         document.getElementById('discountPrice').innerText =  response.discountTotal;
+
+
+        
 
                     }
 
@@ -373,10 +384,19 @@
 
         }
 
-
+async function clearCoupon() {
+    var couponCodeInput = document.getElementById("couponCode");
+    couponCodeInput.value = ""; // Clears the input field
+    await applyCoupon()
+   
+       document.getElementById("emptyCoupon").style.display = "block";
+     
+}
 
 
         function placeOrderSubmit() {
+
+            
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
             let finalAmount = 0
 

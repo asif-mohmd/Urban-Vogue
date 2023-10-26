@@ -9,6 +9,11 @@
     --radio-size: 1.5em;
     --card-width: calc(50% - var(--card-padding)); /* Added card width */
   }
+  #placeOrderButton {
+    opacity: 0.5; /* Set the initial opacity to make it appear disabled */
+    pointer-events: none; /* Disable pointer events on button 2 */
+  }
+
 
   .grid {
     display: grid;
