@@ -297,9 +297,6 @@ const productListView = async (req, res) => {
 }
 
 
-
-
-
 // const productListView = async (req, res) => {
 
 //     const page = req.params.page;

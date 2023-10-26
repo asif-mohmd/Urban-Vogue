@@ -204,7 +204,6 @@ const orderDelivered = async (req, res) => {
         if (success) {
             res.redirect("/admin/delivered-orders")
         } else {
-            console.log("not delivered")
             res.redirect("/admin/pending-orders")
         }
     } catch (err) {
@@ -229,7 +228,6 @@ const orderCancelled = async (req, res) => {
         if (success) {
             res.redirect("/admin/cancelled-orders")
         } else {
-            console.log("not cancelled")
             res.redirect("/admin/pending-orders")
         }
     } catch (err) {
@@ -276,9 +274,12 @@ const returnAccept = async (req, res) => {
 
     // Check the result of the update
     if (walletUpdate) {
+        res.render("admin/return-pending")
         console.log("Wallet updated successfully. New wallet balance: ");
     } else {
+
         console.log(`Failed to update the wallet.`);
+        res.render("admin/return-pending")
     }
 
     // try{

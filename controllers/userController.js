@@ -643,8 +643,10 @@ const deleteCartItem = async (req, res) => {
 
   try {
     const productId = req.query.id
+    const size = req.query.size
+    // console.log(size,"111111111111111111")
     const userId = req.session.user._id;
-    const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId } } })
+    const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId , size:size} } })
 
     if (cart) {
       res.redirect("/cart")
@@ -657,14 +659,14 @@ const deleteCartItem = async (req, res) => {
 const changeProductQuantity = async (req, res) => {
 
   try {
-    let { cart, product, count, quantity } = req.body;
+    let { cart, product, size , count, quantity } = req.body;
     count = parseInt(count);
     quantity = parseInt(quantity);
 
     let response;
 
     if (count === -1 && quantity === 1) {
-      const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product } } });
+      const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product , size:size} } });
       if (removeProduct) {
 
         response = { removeProduct: true };
