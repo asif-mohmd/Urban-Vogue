@@ -339,7 +339,7 @@ const addCoupon = async (req, res) => {
     try {
         res.render("admin/add-coupon")
     } catch (err) {
-        console.log(err, "catch error")
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -353,7 +353,7 @@ const addNewCoupon = async (req, res) => {
             couponPercentage: couponPercentage,
             listStatus: true
         }
-        const exists = await CouponModel.findOne({ couponName: couponName });
+        const exists = await CouponModel.findOne({ couponName: { $regex: new RegExp(couponName, 'i') } });
 
         if (exists) {
             let msgExists = true
@@ -370,7 +370,7 @@ const addNewCoupon = async (req, res) => {
             }
         }
     } catch (err) {
-        console.log(err, "catch error")
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -389,7 +389,7 @@ const showListedCoupon = async (req, res) => {
         const listedCoupon = await CouponModel.find({ listStatus: true })
         res.render("admin/listed-coupon", { listedCoupon })
     } catch (err) {
-        console.log(err)
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -398,7 +398,7 @@ const showUnlistedCoupon = async (req, res) => {
         const unlistedCoupon = await CouponModel.find({ listStatus: false })
         res.render("admin/unlisted-coupon", { unlistedCoupon })
     } catch (err) {
-        console.log(err)
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -413,7 +413,7 @@ const listUnlistCoupon = async (req, res) => {
             res.render("admin/show-coupon", { msgUnlist })
         }
     } catch (err) {
-        console.log(err)
+        res.status(500).render("user/error-handling");
     }
 }
 

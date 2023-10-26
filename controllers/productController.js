@@ -11,7 +11,7 @@ const addProductView = async (req, res) => {
     try {
         res.render("admin/add-product")
     } catch (err) {
-        console.log(err, "catch error")
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -71,7 +71,7 @@ const productDetails = async (req, res) => {
         const cartCheck = await cartModel.findOne({ 'cart.productId': req.query.id })
         res.render("user/product-details", { singleProduct, cartCheck })
     } catch (err) {
-        console.log(err, "catch error")
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -82,7 +82,7 @@ const editProductDetails = async (req, res) => {
         const editProduct = await ProductModel.findOne({ _id: req.query.id })
         res.render("admin/edit-product-details", { editProduct })
     } catch (err) {
-        console.log(err, "catch error")
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -163,7 +163,7 @@ const editProductView = async (req, res) => {
         const products = await ProductModel.find({ deleteStatus: false })
         res.render("admin/edit-product", { products })
     } catch (err) {
-        console.log(err, "catch error")
+        res.status(500).render("user/error-handling");
     }
 
 }
@@ -291,7 +291,7 @@ const productListView = async (req, res) => {
 
     }
 } catch (err) {
-    console.log(err, "catch error")
+    res.status(500).render("user/error-handling");
 }
 
 }
@@ -306,7 +306,7 @@ const productListView = async (req, res) => {
 //         const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
 //         res.render("user/product-list", { products })
 //     } catch (err) {
-//         console.log(err, "catch error")
+//         res.status(500).render("user/error-handling");
 //     }
 // }
 
@@ -346,7 +346,7 @@ const productListView = async (req, res) => {
 //        console.log(totalPages,"pages",currentPage,"cuurentpage",startPage,"start",endPage,"end")
 //         res.render("user/product-list", { products ,allProduct, totalPages, currentPage, startPage, endPage})
 //     } catch (err) {
-//         console.log(err, "catch error")
+//         res.status(500).render("user/error-handling");
 //     }
 // }
 
