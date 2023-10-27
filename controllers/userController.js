@@ -201,7 +201,7 @@ const newAddressManagement = async (details, userId) => {
 }
 
 
-const removeNewAddress = async (req, res) => {
+const removeNewAddressUser = async (req, res) => {
 
   try {
     const addressId = req.query.id
@@ -219,6 +219,29 @@ const removeNewAddress = async (req, res) => {
       const newAddress = await AddressModel.findOne({ userId: userId })
       errOccurred = true
       res.render("user/user-profile", { errOccurred, userDetails, newAddress })
+    }
+
+  } catch (err) {
+    res.status(500).render("user/error-handling");
+  }
+}
+
+const removeNewAddressCheckout = async (req, res) => {
+
+  try {
+    const addressId = req.query.id
+    const userId = req.session.user._id
+
+    const addressRemoved = await AddressModel.updateOne({ userId: userId }, { $pull: { address: { _id: addressId } } })
+
+    if (addressRemoved) {
+
+      
+      res.redirect("/checkout")
+    } else {
+
+      
+      res.redirect("/checkout")
     }
 
   } catch (err) {
@@ -1150,7 +1173,8 @@ module.exports = {
   invoiceReport,
   addNewAddressUser,
   addNewAddressCheckout,
-  removeNewAddress,
+  removeNewAddressUser,
+  removeNewAddressCheckout,
   couponValidate,
   searchProducts
 

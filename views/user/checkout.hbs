@@ -34,6 +34,10 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/checkout.css" type="text/css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -131,7 +135,8 @@
                                 {{#each newAddress.address}}
                                 <div class="card">
                                     <label>
-                                        <input name="address" onclick="enablePlaceOrder()"  class="radio" type="radio" id="addressId_{{this._id}}">
+                                        <input name="address" onclick="enablePlaceOrder()" class="radio" type="radio"
+                                            id="addressId_{{this._id}}">
                                         <span class="plan-details">
                                             <span class="plan-type">Address Line {{increment @key}}</span>
                                             <input type="text" value="{{this._id}}" id="addressIdValue_{{this._id}}"
@@ -143,8 +148,34 @@
                                             <span>{{state}}</span>
                                             <span>{{pincode}}</span>
                                         </span>
+                                        <button type="button" class="btn btn-danger btn-sm ml-2" data-mdb-toggle="modal"
+                                            data-mdb-target="#exampleModal{{@key}}">Remove</button>
+                                        
                                     </label>
                                 </div>
+
+
+                                <div class="modal fade" id="exampleModal{{@key}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                           
+                                                <h5 class="modal-title m-2" id="exampleModalLabel">Warning</h5>
+                                              
+                                            <div class="modal-body">Are you sure?</div>
+                                            <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-mdb-dismiss="modal">Close</button>
+
+                                                <a href="/remove-new-address-checkout?id={{this._id}}"><button
+                                                        type="button" class="btn btn-danger">Remove Address</button></a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {{/each}}
                             </div>
                             <div class="text-center mt-3">
@@ -166,10 +197,12 @@
 
                         </div>
 
-                        <p class="ml-3 mt-1 text-danger" id="invalidCoupon" style="display: none;">Coupon not validated</p>
+                        <p class="ml-3 mt-1 text-danger" id="invalidCoupon" style="display: none;">Coupon not validated
+                        </p>
                         <p class="ml-3 mt-1 text-success" id="validCoupon" style="display: none;">Coupon Added</p>
-                     
-                        <button class="btn btn-danger ml-3" type="button" onclick="clearCoupon()" id="removeBtn"  style="display: none;">Remove</button>
+
+                        <button class="btn btn-danger ml-3" type="button" onclick="clearCoupon()" id="removeBtn"
+                            style="display: none;">Remove</button>
 
                         <div>
                             <div class="checkout__order mt-3">
@@ -327,15 +360,17 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
 
     <script>
- function enablePlaceOrder() {
-      var button2 = document.getElementById("placeOrderButton");
-      button2.style.opacity = 1; // Enable button 2 by changing opacity
-      button2.disabled = false;  // Enable button 2
-      button2.style.pointerEvents = "auto"; // Enable pointer events on button 2
-    }
+        function enablePlaceOrder() {
+            var button2 = document.getElementById("placeOrderButton");
+            button2.style.opacity = 1; // Enable button 2 by changing opacity
+            button2.disabled = false;  // Enable button 2
+            button2.style.pointerEvents = "auto"; // Enable pointer events on button 2
+        }
 
 
         function applyCoupon() {
@@ -370,12 +405,12 @@
                         document.getElementById("invalidCoupon").style.display = "none";
                         document.getElementById("validCoupon").style.display = "block";
                         document.getElementById("onlyTotal").style.display = "none"
-                      document.getElementById("removeBtn").style.display = "block"
+                        document.getElementById("removeBtn").style.display = "block"
                         document.getElementById("discountTotal").style.display = "block"
-                        document.getElementById('discountPrice').innerText =  response.discountTotal;
+                        document.getElementById('discountPrice').innerText = response.discountTotal;
 
 
-        
+
 
                     }
 
@@ -384,36 +419,36 @@
 
         }
 
-async function clearCoupon() {
-    var couponCodeInput = document.getElementById("couponCode");
-    couponCodeInput.value = ""; // Clears the input field
-    await applyCoupon()
-   
-       document.getElementById("emptyCoupon").style.display = "block";
-     
-}
+        async function clearCoupon() {
+            var couponCodeInput = document.getElementById("couponCode");
+            couponCodeInput.value = ""; // Clears the input field
+            await applyCoupon()
+
+            document.getElementById("emptyCoupon").style.display = "block";
+
+        }
 
 
         function placeOrderSubmit() {
 
-            
+
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
             let finalAmount = 0
 
-            if(document.getElementById("discountTotal").style.display === "block"){
-                   finalAmount = document.getElementById('discountPrice').textContent;
-                  console.log(finalAmount,"llllllllllllllllllll")
-            }else{
-               
+            if (document.getElementById("discountTotal").style.display === "block") {
+                finalAmount = document.getElementById('discountPrice').textContent;
+                console.log(finalAmount, "llllllllllllllllllll")
+            } else {
 
-                  finalAmount = document.getElementById('totalValue').innerText;
-                   console.log(finalAmount,"sssssssssssssssssssss")
+
+                finalAmount = document.getElementById('totalValue').innerText;
+                console.log(finalAmount, "sssssssssssssssssssss")
 
             }
 
             if (paymentMethod === "Wallet") {
                 var walletElement = document.getElementById('walletAmount');
-                
+
 
                 // Get the content of the selected element
                 var walletAmount = walletElement.innerText;
@@ -428,14 +463,14 @@ async function clearCoupon() {
 
                 if (totalAmount <= walletAmount) {
                     console.log("wallet")
-                    paymentMethodCheck(paymentMethod,finalAmount)
+                    paymentMethodCheck(paymentMethod, finalAmount)
 
 
                 } else {
                     document.getElementById('InsufficientWallet').textContent = "Insufficient wallet amount";
                 }
             } else {
-                paymentMethodCheck(paymentMethod,finalAmount)
+                paymentMethodCheck(paymentMethod, finalAmount)
                 console.log("noo walleet")
             }
             // Find the selected address ID
@@ -448,7 +483,7 @@ async function clearCoupon() {
 
 
 
-        function paymentMethodCheck(paymentMethod,finalAmount) {
+        function paymentMethodCheck(paymentMethod, finalAmount) {
             let selectedAddressId;
 
 
@@ -459,7 +494,7 @@ async function clearCoupon() {
                 selectedAddressId = checkedInput.id.split('_')[1]; // Extract the ID from the input's ID attribute
             }
 
-            console.log(paymentMethod, "method", selectedAddressId,"ammmtttt",finalAmount);
+            console.log(paymentMethod, "method", selectedAddressId, "ammmtttt", finalAmount);
 
 
             $.ajax({
@@ -468,7 +503,7 @@ async function clearCoupon() {
                 data: {
                     paymentMethod: paymentMethod,
                     selectedAddressId: selectedAddressId,
-                    finalAmount:finalAmount
+                    finalAmount: finalAmount
                 },
                 success: ((response) => {
                     console.log(response, "ajaxxxxxxxxxxxxxxxxx")

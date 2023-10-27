@@ -33,7 +33,8 @@ router.get("/report-generate",userControllers.generateReport)
 router.get("/invoice",userControllers.invoiceView)
 router.get("/invoice-generate",userControllers.invoiceReport)
 router.get("/product-list",productControllers.productListView)
-router.get("/remove-new-address",userControllers.removeNewAddress)
+router.get("/remove-new-address-user",userControllers.removeNewAddressUser)
+router.get("/remove-new-address-checkout",userControllers.removeNewAddressCheckout)
 router.get("/search",userControllers.searchProducts)
 
 
