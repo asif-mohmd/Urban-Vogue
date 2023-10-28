@@ -406,6 +406,8 @@ const placeOrder = async (req, res) => {
   try {
     let response;
     const selectedAddressId = new ObjectId(req.body.selectedAddressId);
+    const couponCode = req.body.couponCode
+    console.log(couponCode,"CCCCCCCCCCCCCCCCCCCCCCCC")
     const randomOrderId = generateRandomOrder();
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate);
@@ -431,6 +433,7 @@ const placeOrder = async (req, res) => {
       "address": address,
       "date": formattedDate,
       products: products,
+      "couponCode":couponCode, 
       "amount": finalAmount,
       "paymentMethod": "COD",
       "status": "pending"
@@ -439,54 +442,54 @@ const placeOrder = async (req, res) => {
 
     const order = await OrderModel.create(data)
 
-    if (order) {
-      console.log("222")
+    // if (order) {
+    //   console.log("222")
 
-      if (req.body.paymentMethod == 'Wallet') {
+    //   if (req.body.paymentMethod == 'Wallet') {
 
-        let stockUpdate = stockQuantityUpdate()
+    //     let stockUpdate = stockQuantityUpdate()
 
-        if (stockUpdate) {
+    //     if (stockUpdate) {
 
-          await UserModel.updateOne({ _id: userId }, { $inc: { wallet: -finalAmount } })
+    //       await UserModel.updateOne({ _id: userId }, { $inc: { wallet: -finalAmount } })
 
-          const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
-          const updatedDetails = await OrderModel.updateOne({ orderId: order.orderId }, { $set: { paymentMethod: "Wallet" } })
+    //       const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+    //       const updatedDetails = await OrderModel.updateOne({ orderId: order.orderId }, { $set: { paymentMethod: "Wallet" } })
 
-          if (updatedDetails) {
-            response = { status: true, pendingOrders }
-            res.json(response);
-          } else {
-            response = { status: false }
-            res.json(response);
-          }
-        }
-      }
+    //       if (updatedDetails) {
+    //         response = { status: true, pendingOrders }
+    //         res.json(response);
+    //       } else {
+    //         response = { status: false }
+    //         res.json(response);
+    //       }
+    //     }
+    //   }
 
-      else if (req.body.paymentMethod == 'Online') {
+    //   else if (req.body.paymentMethod == 'Online') {
 
-        const order = await generateRazorpay(randomOrderId, finalAmount)
+    //     const order = await generateRazorpay(randomOrderId, finalAmount)
 
-        response = { status: true, order }
-        res.json(response);
+    //     response = { status: true, order }
+    //     res.json(response);
 
-      } else {
+    //   } else {
 
-        let stockUpdate = stockQuantityUpdate()
+    //     let stockUpdate = stockQuantityUpdate()
 
-        if (stockUpdate) {
+    //     if (stockUpdate) {
 
-          const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
+    //       const pendingOrders = await OrderModel.findOne({ orderId: order.orderId })
 
-          response = { status: true, pendingOrders }
-          // res.render("user/order-response",{pendingOrders})
-          res.json(response);
-        }
+    //       response = { status: true, pendingOrders }
+    //       // res.render("user/order-response",{pendingOrders})
+    //       res.json(response);
+    //     }
 
-      }
-    } else {
-      console.log("no orders")
-    }
+    //   }
+    // } else {
+    //   console.log("no orders")
+    // }
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
@@ -699,9 +702,9 @@ const changeProductQuantity = async (req, res) => {
     } else {
 
       const productDetails = await ProductModel.findOne({ _id: product })
-
+console.log(size,"yyyyyyyyyyyyyyyyyyyyy")
       if (productDetails.stock >= quantity + count) {
-        const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product }, { $inc: { 'cart.$.count': count } });
+        const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product ,  'cart.size': size}, { $inc: { 'cart.$.count': count } });
         if (updated) {
 
           const userId = req.session.user._id

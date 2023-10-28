@@ -138,7 +138,8 @@
                                         <input name="address" onclick="enablePlaceOrder()" class="radio" type="radio"
                                             id="addressId_{{this._id}}">
                                         <span class="plan-details">
-                                            <span class="plan-type">Address Line {{increment @key}}</span>
+                                            <span class="plan-type">Address {{increment @key}}</span>
+                                            <hr>
                                             <input type="text" value="{{this._id}}" id="addressIdValue_{{this._id}}"
                                                 hidden>
                                             <span>{{name}}</span>
@@ -148,7 +149,7 @@
                                             <span>{{state}}</span>
                                             <span>{{pincode}}</span>
                                         </span>
-                                        <button type="button" class="btn btn-danger btn-sm ml-2" data-mdb-toggle="modal"
+                                        <button type="button" class="btn btn-danger btn-sm ml-2 mt-2" data-mdb-toggle="modal"
                                             data-mdb-target="#exampleModal{{@key}}">Remove</button>
                                         
                                     </label>
@@ -365,6 +366,12 @@
 
 
     <script>
+     
+     
+     let couponCode = "noCoupon"
+
+
+
         function enablePlaceOrder() {
             var button2 = document.getElementById("placeOrderButton");
             button2.style.opacity = 1; // Enable button 2 by changing opacity
@@ -434,15 +441,18 @@
 
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
             let finalAmount = 0
+            
 
             if (document.getElementById("discountTotal").style.display === "block") {
                 finalAmount = document.getElementById('discountPrice').textContent;
-                console.log(finalAmount, "llllllllllllllllllll")
+                 couponCode = document.getElementById('couponCode').value
+                console.log(coupenCode,"coupen code")
+                
             } else {
 
 
                 finalAmount = document.getElementById('totalValue').innerText;
-                console.log(finalAmount, "sssssssssssssssssssss")
+      
 
             }
 
@@ -470,7 +480,7 @@
                     document.getElementById('InsufficientWallet').textContent = "Insufficient wallet amount";
                 }
             } else {
-                paymentMethodCheck(paymentMethod, finalAmount)
+                paymentMethodCheck(paymentMethod, finalAmount )
                 console.log("noo walleet")
             }
             // Find the selected address ID
@@ -503,7 +513,8 @@
                 data: {
                     paymentMethod: paymentMethod,
                     selectedAddressId: selectedAddressId,
-                    finalAmount: finalAmount
+                    finalAmount: finalAmount,
+                    couponCode: couponCode
                 },
                 success: ((response) => {
                     console.log(response, "ajaxxxxxxxxxxxxxxxxx")

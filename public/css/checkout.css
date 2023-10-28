@@ -2,7 +2,7 @@
     --card-line-height: 1.2em;
     --card-padding: 1em;
     --card-radius: 0.5em;
-    --color-green: #2874f0;
+    --color-green: #4e5665;
     --color-gray: #ffffff;
     --color-dark-gray: #ffffff;
     --radio-border-width: 2px;
@@ -84,8 +84,7 @@
   }
   
   .plan-details {
-    border: var(--radio-border-width) solid var(--color-gray);
-    border-radius: var(--card-radius);
+ 
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -133,9 +132,10 @@ border-color: transparent;
   
   .plan-type {
     color: var(--color-green);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
     line-height: 1em;
+    margin-left: 1%;
   }
   
   .plan-cost {
