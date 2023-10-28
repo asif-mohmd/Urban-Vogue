@@ -399,6 +399,10 @@
                 })
             }).then(response => response.json())
                 .then(response => {
+
+                    
+
+
                     if (response.status == false) {
                         document.getElementById("invalidCoupon").style.display = "block";
                         document.getElementById("validCoupon").style.display = "none";
@@ -446,7 +450,7 @@
             if (document.getElementById("discountTotal").style.display === "block") {
                 finalAmount = document.getElementById('discountPrice').textContent;
                  couponCode = document.getElementById('couponCode').value
-                console.log(coupenCode,"coupen code")
+                console.log(couponCode,"coupen code")
                 
             } else {
 
