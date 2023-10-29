@@ -456,7 +456,7 @@
 
 
                 finalAmount = document.getElementById('totalValue').innerText;
-      
+      console.log(finalAmount,"hhhhhhhhhhhhh")
 
             }
 
@@ -466,14 +466,14 @@
 
                 // Get the content of the selected element
                 var walletAmount = walletElement.innerText;
-                var totalAmount = finalAmount.innerText;
-
+                var totalAmount = finalAmount
+console.log(totalAmount,"ffffffffffffffffffffffffffffffffffffffffffff")
                 // Extract the numeric value from the content
                 var walletAmount = parseInt(walletAmount);
                 var totalAmount = parseInt(totalAmount);
 
                 // Log the wallet amount
-                console.log(walletAmount, ";;;;;;;;;;;;;;;;;;;;;", totalAmount);
+                console.log(walletAmount, ";;;;;;;;;;;;;;;;;;;;;", finalAmount);
 
                 if (totalAmount <= walletAmount) {
                     console.log("wallet")

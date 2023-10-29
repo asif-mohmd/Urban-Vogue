@@ -202,7 +202,7 @@ const orderDelivered = async (req, res) => {
         const orderId = req.query.id
         const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "delivered" } })
         if (success) {
-            res.redirect("/admin/delivered-orders")
+            res.redirect("/admin/pending-orders")
         } else {
             res.redirect("/admin/pending-orders")
         }

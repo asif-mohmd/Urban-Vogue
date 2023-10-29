@@ -157,7 +157,7 @@ const addNewAddressCheckout = async (req, res) => {
 
 
 const newAddressManagement = async (details, userId) => {
-  
+
   try {
     const { name, email, mobile, address, city, state, pincode } = details;
     const newAddress = {
@@ -236,11 +236,11 @@ const removeNewAddressCheckout = async (req, res) => {
 
     if (addressRemoved) {
 
-      
+
       res.redirect("/checkout")
     } else {
 
-      
+
       res.redirect("/checkout")
     }
 
@@ -407,7 +407,7 @@ const placeOrder = async (req, res) => {
     let response;
     const selectedAddressId = new ObjectId(req.body.selectedAddressId);
     const couponCode = req.body.couponCode
-    console.log(couponCode,"CCCCCCCCCCCCCCCCCCCCCCCC")
+    console.log(couponCode, "CCCCCCCCCCCCCCCCCCCCCCCC")
     const randomOrderId = generateRandomOrder();
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate);
@@ -434,7 +434,7 @@ const placeOrder = async (req, res) => {
       "date": formattedDate,
       products: products,
       "amount": finalAmount,
-      "couponCode":couponCode, 
+      "couponCode": couponCode,
       "paymentMethod": "COD",
       "status": "pending"
 
@@ -672,7 +672,7 @@ const deleteCartItem = async (req, res) => {
     const size = req.query.size
     // console.log(size,"111111111111111111")
     const userId = req.session.user._id;
-    const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId , size:size} } })
+    const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId, size: size } } })
 
     if (cart) {
       res.redirect("/cart")
@@ -685,14 +685,14 @@ const deleteCartItem = async (req, res) => {
 const changeProductQuantity = async (req, res) => {
 
   try {
-    let { cart, product, size , count, quantity } = req.body;
+    let { cart, product, size, count, quantity } = req.body;
     count = parseInt(count);
     quantity = parseInt(quantity);
 
     let response;
 
     if (count === -1 && quantity === 1) {
-      const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product , size:size} } });
+      const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product, size: size } } });
       if (removeProduct) {
 
         response = { removeProduct: true };
@@ -702,9 +702,9 @@ const changeProductQuantity = async (req, res) => {
     } else {
 
       const productDetails = await ProductModel.findOne({ _id: product })
-console.log(size,"yyyyyyyyyyyyyyyyyyyyy")
+      console.log(size, "yyyyyyyyyyyyyyyyyyyyy")
       if (productDetails.stock >= quantity + count) {
-        const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product ,  'cart.size': size}, { $inc: { 'cart.$.count': count } });
+        const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product, 'cart.size': size }, { $inc: { 'cart.$.count': count } });
         if (updated) {
 
           const userId = req.session.user._id
@@ -1113,16 +1113,16 @@ const couponValidate = async (req, res) => {
     const couponValidate = await CouponModel.findOne({ couponName: couponCode })
     if (couponValidate) {
 
-      const existingCoupon = await OrderModel.findOne({userId:userId , couponCode : couponCode})
+      const existingCoupon = await OrderModel.findOne({ userId: userId, couponCode: couponCode })
 
-      if(existingCoupon){
+      if (existingCoupon) {
         response = { status: false }
 
-      }else{
+      } else {
 
         const couponDiscount = (totalAmount * couponValidate.couponPercentage) / 100;
         const discountTotal = (totalAmount - couponDiscount)
-    
+
         response = { status: true, discountTotal }
       }
 
@@ -1139,18 +1139,32 @@ const couponValidate = async (req, res) => {
 
 
 
-const searchProducts = async (req,res) =>{
+const searchProducts = async (req, res) => {
 
   let searchs = req.query.search;
   // let searchProduct = await productHelper.searchProduct(search);
-  var search=new RegExp(searchs,'i')
+  var search = new RegExp(searchs, 'i')
 
-  const searchProduct = await ProductModel.find({$or:[{Name:search},{Category:search}]})
-console.log("earch");
+  const searchProduct = await ProductModel.find({ $or: [{ Name: search }, { Category: search }] })
+  console.log("earch");
   res.json(searchProduct);
 
 
-res.json(searchProduct);
+  res.json(searchProduct);
+}
+
+
+const WishlistHistory = async (req, res) => {
+  try {
+
+    const walletHistory = await OrderModel.find({paymentMethod:"Wallet"})
+  
+
+   console.log(walletHistory,"kkkkkkkkkkkkkkkkkkkkkkkkkk")
+    res.render("user/wallet-history",{walletHistory})
+  } catch (err) {
+    res.status(500).render("user/error-handling");
+  }
 }
 
 
@@ -1191,7 +1205,8 @@ module.exports = {
   removeNewAddressUser,
   removeNewAddressCheckout,
   couponValidate,
-  searchProducts
+  searchProducts,
+  WishlistHistory
 
 
 };
