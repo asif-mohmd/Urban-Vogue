@@ -37,7 +37,8 @@ router.get("/remove-new-address-user",userControllers.removeNewAddressUser)
 router.get("/remove-new-address-checkout",userControllers.removeNewAddressCheckout)
 router.get("/search",userControllers.searchProducts)
 router.get("/wishlist-history",userControllers.WishlistHistory)
-
+router.get("/coming-soon",userControllers.comingSoon)
+router.get("/error-handling",userControllers.errHandler)
 
 
 // POST Methods

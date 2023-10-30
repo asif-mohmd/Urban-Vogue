@@ -1168,6 +1168,14 @@ const WishlistHistory = async (req, res) => {
 }
 
 
+const comingSoon = async (req,res)=>{
+  res.render("user/coming-soon")
+}
+
+
+const errHandler = async (req,res) =>{
+  res.render("user//error-handling")
+}
 
 
 
@@ -1206,7 +1214,9 @@ module.exports = {
   removeNewAddressCheckout,
   couponValidate,
   searchProducts,
-  WishlistHistory
+  WishlistHistory,
+  comingSoon,
+  errHandler
 
 
 };
