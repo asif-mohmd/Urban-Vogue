@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 
-    
+
 
 
 </head>
@@ -140,73 +140,109 @@
 
                 <div class="col-lg-3 col-md-3">
                     <form action="/product-list" method="get">
-                    <div class="shop__sidebar">
+                        <div class="shop__sidebar">
                             <div class="sidebar__sizes">
-                            <div class="section-title">
-                                <h4>Shop by categories</h4>
-                            </div>
-                            <div class="size__list">
-                                   <input type="text" name="sort" value="sort" id="sort" hidden>
+                                <div class="section-title">
+                                    <h4>Shop by categories</h4>
+                                </div>
+                                <div class="size__list">
+                                    {{#if (eq mens 1)}}
+                                    <label for="mens">
+                                        MEN
+                                        <input type="checkbox" name="category" value="mens" id="mens" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{else}}
+                                    <label for="mens">
+                                        MEN
+                                        <input type="checkbox" name="category" value="mens" id="mens">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{/if}}
 
-                                <label for="mens">
-                                    MEN
-                                    <input type="checkbox" name="category" value="mens" id="mens">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="womens">
-                                    WOMEN
-                                    <input type="checkbox" name="category" value="womens" id="womens">
-                                    <span class="checkmark"></span>
-                                </label>
-                            
+                                    {{#if (eq womens 1)}}
+                                    <label for="womens">
+                                        WOMEN
+                                        <input type="checkbox" name="category" value="womens" id="womens" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{else}}
+                                    <label for="womens">
+                                        WOMEN
+                                        <input type="checkbox" name="category" value="womens" id="womens">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{/if}}
+                                </div>
 
                             </div>
-                        </div>
-                        {{!-- <div class="sidebar__filter">
-                            <div class="section-title">
-                                <h4>Shop by price</h4>
-                            </div>
-                            <div class="filter-range-wrap">
-                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                    data-min="33" data-max="99"></div>
-                                <div class="range-slider">
-                                    <div class="price-input">
-                                        <p>Price:</p>
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
+                            {{!-- <div class="sidebar__filter">
+                                <div class="section-title">
+                                    <h4>Shop by price</h4>
+                                </div>
+                                <div class="filter-range-wrap">
+                                    <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                        data-min="33" data-max="99"></div>
+                                    <div class="range-slider">
+                                        <div class="price-input">
+                                            <p>Price:</p>
+                                            <input type="text" id="minamount">
+                                            <input type="text" id="maxamount">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <a href="#">Filter</a>
-                        </div> --}}
-                        <div class="sidebar__sizes">
-                            <div class="section-title">
-                                <h4>Shop by size</h4>
-                            </div>
-                            <div class="size__list">
+                                <a href="#">Filter</a>
+                            </div> --}}
+                            <div class="sidebar__sizes">
+                                <div class="section-title">
+                                    <h4>Shop by size</h4>
+                                </div>
+                                <div class="size__list">
+                                    {{#if (eq small 1)}}
+                                    <label for="s">
+                                        s
+                                        <input type="checkbox" name="size" value="Small" id="s" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{else}}
+                                    <label for="s">
+                                        s
+                                        <input type="checkbox" name="size" value="Small" id="s">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{/if}}
+                                    {{#if (eq medium 1)}}
+                                    <label for="m">
+                                        m
+                                        <input type="checkbox" name="size" value="Medium" id="m" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{else}}
+                                    <label for="m">
+                                        m
+                                        <input type="checkbox" name="size" value="Medium" id="m">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{/if}}
+                                    {{#if (eq large 1)}}
+                                    <label for="l">
+                                        l
+                                        <input type="checkbox" name="size" value="Large" id="l" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{else}}
+                                    <label for="l">
+                                        l
+                                        <input type="checkbox" name="size" value="Large" id="l">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    {{/if}}
+                                </div>
 
-
-                                <label for="s">
-                                    s
-                                    <input type="checkbox" name="size" value="Large" id="s">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="m">
-                                    m
-                                    <input type="checkbox" name="size" value="Medium" id="m">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label for="l">
-                                    l
-                                    <input type="checkbox" name="size" value="Small" id="l">
-                                    <span class="checkmark"></span>
-                                </label>
-
                             </div>
+
                         </div>
-
-                    </div>
-                       <button type="submit" class="btn btn-danger">Submit</button>
+                        <button type="submit" class="btn btn-danger">Submit</button>
                     </form>
                 </div>
 

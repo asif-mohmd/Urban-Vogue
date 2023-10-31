@@ -225,7 +225,7 @@ const productListView = async (req, res) => {
     let pages
 
 
-    if (req.query.sort) {
+    if (req.query.sort || req.query.category) {
         console.log(req.query.size, "fffffffffffffffff");
         const sizes = req.query.size;
         const category = req.query.category; // Assuming you have the category in the request body
@@ -266,8 +266,57 @@ const productListView = async (req, res) => {
             countPages[i] = i + 1
         }
         console.log(countPages, "kkkkkkkkkkk")
+        console.log(sizes,"sizesssssssss")
 
-        res.render("user/product-list", { products, countPages })
+
+        let small = 0;
+        let medium = 0;
+        let large = 0;
+        let mens = 0
+        let womens = 0
+
+
+        
+        
+        // sizes
+
+        if (Array.isArray(sizes)) {
+            for (let i = 0; i < sizes.length; i++) {
+                if (sizes[i] === "Small") {
+                    small++;
+                } else if (sizes[i] === "Medium") {
+                    medium++;
+                } else if (sizes[i] === "Large") {
+                    large++;
+                }
+            }
+        } else if (sizes === "Small") {
+            small++;
+        } else if (sizes === "Medium") {
+            medium++;
+        } else if (sizes === "Large") {
+            large++;
+        }
+
+        //category 
+        if (Array.isArray(category)) {
+            for (let i = 0; i < category.length; i++) {
+                if (category[i] === "mens") {
+                    mens++;
+                } else if (category[i] === "womens") {
+                    womens++;
+                } 
+            }
+        } else if (category === "mens") {
+            mens++;
+        } else if (category === "womens") {
+            womens++;
+        } 
+        
+
+        console.log("small:",small,"medium:",medium,"large:",large)
+
+        res.render("user/product-list", { products, countPages ,mens, womens,  small ,medium , large })
 
 
     } else {
