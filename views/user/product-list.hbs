@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/search.css">
 
 
 
@@ -76,7 +77,7 @@
                         <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-7">
+                <div class="col-xl-3 col-lg-3">
                     <nav class="header__menu">
                         <ul>
                             <li><a href="/">Home</a></li>
@@ -84,18 +85,37 @@
                             <li class="active"><a href="/product-list">ALL Product</a></li>
 
 
-                            <li ><a href="/contact-page">Contact</a></li>
+                            <li><a href="/contact-page">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <div class="header__right__auth">
-                            <a href="/logout">Logout</a>
 
+
+
+                <div class="contianer col-xl-3">
+                    <div class="TopHeader" id="TopHeader">
+                        <!-- search input box start -->
+                        <div class="InputBox" id="inputBar">
+                            <input class="input-searchbar" type="search" placeholder="Search" id="SearchInput"
+                                autocomplete="off">
+                            <div class="SearchIcon">
+                                <i class="fa fa-search"></i>
+                            </div>
+                            <!-- search result dropdown box start -->
+                            <ul class="SearchResult resultBox" id="ResultBox">
+
+                            </ul>
+                            <!-- search result dropdown box End -->
                         </div>
+                        <!-- search input box End -->
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xl-3">
+                    <div class="header__right">
+
+
                         <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
+                            <li> </li>
                             <li><a href="/wishlist"><span class="icon_heart_alt"></span>
                                     {{!-- <div class="tip">2</div> --}}
                                 </a></li>
@@ -109,6 +129,7 @@
                         </ul>
                     </div>
                 </div>
+
 
             </div>
             <div class="canvas__open">
@@ -393,17 +414,80 @@
     <script src="js/main.js"></script>
 
 
-    {{!--
     <script>
-        function changePage(page) {
 
-            console.log(page, "uuuuuuuuuuuuuuuu")
-            const returnUrl = `/product-list?page=${page}`;
-            console.log("Return URL:", returnUrl);
 
-            window.location.href = returnUrl;
+        const searchInput = document.querySelector(".InputBox");
+        const input = searchInput.querySelector("input");
+        const resultBox = searchInput.querySelector(".resultBox");
+        var SearchResult = document.getElementById("ResultBox");
+        let webLink;
+
+        // if user press any key and release
+        input.onkeyup = (e) => {
+            let userData = e.target.value; //user enetered data
+            let emptyArray = [{}];
+            if (userData) {
+                $.ajax({
+                    url: '/search',
+                    type: 'GET',
+                    data: { search: userData },
+                    success: function (data) {
+                        if (data.length > 0) {
+
+                            emptyArray = data.map(function (val) {
+                                return (val);
+                            });
+
+                            emptyArray = emptyArray.map((data) => {
+
+
+                                // passing return data inside li tag
+                                return data = '<li> <a href="/product-details?id=' + data._id + '">' + data.name + '</a></li>';
+                            });
+
+                            SearchResult.style.display = "block"; //show autocomplete box
+                            showSuggestions(emptyArray);
+                            let allList = resultBox.querySelectorAll("li");
+                            for (let i = 0; i < allList.length; i++) {
+                                //adding onclick attribute in all li tag
+                                allList[i].setAttribute("onclick", "select(this)");
+                            }
+                        } else {
+
+                            data = '<ul> </ul>';
+                            resultBox.innerHTML = data;
+                        }
+                    }
+                })
+            }
+            else {
+                SearchResult.style.display = "none"; //hide autocomplete box
+            }
         }
-    </script> --}}
+
+        const elem = document.getElementById('inputBar')
+        elem.onmouseover = function () {
+            SearchResult.style.display = "block";
+        }
+
+
+        elem.onmouseout = function () {
+            SearchResult.style.display = "none";
+        }
+
+        function showSuggestions(list) {
+            let listData;
+            if (!list.length) {
+                userValue = inputBox.value;
+                return data = '<ul>' + data + '</ul>';
+            } else {
+                listData = list.join('');
+            }
+            resultBox.innerHTML = listData;
+        }
+
+    </script>
 
 
 

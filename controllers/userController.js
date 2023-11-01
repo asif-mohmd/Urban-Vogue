@@ -1139,19 +1139,7 @@ const couponValidate = async (req, res) => {
 
 
 
-const searchProducts = async (req, res) => {
 
-  let searchs = req.query.search;
-  // let searchProduct = await productHelper.searchProduct(search);
-  var search = new RegExp(searchs, 'i')
-
-  const searchProduct = await ProductModel.find({ $or: [{ Name: search }, { Category: search }] })
-  console.log("earch");
-  res.json(searchProduct);
-
-
-  res.json(searchProduct);
-}
 
 
 const WishlistHistory = async (req, res) => {
@@ -1177,6 +1165,21 @@ const errHandler = async (req,res) =>{
   res.render("user//error-handling")
 }
 
+
+const searchProducts = async (req, res) => {
+
+  let searchs = req.query.search;
+  // let searchProduct = await productHelper.searchProduct(search);
+  console.log("searchs:",searchs)
+  var search = new RegExp(searchs, 'i')
+
+  const searchProduct = await ProductModel.find({ $or: [{ name: search }, { category: search }] })
+
+  res.json(searchProduct);
+
+
+
+}
 
 
 module.exports = {

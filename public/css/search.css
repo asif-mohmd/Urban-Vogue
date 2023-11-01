@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+
+.contianer {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.input-searchbar {
+    background-color: rgb(255, 255, 255);
+    border-radius: 0.8rem;
+
+
+
+}
+
+.contianer .TopHeader .InputBox {
+    max-width: 600px;
+    height: 34px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-grow: 1;
+    background-color: #fff;
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    position: relative;
+    border-radius: 0.8rem;
+}
+
+.contianer .TopHeader {
+    margin-right: 1%;
+    margin-top: 8.5%;
+    min-height: 2rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    -ms-align-items: center;
+    align-items: center;
+    max-width: 600px;
+    border-radius: 0.8rem;
+
+}
+
+.contianer .TopHeader .InputBox .SearchResult {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-radius: 0.8rem;
+    display: none;
+    box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.4);
+}
+
+.contianer .TopHeader .InputBox input {
+    border: none;
+    outline: none;
+    padding: 8px 0 8px 15px;
+    width: 100%;
+}
+
+.contianer .TopHeader .InputBox .SearchIcon {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    justify-content: center;
+    -ms-align-items: center;
+    align-items: center;
+    padding: 0 15px;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.contianer .TopHeader .InputBox .SearchIcon .fa-search {
+    color: #555;
+}
+
+.contianer .TopHeader .InputBox .SearchResult li {
+    list-style: none;
+    padding-left: 20px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.contianer .TopHeader .InputBox .SearchResult li a {
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 15px;
+    display: block;
+    width: 100%;
+    color: #696262;
+}
+
+.contianer .TopHeader .InputBox .SearchResult li:hover {
+    background-color: #eee;
+    border-radius: 0.8rem;
+
+}
+
+.contianer .TopHeader .InputBox .SearchResult li .fa {
+    color: #afa6a6;
+    font-size: 14px;
+}
