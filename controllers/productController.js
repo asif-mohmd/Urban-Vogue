@@ -265,9 +265,6 @@ const productListView = async (req, res) => {
             let mens = 0
             let womens = 0
 
-
-
-
             // sizes
 
             if (Array.isArray(sizes)) {
@@ -321,8 +318,6 @@ const productListView = async (req, res) => {
             }
 
             res.render("user/product-list", { products, countPages })
-
-
         }
     } catch (err) {
         res.status(500).render("user/error-handling");
