@@ -442,7 +442,7 @@ const placeOrder = async (req, res) => {
     const order = await OrderModel.create(data)
 
     if (order) {
-    
+
       if (req.body.paymentMethod == 'Wallet') {
 
         let stockUpdate = stockQuantityUpdate()
@@ -1136,21 +1136,21 @@ const couponValidate = async (req, res) => {
 const WishlistHistory = async (req, res) => {
   try {
 
-    const walletHistory = await OrderModel.find({paymentMethod:"Wallet"})
-  
-    res.render("user/wallet-history",{walletHistory})
+    const walletHistory = await OrderModel.find({ paymentMethod: "Wallet" })
+
+    res.render("user/wallet-history", { walletHistory })
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
 }
 
 
-const comingSoon = async (req,res)=>{
+const comingSoon = async (req, res) => {
   res.render("user/coming-soon")
 }
 
 
-const errHandler = async (req,res) =>{
+const errHandler = async (req, res) => {
   res.render("user//error-handling")
 }
 

@@ -14,7 +14,7 @@ const adminLoginView = (req, res) => {
     try {
         res.render("admin/login")
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -28,7 +28,7 @@ const adminLogin = (req, res) => {
             res.redirect("/admin/login")
         }
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -46,7 +46,8 @@ const adminDashboard = async (req, res) => {
 
         res.render("admin/index", { recentOrders, countOfDeliveredOrders, totalDeliveredAmount, countOfUsers })
     } catch (err) {
-res.status(500).render("user/error-handling");    }
+        res.status(500).render("user/error-handling");
+    }
 }
 
 const adminChartLoad = async (req, res) => {
@@ -54,7 +55,8 @@ const adminChartLoad = async (req, res) => {
         const data = await OrderModel.find()
         res.json(data);
     } catch (error) {
-res.status(500).render("user/error-handling");    }
+        res.status(500).render("user/error-handling");
+    }
 };
 
 const userList = async (req, res) => {
@@ -62,7 +64,8 @@ const userList = async (req, res) => {
         const users = await UserModel.find()
         res.render("admin/user-list", { users })
     } catch (err) {
-res.status(500).render("user/error-handling");    }
+        res.status(500).render("user/error-handling");
+    }
 }
 
 
@@ -73,14 +76,16 @@ const userBlockUnblock = async (req, res) => {
         const users = await UserModel.find({})
         res.render("admin/user-list", { users })
     } catch (err) {
-res.status(500).render("user/error-handling");    }
+        res.status(500).render("user/error-handling");
+    }
 }
 
 const addCategory = (req, res) => {
     try {
         res.render("admin/add-category")
     } catch (err) {
-res.status(500).render("user/error-handling");    }
+        res.status(500).render("user/error-handling");
+    }
 }
 
 const showCategory = async (req, res) => {
@@ -88,7 +93,8 @@ const showCategory = async (req, res) => {
         const showCategory = await CategoryModel.find({})
         res.render("admin/show-category", { showCategory })
     } catch (err) {
-res.status(500).render("user/error-handling");    }
+        res.status(500).render("user/error-handling");
+    }
 }
 
 const addNewCategory = async (req, res) => {
@@ -135,7 +141,7 @@ const categoryDelete = async (req, res) => {
             res.render("admin/show-category", { msg })
         }
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -150,7 +156,7 @@ const listUnlistCategory = async (req, res) => {
             res.render("admin/show-category", { msgUnlist })
         }
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -159,7 +165,7 @@ const listedCategory = async (req, res) => {
         const listedCategory = await CategoryModel.find({ listStatus: true })
         res.render("admin/listed-category", { listedCategory })
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -168,7 +174,7 @@ const deletedProducts = async (req, res) => {
         const deletedProducts = await ProductModel.find({ deletedProducts: true })
         res.render("admin/deleted-products", { deletedProducts })
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -177,7 +183,7 @@ const unListedCategory = async (req, res) => {
         const unListedCategory = await CategoryModel.find({ listStatus: !true })
         res.render("admin/unlisted-category", { unListedCategory })
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -186,7 +192,7 @@ const pendingOrders = async (req, res) => {
         const pendingOrders = await OrderModel.find({ status: "pending" })
         res.render("admin/pending-orders", { pendingOrders })
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -200,7 +206,7 @@ const orderDelivered = async (req, res) => {
             res.redirect("/admin/pending-orders")
         }
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -209,7 +215,7 @@ const delieveredOrders = async (req, res) => {
         const deliveredOrders = await OrderModel.find({ status: "delivered" })
         res.render("admin/delivered-orders", { deliveredOrders })
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -224,7 +230,7 @@ const orderCancelled = async (req, res) => {
             res.redirect("/admin/pending-orders")
         }
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -233,7 +239,7 @@ const cancelledOrders = async (req, res) => {
         const cancelledOrders = await OrderModel.find({ status: "cancelled" })
         res.render("admin/cancelled-orders", { cancelledOrders })
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 
 }
@@ -255,7 +261,7 @@ const returnAccept = async (req, res) => {
     try {
 
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
     const orderObjId = req.query.id
     const status = req.query.status
@@ -282,7 +288,7 @@ const returnDefective = async (req, res) => {
 
         }
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -293,7 +299,7 @@ const returnNonDefective = async (req, res) => {
             res.render("admin/return-non-defective", { returnAcceptNonDef })
         }
     } catch (err) {
-res.status(500).render("user/error-handling");
+        res.status(500).render("user/error-handling");
     }
 }
 
@@ -428,6 +434,6 @@ module.exports = {
     showUnlistedCoupon,
     listUnlistCoupon,
     couponDelete,
-   
+
 
 }

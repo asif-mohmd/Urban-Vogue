@@ -214,99 +214,99 @@ const listUnlistProduct = async (req, res) => {
 const productListView = async (req, res) => {
 
     try {
-    const pageNum = req.query.page;
-    const perPage = 6
-    let docCount
-    let pages
+        const pageNum = req.query.page;
+        const perPage = 6
+        let docCount
+        let pages
 
 
-    if (req.query.sort || req.query.category) {
-        const sizes = req.query.size;
-        const category = req.query.category; // Assuming you have the category in the request body
+        if (req.query.sort || req.query.category) {
+            const sizes = req.query.size;
+            const category = req.query.category; // Assuming you have the category in the request body
 
-        const products = await ProductModel.find({
-            $and: [
-                { category: category }, // Match the specified category
-                {
-                    $or: [
-                        { 'size.large': { $in: sizes } },  // Match large size
-                        { 'size.medium': { $in: sizes } }, // Match medium size
-                        { 'size.small': { $in: sizes } }   // Match small size
-                    ]
-                }
-            ]
-        }).skip((pageNum - 1) * perPage).limit(perPage)
+            const products = await ProductModel.find({
+                $and: [
+                    { category: category }, // Match the specified category
+                    {
+                        $or: [
+                            { 'size.large': { $in: sizes } },  // Match large size
+                            { 'size.medium': { $in: sizes } }, // Match medium size
+                            { 'size.small': { $in: sizes } }   // Match small size
+                        ]
+                    }
+                ]
+            }).skip((pageNum - 1) * perPage).limit(perPage)
 
-        const documents = await ProductModel.countDocuments({
-            $and: [
-                { category: category }, // Match the specified category
-                {
-                    $or: [
-                        { 'size.large': { $in: sizes } },  // Match large size
-                        { 'size.medium': { $in: sizes } }, // Match medium size
-                        { 'size.small': { $in: sizes } }   // Match small size
-                    ]
-                }
-            ]
-        });
+            const documents = await ProductModel.countDocuments({
+                $and: [
+                    { category: category }, // Match the specified category
+                    {
+                        $or: [
+                            { 'size.large': { $in: sizes } },  // Match large size
+                            { 'size.medium': { $in: sizes } }, // Match medium size
+                            { 'size.small': { $in: sizes } }   // Match small size
+                        ]
+                    }
+                ]
+            });
 
-        docCount = documents
-        pages = Math.ceil(docCount / perPage)
+            docCount = documents
+            pages = Math.ceil(docCount / perPage)
 
-        let countPages = []
-        for (let i = 0; i < pages; i++) {
+            let countPages = []
+            for (let i = 0; i < pages; i++) {
 
-            countPages[i] = i + 1
-        }
-
-        let small = 0;
-        let medium = 0;
-        let large = 0;
-        let mens = 0
-        let womens = 0
-
-
-        
-        
-        // sizes
-
-        if (Array.isArray(sizes)) {
-            for (let i = 0; i < sizes.length; i++) {
-                if (sizes[i] === "Small") {
-                    small++;
-                } else if (sizes[i] === "Medium") {
-                    medium++;
-                } else if (sizes[i] === "Large") {
-                    large++;
-                }
+                countPages[i] = i + 1
             }
-        } else if (sizes === "Small") {
-            small++;
-        } else if (sizes === "Medium") {
-            medium++;
-        } else if (sizes === "Large") {
-            large++;
-        }
 
-        //category 
-        if (Array.isArray(category)) {
-            for (let i = 0; i < category.length; i++) {
-                if (category[i] === "mens") {
-                    mens++;
-                } else if (category[i] === "womens") {
-                    womens++;
-                } 
+            let small = 0;
+            let medium = 0;
+            let large = 0;
+            let mens = 0
+            let womens = 0
+
+
+
+
+            // sizes
+
+            if (Array.isArray(sizes)) {
+                for (let i = 0; i < sizes.length; i++) {
+                    if (sizes[i] === "Small") {
+                        small++;
+                    } else if (sizes[i] === "Medium") {
+                        medium++;
+                    } else if (sizes[i] === "Large") {
+                        large++;
+                    }
+                }
+            } else if (sizes === "Small") {
+                small++;
+            } else if (sizes === "Medium") {
+                medium++;
+            } else if (sizes === "Large") {
+                large++;
             }
-        } else if (category === "mens") {
-            mens++;
-        } else if (category === "womens") {
-            womens++;
-        } 
-        
-        res.render("user/product-list", { products, countPages ,mens, womens,  small ,medium , large })
+
+            //category 
+            if (Array.isArray(category)) {
+                for (let i = 0; i < category.length; i++) {
+                    if (category[i] === "mens") {
+                        mens++;
+                    } else if (category[i] === "womens") {
+                        womens++;
+                    }
+                }
+            } else if (category === "mens") {
+                mens++;
+            } else if (category === "womens") {
+                womens++;
+            }
+
+            res.render("user/product-list", { products, countPages, mens, womens, small, medium, large })
 
 
-    } else {
+        } else {
 
             const documents = await ProductModel.find({ listStatus: true, deleteStatus: false }).countDocuments()
             const products = await ProductModel.find({ listStatus: true, deleteStatus: false }).skip((pageNum - 1) * perPage).limit(perPage)
@@ -321,12 +321,12 @@ const productListView = async (req, res) => {
             }
 
             res.render("user/product-list", { products, countPages })
-        
 
+
+        }
+    } catch (err) {
+        res.status(500).render("user/error-handling");
     }
-} catch (err) {
-    res.status(500).render("user/error-handling");
-}
 
 }
 
@@ -341,7 +341,7 @@ module.exports = {
     deleteProduct,
     listUnlistProduct,
     productListView,
- 
+
 
 
 }
