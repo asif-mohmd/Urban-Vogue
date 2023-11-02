@@ -407,7 +407,6 @@ const placeOrder = async (req, res) => {
     let response;
     const selectedAddressId = new ObjectId(req.body.selectedAddressId);
     const couponCode = req.body.couponCode
-    console.log(couponCode, "CCCCCCCCCCCCCCCCCCCCCCCC")
     const randomOrderId = generateRandomOrder();
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate);
@@ -443,8 +442,7 @@ const placeOrder = async (req, res) => {
     const order = await OrderModel.create(data)
 
     if (order) {
-      console.log("222")
-
+    
       if (req.body.paymentMethod == 'Wallet') {
 
         let stockUpdate = stockQuantityUpdate()
@@ -565,8 +563,7 @@ const generateRazorpay = async (randomOrderId, finalAmount) => {
 const verifyPayment = async (req, res) => {
 
   try {
-    console.log('Inside verifyPayment function');
-    console.log(req.body, 'verify payment razor completed');
+
     const verificationSuccess = await paymentVerifiaction(req.body)
     let response;
     if (verificationSuccess) {
@@ -610,11 +607,9 @@ const paymentVerifiaction = (details) => {
 const changePaymentStatus = async (orderId) => {
 
   try {
-    console.log(orderId, "orderId")
     const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "Online" } })
     console.log(updatedDetails, "updatedDeatils")
     if (updatedDetails) {
-      console.log("status updated",)
       return true
     } else {
       return false
@@ -670,7 +665,6 @@ const deleteCartItem = async (req, res) => {
   try {
     const productId = req.query.id
     const size = req.query.size
-    // console.log(size,"111111111111111111")
     const userId = req.session.user._id;
     const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId, size: size } } })
 
@@ -678,7 +672,7 @@ const deleteCartItem = async (req, res) => {
       res.redirect("/cart")
     }
   } catch (error) {
-    console.log("Not deleted ")
+    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
   }
 }
 
@@ -702,7 +696,6 @@ const changeProductQuantity = async (req, res) => {
     } else {
 
       const productDetails = await ProductModel.findOne({ _id: product })
-      console.log(size, "yyyyyyyyyyyyyyyyyyyyy")
       if (productDetails.stock >= quantity + count) {
         const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product, 'cart.size': size }, { $inc: { 'cart.$.count': count } });
         if (updated) {
@@ -835,10 +828,8 @@ const cancelUserOrder = async (req, res) => {
     }
     const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
     if (success) {
-      console.log("cancelled")
       res.redirect("/orders")
     } else {
-      console.log("not cancelled")
       res.redirect("/orders")
     }
   } catch (err) {
@@ -1034,7 +1025,7 @@ const generateReport = async (req, res) => {
       }
     })
   } catch (error) {
-    console.log(error.message)
+    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
   }
 }
 
@@ -1095,7 +1086,7 @@ const invoiceReport = async (req, res) => {
 
     })
   } catch (error) {
-    console.log(error.message)
+    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
   }
 }
 
@@ -1147,8 +1138,6 @@ const WishlistHistory = async (req, res) => {
 
     const walletHistory = await OrderModel.find({paymentMethod:"Wallet"})
   
-
-   console.log(walletHistory,"kkkkkkkkkkkkkkkkkkkkkkkkkk")
     res.render("user/wallet-history",{walletHistory})
   } catch (err) {
     res.status(500).render("user/error-handling");
@@ -1170,7 +1159,6 @@ const searchProducts = async (req, res) => {
 
   let searchs = req.query.search;
   // let searchProduct = await productHelper.searchProduct(search);
-  console.log("searchs:",searchs)
   var search = new RegExp(searchs, 'i')
 
   const searchProduct = await ProductModel.find({ $or: [{ name: search }, { category: search }] })

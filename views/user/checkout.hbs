@@ -385,8 +385,6 @@
             const couponCode = document.getElementById("couponCode").value;
             const totalAmount = document.getElementById("totalValue").textContent;
 
-            console.log(couponCode, "[[[[[[[[[[[]]]]]]]]]]]")
-
             fetch("/coupon-validate", {
                 method: "POST",
                 headers: {
@@ -412,7 +410,6 @@
 
                     } else {
 
-                        console.log(response.discountTotal, "dddddddddddddd")
                         document.getElementById("invalidCoupon").style.display = "none";
                         document.getElementById("validCoupon").style.display = "block";
                         document.getElementById("onlyTotal").style.display = "none"
@@ -450,13 +447,10 @@
             if (document.getElementById("discountTotal").style.display === "block") {
                 finalAmount = document.getElementById('discountPrice').textContent;
                  couponCode = document.getElementById('couponCode').value
-                console.log(couponCode,"coupen code")
                 
             } else {
 
-
                 finalAmount = document.getElementById('totalValue').innerText;
-      console.log(finalAmount,"hhhhhhhhhhhhh")
 
             }
 
@@ -467,16 +461,13 @@
                 // Get the content of the selected element
                 var walletAmount = walletElement.innerText;
                 var totalAmount = finalAmount
-console.log(totalAmount,"ffffffffffffffffffffffffffffffffffffffffffff")
                 // Extract the numeric value from the content
                 var walletAmount = parseInt(walletAmount);
                 var totalAmount = parseInt(totalAmount);
 
                 // Log the wallet amount
-                console.log(walletAmount, ";;;;;;;;;;;;;;;;;;;;;", finalAmount);
 
                 if (totalAmount <= walletAmount) {
-                    console.log("wallet")
                     paymentMethodCheck(paymentMethod, finalAmount)
 
 
@@ -485,7 +476,6 @@ console.log(totalAmount,"ffffffffffffffffffffffffffffffffffffffffffff")
                 }
             } else {
                 paymentMethodCheck(paymentMethod, finalAmount )
-                console.log("noo walleet")
             }
             // Find the selected address ID
 
@@ -508,9 +498,6 @@ console.log(totalAmount,"ffffffffffffffffffffffffffffffffffffffffffff")
                 selectedAddressId = checkedInput.id.split('_')[1]; // Extract the ID from the input's ID attribute
             }
 
-            console.log(paymentMethod, "method", selectedAddressId, "ammmtttt", finalAmount);
-
-
             $.ajax({
                 url: '/place-order',
                 method: 'post',
@@ -521,18 +508,15 @@ console.log(totalAmount,"ffffffffffffffffffffffffffffffffffffffffffff")
                     couponCode: couponCode
                 },
                 success: ((response) => {
-                    console.log(response, "ajaxxxxxxxxxxxxxxxxx")
 
                     if (response == false) {
                         location.href = '/payment-error'
                     } else {
                         if (response.pendingOrders) {
-                            console.log(response.pendingOrders.orderId)
 
                             location.href = '/order-response?id=' + response.pendingOrders.orderId;
                         }
                         else {
-                            console.log("iam in ahjx ")
                             razorpayPayment(response.order)
                         }
                     }
@@ -557,7 +541,6 @@ console.log(totalAmount,"ffffffffffffffffffffffffffffffffffffffffffff")
 
 
         function razorpayPayment(order) {
-            console.log(order.amount, "hmmhnmhmhjm")
 
             var options = {
                 "key": "rzp_test_TtPOAmMOzmofnE", // Enter the Key ID generated from the Dashboard
@@ -602,15 +585,11 @@ console.log(totalAmount,"ffffffffffffffffffffffffffffffffffffffffffff")
                     order
                 },
                 success: function (response) {
-                    console.log(response, "ajaxxxxxxxxxxxxxxxxx");
-
-
 
                     if (response === false) {
                         location.href = '/payment-error';
                     } else {
                         if (response.onlineDetails) {
-                            console.log(response.onlineDetails.orderId);
                             location.href = '/order-response?id=' + response.onlineDetails.orderId;
                         }
                     }

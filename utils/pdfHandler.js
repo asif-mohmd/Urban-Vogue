@@ -15,11 +15,10 @@ const puppeteer = require('puppeteer');
             printBackground : true
         });
 
-        console.log('done');
         await browser.close();
         process.exit();
     } catch (e) {
-        console.log("our error", e);
+    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
     }
 })();
 

@@ -677,15 +677,12 @@
                       })
                         .then(res => {
                           if (res.ok) {
-                            console.log("SUCCESS");
                             return res.json();
                           } else {
                             throw new Error('Network response was not ok');
                           }
                         })
                         .then(data => {
-                          console.log("Data from server:", data);
-
                           // Ensure data is an array
                           if (!Array.isArray(data)) {
                             throw new Error('Data is not an array');
@@ -694,7 +691,6 @@
                           // Calculate sales, orders, and revenue
                           sales = data.map((a) => { return a.amount });
                           deliveredAmounts = data.map((a) => { return a.status == "delivered" });
-                          console.log(pending, "pendingsgsgsgsgwsgsg")
 
                            pending = data
                             .filter((order) => order.status === "pending")
@@ -750,13 +746,10 @@
                             }
                           }).render();
 
-                          console.log("Sales:", sales);
-                          console.log("Orders:", orders);
-                          console.log("Revenue:", revenue);
+          
                         }).catch(error => console.error("Error:", error));
 
 
-                      console.log(newSales, "newwwww")
                     })
                   </script>
                   <!-- End Line Chart -->
@@ -859,7 +852,6 @@
     };
 
     function loadAdminChart() {
-      console.log("idfklasdfjnesdfjbnasdfjobasd[jofbq3]");
     }
 
 

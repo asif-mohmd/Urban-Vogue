@@ -302,10 +302,8 @@
     function returnOrder(id) {
      const selectedValue = document.getElementById('orderId').value;
      const userId = document.getElementById('userId').value;
-      console.log("Selected Value:", selectedValue);
 
       const returnUrl = `/return-user-order?id=${id}&orderId=${selectedValue}&userId=${userId}`;
-      console.log("Return URL:", returnUrl);
 
       window.location.href = returnUrl;
     }

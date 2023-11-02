@@ -19,7 +19,6 @@ const addProduct = async (req, res) => {
 
     try {
         const { name, price, description, category, size, stock } = req.body;
-        console.log(req.body)
         const images = req.files
             .filter((file) =>
                 file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg")
@@ -99,7 +98,6 @@ const productDetailsEdit = async (req, res) => {
 
         // Check if req.files is an empty array or not provided
         if (!req.files || req.files.length === 0) {
-            console.log("No new images provided.");
 
             const updateData = {
                 name: name,
@@ -119,7 +117,6 @@ const productDetailsEdit = async (req, res) => {
                 res.render("user/edit-product-details", { msg });
             }
         } else {
-            console.log("New images provided.");
 
             // Delete existing images
             for (const imageUrl of existingProduct.imageUrl) {
@@ -148,7 +145,6 @@ const productDetailsEdit = async (req, res) => {
                 res.render("user/edit-product-details", { msg });
             }
         }
-        console.log("Product details updated successfully.");
     } catch (error) {
         console.error("Error updating product details:", error);
         res.status(500).send('Error updating product details.');
@@ -201,7 +197,6 @@ const listUnlistProduct = async (req, res) => {
         if (product) {
             const update = await ProductModel.updateOne({ _id: product.id }, { $set: { listStatus: !product.listStatus } })
             if (update) {
-                console.log("updat elist")
                 res.redirect("/admin/editProductView")
             } else {
                 msg = true
@@ -226,7 +221,6 @@ const productListView = async (req, res) => {
 
 
     if (req.query.sort || req.query.category) {
-        console.log(req.query.size, "fffffffffffffffff");
         const sizes = req.query.size;
         const category = req.query.category; // Assuming you have the category in the request body
 
@@ -258,16 +252,12 @@ const productListView = async (req, res) => {
 
         docCount = documents
         pages = Math.ceil(docCount / perPage)
-        console.log(docCount, "hhhhhhhhhhhhhh", pages)
 
         let countPages = []
         for (let i = 0; i < pages; i++) {
 
             countPages[i] = i + 1
         }
-        console.log(countPages, "kkkkkkkkkkk")
-        console.log(sizes,"sizesssssssss")
-
 
         let small = 0;
         let medium = 0;
@@ -313,9 +303,6 @@ const productListView = async (req, res) => {
             womens++;
         } 
         
-
-        console.log("small:",small,"medium:",medium,"large:",large)
-
         res.render("user/product-list", { products, countPages ,mens, womens,  small ,medium , large })
 
 
@@ -326,14 +313,12 @@ const productListView = async (req, res) => {
 
             docCount = documents
             pages = Math.ceil(docCount / perPage)
-            console.log(docCount, "hhhhhhhhhhhhhh", pages)
 
             let countPages = []
             for (let i = 0; i < pages; i++) {
 
                 countPages[i] = i + 1
             }
-            console.log(countPages, "kkkkkkkkkkk")
 
             res.render("user/product-list", { products, countPages })
         
@@ -344,60 +329,6 @@ const productListView = async (req, res) => {
 }
 
 }
-
-
-// const productListView = async (req, res) => {
-
-//     const page = req.params.page;
-//     const perPage = 2
-
-//     try {
-//         const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
-//         res.render("user/product-list", { products })
-//     } catch (err) {
-//         res.status(500).render("user/error-handling");
-//     }
-// }
-
-
-
-// const productListView = async (req, res) => {
-
-//     try {
-
-
-//      const products = await ProductModel.find({ listStatus: true, deleteStatus: false })
-//      console.log("jjjjjjjjj",req.query.page,"kkkkkkkkkkkkkkkkkkkk")
-//       const pageSize = 3;
-//       const currentPage = req.query.page || 1;
-//       const result = await ProductModel.paginate({}, { page: currentPage, limit: pageSize });
-//       const allProduct = result.docs;
-//       const totalPages = result.totalPages;
-//       const maxVisiblePages = 3;
-//       let startPage = 1;
-//       let endPage = totalPages;
-
-
-//       if (totalPages > maxVisiblePages) {
-//         const halfVisiblePages = Math.floor(maxVisiblePages / 2);
-
-//         if (currentPage <= halfVisiblePages) {
-//           endPage = maxVisiblePages;
-//         } else if (currentPage + halfVisiblePages >= totalPages) {
-//           startPage = totalPages - maxVisiblePages + 1;
-//         } else {
-//           startPage = currentPage - halfVisiblePages;
-//           endPage = currentPage + halfVisiblePages;
-//         }
-//       }
-
-
-//        console.log(totalPages,"pages",currentPage,"cuurentpage",startPage,"start",endPage,"end")
-//         res.render("user/product-list", { products ,allProduct, totalPages, currentPage, startPage, endPage})
-//     } catch (err) {
-//         res.status(500).render("user/error-handling");
-//     }
-// }
 
 
 module.exports = {

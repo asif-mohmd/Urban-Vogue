@@ -4,7 +4,6 @@ const productControllers = require('../controllers/productController');
 
 const {verifyLogin,loginChecker} = require('../controllers/middlewares');
 const router = express.Router();
-const { protectRoute } = require("../auth/protect");
 const { indexView } = require("../controllers/userController");
 
 // {registerView, loginView }

@@ -494,7 +494,6 @@
             })
                 .then(response => response.json())
                 .then(response => {
-                    console.log('Server response:', response);
                     if (response.removeProduct) {
                         $('#exampleModal2').modal('show');
                     } else if (response.stockLimit) {

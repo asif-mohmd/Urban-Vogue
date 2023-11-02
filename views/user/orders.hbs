@@ -355,10 +355,8 @@
   <script>
     function returnOrder(id) {
       const selectedValue = document.querySelector('input[name="returnType"]:checked').value;
-      console.log("Selected Value:", selectedValue);
 
       const returnUrl = `/return-user-order?id=${id}&returnType=${selectedValue}`;
-      console.log("Return URL:", returnUrl);
 
       window.location.href = returnUrl;
     }
