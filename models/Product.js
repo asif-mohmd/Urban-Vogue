@@ -10,19 +10,31 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    size: {
-        large:{
-            type: String,
-        
+    sizeStock: {
+        sizeLarge:{
+            large: {
+               type: String,
+            },
+            stock:{
+                type:Number
+            }
         },
-        medium:{
-            type: String,
-           
+        sizeMedium:{
+            medium: {
+               type: String,
+            },
+            stock:{
+                type:Number
+            }
         },
-        small:{
-            type: String,
-           
-        },   
+        sizeSmall:{
+            small: {
+               type: String,
+            },
+            stock:{
+                type:Number
+            }
+        },
     },
     category: {
         type: String,
@@ -36,10 +48,7 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required : true
     },
-    stock: {
-        type: Number,
-        required: true,
-    },
+
 
     listStatus: 
     { 

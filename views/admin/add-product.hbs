@@ -543,12 +543,7 @@
                   </div>
                 </div>
 
-                <div class="row mb-3">
-                  <label for="inputNumber" class="col-sm-2 col-form-label">Stock</label>
-                  <div class="col-sm-10">
-                    <input type="number" name="stock" class="form-control">
-                  </div>
-                </div>
+           
                 {{!-- <div class="row mb-3">
                   <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                   <div class="col-sm-10">
@@ -580,43 +575,50 @@
                         Womens
                       </label>
                     </div>
-                    <div class="form-check disabled">
+                    {{!-- <div class="form-check disabled">
                       <input class="form-check-input" type="radio" name="category" id="gridRadios" value="kids">
                       <label class="form-check-label" for="gridRadios3">
                         Kids
                       </label>
-                    </div>
+                    </div> --}}
                   </div>
                 </fieldset>
 
+                
 
 
 
 
+<div class="container mt-4">
+    <fieldset class="row mb-5">
+        <legend class="col-form-label col-sm-2 pt-0">Sizes</legend>
+        <div class="col-sm-10">
+            <div class="form-check mb-3">
+                <input class="form-check-input" name="sizeLarge" type="checkbox" value="Large" id="sizeLarge">
+                <label class="form-check-label" for="sizeLarge">
+                    Large
+                </label>
+                <input type="number" name="stockLarge" id="stockLarge" class="form-control" placeholder="Stock Amount Large">
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" name="sizeMedium" type="checkbox" value="Medium" id="sizeMedium">
+                <label class="form-check-label" for="sizeMedium">
+                    Medium
+                </label>
+                <input type="number" name="stockMedium" id="stockMedium" class="form-control" placeholder="Stock Amount Medium">
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" name="sizeSmall" type="checkbox" value="Small" id="sizeSmall">
+                <label class="form-check-label" for="sizeSmall">
+                    Small
+                </label>
+                <input type="number" name="stockSmall" id="stockSmall" class="form-control" placeholder="Stock Amount Small">
+            </div>
+        </div>
+    </fieldset>
+</div>
 
-                <fieldset class="row mb-5">
-                  <legend class="col-form-label col-sm-2 pt-0">Sizes</legend>
-                  <div class="col-sm-10">
-                    <div class="form-check">
-                      <input class="form-check-input" name="size" type="checkbox" value="Large"  id="flexCheckDefault" >
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Large
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" name="size" type="checkbox" value="Medium" id="flexCheckDefault" >
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Medium
-                      </label>
-                    </div>
-                       <div class="form-check">
-                      <input class="form-check-input" name="size" type="checkbox" value="Small" id="flexCheckDefault" >
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Small
-                      </label>
-                    </div>
-                  </div>
-                </fieldset>
+
 
                 <input type="file" name="image" id="image1" style="display: none;"
                   onchange="displayFileName('image1', this)" accept="image/png, image/webp, image/jpeg">

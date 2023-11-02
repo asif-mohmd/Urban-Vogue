@@ -18,26 +18,49 @@ const addProductView = async (req, res) => {
 const addProduct = async (req, res) => {
 
     try {
-        const { name, price, description, category, size, stock } = req.body;
+        const { name, price, description, category, sizeLarge , stockLarge, sizeMedium , stockMedium, sizeSmall , stockSmall } = req.body;
+
+    const sizeStock = {
+        sizeLarge:{
+            large: sizeLarge,
+            stock: parseInt(stockLarge) || 1
+        },
+        sizeMedium:{
+            medium: sizeMedium,
+            stock: parseInt(stockMedium) || 1
+        },
+        sizeSmall:{
+            small: sizeSmall,
+            stock: parseInt(stockSmall) || 1
+        },
+    }
+
+        console.log(req.body,"Bodyteeeeee")
+
+        console.log(sizeStock,"sizedsssss")
+
+
+        
         const images = req.files
             .filter((file) =>
                 file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg")
             .map((file) => file.filename);
 
+            console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj",req.files)
+
         if (images.length === 3) {
+            console.log("qqqqqqqqqqqqqqq")
             const data = {
                 name,
                 price,
                 description,
                 category,
-                "size.large": size[0],
-                "size.medium": size[1],
-                "size.small": size[2],
+                sizeStock: sizeStock,
                 imageUrl: images,
-                stock: stock,
                 listStatus: true,
                 deleteStatus: false,
             };
+            console.log("data:",data)
             const product = await ProductModel.create(data);
 
             if (product) {
