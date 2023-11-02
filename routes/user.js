@@ -2,7 +2,7 @@ const express = require('express');
 const userControllers = require('../controllers/userController');
 const productControllers = require('../controllers/productController');
 
-const {verifyLogin,loginChecker} = require('../controllers/middlewares');
+const {verifyLogin,loginChecker} = require('../middlewares/middlewares');
 const router = express.Router();
 const { indexView } = require("../controllers/userController");
 
