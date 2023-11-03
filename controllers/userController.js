@@ -678,6 +678,7 @@ const deleteCartItem = async (req, res) => {
     const productId = req.query.id
     const size = req.query.size
     const userId = req.session.user._id;
+    console.log(size,"sizeeeee")
     const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId, size: size } } })
 
     if (cart) {
@@ -698,17 +699,18 @@ const changeProductQuantity = async (req, res) => {
     let response;
 
     if (count === -1 && quantity === 1) {
+      response = { removeProduct: true };
       const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product, size: size } } });
       if (removeProduct) {
 
-        response = { removeProduct: true };
+       
       } else {
         response = { removeProduct: false };
       }
     } else {
 
       const productDetails = await ProductModel.findOne({ _id: product })
-      if (productDetails.stock >= quantity + count) {
+      if (productDetails.sizeStock.stock >= quantity + count) {
         const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product, 'cart.size': size }, { $inc: { 'cart.$.count': count } });
         if (updated) {
 
