@@ -91,6 +91,7 @@ const productDetails = async (req, res) => {
     try {
         const singleProduct = await ProductModel.findOne({ _id: req.query.id })
         const cartCheck = await cartModel.findOne({ 'cart.productId': req.query.id })
+        console.log(singleProduct,"kkkkkkkkkkkkkkkkk")
         res.render("user/product-details", { singleProduct, cartCheck })
     } catch (err) {
         res.status(500).render("user/error-handling");

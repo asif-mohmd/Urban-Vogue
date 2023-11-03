@@ -402,7 +402,7 @@ const cartView = async (req, res) => {
 };
 
 const placeOrder = async (req, res) => {
-
+console.log("Stage 1")
   try {
     let response;
     const selectedAddressId = new ObjectId(req.body.selectedAddressId);
@@ -425,7 +425,7 @@ const placeOrder = async (req, res) => {
       size: cartItem.size
 
     }));
-
+console.log("stage 2")
     const data = {
       "userId": userId,
       "orderId": randomOrderId,
@@ -440,7 +440,7 @@ const placeOrder = async (req, res) => {
     }
 
     const order = await OrderModel.create(data)
-
+console.log("stage 3")
     if (order) {
 
       if (req.body.paymentMethod == 'Wallet') {
@@ -472,7 +472,7 @@ const placeOrder = async (req, res) => {
         res.json(response);
 
       } else {
-
+console.log("cod")
         let stockUpdate = stockQuantityUpdate()
 
         if (stockUpdate) {
@@ -495,33 +495,45 @@ const placeOrder = async (req, res) => {
 
 
 async function stockQuantityUpdate() {
-
+console.log("stcok 1")
   try {
-    const cartItems = await getProducts(userId)
+    const cartItems = await getProducts(userId);
+    console.log(cartItems)
     const products = cartItems.map(cartItem => ({
-      productId: cartItem.product._id,
-      name: cartItem.product.name,
-      price: cartItem.product.price,
+      productId: cartItem.product._id, // Assuming productId is a reference to the product's ID
       count: cartItem.count,
       size: cartItem.size
-
     }));
-
+      console.log(products,"chenking stocl")
     for (const product of products) {
       const existingProduct = await ProductModel.findById(product.productId);
-
-      if (existingProduct && existingProduct.stock >= product.count) {
-        await ProductModel.updateOne(
-          { _id: product.productId, stock: { $gte: product.count } },
-          { $inc: { stock: -product.count } }
-        );
+       console.log("existing product")
+      if (existingProduct) {
+        // Check if the requested size is available in the existing product
+        const requestedSize = product.size;
+        console.log(requestedSize,"reqSize")
+        console.log(existingProduct.sizeStock[requestedSize],"$$$$$$",product.count)
+        if (existingProduct.sizeStock[requestedSize] && existingProduct.sizeStock[requestedSize].stock >= product.count) {
+          // Update the stock for the requested size
+          const updatedStock = existingProduct.sizeStock[requestedSize].stock - product.count;
+  
+          // Update the product's sizeStock field
+          existingProduct.sizeStock[requestedSize].stock = updatedStock;
+  
+          // Save the updated product
+          await existingProduct.save();
+        } else {
+          console.log(`Insufficient stock for product with ID ${product.productId} and size ${requestedSize}`);
+          return false;
+          // Handle insufficient stock scenario here, e.g., notify the user
+        }
       } else {
-        console.log(`Insufficient stock for product with ID ${product.productId}`);
-        return false
-        // Handle insufficient stock scenario here, e.g., notify the user
+        console.log(`Product with ID ${product.productId} not found`);
+        return false;
+        // Handle product not found scenario here
       }
     }
-
+console.log("ends dtcokkssssss")
     const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
 
     if (cart) {

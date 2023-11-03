@@ -180,11 +180,11 @@
                             </div>
                             <div class="product__details__price">₹ {{singleProduct.price}} <span></span></div>
                             <p>{{singleProduct.description}}</p>
-                            {{#if (gt singleProduct.stock 0)}}
+                            {{!-- {{#if (gt singleProduct.stock 0)}}
                             <span class="font-weight-bold pl-3">In Stock: {{singleProduct.stock}}</span>
                             {{else}}
                             <span class="font-weight-bold pl-3 text-danger">Out of Stock</span>
-                            {{/if}}
+                            {{/if}} --}}
                             
                             
                             <div class="product__details__button mt-1">
@@ -211,21 +211,21 @@
                                     <li>
                                         <span>Available size:</span>
                                         <div class="size__btn">
-                                            {{#if singleProduct.size.small}}
+                                            {{#if (gt singleProduct.sizeStock.sizeSmall.stock 0)}}
                                             <div class="form-check">
-                                                <input class="form-check-input" value="S" type="radio" name="size" id="flexRadioDefault1">
+                                                <input class="form-check-input" value="sizeSmall" type="radio" name="size" id="flexRadioDefault1">
                                                 <label class="form-check-label" for="flexRadioDefault1">S</label>
                                             </div>
                                             {{/if}}
-                                            {{#if singleProduct.size.medium}}
+                                            {{#if (gt singleProduct.sizeStock.sizeMedium.stock 0)}}
                                             <div class="form-check">
-                                                <input class="form-check-input" value="M" type="radio" name="size" id="flexRadioDefault2" >
+                                                <input class="form-check-input" value="sizeMedium" type="radio" name="size" id="flexRadioDefault2" >
                                                 <label class="form-check-label" for="flexRadioDefault2">M</label>
                                             </div>
                                             {{/if}}
-                                            {{#if singleProduct.size.large}}
+                                            {{#if (gt singleProduct.sizeStock.sizeLarge.stock 0)}}
                                             <div class="form-check">
-                                                <input class="form-check-input" value="L" type="radio" name="size" id="flexRadioDefault3">
+                                                <input class="form-check-input" value="sizeLarge" type="radio" name="size" id="flexRadioDefault3">
                                                 <label class="form-check-label" for="flexRadioDefault3">L</label>
                                             </div>
                                             {{/if}}
