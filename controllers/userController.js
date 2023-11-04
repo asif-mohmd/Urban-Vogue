@@ -865,38 +865,39 @@ const ordersView = async (req, res) => {
 
 
 const cancelUserOrder = async (req, res) => {
-
   try {
-    const orderId = req.query.id
-    const orderDetails = await OrderModel.findById({ _id: orderId })
-    const productDetails = orderDetails.products.map(product => ({
-      productId: product.productId,
-      count: product.count
-    }));
+    const orderId = req.query.id;
+    const orderDetails = await OrderModel.findById({ _id: orderId });
 
-    for (const product of productDetails) {
-      const existingProduct = await ProductModel.findById(product.productId);
+    for (const product of orderDetails.products) {
+      const productDetails = await ProductModel.findById(product.productId);
 
-      if (existingProduct && existingProduct.sizeStock[requestedSize] >= product.count) {
-        await ProductModel.updateOne(
-          { _id: product.productId }, { $inc: { stock: product.count } }
-        );
+      if (productDetails && productDetails.sizeStock[product.size].stock >= product.count) {
+        // Increase the stock count for the specific size in the product model
+        const updatedStock = productDetails.sizeStock[product.size].stock + product.count;
+        productDetails.sizeStock[product.size].stock = updatedStock;
+
+        // Save the updated product model
+        await productDetails.save();
       } else {
         console.log(`Insufficient stock for product with ID ${product.productId}`);
         // Handle insufficient stock scenario here, e.g., notify the user
       }
-
     }
-    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } })
+
+    // Update the order status to "cancelled"
+    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" }});
+
     if (success) {
-      res.redirect("/orders")
+      res.redirect("/orders");
     } else {
-      res.redirect("/orders")
+      res.redirect("/orders");
     }
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
-}
+};
+
 
 
 const getProducts = async (userId) => {
@@ -973,60 +974,53 @@ const orderDetailView = async (req, res) => {
 
 
 const returnUserOrder = async (req, res) => {
-
   try {
-    const orderObjId = req.query.orderId
-    const returnType = req.query.returnType
-    const userId = req.session.user._id
-    if (returnType == 1) {
+    const orderObjId = req.query.orderId;
+    const returnType = req.query.returnType;
+    const userId = req.session.user._id;
 
-      const orderDetails = await OrderModel.findById({ _id: orderObjId })
+    console.log(returnType,"type daaaaaaaaaaaa")
 
+    if (returnType === '1') {
+      const orderDetails = await OrderModel.findById({ _id: orderObjId });
 
-      const productDetails = orderDetails.products.map(product => ({
-        productId: product.productId,
-        count: product.count
-      }));
+      for (const product of orderDetails.products) {
+        const productDetails = await ProductModel.findById(product.productId);
 
-      for (const product of productDetails) {
-        const existingProduct = await ProductModel.findById(product.productId);
+        if (productDetails && productDetails.sizeStock[product.size].stock >= product.count) {
+          // Increase the stock count for the specific size in the product model
+          const updatedStock = productDetails.sizeStock[product.size].stock + product.count;
+          productDetails.sizeStock[product.size].stock = updatedStock;
 
-        if (existingProduct && existingProduct.stock >= product.count) {
-          await ProductModel.updateOne(
-            { _id: product.productId }, { $inc: { stock: product.count } }
-          );
+          // Save the updated product model
+          await productDetails.save();
         } else {
           console.log(`Insufficient stock for product with ID ${product.productId}`);
           // Handle insufficient stock scenario here, e.g., notify the user
         }
-
       }
-      const returnNonDefective = await OrderModel.updateOne({ _id: orderObjId }, { status: "returnNonDefective" })
+
+      const returnNonDefective = await OrderModel.updateOne({ _id: orderObjId }, { $set: { status: "returnNonDefective" } });
 
       if (returnNonDefective) {
-        returnSuccess = true
-        res.render("user/orders")
+        res.render("user/orders", { returnSuccess: true });
       } else {
-        returnErr = true
-        res.render("user/orders", { returnErr })
+        res.render("user/orders", { returnErr: true });
       }
-
     } else {
-      const returnDefective = await OrderModel.updateOne({ _id: orderObjId }, { status: "returnDefective" })
-      if (returnDefective) {
-        returnSuccess = true
-        res.render("user/orders", { returnSuccess })
-      } else {
-        returnErr = true
-        res.render("user/orders", { returnErr })
-      }
+      const returnDefective = await OrderModel.updateOne({ _id: orderObjId }, { $set: { status: "returnDefective" } });
 
+      if (returnDefective) {
+        res.render("user/orders", { returnSuccess: true });
+      } else {
+        res.render("user/orders", { returnErr: true });
+      }
     }
   } catch (error) {
-
     res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+};
+
 
 const contactView = (req, res) => {
 
