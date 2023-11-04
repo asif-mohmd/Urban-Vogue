@@ -306,13 +306,17 @@
   <script>
     function returnOrder(id) {
      const selectedValue = document.getElementById('orderId').value;
+     const returnType = document.querySelector('input[name="returnType"]:checked').value;
+
      const userId = document.getElementById('userId').value;
 
-      const returnUrl = `/return-user-order?id=${id}&orderId=${selectedValue}&userId=${userId}`;
+      const returnUrl = `/return-user-order?id=${id}&orderId=${selectedValue}&userId=${userId}&returnType=${returnType}`;
 
       window.location.href = returnUrl;
     }
   </script>
+
+
 
 </body>
 
