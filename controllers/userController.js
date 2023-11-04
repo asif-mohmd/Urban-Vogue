@@ -856,6 +856,8 @@ const ordersView = async (req, res) => {
   try {
     const pendingOrders = await OrderModel.find().sort({ $natural: -1 })
     res.render("user/orders", { pendingOrders })
+
+    console.log("pendingOrder",pendingOrders,"qqqqqqqqqqqqqqqqqqqq")
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
@@ -875,7 +877,7 @@ const cancelUserOrder = async (req, res) => {
     for (const product of productDetails) {
       const existingProduct = await ProductModel.findById(product.productId);
 
-      if (existingProduct && existingProduct.stock >= product.count) {
+      if (existingProduct && existingProduct.sizeStock[requestedSize] >= product.count) {
         await ProductModel.updateOne(
           { _id: product.productId }, { $inc: { stock: product.count } }
         );
