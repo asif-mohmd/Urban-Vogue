@@ -135,6 +135,9 @@
 
     <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad">
+        {{#if stockLimit}}
+              <p class="text-center text-danger small">Stock limit reached</p>
+              {{/if}}
         <div class="container">
             <form action="/checkout" method="get">
                 <div class="row">

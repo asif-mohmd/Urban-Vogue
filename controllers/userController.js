@@ -385,20 +385,22 @@ const editProfile = async (req, res) => {
 const cartView = async (req, res) => {
 
   try {
+    const stockLimit = req.query.stockLimit;
+    const userId = req.session.user._id;
+    const cartItems = await getProducts(userId)
+  
+    let total = await getTotalAmout(userId)
+  
+    total = total[0] ? total[0].total : 0;
+  
+    res.render("user/cart", { cartItems, total ,stockLimit }); // Pass the cartObject to the render function
+    // return cartItems;
 
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
 
-  const userId = req.session.user._id;
-  const cartItems = await getProducts(userId)
 
-  let total = await getTotalAmout(userId)
-
-  total = total[0] ? total[0].total : 0;
-
-  res.render("user/cart", { cartItems, total }); // Pass the cartObject to the render function
-  return cartItems;
 };
 
 const placeOrder = async (req, res) => {
@@ -671,16 +673,17 @@ console.log("stage 2")
         
         if (productDetails.sizeStock[size].stock > count) {
           await CartModel.updateOne(
-            { userId: userId, 'cart.productId': productId },
+            { userId: userId, 'cart.productId': productId, 'cart.size': size },
             {
               $inc: { 'cart.$.count': 1 },
-              $set: { 'cart.$.size': size } // Change 'size' to 'cart.$.size'
             }
           );
+          
           res.redirect("/cart");
         } else {
           console.log("yeyeyeyeyeyeyeyey")
-          res.redirect("/cart");
+          let stockLimit = true 
+          res.redirect(`/cart?stockLimit=${stockLimit}`);
         }
         } else {
           await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1, size } } });
