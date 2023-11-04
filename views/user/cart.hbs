@@ -174,11 +174,10 @@
                                         <td class="cart__price">₹ {{product.price}}</td>
                                         <td class="pro-qty-container">
 
-                                            <button class="pro-qty-button"
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',-1)">-</button>
-                                            <p class="pro-qty-count" id="{{this.product._id}}">{{count}}</p>
-                                            <button class="pro-qty-button"
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',1)">+</button>
+                                            <button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',-1)">-</button>
+<p class="pro-qty-count" id="{{this.product._id}}-{{size}}">{{count}}</p>
+<button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',1)">+</button>
+
                                         </td>
 
 
@@ -469,8 +468,8 @@
 
     <script>
         function changeQuantity(cartId, productId,size, count) {
-            let quantity = parseInt(document.getElementById(productId).innerHTML);
-            let parsedCount = parseInt(count);
+            let quantity = parseInt(document.getElementById(`${productId}-${size}`).innerHTML); // Include the size in the element ID
+    let parsedCount = parseInt(count);
 
             // Disable the form submission for quantity update buttons only
             if (event.target.classList.contains('pro-qty-button')) {
@@ -499,7 +498,7 @@
                     } else if (response.stockLimit) {
                         alert("Stock limit reached");
                     } else {
-                        document.getElementById(productId).innerHTML = quantity + parsedCount;
+                        document.getElementById(`${productId}-${size}`).innerHTML = quantity + parsedCount;
                         document.getElementById('totalValue').innerText = "₹ " + response.total[0].total;
                     }
                 })

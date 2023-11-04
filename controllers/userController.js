@@ -632,7 +632,7 @@ const changePaymentStatus = async (orderId) => {
 }
 
 const addToCart = async (req, res) => {
-
+console.log("satge 1")
   try {
     const productId = req.query.id;
     const userId = req.session.user._id;
@@ -643,17 +643,53 @@ const addToCart = async (req, res) => {
       size: size
     };
     const cart = await CartModel.findOne({ userId: userId });
-
+console.log("stage 2")
     if (cart) {
+      console.log("stage cart")
       const productExists = cart.cart.some(item => item.productId === productId && item.size === size);
 
       if (productExists) {
-        await CartModel.updateOne({ userId: userId, 'cart.productId': productId }, { $inc: { 'cart.$.count': 1 } }, { $set: { size: size } });
-      } else {
-        await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1, size } } });
-      }
+        console.log("stage product exists")
+        const productDetails = await ProductModel.findOne({ _id: productId });
+      
+        // You should define 'count' before using it
+        let count = 0;
+      
+        for (const item of cart.cart) { // Changed 'cart' to 'cart.cart'
+          if (
+            item.productId === productId &&
+            item.size === size
+          ) {
+            count = item.count;
+            break; // Break the loop once the match is found
+          }
+        }
+      
+        console.log('Count:', count);
+      
+        console.log( "addToCart", count);
+        
+        if (productDetails.sizeStock[size].stock > count) {
+          await CartModel.updateOne(
+            { userId: userId, 'cart.productId': productId },
+            {
+              $inc: { 'cart.$.count': 1 },
+              $set: { 'cart.$.size': size } // Change 'size' to 'cart.$.size'
+            }
+          );
+          res.redirect("/cart");
+        } else {
+          console.log("yeyeyeyeyeyeyeyey")
+          res.redirect("/cart");
+        }
+        } else {
+          await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1, size } } });
+        res.redirect("/cart"); // Moved the redirect here 
 
-      res.redirect("/cart"); // Moved the redirect here
+        }
+  
+
+   
     } else {
       const cartData = {
         userId: userId,
@@ -693,10 +729,13 @@ const changeProductQuantity = async (req, res) => {
 
   try {
     let { cart, product, size, count, quantity } = req.body;
+    console.log(size,"hhhhh")
     count = parseInt(count);
     quantity = parseInt(quantity);
-
+    const requestedSize = size;
     let response;
+
+    console.log("qty:",quantity,"countl:",count)
 
     if (count === -1 && quantity === 1) {
       response = { removeProduct: true };
@@ -710,8 +749,11 @@ const changeProductQuantity = async (req, res) => {
     } else {
 
       const productDetails = await ProductModel.findOne({ _id: product })
-      if (productDetails.sizeStock.stock >= quantity + count) {
-        const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product, 'cart.size': size }, { $inc: { 'cart.$.count': count } });
+
+
+
+      if (productDetails.sizeStock[requestedSize].stock >= quantity + count) {
+        const updated = await CartModel.updateOne({ _id: cart, 'cart.productId': product, 'cart.size': requestedSize }, { $inc: { 'cart.$.count': count } });
         if (updated) {
 
           const userId = req.session.user._id
