@@ -23,15 +23,15 @@ const addProduct = async (req, res) => {
     const sizeStock = {
         sizeLarge:{
             large: sizeLarge,
-            stock: parseInt(stockLarge) || 1
+            stock: parseInt(stockLarge) || 0
         },
         sizeMedium:{
             medium: sizeMedium,
-            stock: parseInt(stockMedium) || 1
+            stock: parseInt(stockMedium) || 0
         },
         sizeSmall:{
             small: sizeSmall,
-            stock: parseInt(stockSmall) || 1
+            stock: parseInt(stockSmall) || 0
         },
     }
  
@@ -102,9 +102,23 @@ const editProductDetails = async (req, res) => {
 
 
 const productDetailsEdit = async (req, res) => {
-
+console.log(req.body,"op")
     try {
-        const { id, name, price, stock, description, size, category } = req.body;
+        const { id, name, price, description, stockLarge,stockMedium, stockSmall,  category } = req.body;
+
+        console.log(stockLarge,"jj",stockMedium,"kkkk", stockSmall,"iiiiiiii")
+
+        const sizeStock = {
+            sizeLarge:{
+                stock: stockLarge
+            },
+            sizeMedium:{
+                stock: stockMedium
+            },
+            sizeSmall:{
+                stock: stockSmall
+            },
+        }
         // Fetch the existing product to get its image URLs
         const existingProduct = await ProductModel.findById(id);
         if (!existingProduct) {
@@ -117,9 +131,8 @@ const productDetailsEdit = async (req, res) => {
             const updateData = {
                 name: name,
                 price: price,
-                stock: stock,
                 description: description,
-                size: size,
+                sizeStock: sizeStock,
                 category: category,
             };
 
@@ -144,9 +157,8 @@ const productDetailsEdit = async (req, res) => {
             const updateData = {
                 name: name,
                 price: price,
-                stock: stock,
                 description: description,
-                size: size,
+                sizeStock: sizeStock,
                 category: category,
                 imageUrl: newImageUrls
             };

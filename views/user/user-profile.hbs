@@ -9,7 +9,7 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-     <!-- MDB -->
+  <!-- MDB -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 
   <!-- Favicons -->
@@ -39,7 +39,7 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
- 
+
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -135,14 +135,13 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="/wishlist-history">
-          <i class="bi bi-grid"></i>
-          <span>Wishlist History</span>
+          <i class="fa-solid fa-wallet"></i> <span>Wallet History</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
 
 
-      <li class="nav-item">
+      {{!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -162,7 +161,8 @@
 
 
         </ul>
-      </li><!-- End Forms Nav -->
+      </li> --}}
+      <!-- End Forms Nav -->
 
 
 
@@ -302,7 +302,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Wallet Amount</div>
-                    <div class="col-lg-9 col-md-8 text-success font-weight-bold"  >₹ {{userDetails.wallet}}</div>
+                    <div class="col-lg-9 col-md-8 text-success font-weight-bold">₹ {{userDetails.wallet}}</div>
                   </div>
 
 
@@ -409,23 +409,23 @@
 
                     <div class="card text-center">
 
-                     {{#each newAddress.address}}
+                      {{#each newAddress.address}}
                       <div class="card-body ">
                         <p class="card-title">Address {{increment @key}}</p>
                         <h6>{{name}}, {{mobile}}, {{address}}, {{city}} , {{state}} , {{pincode}}
-                            
+
                         </h6>
-                       <br>
+                        <br>
                         <a href="/remove-new-address-user?id={{this._id}}" class="btn btn-danger btn-sm">Remove</a>
                       </div>
                       <hr>
-                     {{/each}}
+                      {{/each}}
                     </div>
 
-                  <div class="text-center">
-                    <a href="" class="btn btn-default btn-rounded mb-4 btn-primary" data-toggle="modal"
-                      data-target="#modalLoginForm">Add new address</a>
-                  </div>
+                    <div class="text-center">
+                      <a href="" class="btn btn-default btn-rounded mb-4 btn-primary" data-toggle="modal"
+                        data-target="#modalLoginForm">Add new address</a>
+                    </div>
                   </form><!-- End Profile Edit Form -->
 
 
@@ -435,70 +435,70 @@
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
-                      
+
                         <div class="modal-body mx-3">
-                  <form action="/add-new-address" method="post" class="row g-3 needs-validation" novalidate>
-                    <div class="col-12">
-                      <label for="yourName" class="form-label">Your Name</label>
-                      <input type="text" name="name" class="form-control" id="yourName" required>
-                      <div class="invalid-feedback">Please enter your name!</div>
-                    </div>
+                          <form action="/add-new-address" method="post" class="row g-3 needs-validation" novalidate>
+                            <div class="col-12">
+                              <label for="yourName" class="form-label">Your Name</label>
+                              <input type="text" name="name" class="form-control" id="yourName" required>
+                              <div class="invalid-feedback">Please enter your name!</div>
+                            </div>
 
-                    <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Please enter a valid Email address!</div>
-                    </div>
+                            <div class="col-12">
+                              <label for="yourEmail" class="form-label">Your Email</label>
+                              <input type="email" name="email" class="form-control" id="yourEmail" required>
+                              <div class="invalid-feedback">Please enter a valid Email address!</div>
+                            </div>
 
-                    <div class="col-12">
-                      <label for="yourMobile" class="form-label">Mobile Number</label>
-                      <div class="input-group has-validation">
-                        <input type="number" name="mobile" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter a mobile number.</div>
-                      </div>
-                    </div>
+                            <div class="col-12">
+                              <label for="yourMobile" class="form-label">Mobile Number</label>
+                              <div class="input-group has-validation">
+                                <input type="number" name="mobile" class="form-control" id="yourUsername" required>
+                                <div class="invalid-feedback">Please enter a mobile number.</div>
+                              </div>
+                            </div>
 
-                    <div class="col-12">
-                      <label for="yourAddress" class="form-label">Address</label>
-                      <input type="text" name="address" class="form-control" id="yourAddress" required>
-                      <div class="invalid-feedback">Please enter your address</div>
-                    </div>
+                            <div class="col-12">
+                              <label for="yourAddress" class="form-label">Address</label>
+                              <input type="text" name="address" class="form-control" id="yourAddress" required>
+                              <div class="invalid-feedback">Please enter your address</div>
+                            </div>
 
-                        <div class="col-12">
-                      <label for="yourCity" class="form-label">State</label>
-                      <input type="text" name="state" class="form-control" id="state" required>
-                      <div class="invalid-feedback">Please enter your State</div>
-                    </div>
+                            <div class="col-12">
+                              <label for="yourCity" class="form-label">State</label>
+                              <input type="text" name="state" class="form-control" id="state" required>
+                              <div class="invalid-feedback">Please enter your State</div>
+                            </div>
 
-                    <div class="col-12">
-                      <label for="yourCity" class="form-label">City</label>
-                      <input type="text" name="city" class="form-control" id="city" required>
-                      <div class="invalid-feedback">Please enter your City</div>
-                    </div>
+                            <div class="col-12">
+                              <label for="yourCity" class="form-label">City</label>
+                              <input type="text" name="city" class="form-control" id="city" required>
+                              <div class="invalid-feedback">Please enter your City</div>
+                            </div>
 
 
-                
-                    
-                    <div class="col-12">
-                      <label for="yourCity" class="form-label">Pincode</label>
-                      <input type="number" name="pincode" class="form-control" id="mobile" required>
-                      <div class="invalid-feedback">Please enter your City</div>
-                    </div>
-           
 
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Submit</button>
-                    </div>
-                   
-                  </form>
+
+                            <div class="col-12">
+                              <label for="yourCity" class="form-label">Pincode</label>
+                              <input type="number" name="pincode" class="form-control" id="mobile" required>
+                              <div class="invalid-feedback">Please enter your City</div>
+                            </div>
+
+
+                            <div class="col-12">
+                              <button class="btn btn-primary w-100" type="submit">Submit</button>
+                            </div>
+
+                          </form>
 
                         </div>
-                
+
                       </div>
                     </div>
                   </div>
 
-                
+
 
 
 
@@ -599,7 +599,7 @@
 
 
 
-        <!-- MDB -->
+  <!-- MDB -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
 
 
@@ -616,7 +616,7 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
-  
+
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
