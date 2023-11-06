@@ -34,22 +34,14 @@ const addProduct = async (req, res) => {
             stock: parseInt(stockSmall) || 1
         },
     }
-
-        console.log(req.body,"Bodyteeeeee")
-
-        console.log(sizeStock,"sizedsssss")
-
-
-        
+ 
         const images = req.files
             .filter((file) =>
                 file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg")
             .map((file) => file.filename);
 
-            console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj",req.files)
 
         if (images.length === 3) {
-            console.log("qqqqqqqqqqqqqqq")
             const data = {
                 name,
                 price,
@@ -60,7 +52,6 @@ const addProduct = async (req, res) => {
                 listStatus: true,
                 deleteStatus: false,
             };
-            console.log("data:",data)
             const product = await ProductModel.create(data);
 
             if (product) {

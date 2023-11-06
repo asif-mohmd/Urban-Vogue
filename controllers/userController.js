@@ -80,12 +80,11 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, mobile, address, city, state, pincode, password, confirmPassword } = req.body;
     await sendMail(email)
-    if (password !== confirmPassword) {
-      console.log("confirm password not match")
-    } else {
+
       UserModel.findOne({ email: email }).then(async (user) => {
         if (user) {
-          console.log("email exists");
+          let emailExists = true
+          res.render("user/register", { emailExists })
         } else {
           data = {
             "name": name,
@@ -109,7 +108,7 @@ const registerUser = async (req, res) => {
           }
         }
       });
-    }
+    
   } catch (err) {
     res.status(500).render("user/error-handling");
   }

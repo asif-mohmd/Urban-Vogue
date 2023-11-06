@@ -7,7 +7,7 @@ const session = require('express-session');
     const sendMail= async (email)=>{
       const userEmail = email
       console.log(userEmail)
-      var userOtp = await oneTimePass()
+      var userOtp =  oneTimePass()
       session.otp = userOtp
       console.log(userOtp)
 
