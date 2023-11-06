@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />    
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -67,7 +67,7 @@
     </div>
     <!-- Offcanvas Menu End -->
 
-      <!-- Header Section Begin -->
+    <!-- Header Section Begin -->
     <header class="header">
         <div class="container-fluid">
             <div class="row">
@@ -79,7 +79,7 @@
                 <div class="col-xl-6 col-lg-7">
                     <nav class="header__menu">
                         <ul>
-                              <li class="active"><a href="/">Home</a></li>
+                            <li class="active"><a href="/">Home</a></li>
 
                             <li><a href="/product-list">ALL Product</a></li>
 
@@ -136,8 +136,8 @@
     <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad">
         {{#if stockLimit}}
-              <p class="text-center text-danger small">Stock limit reached</p>
-              {{/if}}
+        <p class="text-center text-danger small">Stock limit reached</p>
+        {{/if}}
         <div class="container">
             <form action="/checkout" method="get">
                 <div class="row">
@@ -173,13 +173,23 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>{{size}}</td>
+                                         {{#if (eq size "sizeSmall")}}
+                                        <td>Small</td>
+                                        {{/if}}
+                                        {{#if (eq size "sizeMedium")}}
+                                        <td>Medium</td>
+                                        {{/if}}
+                                         {{#if (eq size "sizeLarge")}}
+                                        <td>Large</td>
+                                        {{/if}}
                                         <td class="cart__price">₹ {{product.price}}</td>
                                         <td class="pro-qty-container">
 
-                                            <button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',-1)">-</button>
-<p class="pro-qty-count" id="{{this.product._id}}-{{size}}">{{count}}</p>
-<button class="pro-qty-button" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',1)">+</button>
+                                            <button class="pro-qty-button"
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',-1)">-</button>
+                                            <p class="pro-qty-count" id="{{this.product._id}}-{{size}}">{{count}}</p>
+                                            <button class="pro-qty-button"
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',1)">+</button>
 
                                         </td>
 
@@ -368,8 +378,8 @@
                         <div class="footer__logo">
                             <a href="./index.html"><img src="img/logo.png" alt=""></a>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            cilisis.</p>
+                        <p> 24th Cross, 27th Main Rd,
+                            2nd Sector, HSR Layout, Bengaluru, Karnataka 560102</p>
                         <div class="footer__payment">
                             <a href="#"><img src="img/payment/payment-1.png" alt=""></a>
                             <a href="#"><img src="img/payment/payment-2.png" alt=""></a>
@@ -383,10 +393,9 @@
                     <div class="footer__widget">
                         <h6>Quick links</h6>
                         <ul>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Blogs</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">FAQ</a></li>
+                            <li><a href="/contact-page">About</a></li>
+                            <li><a href="/contact-page">Blogs</a></li>
+                            <li><a href="/contact-page">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -394,10 +403,9 @@
                     <div class="footer__widget">
                         <h6>Account</h6>
                         <ul>
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Orders Tracking</a></li>
-                            <li><a href="#">Checkout</a></li>
-                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="/userProfile">My Account</a></li>
+                            <li><a href="/orders">Orders Tracking</a></li>
+                            <li><a href="/wishlist">Wishlist</a></li>
                         </ul>
                     </div>
                 </div>
@@ -423,9 +431,7 @@
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     <div class="footer__copyright__text">
                         <p>Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
-                            template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
-                                href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved
                         </p>
                     </div>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -470,9 +476,9 @@
 
 
     <script>
-        function changeQuantity(cartId, productId,size, count) {
+        function changeQuantity(cartId, productId, size, count) {
             let quantity = parseInt(document.getElementById(`${productId}-${size}`).innerHTML); // Include the size in the element ID
-    let parsedCount = parseInt(count);
+            let parsedCount = parseInt(count);
 
             // Disable the form submission for quantity update buttons only
             if (event.target.classList.contains('pro-qty-button')) {

@@ -22,7 +22,9 @@
   <!-- MDB -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
   <!-- Css Styles -->
@@ -66,56 +68,56 @@
   </div>
   <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-3 col-lg-2">
-                    <div class="header__logo">
-                        <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-7">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a href="/">Home</a></li>
-
-                            <li><a href="/product-list">ALL Product</a></li>
-
-
-                            <li><a href="/contact-page">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <div class="header__right__auth">
-                            <a href="/logout">Logout</a>
-
-                        </div>
-                        <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="/wishlist"><span class="icon_heart_alt"></span>
-                                    {{!-- <div class="tip">2</div> --}}
-                                </a></li>
-                            <li><a href="/cart"><span class="icon_bag_alt"></span>
-                                    {{!-- <div class="tip">2</div> --}}
-                                </a></li>
-                            <li><a href="/userProfile"><span class="fa-solid fa-user"></span>
-
-                                </a></li>
-
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <div class="canvas__open">
-                <i class="fa fa-bars"></i>
-            </div>
+  <!-- Header Section Begin -->
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-3 col-lg-2">
+          <div class="header__logo">
+            <a href="/"><img src="img/logoMain.png" alt="" style="width: 140px;"></a>
+          </div>
         </div>
-    </header>
-    <!-- Header Section End -->
+        <div class="col-xl-6 col-lg-7">
+          <nav class="header__menu">
+            <ul>
+              <li class="active"><a href="/">Home</a></li>
+
+              <li><a href="/product-list">ALL Product</a></li>
+
+
+              <li><a href="/contact-page">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3">
+          <div class="header__right">
+            <div class="header__right__auth">
+              <a href="/logout">Logout</a>
+
+            </div>
+            <ul class="header__right__widget">
+              <li><span class="icon_search search-switch"></span></li>
+              <li><a href="/wishlist"><span class="icon_heart_alt"></span>
+                  {{!-- <div class="tip">2</div> --}}
+                </a></li>
+              <li><a href="/cart"><span class="icon_bag_alt"></span>
+                  {{!-- <div class="tip">2</div> --}}
+                </a></li>
+              <li><a href="/userProfile"><span class="fa-solid fa-user"></span>
+
+                </a></li>
+
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <div class="canvas__open">
+        <i class="fa fa-bars"></i>
+      </div>
+    </div>
+  </header>
+  <!-- Header Section End -->
 
   <!-- Breadcrumb Begin -->
   <div class="breadcrumb-option">
@@ -157,15 +159,11 @@
                     <th scope="col">#</th>
 
                     <th scope="col">Order ID</th>
-                     <th scope="col">Name</th>
-                      <th scope="col">Pincode</th>
+                    <th scope="col">Pincode</th>
                     <th scope="col">status</th>
-                   
-                    
                     <th scope="col">Date</th>
-
                     <th scope="col">Amount</th>
-                     <th scope="col">Payment Method</th>
+                    <th scope="col">Payment Method</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -175,21 +173,21 @@
                     <th scope="row">{{@key}}</th>
 
                     <td>{{orderId}}</td>
-                    <td>{{address.name}}</td>
+                    
                     <td>{{address.pincode}}</td>
                     <td>{{status}}</td>
-                   
+
                     <td>{{date}}</td>
                     <td>{{amount}}</td>
-                     <td>{{paymentMethod}}</td>
+                    <td>{{paymentMethod}}</td>
 
 
                     <td>
-                      <a href="/order-detail-view?id={{this._id}}"><button type="button" class="btn btn-primary"
-                       >View Details</button></a>
+                      <a href="/order-detail-view?id={{this._id}}"><button type="button" class="btn btn-primary">View
+                          Details</button></a>
 
                       {{#if (eq status "pending")}}
-               
+
                       <button type="button" class="btn btn-danger" data-mdb-toggle="modal"
                         data-mdb-target="#exampleModal{{@key}}">Cancel</button>
                       {{/if}}
@@ -199,13 +197,13 @@
                       <button type="button" class="btn btn-info" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Return Pending</button>
                       {{/if}}
-                    
-                       {{#if (eq status "returnNonDefective")}}
+
+                      {{#if (eq status "returnNonDefective")}}
                       <button type="button" class="btn btn-info" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Return Pending</button>
                       {{/if}}
 
-                      
+
                       {{#if (eq status "returnAcceptDef")}}
                       <button type="button" class="btn btn-info" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Returned</button>
@@ -215,10 +213,10 @@
                         data-mdb-target="#exampleModal2{{@key}}">Returned</button>
                       {{/if}}
                       {{#if (eq status "delivered")}}
-                    
+
                       <button type="button" class="btn btn-success" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Delivered</button>
-                        <a href="/invoice-generate?id={{this._id}}"><i class="fa-solid fa-download fa-xl"></i></a>
+                      <a href="/invoice-generate?id={{this._id}}"><i class="fa-solid fa-download fa-xl"></i></a>
                       {{/if}}
                       {{#if (eq status "returnPending")}}
                       <button type="button" class="btn btn-success" data-mdb-toggle="modal"
@@ -228,11 +226,11 @@
                       <button type="button" class="btn btn-info" data-mdb-toggle=""
                         data-mdb-target="#exampleModal2{{@key}}">Cancel Accpeted</button>
                       {{/if}}
-                      
+
 
                     </td>
 
-                    
+
 
                   </tr>
 
