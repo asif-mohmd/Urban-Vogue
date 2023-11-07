@@ -6,10 +6,8 @@ const session = require('express-session');
 
     const sendMail= async (email)=>{
       const userEmail = email
-      console.log(userEmail)
       var userOtp =  oneTimePass()
       session.otp = userOtp
-      console.log(userOtp)
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -33,8 +31,6 @@ const session = require('express-session');
         html: userOtp.toString(),
 
     })
-
-    console.log("Message sent: %s", info.messageId)
 
     }
 

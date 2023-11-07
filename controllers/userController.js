@@ -403,7 +403,6 @@ const cartView = async (req, res) => {
 };
 
 const placeOrder = async (req, res) => {
-console.log("Stage 1")
   try {
     let response;
     const selectedAddressId = new ObjectId(req.body.selectedAddressId);
@@ -426,7 +425,6 @@ console.log("Stage 1")
       size: cartItem.size
 
     }));
-console.log("stage 2")
     const data = {
       "userId": userId,
       "orderId": randomOrderId,
@@ -441,7 +439,6 @@ console.log("stage 2")
     }
 
     const order = await OrderModel.create(data)
-console.log("stage 3")
     if (order) {
 
       if (req.body.paymentMethod == 'Wallet') {
@@ -473,7 +470,6 @@ console.log("stage 3")
         res.json(response);
 
       } else {
-console.log("cod")
         let stockUpdate = stockQuantityUpdate()
 
         if (stockUpdate) {
@@ -487,8 +483,7 @@ console.log("cod")
 
       }
     } else {
-      console.log("no orders")
-    }
+      res.status(404).render("user/error-handling");    }
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
@@ -496,24 +491,19 @@ console.log("cod")
 
 
 async function stockQuantityUpdate() {
-console.log("stcok 1")
   try {
     const cartItems = await getProducts(userId);
-    console.log(cartItems)
     const products = cartItems.map(cartItem => ({
       productId: cartItem.product._id, // Assuming productId is a reference to the product's ID
       count: cartItem.count,
       size: cartItem.size
     }));
-      console.log(products,"chenking stocl")
     for (const product of products) {
       const existingProduct = await ProductModel.findById(product.productId);
-       console.log("existing product")
       if (existingProduct) {
         // Check if the requested size is available in the existing product
         const requestedSize = product.size;
-        console.log(requestedSize,"reqSize")
-        console.log(existingProduct.sizeStock[requestedSize],"$$$$$$",product.count)
+
         if (existingProduct.sizeStock[requestedSize] && existingProduct.sizeStock[requestedSize].stock >= product.count) {
           // Update the stock for the requested size
           const updatedStock = existingProduct.sizeStock[requestedSize].stock - product.count;
@@ -524,17 +514,14 @@ console.log("stcok 1")
           // Save the updated product
           await existingProduct.save();
         } else {
-          console.log(`Insufficient stock for product with ID ${product.productId} and size ${requestedSize}`);
           return false;
           // Handle insufficient stock scenario here, e.g., notify the user
         }
       } else {
-        console.log(`Product with ID ${product.productId} not found`);
         return false;
         // Handle product not found scenario here
       }
     }
-console.log("ends dtcokkssssss")
     const cart = await CartModel.updateOne({ userId: userId }, { $set: { cart: [] } })
 
     if (cart) {
@@ -566,10 +553,10 @@ const generateRazorpay = async (randomOrderId, finalAmount) => {
     if (order) {
       return order
     } else {
-      console.log("not success online");
+      res.status(404).render("user/error-handling");
     }
   } catch (error) {
-    console.error("Error creating order:", error);
+    res.status(500).render("user/error-handling");
   }
 };
 
@@ -583,7 +570,6 @@ const verifyPayment = async (req, res) => {
 
       const success = await changePaymentStatus(req.body['order[receipt]'])
       if (success) {
-        console.log("success555555555")
         const onlineDetails = await OrderModel.findOne({ orderId: req.body['order[receipt]'] })
         let stockUpdate = await stockQuantityUpdate()
         if (stockUpdate) {
@@ -591,7 +577,7 @@ const verifyPayment = async (req, res) => {
           res.json(response)
         }
       } else {
-        console.log("status update failed")
+        res.status(404).render("user/error-handling");
       }
     }
   } catch (err) {
@@ -621,7 +607,6 @@ const changePaymentStatus = async (orderId) => {
 
   try {
     const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "Online" } })
-    console.log(updatedDetails, "updatedDeatils")
     if (updatedDetails) {
       return true
     } else {
@@ -633,7 +618,6 @@ const changePaymentStatus = async (orderId) => {
 }
 
 const addToCart = async (req, res) => {
-console.log("satge 1")
   try {
     const productId = req.query.id;
     const userId = req.session.user._id;
@@ -644,13 +628,10 @@ console.log("satge 1")
       size: size
     };
     const cart = await CartModel.findOne({ userId: userId });
-console.log("stage 2")
     if (cart) {
-      console.log("stage cart")
       const productExists = cart.cart.some(item => item.productId === productId && item.size === size);
 
       if (productExists) {
-        console.log("stage product exists")
         const productDetails = await ProductModel.findOne({ _id: productId });
       
         // You should define 'count' before using it
@@ -666,10 +647,7 @@ console.log("stage 2")
           }
         }
       
-        console.log('Count:', count);
-      
-        console.log( "addToCart", count);
-        
+            
         if (productDetails.sizeStock[size].stock > count) {
           await CartModel.updateOne(
             { userId: userId, 'cart.productId': productId, 'cart.size': size },
@@ -680,7 +658,6 @@ console.log("stage 2")
           
           res.redirect("/cart");
         } else {
-          console.log("yeyeyeyeyeyeyeyey")
           let stockLimit = true 
           res.redirect(`/cart?stockLimit=${stockLimit}`);
         }
@@ -702,7 +679,7 @@ console.log("stage 2")
       if (newCart) {
         res.redirect("/cart"); // Moved the redirect here
       } else {
-        console.log("Creation of cart failed");
+        res.status(404).render("user/error-handling");
       }
     }
   } catch (error) {
@@ -716,7 +693,6 @@ const deleteCartItem = async (req, res) => {
     const productId = req.query.id
     const size = req.query.size
     const userId = req.session.user._id;
-    console.log(size,"sizeeeee")
     const cart = await CartModel.updateOne({ userId: userId }, { $pull: { "cart": { productId: productId, size: size } } })
 
     if (cart) {
@@ -731,13 +707,10 @@ const changeProductQuantity = async (req, res) => {
 
   try {
     let { cart, product, size, count, quantity } = req.body;
-    console.log(size,"hhhhh")
     count = parseInt(count);
     quantity = parseInt(quantity);
     const requestedSize = size;
     let response;
-
-    console.log("qty:",quantity,"countl:",count)
 
     if (count === -1 && quantity === 1) {
       response = { removeProduct: true };
@@ -856,7 +829,6 @@ const ordersView = async (req, res) => {
     const pendingOrders = await OrderModel.find().sort({ $natural: -1 })
     res.render("user/orders", { pendingOrders })
 
-    console.log("pendingOrder",pendingOrders,"qqqqqqqqqqqqqqqqqqqq")
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
@@ -879,7 +851,7 @@ const cancelUserOrder = async (req, res) => {
         // Save the updated product model
         await productDetails.save();
       } else {
-        console.log(`Insufficient stock for product with ID ${product.productId}`);
+        res.status(404).render("user/error-handling");
         // Handle insufficient stock scenario here, e.g., notify the user
       }
     }
@@ -978,8 +950,6 @@ const returnUserOrder = async (req, res) => {
     const returnType = req.query.returnType;
     const userId = req.session.user._id;
 
-    console.log(returnType,"type daaaaaaaaaaaa")
-
     if (returnType === '1') {
       const orderDetails = await OrderModel.findById({ _id: orderObjId });
 
@@ -994,7 +964,7 @@ const returnUserOrder = async (req, res) => {
           // Save the updated product model
           await productDetails.save();
         } else {
-          console.log(`Insufficient stock for product with ID ${product.productId}`);
+          res.status(404).render("user/error-handling");
           // Handle insufficient stock scenario here, e.g., notify the user
         }
       }

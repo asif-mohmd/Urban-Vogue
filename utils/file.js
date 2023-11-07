@@ -8,8 +8,8 @@ const deleteFile = (filePath) => {
     // Delete the file
     fs.unlink(absoluteFilePath, (err) => {
         if (err) {
-            console.error("Error deleting file:", err);
-            throw err; // You may want to handle this error more gracefully
+            res.status(404).render("user/error-handling");
+
         } else {
             console.log("File deleted successfully:", absoluteFilePath);
         }

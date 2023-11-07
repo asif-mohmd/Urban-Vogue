@@ -102,11 +102,10 @@ const editProductDetails = async (req, res) => {
 
 
 const productDetailsEdit = async (req, res) => {
-console.log(req.body,"op")
+    
     try {
         const { id, name, price, description, stockLarge,stockMedium, stockSmall,  category } = req.body;
 
-        console.log(stockLarge,"jj",stockMedium,"kkkk", stockSmall,"iiiiiiii")
 
         const sizeStock = {
             sizeLarge:{
