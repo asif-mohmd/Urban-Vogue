@@ -102,7 +102,7 @@ const editProductDetails = async (req, res) => {
 
 
 const productDetailsEdit = async (req, res) => {
-
+    
     try {
         const { id, name, price, description, stockLarge,stockMedium, stockSmall,  category } = req.body;
 
@@ -198,6 +198,11 @@ const deleteProduct = async (req, res) => {
         const product = await ProductModel.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
+        }
+
+        // Delete each image associated with the product
+        for (const imageUrl of product.imageUrl) {
+           fileHandler.deleteFile(imageUrl);
         }
 
         // Delete the product
@@ -357,5 +362,7 @@ module.exports = {
     deleteProduct,
     listUnlistProduct,
     productListView,
+
+
 
 }
