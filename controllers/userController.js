@@ -81,34 +81,34 @@ const registerUser = async (req, res) => {
     const { name, email, mobile, address, city, state, pincode, password, confirmPassword } = req.body;
     await sendMail(email)
 
-      UserModel.findOne({ email: email }).then(async (user) => {
-        if (user) {
-          let emailExists = true
-          res.render("user/register", { emailExists })
-        } else {
-          data = {
-            "name": name,
-            "email": email,
-            "mobile": mobile,
-            "address": address,
-            "state": state,
-            "city": city,
-            "pincode": pincode,
-            "password": password,
-            "wallet": 0,
-            "status": true,
-          }
-          data.password = await bcrypt.hash(data.password, saltRounds)
-          session.userData = data
-          if (session.userData) {
-            res.render("user/otp")
-          } else {
-            msg = true
-            res.render("user/register", { msg })
-          }
+    UserModel.findOne({ email: email }).then(async (user) => {
+      if (user) {
+        let emailExists = true
+        res.render("user/register", { emailExists })
+      } else {
+        data = {
+          "name": name,
+          "email": email,
+          "mobile": mobile,
+          "address": address,
+          "state": state,
+          "city": city,
+          "pincode": pincode,
+          "password": password,
+          "wallet": 0,
+          "status": true,
         }
-      });
-    
+        data.password = await bcrypt.hash(data.password, saltRounds)
+        session.userData = data
+        if (session.userData) {
+          res.render("user/otp")
+        } else {
+          msg = true
+          res.render("user/register", { msg })
+        }
+      }
+    });
+
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
@@ -387,12 +387,12 @@ const cartView = async (req, res) => {
     const stockLimit = req.query.stockLimit;
     const userId = req.session.user._id;
     const cartItems = await getProducts(userId)
-  
+
     let total = await getTotalAmout(userId)
-  
+
     total = total[0] ? total[0].total : 0;
-  
-    res.render("user/cart", { cartItems, total ,stockLimit }); // Pass the cartObject to the render function
+
+    res.render("user/cart", { cartItems, total, stockLimit }); // Pass the cartObject to the render function
     // return cartItems;
 
   } catch (err) {
@@ -483,7 +483,8 @@ const placeOrder = async (req, res) => {
 
       }
     } else {
-      res.status(404).render("user/error-handling");    }
+      res.status(404).render("user/error-handling");
+    }
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
@@ -507,10 +508,10 @@ async function stockQuantityUpdate() {
         if (existingProduct.sizeStock[requestedSize] && existingProduct.sizeStock[requestedSize].stock >= product.count) {
           // Update the stock for the requested size
           const updatedStock = existingProduct.sizeStock[requestedSize].stock - product.count;
-  
+
           // Update the product's sizeStock field
           existingProduct.sizeStock[requestedSize].stock = updatedStock;
-  
+
           // Save the updated product
           await existingProduct.save();
         } else {
@@ -633,10 +634,10 @@ const addToCart = async (req, res) => {
 
       if (productExists) {
         const productDetails = await ProductModel.findOne({ _id: productId });
-      
+
         // You should define 'count' before using it
         let count = 0;
-      
+
         for (const item of cart.cart) { // Changed 'cart' to 'cart.cart'
           if (
             item.productId === productId &&
@@ -646,8 +647,8 @@ const addToCart = async (req, res) => {
             break; // Break the loop once the match is found
           }
         }
-      
-            
+
+
         if (productDetails.sizeStock[size].stock > count) {
           await CartModel.updateOne(
             { userId: userId, 'cart.productId': productId, 'cart.size': size },
@@ -655,18 +656,18 @@ const addToCart = async (req, res) => {
               $inc: { 'cart.$.count': 1 },
             }
           );
-          
+
           res.redirect("/cart");
         } else {
-          let stockLimit = true 
+          let stockLimit = true
           res.redirect(`/cart?stockLimit=${stockLimit}`);
         }
-        } else {
-          await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1, size } } });
+      } else {
+        await CartModel.updateOne({ userId: userId }, { $push: { cart: { productId, count: 1, size } } });
         res.redirect("/cart"); // Moved the redirect here 
 
-        }
-   
+      }
+
     } else {
       const cartData = {
         userId: userId,
@@ -715,7 +716,7 @@ const changeProductQuantity = async (req, res) => {
       const removeProduct = await CartModel.updateOne({ _id: cart }, { $pull: { "cart": { productId: product, size: size } } });
       if (removeProduct) {
 
-       
+
       } else {
         response = { removeProduct: false };
       }
@@ -855,7 +856,7 @@ const cancelUserOrder = async (req, res) => {
     }
 
     // Update the order status to "cancelled"
-    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" }});
+    const success = await OrderModel.updateOne({ _id: orderId }, { $set: { status: "cancelled" } });
 
     if (success) {
       res.redirect("/orders");

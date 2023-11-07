@@ -21,22 +21,22 @@ const addProduct = async (req, res) => {
         const { name, price, description, category, stockLarge, stockMedium, stockSmall } = req.body;
 
 
-    const sizeStock = {
-        sizeLarge:{
-            large: "Large",
-            stock: parseInt(stockLarge) || 0
-        },
-        sizeMedium:{
-            medium: "Medium",
-            stock: parseInt(stockMedium) || 0
-        },
-        sizeSmall:{
-            small: "Small",
-            stock: parseInt(stockSmall) || 0
-        },
-    }
+        const sizeStock = {
+            sizeLarge: {
+                large: "Large",
+                stock: parseInt(stockLarge) || 0
+            },
+            sizeMedium: {
+                medium: "Medium",
+                stock: parseInt(stockMedium) || 0
+            },
+            sizeSmall: {
+                small: "Small",
+                stock: parseInt(stockSmall) || 0
+            },
+        }
 
- 
+
         const images = req.files
             .filter((file) =>
                 file.mimetype === "image/png" || file.mimetype === "image/webp" || file.mimetype === "image/jpeg")
@@ -56,7 +56,7 @@ const addProduct = async (req, res) => {
             };
 
             const product = await ProductModel.create(data);
-            
+
 
             if (product) {
                 res.redirect("/admin/addProduct");
@@ -73,7 +73,7 @@ const addProduct = async (req, res) => {
         if (error.message === "Failed to create product") {
             msg = true;
         } else {
-            
+
             msgFilterErr = true;
 
         }
@@ -88,7 +88,7 @@ const productDetails = async (req, res) => {
     try {
         const singleProduct = await ProductModel.findOne({ _id: req.query.id })
         const cartCheck = await cartModel.findOne({ 'cart.productId': req.query.id })
- 
+
         res.render("user/product-details", { singleProduct, cartCheck })
     } catch (err) {
         res.status(500).render("user/error-handling");
@@ -108,19 +108,19 @@ const editProductDetails = async (req, res) => {
 
 
 const productDetailsEdit = async (req, res) => {
-    
+
     try {
-        const { id, name, price, description, stockLarge,stockMedium, stockSmall,  category } = req.body;
+        const { id, name, price, description, stockLarge, stockMedium, stockSmall, category } = req.body;
 
 
         const sizeStock = {
-            sizeLarge:{
+            sizeLarge: {
                 stock: stockLarge
             },
-            sizeMedium:{
+            sizeMedium: {
                 stock: stockMedium
             },
-            sizeSmall:{
+            sizeSmall: {
                 stock: stockSmall
             },
         }
@@ -208,7 +208,7 @@ const deleteProduct = async (req, res) => {
 
         // Delete each image associated with the product
         for (const imageUrl of product.imageUrl) {
-           fileHandler.deleteFile(imageUrl);
+            fileHandler.deleteFile(imageUrl);
         }
 
         // Delete the product
@@ -368,7 +368,5 @@ module.exports = {
     deleteProduct,
     listUnlistProduct,
     productListView,
-
-
 
 }
