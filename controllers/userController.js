@@ -234,15 +234,10 @@ const removeNewAddressCheckout = async (req, res) => {
     const addressRemoved = await AddressModel.updateOne({ userId: userId }, { $pull: { address: { _id: addressId } } })
 
     if (addressRemoved) {
-
-
       res.redirect("/checkout")
     } else {
-
-
       res.redirect("/checkout")
     }
-
   } catch (err) {
     res.status(500).render("user/error-handling");
   }
@@ -250,6 +245,7 @@ const removeNewAddressCheckout = async (req, res) => {
 
 
 const loginView = (req, res) => {
+  
   try {
     res.render("user/login", {});
   } catch (err) {
