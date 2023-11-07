@@ -25,7 +25,6 @@ var instance = new Razorpay({
 });
 
 
-
 const indexView = async (req, res) => {
 
   try {
