@@ -666,8 +666,6 @@ const addToCart = async (req, res) => {
         res.redirect("/cart"); // Moved the redirect here 
 
         }
-  
-
    
     } else {
       const cartData = {
@@ -1153,10 +1151,6 @@ const couponValidate = async (req, res) => {
 }
 
 
-
-
-
-
 const WishlistHistory = async (req, res) => {
   try {
 
@@ -1188,8 +1182,6 @@ const searchProducts = async (req, res) => {
   const searchProduct = await ProductModel.find({ $or: [{ name: search }, { category: search }] })
 
   res.json(searchProduct);
-
-
 
 }
 
@@ -1232,8 +1224,6 @@ module.exports = {
   WishlistHistory,
   comingSoon,
   errHandler
-
-
 };
 
 

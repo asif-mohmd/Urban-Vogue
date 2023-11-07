@@ -434,6 +434,4 @@ module.exports = {
     showUnlistedCoupon,
     listUnlistCoupon,
     couponDelete,
-
-
 }
