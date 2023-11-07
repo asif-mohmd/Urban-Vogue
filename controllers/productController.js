@@ -18,22 +18,24 @@ const addProductView = async (req, res) => {
 const addProduct = async (req, res) => {
 
     try {
-        const { name, price, description, category, sizeLarge , stockLarge, sizeMedium , stockMedium, sizeSmall , stockSmall } = req.body;
+        const { name, price, description, category, stockLarge, stockMedium, stockSmall } = req.body;
+
 
     const sizeStock = {
         sizeLarge:{
-            large: sizeLarge,
+            large: "Large",
             stock: parseInt(stockLarge) || 0
         },
         sizeMedium:{
-            medium: sizeMedium,
+            medium: "Medium",
             stock: parseInt(stockMedium) || 0
         },
         sizeSmall:{
-            small: sizeSmall,
+            small: "Small",
             stock: parseInt(stockSmall) || 0
         },
     }
+
  
         const images = req.files
             .filter((file) =>
@@ -52,7 +54,9 @@ const addProduct = async (req, res) => {
                 listStatus: true,
                 deleteStatus: false,
             };
+
             const product = await ProductModel.create(data);
+            
 
             if (product) {
                 res.redirect("/admin/addProduct");
@@ -69,7 +73,9 @@ const addProduct = async (req, res) => {
         if (error.message === "Failed to create product") {
             msg = true;
         } else {
+            
             msgFilterErr = true;
+
         }
 
         res.render("admin/add-product", { msg, msgFilterErr });
@@ -209,7 +215,7 @@ const deleteProduct = async (req, res) => {
         await ProductModel.updateOne({ _id: productId }, { $set: { deleteStatus: true } });
         msgDelete = true
         // Redirect to the desired route
-        res.render("admin/deleted-products", { msgDelete });
+        res.redirect("/admin/editProductView");
     } catch (err) {
         res.status(500).json({ message: "Deleting Product failed" });
     }
