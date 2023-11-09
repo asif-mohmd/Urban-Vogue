@@ -189,7 +189,7 @@
                                                 onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',-1)">-</button>
                                             <p class="pro-qty-count" id="{{this.product._id}}-{{size}}">{{count}}</p>
                                             <button class="pro-qty-button"
-                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',1)">+</button>
+                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{size}}',1)" id="stockLimitReached" >+</button>
 
                                         </td>
 
@@ -308,6 +308,29 @@
         </div>
 
         {{!-- end of ajax model --}}
+
+        {{!-- Stock limit reached ajax --}}
+
+        <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Modal content -->
+            <!-- Adjust the modal content as needed -->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">Stock limit reached
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>             
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- end of ajax model --}}
+
 
     </section>
     <!-- Shop Cart Section End -->
@@ -505,9 +528,12 @@
                     if (response.removeProduct) {
                         $('#exampleModal2').modal('show');
                     } else if (response.stockLimit) {
-                        alert("Stock limit reached");
+                       document.getElementById("stockLimitReached").disabled = true;
+                       $('#exampleModal3').modal('show');
+                       
                     } else {
                         document.getElementById(`${productId}-${size}`).innerHTML = quantity + parsedCount;
+                        document.getElementById("stockLimitReached").disabled = false;
                         document.getElementById('totalValue').innerText = "₹ " + response.total[0].total;
                     }
                 })
