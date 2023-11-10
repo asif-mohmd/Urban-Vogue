@@ -9,10 +9,7 @@ const CouponModel = require("../models/Coupon")
 let adminEmail = "admin@gmail.com"
 let adminPassword = "123"
 
-const errorHandler = async (req,res)=>{
-    res.status(404).render("user/error-handling");
-  }
-  
+
 
 const adminLoginView = (req, res) => {
     try {
@@ -424,6 +421,11 @@ const couponDelete = async (req, res) => {
     }
 }
 
+
+const errorHandler = async (req,res)=>{
+    res.status(404).render("user/error-handling");
+  }
+  
 
 
 module.exports = {

@@ -59,7 +59,7 @@ router.post("/addNewCategory",adminControllers.addNewCategory)
 router.post("/addNewCoupon",adminControllers.addNewCoupon)
 
 
-router.get("*",adminControllers.errorHandler)
+// router.get("*",adminControllers.errorHandler)
 
 
 

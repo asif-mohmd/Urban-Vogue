@@ -56,7 +56,7 @@ router.post("/add-new-address-checkout",userControllers.addNewAddressCheckout)
 router.post("/coupon-validate",userControllers.couponValidate)
 
 
-router.get("*",userControllers.errorHandler)
+// router.get("*",userControllers.errorHandler)
 
 
 

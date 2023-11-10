@@ -78,6 +78,11 @@ app.use("/", userRouter)
 app.use("/admin", adminRouter)
 
 
+app.get('*', function(req, res){
+ 
+  res.status(404).render("user/error-handling");
+});
+
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
