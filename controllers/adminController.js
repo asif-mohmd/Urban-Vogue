@@ -259,24 +259,43 @@ const returnPending = async (req, res) => {
 
 const returnAccept = async (req, res) => {
     try {
+        console.log("Stae 11")
+        const orderObjId = req.query.id
+        const status = req.query.status
 
+        if(status === "returnDefective"){
+            const orderDetailsUpdate = await OrderModel.updateOne({ _id: orderObjId }, {$set:{status:"returnAcceptDef"}})
+
+            if(orderDetailsUpdate){
+                res.redirect("/admin/return-pending")
+            }else{
+                res.status(500).render("user/error-handling");
+            }
+        }else{
+
+            const orderDetailsUpdate = await OrderModel.updateOne({ _id: orderObjId }, {$set:{status:"returnAcceptNonDef"}})
+
+            if(orderDetailsUpdate){
+                const orderDetails = await OrderModel.findOne({ _id: orderObjId })
+                const walletUpdate = await UserModel.updateOne({ _id: orderDetails.userId }, { $inc: { wallet: orderDetails.amount } });
+        
+                // Check the result of the update
+                if (walletUpdate) {
+                    res.redirect("/admin/return-pending")
+                } else {
+                    res.redirect("/admin/return-pending")
+                }
+            }else{
+                res.status(500).render("user/error-handling");
+            }
+
+        }
+       
+  
+       
     } catch (err) {
         res.status(500).render("user/error-handling");
     }
-    const orderObjId = req.query.id
-    const status = req.query.status
-
-    const orderDetails = await OrderModel.findOne({ _id: orderObjId })
-
-    const walletUpdate = await UserModel.updateOne({ _id: orderDetails.userId }, { $inc: { wallet: orderDetails.amount } });
-
-    // Check the result of the update
-    if (walletUpdate) {
-        res.render("admin/return-pending")
-    } else {
-        res.render("admin/return-pending")
-    }
-
 }
 
 
