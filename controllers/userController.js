@@ -24,6 +24,9 @@ var instance = new Razorpay({
   key_secret: 'X3yBumo4FEeZywGxjU5zFovG',
 });
 
+const errorHandler = async (req,res)=>{
+  res.status(404).render("user/error-handling");
+}
 
 const indexView = async (req, res) => {
 
@@ -31,7 +34,7 @@ const indexView = async (req, res) => {
     const products = await ProductModel.find({ listStatus: true, deleteStatus: false }).limit(8)
     res.render("user/index", { products });
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -41,7 +44,7 @@ const registerView = (req, res) => {
   try {
     res.render("user/register", {});
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -51,7 +54,7 @@ const otpView = (req, res) => {
   try {
     res.render("user/otp")
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -69,7 +72,7 @@ const otpVerification = async (req, res) => {
       res.render("user/otp", { msg })
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -109,7 +112,7 @@ const registerUser = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 };
 
@@ -134,7 +137,7 @@ const addNewAddressUser = async (req, res) => {
       res.render("user/user-profile", { errOccurred, userDetails, newAddress })
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -149,7 +152,7 @@ const addNewAddressCheckout = async (req, res) => {
       res.redirect("/checkout")
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -194,7 +197,7 @@ const newAddressManagement = async (details, userId) => {
       }
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -220,7 +223,7 @@ const removeNewAddressUser = async (req, res) => {
     }
 
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -238,7 +241,7 @@ const removeNewAddressCheckout = async (req, res) => {
       res.redirect("/checkout")
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -248,7 +251,7 @@ const loginView = (req, res) => {
   try {
     res.render("user/login", {});
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -278,7 +281,7 @@ const loginUser = async (req, res) => {
       res.render("user/login", { msgEmail })
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -289,7 +292,7 @@ const userLogout = (req, res) => {
       res.redirect('/') // will always fire after session is destroyed
     })
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -301,7 +304,7 @@ const userProfile = async (req, res) => {
     const newAddress = await AddressModel.findOne({ userId: userId })
     res.render("user/user-profile", { userDetails, newAddress })
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 
 }
@@ -391,7 +394,7 @@ const cartView = async (req, res) => {
     // return cartItems;
 
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 
 
@@ -481,7 +484,7 @@ const placeOrder = async (req, res) => {
       res.status(404).render("user/error-handling");
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -528,7 +531,7 @@ async function stockQuantityUpdate() {
 
 
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -552,7 +555,7 @@ const generateRazorpay = async (randomOrderId, finalAmount) => {
       res.status(404).render("user/error-handling");
     }
   } catch (error) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 };
 
@@ -577,7 +580,7 @@ const verifyPayment = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -595,7 +598,7 @@ const paymentVerifiaction = (details) => {
       return false
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -609,7 +612,7 @@ const changePaymentStatus = async (orderId) => {
       return false
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -677,7 +680,7 @@ const addToCart = async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(404).json({ message: 'Internal server error' });
   }
 };
 
@@ -693,7 +696,7 @@ const deleteCartItem = async (req, res) => {
       res.redirect("/cart")
     }
   } catch (error) {
-    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
+    res.status(404).json({ status: false, error: 'Something went wrong on the server.' });
   }
 }
 
@@ -741,7 +744,7 @@ const changeProductQuantity = async (req, res) => {
     res.json(response);  // Send the response back to the client
   } catch (error) {
 
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(404).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -793,7 +796,7 @@ const getTotalAmout = async (req, res) => {
     ])
     return total
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -811,7 +814,7 @@ const proceedToCheckout = async (req, res) => {
 
     res.render("user/checkout", { total, userDetails, newAddress })
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -824,7 +827,7 @@ const ordersView = async (req, res) => {
     res.render("user/orders", { pendingOrders })
 
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -859,7 +862,7 @@ const cancelUserOrder = async (req, res) => {
       res.redirect("/orders");
     }
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 };
 
@@ -898,7 +901,7 @@ const getProducts = async (userId) => {
     ])
     return cartItems
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -932,7 +935,7 @@ const orderDetailView = async (req, res) => {
     res.render('user/order-detail-view', { orderDetails, orderReturn });
 
   } catch (error) {
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(404).json({ error: 'Internal server error' });
   }
 };
 
@@ -980,7 +983,7 @@ const returnUserOrder = async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(404).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -990,7 +993,7 @@ const contactView = (req, res) => {
   try {
     res.render("user/contact")
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 
 }
@@ -1000,7 +1003,7 @@ const orderResponseView = (req, res) => {
   try {
     res.render("user/order-response")
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 
 }
@@ -1012,7 +1015,7 @@ const loadReport = async (req, res) => {
     const recentOrders = await OrderModel.find({ status: 'delivered' })
     res.render("admin/sales-report", { recentOrders })
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 
 }
@@ -1039,11 +1042,11 @@ const generateReport = async (req, res) => {
     const pdfURL = path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")
     res.download(pdfURL, function (err) {
       if (err) {
-        res.status(500).render("user/error-handling");
+        res.status(404).render("user/error-handling");
       }
     })
   } catch (error) {
-    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
+    res.status(404).json({ status: false, error: 'Something went wrong on the server.' });
   }
 }
 
@@ -1067,7 +1070,7 @@ const invoiceView = async (req, res) => {
 
     res.render("user/invoice", { userOrders, productDetails, formattedDate, userDetails })
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -1099,12 +1102,12 @@ const invoiceReport = async (req, res) => {
     const pdfURL = path.join(__dirname, "../public/files", todayDate.getTime() + ".pdf")
     res.download(pdfURL, function (err) {
       if (err) {
-        res.status(500).render("user/error-handling");
+        res.status(404).render("user/error-handling");
       }
 
     })
   } catch (error) {
-    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
+    res.status(404).json({ status: false, error: 'Something went wrong on the server.' });
   }
 }
 
@@ -1142,7 +1145,7 @@ const couponValidate = async (req, res) => {
     res.json(response)
 
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -1154,7 +1157,7 @@ const WishlistHistory = async (req, res) => {
 
     res.render("user/wallet-history", { walletHistory })
   } catch (err) {
-    res.status(500).render("user/error-handling");
+    res.status(404).render("user/error-handling");
   }
 }
 
@@ -1219,7 +1222,8 @@ module.exports = {
   searchProducts,
   WishlistHistory,
   comingSoon,
-  errHandler
+  errHandler,
+  errorHandler
 };
 
 

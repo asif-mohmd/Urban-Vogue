@@ -10,6 +10,7 @@ const { indexView } = require("../controllers/userController");
 
 // Get methods
 // router.get('/', loginControllers.registerView);
+
 router.get("/",verifyLogin,userControllers.indexView);
 router.get('/login', loginChecker,userControllers.loginView);
 router.get("/signup",loginChecker, userControllers.registerView)
@@ -55,7 +56,7 @@ router.post("/add-new-address-checkout",userControllers.addNewAddressCheckout)
 router.post("/coupon-validate",userControllers.couponValidate)
 
 
-
+router.get("*",userControllers.errorHandler)
 
 
 

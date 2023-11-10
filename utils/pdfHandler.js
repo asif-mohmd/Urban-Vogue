@@ -18,7 +18,7 @@ const puppeteer = require('puppeteer');
         await browser.close();
         process.exit();
     } catch (e) {
-    res.status(500).json({ status: false, error: 'Something went wrong on the server.' });
+    res.status(404).json({ status: false, error: 'Something went wrong on the server.' });
     }
 })();
 

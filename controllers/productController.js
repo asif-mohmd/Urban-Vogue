@@ -11,7 +11,7 @@ const addProductView = async (req, res) => {
     try {
         res.render("admin/add-product")
     } catch (err) {
-        res.status(500).render("user/error-handling");
+        res.status(404).render("user/error-handling");
     }
 }
 
@@ -91,7 +91,7 @@ const productDetails = async (req, res) => {
 
         res.render("user/product-details", { singleProduct, cartCheck })
     } catch (err) {
-        res.status(500).render("user/error-handling");
+        res.status(404).render("user/error-handling");
     }
 }
 
@@ -102,7 +102,7 @@ const editProductDetails = async (req, res) => {
         const editProduct = await ProductModel.findOne({ _id: req.query.id })
         res.render("admin/edit-product-details", { editProduct })
     } catch (err) {
-        res.status(500).render("user/error-handling");
+        res.status(404).render("user/error-handling");
     }
 }
 
@@ -179,7 +179,7 @@ const productDetailsEdit = async (req, res) => {
         }
     } catch (error) {
         console.error("Error updating product details:", error);
-        res.status(500).send('Error updating product details.');
+        res.status(404).send('Error updating product details.');
     }
 }
 
@@ -191,7 +191,7 @@ const editProductView = async (req, res) => {
         const products = await ProductModel.find({ deleteStatus: false })
         res.render("admin/edit-product", { products })
     } catch (err) {
-        res.status(500).render("user/error-handling");
+        res.status(404).render("user/error-handling");
     }
 
 }
@@ -217,7 +217,7 @@ const deleteProduct = async (req, res) => {
         // Redirect to the desired route
         res.redirect("/admin/editProductView");
     } catch (err) {
-        res.status(500).json({ message: "Deleting Product failed" });
+        res.status(404).json({ message: "Deleting Product failed" });
     }
 };
 
@@ -238,7 +238,7 @@ const listUnlistProduct = async (req, res) => {
     }
     catch (err) {
 
-        res.status(500).json({ message: "update Product listing failed" });
+        res.status(404).json({ message: "update Product listing failed" });
     }
 }
 
@@ -352,7 +352,7 @@ const productListView = async (req, res) => {
             res.render("user/product-list", { products, countPages })
         }
     } catch (err) {
-        res.status(500).render("user/error-handling");
+        res.status(404).render("user/error-handling");
     }
 
 }
