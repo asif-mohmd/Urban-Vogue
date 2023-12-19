@@ -599,11 +599,11 @@ const paymentVerifiaction = (details) => {
     }
   } catch (err) {
     res.status(404).render("user/error-handling");
-  }
+  } 
 }
 
 const changePaymentStatus = async (orderId) => {
-
+ 
   try {
     const updatedDetails = await OrderModel.updateOne({ orderId: orderId }, { $set: { paymentMethod: "Online" } })
     if (updatedDetails) {
