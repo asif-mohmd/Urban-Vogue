@@ -227,6 +227,7 @@ const removeNewAddressUser = async (req, res) => {
   }
 }
 
+
 const removeNewAddressCheckout = async (req, res) => {
 
   try {
@@ -626,6 +627,9 @@ const addToCart = async (req, res) => {
       count: 1,
       size: size
     };
+
+
+
     const cart = await CartModel.findOne({ userId: userId });
     if (cart) {
       const productExists = cart.cart.some(item => item.productId === productId && item.size === size);
@@ -638,8 +642,8 @@ const addToCart = async (req, res) => {
 
         for (const item of cart.cart) { // Changed 'cart' to 'cart.cart'
           if (
-            item.productId === productId &&
-            item.size === size
+            item.productId === productId 
+            && item.size === size
           ) {
             count = item.count;
             break; // Break the loop once the match is found

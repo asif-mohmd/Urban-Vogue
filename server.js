@@ -79,7 +79,6 @@ app.use("/admin", adminRouter)
 
 
 app.get('*', function(req, res){
- 
   res.status(404).render("user/error-handling");
 });
 
