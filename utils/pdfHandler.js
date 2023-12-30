@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 
 
 (async function(){
+
     try {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
@@ -20,6 +21,7 @@ const puppeteer = require('puppeteer');
     } catch (e) {
     res.status(404).json({ status: false, error: 'Something went wrong on the server.' });
     }
+    
 })();
 
 Symbol.dispose = Symbol.dispose || Symbol('dispose');
