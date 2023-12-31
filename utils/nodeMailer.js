@@ -9,6 +9,8 @@ const session = require('express-session');
       var userOtp =  oneTimePass()
       session.otp = userOtp
 
+
+      
     const transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.forwardemail.net",
@@ -20,7 +22,6 @@ const session = require('express-session');
             pass: 'qprwrusulkpjcqvj'
         }
     });
-
 
 
     const info = await transporter.sendMail({
