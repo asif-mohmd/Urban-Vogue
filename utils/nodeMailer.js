@@ -33,7 +33,6 @@ const session = require('express-session');
         html: userOtp.toString(),
 
     })
-
     }
 
     module.exports = sendMail

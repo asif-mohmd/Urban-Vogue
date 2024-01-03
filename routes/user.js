@@ -8,6 +8,8 @@ const { indexView } = require("../controllers/userController");
 
 // {registerView, loginView }
 
+
+
 // Get methods
 // router.get('/', loginControllers.registerView);
 
