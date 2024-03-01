@@ -50,7 +50,11 @@ router.get("/coupon-delete",adminControllers.couponDelete)
 
 // Post method listing
 router.post("/adminLogin", adminControllers.adminLogin)
+
+
 router.post("/addProduct", upload.array('image',3), productControllers.addProduct)
+
+
 router.post("/edited-ProductDetails",upload.array('image',3),productControllers.productDetailsEdit)
 router.post("/addNewCategory",adminControllers.addNewCategory)
 router.post("/addNewCoupon",adminControllers.addNewCoupon)

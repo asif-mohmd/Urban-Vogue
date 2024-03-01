@@ -1160,6 +1160,7 @@ const WishlistHistory = async (req, res) => {
 
   try {
     const walletHistory = await OrderModel.find({ paymentMethod: "Wallet" })
+
     res.render("user/wallet-history", { walletHistory })
   } catch (err) {
     res.status(404).render("user/error-handling");
